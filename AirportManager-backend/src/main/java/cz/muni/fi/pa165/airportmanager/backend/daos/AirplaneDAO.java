@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.backend.daos;
 
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import java.util.List;
@@ -28,7 +29,7 @@ public interface AirplaneDAO {
      * 
      * @param airplane 
      */
-    public void removeAirplane(Airplane airplane);
+    public void removeAirplane(Airplane airplane) throws JPAException;
     
     /**
      * Returns Airplane with desired id.
@@ -36,7 +37,7 @@ public interface AirplaneDAO {
      * @param id id of desired Airplane
      * @return desired Airplane1
      */
-    public Airplane getAirplane(Long id);
+    public Airplane getAirplane(Long id) throws JPAException;
     
     /**
      * Returns all airplanes.
