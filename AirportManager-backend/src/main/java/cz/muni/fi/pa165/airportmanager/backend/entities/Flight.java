@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
@@ -25,6 +26,7 @@ public class Flight {
     private Destination target;
     @ManyToOne
     private Airplane airplane;
+    @ManyToMany
     private List<Steward> stewardList;
     
     public Long getId() {
