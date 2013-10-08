@@ -3,6 +3,7 @@
   <persistence-unit name="cz.muni.fi.pa165_AirportManager-backend_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>cz.muni.fi.pa165.airportmanager.backend.entities.Airplane</class>
+    <class>cz.muni.fi.pa165.airportmanager.backend.entities.Destination</class>
     <properties>
       <property name="hibernate.connection.username" value="juraj"/>
       <property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.ClientDriver"/>
