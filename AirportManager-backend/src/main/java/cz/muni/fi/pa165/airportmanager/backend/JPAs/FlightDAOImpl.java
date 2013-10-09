@@ -17,7 +17,7 @@ public class FlightDAOImpl implements FlightDAO {
     @PersistenceContext
     private EntityManager em;
     
-    public void createFlight(Flight flight) throws JPAException, IllegalArgumentException {
+    public void createFlight(Flight flight) throws IllegalArgumentException {
         if(flight == null) {
             throw new IllegalArgumentException("Flight is null.");
         } else if(flight.getId() != null) {
@@ -79,7 +79,7 @@ public class FlightDAOImpl implements FlightDAO {
         return em.find(Flight.class, id);
     }
     
-    public List<Flight> getAllFlight() throws JPAException {
+    public List<Flight> getAllFlight(){
         Query query = em.createQuery("SELECT p FROM Flight p ");
         List<Flight> allFlights = query.getResultList();
         return allFlights;
