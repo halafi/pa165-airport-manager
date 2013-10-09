@@ -1,6 +1,6 @@
-package cz.muni.fi.pa165.airportmanager.backend.daos;
+package cz.muni.fi.pa165.airportmanager.backend.JPAs;
 
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -12,7 +12,7 @@ import javax.persistence.Query;
  * 
  * @author Filip
  */
-public class FlightDAOImpl {
+public class FlightDAOImpl implements FlightDAO {
     
     @PersistenceContext
     private EntityManager em;
