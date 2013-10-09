@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.Entity;
@@ -8,13 +9,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Samo
  */
 @Entity
-public class Flight {
+@NamedQueries({
+    @NamedQuery(name="Flight.findByOutcoming", query="SELECT f FROM Flight f WHERE f.origin = :origin"),
+    @NamedQuery(name="Flight.findByIncoming", query="SELECT f FROM Flight f WHERE f.target = :origin"),
+    @NamedQuery(name="Flight.findByAirplane", query="SELECT f FROM Flight f WHERE f.airplane = :airplane")
+}) 
+public class Flight implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
