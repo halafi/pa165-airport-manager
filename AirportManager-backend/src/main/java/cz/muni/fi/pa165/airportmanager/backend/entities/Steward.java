@@ -16,8 +16,10 @@ import javax.persistence.NamedQuery;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Steward.findAllStewards", query = "SELECT s FROM Steward s"),
-    @NamedQuery(name = "Steward.findAllStewardsFlights", query = "SELECT f FROM Flight f JOIN f.stewardList s WHERE s=:steward")
+    @NamedQuery(name = "Steward.findAllStewards", 
+        query = "SELECT s FROM Steward s"),
+    @NamedQuery(name = "Steward.findAllStewardsFlights", 
+        query = "SELECT f FROM Flight f JOIN f.stewardList s WHERE s = :steward")
 })
 
 public class Steward implements Serializable {
@@ -27,8 +29,8 @@ public class Steward implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
-    @ManyToMany(mappedBy = "stewardList")
-    private List<Flight> flights;
+//    @ManyToMany(mappedBy = "stewardList")
+//    private List<Flight> flights;
 
     public Steward() {
     }

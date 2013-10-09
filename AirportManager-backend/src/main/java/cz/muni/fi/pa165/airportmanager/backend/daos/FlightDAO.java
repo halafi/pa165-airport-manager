@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface FlightDAO {
     
-    public void createFlight(Flight flight) throws JPAException, IllegalArgumentException;
+    public void createFlight(Flight flight) throws IllegalArgumentException;
     
     public void updateFlight(Flight flight) throws JPAException, IllegalArgumentException;
     
@@ -22,5 +22,5 @@ public interface FlightDAO {
     
     public Flight getFlight(Long id) throws JPAException, IllegalArgumentException;
     
-    public List<Flight> getAllFlight() throws JPAException;
+    public List<Flight> getAllFlight();
 }

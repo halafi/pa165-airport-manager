@@ -15,8 +15,6 @@ import javax.persistence.NamedQuery;
  *
  * @author Chorke
  */
-
-
 @Entity
 @NamedQuery(
             name="Airplane.findAllAirplanes",
@@ -25,8 +23,9 @@ import javax.persistence.NamedQuery;
 public class Airplane implements Serializable {
     
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private int capacity;
     private String name;
@@ -45,6 +44,9 @@ public class Airplane implements Serializable {
     }
 
     public void setCapacity(int capacity) {
+        if(capacity < 0){
+            throw new IllegalArgumentException("Capacity is negative.");
+        }
         this.capacity = capacity;
     }
 
@@ -73,20 +75,22 @@ public class Airplane implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Airplane)) {
+        if(this.id == null 
+                || object == null
+                || !(object instanceof Airplane)){
             return false;
         }
-        Airplane other = (Airplane) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        Airplane ap = (Airplane)object;
+        if(ap.getId() == null){
             return false;
         }
-        return true;
+        return ap.getId().equals(this.id);
     }
 
     @Override
     public String toString() {
-        return "cz.muni.fi.pa165.airportmanager.backend.entities.Airplane[ id=" + id + " ]";
+        return "Airplane {" + id + "}"
+                + "[name = " + name + ", type = " + type + ", capacity = " + capacity + "]";
     }
     
 }

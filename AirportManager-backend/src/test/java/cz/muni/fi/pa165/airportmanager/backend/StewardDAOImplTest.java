@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.backend;
 
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
