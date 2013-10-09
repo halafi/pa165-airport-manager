@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -32,13 +33,32 @@ public class AirplaneJPA implements AirplaneDAO {
     }
     
     public void updateAirplane(Airplane airplane) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (airplane == null) {
+            throw new IllegalArgumentException("airplane argument is null");
+        }
+        
+        if (airplane.getId() == null) {
+            throw new IllegalArgumentException("airplane id is null");
+        }
+        
+        EntityManager em = emf.createEntityManager();
+        
+        em.getTransaction().begin();
+        em.merge(airplane);
+        em.getTransaction().commit();
+        
+        em.close();
     }
     
     public void removeAirplane(Airplane airplane) throws JPAException{
         
         if (airplane == null) {
             throw new IllegalArgumentException("airplane argument is null");
+        }
+        
+        if (airplane.getId() == null) {
+            throw new IllegalArgumentException("airplane id is null");
         }
         
         EntityManager em = emf.createEntityManager();
@@ -78,10 +98,29 @@ public class AirplaneJPA implements AirplaneDAO {
     }
     
     public List<Airplane> getAllAirplanes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        EntityManager em = emf.createEntityManager();
+        
+        Query allAirplanes = em.createNamedQuery("Airplane.findAllAirplanes");
+        
+        List<Airplane> airplanes = allAirplanes.getResultList();
+        
+        return airplanes;
     }
     
     public List<Flight> getAllAirplanesFlights(Airplane airplane) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (airplane == null) {
+            throw new IllegalArgumentException("airplane arugument is null");
+        }
+        
+        EntityManager em = emf.createEntityManager();
+        
+        Query flightsQuery = em.createNamedQuery("Flight.findByAirplane");
+        flightsQuery.setParameter("airplane", airplane);
+        
+        List<Flight> flights = flightsQuery.getResultList();
+        
+        return flights;
     }
 }

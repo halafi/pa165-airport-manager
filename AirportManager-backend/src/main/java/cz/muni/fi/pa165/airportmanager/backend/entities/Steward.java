@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 
 /**
  *
@@ -14,6 +15,8 @@ import javax.persistence.ManyToMany;
  */
 
 @Entity
+@NamedQuery(name="Steward.findAllStewards", query="SELECT s FROM Steward s")
+
 public class Steward implements Serializable {
     
     @Id

@@ -9,13 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Chorke
  */
+
+
 @Entity
+@NamedQuery(
+            name="Airplane.findAllAirplanes",
+            query="SELECT a FROM Airplane a"
+    )
 public class Airplane implements Serializable {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
