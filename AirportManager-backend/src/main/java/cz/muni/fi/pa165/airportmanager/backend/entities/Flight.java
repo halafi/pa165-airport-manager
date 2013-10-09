@@ -19,7 +19,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name="Flight.findByOutcoming", query="SELECT f FROM Flight f WHERE f.origin = :origin"),
-    @NamedQuery(name="Flight.findByIncoming", query="SELECT f FROM Flight f WHERE f.target = :origin"),
+    @NamedQuery(name="Flight.findByIncoming", query="SELECT f FROM Flight f WHERE f.target.id = :target"),
     @NamedQuery(name="Flight.findByAirplane", query="SELECT f FROM Flight f WHERE f.airplane = :airplane")
 }) 
 public class Flight implements Serializable {
