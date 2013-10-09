@@ -13,16 +13,22 @@ import javax.persistence.Query;
  *
  * @author Matus Makovy
  */
-public class AirplaneJPA implements AirplaneDAO {
+public class AirplaneDAOImpl implements AirplaneDAO {
     
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165_AirportManager-backend_jar_1.0-SNAPSHOTPU");
     
     public void createAirplane(Airplane airplane) {
         
         if (airplane == null) {
-            throw new IllegalArgumentException("airplane argument is null");
+            throw new IllegalArgumentException("Airplane argument is null");
+        } else if (airplane.getName() == null) {
+            throw new IllegalArgumentException("Airplane name wasn't set");
+        } else if (airplane.getType() == null) {
+            throw new IllegalArgumentException("Airplane type wasn't set");
+        } else if (airplane.getCapacity() <= 0) {
+            throw new IllegalArgumentException("Airplane capacity must be greater than 0");
         }
-        
+         
         EntityManager em = emf.createEntityManager();
         
         em.getTransaction().begin();
@@ -35,7 +41,13 @@ public class AirplaneJPA implements AirplaneDAO {
     public void updateAirplane(Airplane airplane) {
         
         if (airplane == null) {
-            throw new IllegalArgumentException("airplane argument is null");
+            throw new IllegalArgumentException("Airplane argument is null");
+        } else if (airplane.getName() == null) {
+            throw new IllegalArgumentException("Airplane name wasn't set");
+        } else if (airplane.getType() == null) {
+            throw new IllegalArgumentException("Airplane type wasn't set");
+        } else if (airplane.getCapacity() <= 0) {
+            throw new IllegalArgumentException("Airplane capacity must be greater than 0");
         }
         
         if (airplane.getId() == null) {

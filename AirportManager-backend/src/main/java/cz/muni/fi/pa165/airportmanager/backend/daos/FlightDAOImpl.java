@@ -2,12 +2,10 @@ package cz.muni.fi.pa165.airportmanager.backend.daos;
 
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.hibernate.exception.DataException;
 
 /**
  * JPA implementation of FlightDAO.
