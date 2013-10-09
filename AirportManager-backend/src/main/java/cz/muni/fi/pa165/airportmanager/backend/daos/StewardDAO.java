@@ -12,31 +12,28 @@ import java.util.List;
  *
  * @author Samo
  */
-public class StewardDAO {
+public interface StewardDAO {
     
      /**
      * Creates new steward.
      * 
      * @param steward specifies the steward to be created
      */
-    public void createSteward(Steward steward){
-    }
+    public void createSteward(Steward steward);
     
      /**
      * Updates steward.
      * 
      * @param steward specifies the steward to be created
      */
-    public void updateSteward(Steward steward){
-    }
+    public void updateSteward(Steward steward);
     
     /**
      * Deletes steward.
      * 
      * @param steward specifies the steward to be deleted
      */
-    public void removeSteward(Steward steward){
-    }
+    public void removeSteward(Steward steward);
     
     /**
      * Returns steward specified by id.
@@ -44,18 +41,14 @@ public class StewardDAO {
      * @param id specifies id of steward
      * @return steward specified by id 
      */
-    public Steward getSteward(Long id){
-        return null;
-    }
+    public Steward getSteward(Long id);
     
     /**
      * Returns list of all stewards.
      * 
      * @return List of stewards
      */
-    public List<Steward> getAllStewards(){
-        return null;
-    }
+    public List<Steward> getAllStewards();
     
     /**
      * Returns List of all flights associated to steward.
@@ -63,7 +56,5 @@ public class StewardDAO {
      * @param steward specifies the steward
      * @return List of flights
      */
-    public List<Flight> getAllStewardsFlights(Steward steward){
-        return null;
-    }
+    public List<Flight> getAllStewardsFlights(Steward steward);
 }
