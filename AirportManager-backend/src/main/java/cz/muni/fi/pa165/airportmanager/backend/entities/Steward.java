@@ -7,32 +7,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Matus Makovy
  */
-
 @Entity
-@NamedQuery(name="Steward.findAllStewards", query="SELECT s FROM Steward s")
+@NamedQueries({
+    @NamedQuery(name = "Steward.findAllStewards", query = "SELECT s FROM Steward s"),
+    @NamedQuery(name = "Steward.findAllStewardsFlights", query = "SELECT f FROM Flight f JOIN f.stewardList s WHERE s=:steward")
+})
 
 public class Steward implements Serializable {
-    
+
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    
     private String firstName;
-    
     private String lastName;
-    
     @ManyToMany(mappedBy = "stewardList")
     private List<Flight> flights;
 
     public Steward() {
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -61,6 +61,4 @@ public class Steward implements Serializable {
     public String toString() {
         return "Steward{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + '}';
     }
-    
-     
 }
