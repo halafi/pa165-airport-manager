@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.backend.daos;
 
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import java.util.List;
@@ -29,14 +30,14 @@ public interface DestinationDAO {
      * 
      * @param destination specifies destination to be removed
      */
-    public void removeDestination(Destination destination);
+    public void removeDestination(Destination destination) throws JPAException;
     
     /**
      * Returns all destinations.
      * 
      * @return List of destinations
      */
-    public List<Destination> getAllDestinations();
+    public List<Destination> getAllDestinations() throws JPAException;
     
     /**
      * Returns one destination according to id.
@@ -44,7 +45,7 @@ public interface DestinationDAO {
      * @param id specifies id of destination
      * @return desired destination
      */
-    public Destination getDestination(Long id);
+    public Destination getDestination(Long id) throws JPAException;
     
     /**
      * Returns all flights that have this destination set as target.
@@ -52,7 +53,7 @@ public interface DestinationDAO {
      * @param destination specifies target destination
      * @return List of flights
      */
-    public List<Flight> getAllIncommingFlights(Destination destination);
+    public List<Flight> getAllIncomingFlights(Destination destination) throws JPAException;
     
     /**
      * Returns all flights that have this destination set as origin.
@@ -60,5 +61,5 @@ public interface DestinationDAO {
      * @param destination specifies origin destination
      * @return List of flights
      */
-    public List<Flight> getAllOutgoingFlights(Destination destination);       
+    public List<Flight> getAllOutcomingFlights(Destination destination) throws JPAException;       
 }

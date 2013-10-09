@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.JPAs;
 
+import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import java.util.List;
@@ -17,7 +18,7 @@ import javax.persistence.TypedQuery;
  *
  * @author Samo
  */
-public class DestinationJPA {
+public class DestinationJPA implements DestinationDAO{
 
         private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165_AirportManager-backend_jar_1.0-SNAPSHOTPU");
         
@@ -34,21 +35,19 @@ public class DestinationJPA {
             em.close();
         }
         
-        public void updateDestination(Destination destination) throws JPAException {
+        public void updateDestination(Destination destination) {
             if(destination == null){
                 throw new IllegalArgumentException("destination argument is null");
             }
+            
+            if (destination.getId() == null) {
+            throw new IllegalArgumentException("airplane id is null");
+            }
+            
             EntityManager em = emf.createEntityManager();
             
             em.getTransaction().begin();
-            Destination destinationFromDB = em.find(Destination.class, destination.getId());
-            
-            if(destinationFromDB == null){
-                throw new JPAException("destination not in database");
-            }
-            
-            destinationFromDB = destination;
-            em.refresh(destinationFromDB);
+            em.merge(destination);
             em.getTransaction().commit();
             
             em.close();
