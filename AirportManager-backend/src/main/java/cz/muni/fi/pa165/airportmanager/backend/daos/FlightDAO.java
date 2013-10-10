@@ -21,7 +21,7 @@ public interface FlightDAO {
      * @throws IllegalArgumentException when some atributes have illegal states
      * @throws JPAException when an error occurs by creating
      */
-    public void createFlight(Flight flight) throws IllegalArgumentException, JPAException;
+    public void createFlight(Flight flight) throws IllegalArgumentException;
     
     /**
      * Updates {@link Flight} {@code flight} in DB.

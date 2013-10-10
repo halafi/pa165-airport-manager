@@ -20,7 +20,7 @@ public class FlightDAOImpl implements FlightDAO {
         this.emf = emf;
     }
     
-    public void createFlight(Flight flight) throws IllegalArgumentException, JPAException {
+    public void createFlight(Flight flight) throws IllegalArgumentException {
         if(flight == null) {
             throw new IllegalArgumentException("Flight is null.");
         } else if(flight.getId() != null) {
