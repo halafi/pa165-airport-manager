@@ -14,9 +14,9 @@ import javax.persistence.Query;
  */
 public class FlightDAOImpl implements FlightDAO {
     
-    private EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
     
-    public void setEntityManagerFactory(EntityManagerFactory emf) {
+    public FlightDAOImpl(EntityManagerFactory emf) {
         this.emf = emf;
     }
     
