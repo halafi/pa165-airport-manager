@@ -265,7 +265,7 @@ public class DestinationDAOTest {
         try{
             List<Destination> resultDAO = destDAO.getAllDestinations();
             if(!resultDAO.isEmpty()){
-                fail("Get all destinations empty DB - some destinations found");
+                fail("Get all destinations empty DB - some destinations finded");
             }
         } catch (JPAException e){
             fail("Get all destinations empty DB - exception thrown");

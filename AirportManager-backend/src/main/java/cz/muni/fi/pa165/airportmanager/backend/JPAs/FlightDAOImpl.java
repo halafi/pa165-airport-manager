@@ -20,7 +20,7 @@ public class FlightDAOImpl implements FlightDAO {
         this.emf = emf;
     }
     
-    public void createFlight(Flight flight) throws IllegalArgumentException {
+    public void createFlight(Flight flight) throws IllegalArgumentException, JPAException {
         if(flight == null) {
             throw new IllegalArgumentException("Flight is null.");
         } else if(flight.getId() != null) {
@@ -98,7 +98,7 @@ public class FlightDAOImpl implements FlightDAO {
         return toReturn;
     }
     
-    public List<Flight> getAllFlight(){
+    public List<Flight> getAllFlight() throws JPAException{
         EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT p FROM Flight p ");
         List<Flight> allFlights = query.getResultList();
