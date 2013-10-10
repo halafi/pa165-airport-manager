@@ -68,6 +68,10 @@ public class StewardDAOImpl implements StewardDAO{
         EntityManager man = FACTORY.createEntityManager();
         try{
             man.getTransaction().begin();
+            Steward finded = man.find(Steward.class, steward.getId());
+            if(finded == null){
+                throw new JPAException("Steward does not exist (" + steward + ")");
+            }
             man.merge(steward);
             man.getTransaction().commit();
         } catch (Exception ex){
@@ -94,7 +98,7 @@ public class StewardDAOImpl implements StewardDAO{
             if(stew == null){
                 man.getTransaction().rollback();
                 man.close();
-                throw new JPAException("Steward does not exist {" + steward + "}");
+                throw new JPAException("Steward does not exist (" + steward + ")");
             }
             man.remove(stew);
             man.getTransaction().commit();

@@ -5,6 +5,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,11 @@ public class Airplane implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private int capacity;
+    
+    @Column(length = 50)
     private String name;
+    
+    @Column(length = 50)
     private String type;
 
     public Long getId() {
