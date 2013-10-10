@@ -26,6 +26,7 @@ public class StewardDAOImpl implements StewardDAO{
 
     public StewardDAOImpl(EntityManagerFactory factory) {
         this.factory = factory;
+//        this.factory = MainClass.EM_FACTORY;
     }
     
     public void createSteward(Steward steward) throws  JPAException, IllegalArgumentException{
@@ -46,10 +47,16 @@ public class StewardDAOImpl implements StewardDAO{
             man.getTransaction().begin();
             man.persist(steward);
             man.getTransaction().commit();
+//            System.err.println("---------------------------------------------"
+//                    + " created "
+//                    + steward + "---------------------------------------------");
         } catch (Exception ex){
             if(man.getTransaction().isActive()){
                 man.getTransaction().rollback();
             }
+//            System.err.println("---------------------------------------------"
+//                    + " failed "
+//                    + steward + "---------------------------------------------");
             man.close();
             throw new JPAException("Error by creating steward " + steward, ex);
         }
@@ -101,7 +108,6 @@ public class StewardDAOImpl implements StewardDAO{
             Steward stew = man.find(Steward.class, steward.getId());
             if(stew == null){
                 man.getTransaction().rollback();
-                man.close();
                 throw new JPAException("Steward does not exist (" + steward + ")");
             }
             man.remove(stew);
@@ -127,7 +133,6 @@ public class StewardDAOImpl implements StewardDAO{
             stew = man.find(Steward.class, id);
             if(stew == null){
                 man.getTransaction().rollback();
-                man.close();
                 throw new JPAException("Steward does not exist (" + id + ")");
             }
             man.getTransaction().commit();
