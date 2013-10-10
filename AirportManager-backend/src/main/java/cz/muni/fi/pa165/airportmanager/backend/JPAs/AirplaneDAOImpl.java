@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.backend.JPAs;
 
+import cz.muni.fi.pa165.airportmanager.MainClass;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
@@ -15,7 +16,8 @@ import javax.persistence.Query;
  */
 public class AirplaneDAOImpl implements AirplaneDAO {
     
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165_AirportManager-backend_jar_1.0-SNAPSHOTPU");
+//    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165_AirportManager-backend_jar_1.0-SNAPSHOTPU");
+    private static EntityManagerFactory emf = MainClass.EM_FACTORY;
     
     public void createAirplane(Airplane airplane) {
         

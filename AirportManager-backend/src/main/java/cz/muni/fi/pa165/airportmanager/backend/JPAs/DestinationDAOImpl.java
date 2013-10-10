@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.JPAs;
 
+import cz.muni.fi.pa165.airportmanager.MainClass;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
@@ -20,7 +21,8 @@ import javax.persistence.TypedQuery;
  */
 public class DestinationDAOImpl implements DestinationDAO{
 
-        private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165_AirportManager-backend_jar_1.0-SNAPSHOTPU");
+//        private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportManager");
+        private static EntityManagerFactory emf = MainClass.EM_FACTORY;
         
         public void createDestination(Destination destination){
             if (destination == null){

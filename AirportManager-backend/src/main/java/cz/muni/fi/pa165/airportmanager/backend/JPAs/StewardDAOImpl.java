@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.JPAs;
 
+import cz.muni.fi.pa165.airportmanager.MainClass;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
@@ -19,8 +20,9 @@ import javax.persistence.TypedQuery;
  */
 public class StewardDAOImpl implements StewardDAO{
 
-    private static final EntityManagerFactory FACTORY = 
-            Persistence.createEntityManagerFactory("AirportManager");
+//    private static final EntityManagerFactory FACTORY = 
+//            Persistence.createEntityManagerFactory("AirportManager");
+    private static final EntityManagerFactory FACTORY = MainClass.EM_FACTORY;
     
     public void createSteward(Steward steward) throws  JPAException, IllegalArgumentException{
         if(steward == null){

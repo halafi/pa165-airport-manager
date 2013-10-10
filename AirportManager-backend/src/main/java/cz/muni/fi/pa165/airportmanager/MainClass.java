@@ -13,7 +13,10 @@ import javax.persistence.Persistence;
  */
 public class MainClass {
     
+    public static final EntityManagerFactory EM_FACTORY = 
+            Persistence.createEntityManagerFactory("AirportManager");
+    
     public static void main(String... atgs){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportManager");
+        
     }
 }
