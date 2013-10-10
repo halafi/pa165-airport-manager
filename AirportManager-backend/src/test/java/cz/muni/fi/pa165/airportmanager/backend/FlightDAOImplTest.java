@@ -172,6 +172,21 @@ public class FlightDAOImplTest {
 
     }
 
+    @Test
+    public void createFlightWithEmptyStewardList() {
+        List<Steward> stewardsEmpty = new ArrayList<Steward>();
+        Flight flight = createFlight(plane1, dest1, dest1, stewardsEmpty, time1, time1);
+
+        try {
+            flightDao.createFlight(flight);
+            fail("Succesfully created flight with empty steward List.");
+        } catch (IllegalArgumentException ex) {
+            //OK
+        } catch (Exception ex) {
+            fail("Excepected IllegalArgumentException" + ex.getMessage());
+        }
+    }
+
     //removeFlight method
     @Test(expected = IllegalArgumentException.class)
     public void removeFlightWithNull() throws JPAException {
@@ -234,7 +249,7 @@ public class FlightDAOImplTest {
 
         Airplane plane3 = createAirplane(10, "new", "new");
         flight.setAirplane(plane3);
-        
+
         try {
             flightDao.updateFlight(flight);
         } catch (JPAException ex) {
@@ -242,10 +257,10 @@ public class FlightDAOImplTest {
         } catch (IllegalArgumentException ex) {
             fail("Update flight - IllegalArgumentException" + ex.getMessage());
         }
-        
-        Flight flightFromDB = em.find(Flight.class,flight.getId());
-        
-        assertEquals("updateFlight() did not update flight (airplane)",flightFromDB.getAirplane(),plane3);
+
+        Flight flightFromDB = em.find(Flight.class, flight.getId());
+
+        assertEquals("updateFlight() did not update flight (airplane)", flightFromDB.getAirplane(), plane3);
 
     }
 
