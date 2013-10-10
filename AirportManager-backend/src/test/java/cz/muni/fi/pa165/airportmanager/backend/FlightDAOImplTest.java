@@ -14,9 +14,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertEquals;
-import org.junit.Before;
+import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -24,7 +23,7 @@ import org.junit.Test;
  * @author Matus Makovy
  */
 public class FlightDAOImplTest {
-    
+
     private FlightDAO flightDao;
     private EntityManagerFactory emf;
     private Airplane plane1;
@@ -34,116 +33,265 @@ public class FlightDAOImplTest {
     private Steward john;
     private Steward paul;
     private List<Steward> stewards;
-    private Flight flight1;
-    private Flight flight2;
-    
-    @Before
+    Timestamp time1;
+    Timestamp time2;
+
+    @BeforeClass
     public void setUp() {
         flightDao = new FlightDAOImpl();
         this.emf = Persistence.createEntityManagerFactory("AirportManager");
-        
-        plane1 = new Airplane();
-        plane1.setCapacity(100);
-        plane1.setName("Airplane1");
-        plane1.setType("best");
-        
-        plane2 = new Airplane();
-        plane2.setCapacity(200);
-        plane2.setName("Airplane2");
-        plane2.setType("worst");
-        
-        dest1 = new Destination();
-        dest1.setCity("City");
-        dest1.setCode("CT");
-        dest1.setCountry("Country");
-        
-        dest2 = new Destination();
-        dest2.setCity("City2");
-        dest2.setCode("CT2");
-        dest2.setCountry("Country2");
-        
-        john = new Steward();
-        john.setFirstName("John");
-        john.setLastName("Brown");
-  
-        paul = new Steward();
-        paul.setFirstName("Paul");
-        paul.setLastName("Smith");
-        
+
+        plane1 = createAirplane(100, "plane1", "type1");
+        plane2 = createAirplane(200, "plane2", "type2");
+
+        dest1 = createDetiantion("code", "country", "city");
+        dest2 = createDetiantion("code2", "country2", "city2");
+
+        john = createSteward("john", "brown");
+        paul = createSteward("paul", "smith");
+
         EntityManager em = emf.createEntityManager();
-        
+
         em.getTransaction().begin();
         em.persist(plane1);
         em.persist(dest1);
         em.persist(john);
         em.getTransaction().commit();
-        
+
         em.clear();
-        
+
         em.getTransaction().begin();
         em.persist(plane2);
         em.persist(dest2);
         em.persist(paul);
         em.getTransaction().commit();
-        
+
         em.close();
-        
+
         stewards = new ArrayList<Steward>();
         stewards.add(john);
         stewards.add(paul);
-        
-        flight1 = new Flight();
-        flight1.setAirplane(plane1);
-        flight1.setOrigin(dest1);
-        flight1.setTarget(dest2);
-        flight1.setStewardList(stewards);
-        flight1.setDepartureTime(new Timestamp(new GregorianCalendar(2013,1,1,12,00).getTimeInMillis()));
-        flight1.setArrivalTime(new Timestamp(new GregorianCalendar(2013,1,1,15,30).getTimeInMillis()));
-        
-        flight2 = new Flight();
-        flight2.setAirplane(plane2);
-        flight2.setOrigin(dest2);
-        flight2.setTarget(dest1);
-        flight2.setStewardList(stewards);
-        flight2.setDepartureTime(new Timestamp(new GregorianCalendar(2012,1,5,11,00).getTimeInMillis()));
-        flight2.setArrivalTime(new Timestamp(new GregorianCalendar(2012,1,5,14,20).getTimeInMillis()));
-        
+
+        time1 = new Timestamp(new GregorianCalendar(2013, 1, 1, 12, 00, 00).getTimeInMillis());
+        time2 = new Timestamp(new GregorianCalendar(2013, 1, 1, 15, 30, 00).getTimeInMillis());
+
     }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void createFlightWithNull() throws JPAException{
+
+    //createFlight method
+    @Test(expected = IllegalArgumentException.class)
+    public void createFlightWithNull() {
         flightDao.createFlight(null);
     }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void removeFlightWithNull() throws JPAException{
-            flightDao.removeFlight(null);
-    }  
-    
-    @Test (expected = IllegalArgumentException.class)
+
+    @Test
+    public void createFlightTest() {
+
+        Flight flight1 = createFlight(plane1, dest1, dest2, stewards, time1, time2);
+
+        flightDao.createFlight(flight1);
+
+        assertNotNull(flight1.getId());
+
+        EntityManager em = emf.createEntityManager();
+
+        Flight foundFlight = em.find(Flight.class, flight1.getId());
+
+        assertEquals(flight1, foundFlight);
+
+        em.close();
+    }
+
+    @Test
+    public void createFlightWithNullParameters() {
+
+        Flight flight = createFlight(null, dest1, dest2, stewards, time1, time2);
+
+        try {
+            flightDao.createFlight(flight);
+            fail("No exception thrown! - Flight with null airplane");
+        } catch (IllegalArgumentException ex) {
+            //OK
+        } catch (Exception ex) {
+            fail("Expected IllegalArgumentException instead of " + ex.toString());
+        }
+
+        flight = createFlight(plane1, null, dest2, stewards, time1, time2);
+
+        try {
+            flightDao.createFlight(flight);
+            fail("No exception thrown! - Flight with origin destination null");
+        } catch (IllegalArgumentException ex) {
+            //OK
+        } catch (Exception ex) {
+            fail("Expected IllegalArgumentException instead of " + ex.toString());
+        }
+
+        flight = createFlight(plane1, dest1, null, stewards, time1, time2);
+
+        try {
+            flightDao.createFlight(flight);
+            fail("No exception thrown! - Flight with target destination null");
+        } catch (IllegalArgumentException ex) {
+            //OK
+        } catch (Exception ex) {
+            fail("Expected IllegalArgumentException instead of " + ex.toString());
+        }
+
+        flight = createFlight(plane1, dest1, dest2, null, time1, time2);
+
+        try {
+            flightDao.createFlight(flight);
+            fail("No exception thrown! - Flight with steward list null");
+        } catch (IllegalArgumentException ex) {
+            //OK
+        } catch (Exception ex) {
+            fail("Expected IllegalArgumentException instead of " + ex.toString());
+        }
+
+        flight = createFlight(plane1, dest1, dest2, stewards, null, time2);
+
+        try {
+            flightDao.createFlight(flight);
+            fail("No exception thrown! - Flight with deperature time null");
+        } catch (IllegalArgumentException ex) {
+            //OK
+        } catch (Exception ex) {
+            fail("Expected IllegalArgumentException instead of " + ex.toString());
+        }
+
+        flight = createFlight(plane1, dest1, dest2, stewards, time1, null);
+
+        try {
+            flightDao.createFlight(flight);
+            fail("No exception thrown! - Flight with arrival time null");
+        } catch (IllegalArgumentException ex) {
+            //OK
+        } catch (Exception ex) {
+            fail("Expected IllegalArgumentException instead of " + ex.toString());
+        }
+
+    }
+
+    //removeFlight method
+    @Test(expected = IllegalArgumentException.class)
+    public void removeFlightWithNull() throws JPAException {
+        flightDao.removeFlight(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void removeFlightWithNullId() throws JPAException {
+        Flight flightNullId = createFlight(null, null, null, null, null, null);
+        flightDao.removeFlight(flightNullId);
+    }
+
+    @Test
+    public void removeFlightTest() {
+        EntityManager em = emf.createEntityManager();
+
+        Flight flight = createFlight(plane2, dest2, dest1, stewards, time1, time2);
+
+        em.getTransaction().begin();
+        em.persist(flight);
+        em.getTransaction().commit();
+
+        try {
+            flightDao.removeFlight(flight);
+        } catch (JPAException ex) {
+            fail("Remove flight - JPA Exception" + ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            fail("Remove flight - IllegalArgumentException" + ex.getMessage());
+        }
+
+        em.clear();
+        Flight flightFromDB = em.find(Flight.class, flight.getId());
+
+        assertNull("removeFlight() did not remove the flight", flightFromDB);
+    }
+
+    //updateFlight method
+    @Test(expected = IllegalArgumentException.class)
     public void updateFlightWithNull() throws JPAException {
         flightDao.updateFlight(null);
     }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void getFlightWithNull() throws JPAException{
+
+    @Test(expected = IllegalArgumentException.class)
+    public void updateFlightWithNullId() throws JPAException {
+        Flight flightNullId = createFlight(null, null, null, null, null, null);
+        flightDao.updateFlight(flightNullId);
+    }
+
+    @Test
+    public void updateFlightTest() {
+
+        EntityManager em = emf.createEntityManager();
+
+        Flight flight = createFlight(plane1, dest2, dest1, stewards, time1, time2);
+
+        em.getTransaction().begin();
+        em.persist(flight);
+        em.getTransaction().commit();
+        em.detach(flight);
+
+        Airplane plane3 = createAirplane(10, "new", "new");
+        flight.setAirplane(plane3);
+        
+        try {
+            flightDao.updateFlight(flight);
+        } catch (JPAException ex) {
+            fail("Update flight - JPA Exception" + ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            fail("Update flight - IllegalArgumentException" + ex.getMessage());
+        }
+        
+        Flight flightFromDB = em.find(Flight.class,flight.getId());
+        
+        assertEquals("updateFlight() did not update flight (airplane)",flightFromDB.getAirplane(),plane3);
+
+    }
+
+    //getFlight method
+    @Test(expected = IllegalArgumentException.class)
+    public void getFlightWithNull() throws JPAException {
         flightDao.getFlight(null);
     }
-    
-    
-    @Test
-    public void createFlightTest() {
-        
-        flightDao.createFlight(flight1);
-        
-        assertNotNull(flight1.getId());
-        
-        EntityManager em = emf.createEntityManager();
-        
-        Flight foundFlight = em.find(Flight.class, flight1.getId());
-        
-        assertEquals(flight1,foundFlight);
-        
-        em.close();
+
+    //getAllFlights method
+    /**
+     * COMMING SOON *
+     */
+    //Constructors
+    private static Destination createDetiantion(String code, String country, String city) {
+        Destination des = new Destination();
+        des.setCode(code);
+        des.setCity(city);
+        des.setCountry(country);
+        return des;
+    }
+
+    private static Airplane createAirplane(int capacity, String name, String type) {
+        Airplane airplane = new Airplane();
+        airplane.setCapacity(capacity);
+        airplane.setName(name);
+        airplane.setType(type);
+        return airplane;
+    }
+
+    private static Steward createSteward(String first, String last) {
+        Steward steward = new Steward();
+        steward.setFirstName(first);
+        steward.setLastName(last);
+        return steward;
+    }
+
+    private static Flight createFlight(Airplane airplane, Destination origin, Destination target,
+            List<Steward> stewardList, Timestamp deperature, Timestamp arrival) {
+        Flight flight = new Flight();
+        flight.setAirplane(airplane);
+        flight.setOrigin(origin);
+        flight.setTarget(target);
+        flight.setStewardList(stewardList);
+        flight.setDepartureTime(deperature);
+        flight.setArrivalTime(arrival);
+        return flight;
     }
 }
