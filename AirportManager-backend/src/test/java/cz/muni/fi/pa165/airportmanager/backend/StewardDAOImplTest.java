@@ -1,33 +1,43 @@
 package cz.muni.fi.pa165.airportmanager.backend;
 
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import junit.framework.TestCase;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * Tests for StewardDAOImpl.
  *
  * @author Filip
  */
+@RunWith(JUnit4.class)
 public class StewardDAOImplTest extends TestCase {
     private StewardDAO stewardDAO;
     
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
         stewardDAO = new StewardDAOImpl();
+        
+        
     }
     
     /**
@@ -83,7 +93,7 @@ public class StewardDAOImplTest extends TestCase {
      * Test for get steward.
      */
     @Test
-    public void getSteward(){
+    public void getSteward() throws JPAException{
         Steward steward1 = newSteward("Elaine","Dickinson");
         Steward steward2 = newSteward("Joshua","Bloch");
         stewardDAO.createSteward(steward1);
@@ -97,7 +107,7 @@ public class StewardDAOImplTest extends TestCase {
      * Test for getting steward with null id.
      */
     @Test (expected = IllegalArgumentException.class)
-    public void getStewardWithNullId(){
+    public void getStewardWithNullId() throws JPAException{
         stewardDAO.getSteward(null);
     }
     
@@ -105,7 +115,7 @@ public class StewardDAOImplTest extends TestCase {
      * Test for getting all stewards.
      */
     @Test
-    public void getAllStewards() {
+    public void getAllStewards() throws JPAException {
         assertTrue(stewardDAO.getAllStewards().isEmpty());
         
         Steward steward1 = newSteward("Elaine","Dickinson");
@@ -127,7 +137,7 @@ public class StewardDAOImplTest extends TestCase {
      * Test for getting all stewards flights.
      */
     @Test
-    public void getAllStewardsFlights() {
+    public void getAllStewardsFlights() throws JPAException {
         Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
         Destination dest1 = newDestination("CZB","Czech Republic","Brno");
         Destination dest2 = newDestination("USN","United States","New York");
@@ -154,7 +164,7 @@ public class StewardDAOImplTest extends TestCase {
      * Test for steward creation.
      */
     @Test
-    public void createSteward() {
+    public void createSteward() throws JPAException {
         Steward steward = newSteward("Elaine","Dickinson");
         stewardDAO.createSteward(steward);
         
@@ -173,7 +183,7 @@ public class StewardDAOImplTest extends TestCase {
      * Attempt of creating null steward.
      */
     @Test (expected = IllegalArgumentException.class)
-    public void createNullSteward() {
+    public void createNullSteward() throws JPAException {
         Steward steward = null;
         stewardDAO.createSteward(steward);
     }
@@ -182,7 +192,7 @@ public class StewardDAOImplTest extends TestCase {
      * Attempt of creating steward without last name.
      */
     @Test (expected = IllegalArgumentException.class)
-    public void createStewardWithoutLastName() {
+    public void createStewardWithoutLastName() throws JPAException {
         Steward steward = new Steward();
         steward.setFirstName("Elaine");
         stewardDAO.createSteward(steward);
@@ -192,7 +202,7 @@ public class StewardDAOImplTest extends TestCase {
      * Attempt of creating steward without first name.
      */
     @Test (expected = IllegalArgumentException.class)
-    public void createStewardWithoutFirstName() {
+    public void createStewardWithoutFirstName() throws JPAException {
         Steward steward = new Steward();
         steward.setLastName("Dickinson");
         stewardDAO.createSteward(steward);
@@ -202,7 +212,7 @@ public class StewardDAOImplTest extends TestCase {
     /**
      * Test for steward updating.
      */
-    public void updateSteward() {
+    public void updateSteward() throws JPAException {
         Steward steward = new Steward();
         steward.setFirstName("Elaine");
         steward.setLastName("Dickinson");
@@ -221,7 +231,7 @@ public class StewardDAOImplTest extends TestCase {
     /**
      * Test for removing steward.
      */
-    public void removeSteward(){
+    public void removeSteward() throws JPAException{
         Steward steward1 = newSteward("Elaine","Dickinson");
         Steward steward2 = newSteward("Joshua","Bloch");
         stewardDAO.createSteward(steward1);
