@@ -118,6 +118,14 @@ public class AirplaneDAOTest {
         assertDeepEquals(airplaneFromDB, airplane1);
         em.getTransaction().commit();
         
+        //with null
+        try{
+            airDAO.updateAirplane(null);
+            fail("No exception thrown");
+        } catch(IllegalArgumentException ex) {
+        } catch (Exception ex) {
+            fail("IllegalArgumentException expected" + ex.getMessage());
+        }
         //setNulls
         em.getTransaction().begin();
         Airplane airplane2 = em.find(Airplane.class, airplane1.getId());
@@ -157,7 +165,14 @@ public class AirplaneDAOTest {
         }catch(Exception ex){
             fail("Exception thrown" + ex.getMessage());
         }
-        
+        //with null
+        try{
+            airDAO.removeAirplane(null);
+            fail("No exception thrown");
+        } catch(IllegalArgumentException ex) {
+        } catch (Exception ex) {
+            fail("IllegalArgumentException expected" + ex.getMessage());
+        }
         //notInDB
         Airplane airplane2 = createAirplane(100, "RYANY", "Boeing 737-B");
         em.getTransaction().begin();
@@ -194,7 +209,14 @@ public class AirplaneDAOTest {
         Airplane airplane2 = em.find(Airplane.class, airplane1.getId());
         assertDeepEquals(airplane2, airplane1);
         em.getTransaction().commit();
-        
+        //with null
+        try{
+            airDAO.getAirplane(null);
+            fail("No exception thrown");
+        } catch(IllegalArgumentException ex) {
+        } catch (Exception ex) {
+            fail("IllegalArgumentException expected" + ex.getMessage());
+        }
         //notInDB
         Airplane airplane3 = createAirplane(100, "RYANZ", "Airbus A-100");
         em.getTransaction().begin();
