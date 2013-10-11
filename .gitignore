@@ -1,2 +1,2 @@
 /AirportManager-backend/target/
-/AirportManager-backend/derby.log/
+*.log
