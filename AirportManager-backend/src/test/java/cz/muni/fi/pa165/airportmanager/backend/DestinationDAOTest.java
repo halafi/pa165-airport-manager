@@ -540,6 +540,20 @@ public class DestinationDAOTest {
         }
     }
     
+    private void assertDeepEqualsStew(List<Steward> stew1, List<Steward> stew2){
+        if(stew1 == null && stew2 == null){ return; }
+        if(stew1 == null && stew2 != null){ fail(); }
+        if(stew1 != null && stew2 == null){ fail(); }
+        if(stew1.size() != stew2.size()){ fail(); }
+        Iterator i1 = stew1.iterator();
+        Iterator i2 = stew2.iterator();
+        while(i1.hasNext() && i2.hasNext()){
+            Steward d1 = (Steward)i1.next();
+            Steward d2 = (Steward)i2.next();
+            assertDeepEquals(d1, d2);
+        }
+    }
+    
     private void assertDeepEqualsFlig(List<Flight> flig1, List<Flight> flig2){
         if(flig1 == null && flig2 == null){ return; }
         if(flig1 == null && flig2 != null){ fail(); }
@@ -561,13 +575,19 @@ public class DestinationDAOTest {
         assertEquals(des1.getCity(), des2.getCity());
     }
     
+    private void assertDeepEquals(Steward stew1, Steward stwe2){
+        assertEquals(stew1.getId(), stwe2.getId());
+        assertEquals(stew1.getFirstName(), stwe2.getFirstName());
+        assertEquals(stew1.getLastName(), stwe2.getLastName());
+    }
+    
     private void assertDeepEquals(Flight f1, Flight f2){
         assertEquals(f1.getId(), f2.getId());
         assertEquals(f1.getAirplane(), f2.getAirplane());
         assertEquals(f1.getArrivalTime(), f2.getArrivalTime());
         assertEquals(f1.getDepartureTime(), f2.getDepartureTime());
         assertEquals(f1.getOrigin(), f2.getOrigin());
-        assertEquals(f1.getStewardList(), f2.getStewardList());
+        assertDeepEqualsStew(f1.getStewardList(), f2.getStewardList());
         assertEquals(f1.getTarget(), f2.getTarget());
     }
     
