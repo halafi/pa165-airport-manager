@@ -37,27 +37,30 @@ public class DestinationDAOTest {
     private static DestinationDAO destDAO;
     
     
-    @BeforeClass
-    public static void init(){
+    @Before//Class
+    public void init(){
         emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
         destDAO = new DestinationDAOImpl();
-    }
-    
-    @AfterClass
-    public static void closing(){
-        emf.close();
-    }
-    
-    @Before
-    public void initTest(){
         manager = emf.createEntityManager();
     }
     
-    @After
-    public void finishedTest(){
+    @After//Class
+    public void closing(){
         manager.clear();
         manager.close();
+        emf.close();
     }
+    
+//    @Before
+//    public void initTest(){
+//        manager = emf.createEntityManager();
+//    }
+//    
+//    @After
+//    public void finishedTest(){
+//        manager.clear();
+//        manager.close();
+//    }
     
     @Test
     public void createDestinationTest(){
