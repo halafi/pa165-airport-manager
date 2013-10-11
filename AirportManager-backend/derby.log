@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Fri Oct 11 13:09:56 CEST 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0141-a735-650a-000003f5fa48 
+Fri Oct 11 20:19:44 CEST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0141-a8be-e194-0000040a59c8 
 on database directory memory:/home/matus/JavaProject/AirportManager-backend/unit-testing-jpa with class loader sun.misc.Launcher$AppClassLoader@26e56328 
 Loaded from file:/home/matus/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation

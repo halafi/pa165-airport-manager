@@ -16,7 +16,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -57,7 +56,7 @@ public class FlightDAOImplTest {
         timeEarlier = new Timestamp(new GregorianCalendar(2013, 1, 1, 12, 00, 00).getTimeInMillis());
         timeLater = new Timestamp(new GregorianCalendar(2013, 1, 1, 15, 30, 00).getTimeInMillis());
         
-        emf = Persistence.createEntityManagerFactory("AirportManager");
+        emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
         flightDao = new FlightDAOImpl(emf);
 
         EntityManager em = emf.createEntityManager();
