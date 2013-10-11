@@ -13,7 +13,6 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -21,14 +20,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import junit.framework.TestCase;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,8 +50,8 @@ public class StewardDAOImplTest extends TestCase {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
         stewDAO = new StewardDAOImpl(emf);
         //destDAO = new DestinationDAOImpl(emf);
-        //airplaneDAO = new AirplaneDAOImpl(emf);
-        //flightDAO = new FlightDAOImpl(emf);
+        airplaneDAO = new AirplaneDAOImpl(emf);
+        flightDAO = new FlightDAOImpl(emf);
     }
 
     /**

@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Fri Oct 11 09:27:24 CEST 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0141-a669-a8a4-000004643878 
-on database directory memory:D:\documents\!škola\PA165 - Vývoj programových systémù v jazyce Java\project\pa165\pa165-airport-manager\AirportManager-backend\unit-testing-jpa with class loader sun.misc.Launcher$AppClassLoader@3244331c 
+Fri Oct 11 09:34:17 CEST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0141-a66f-f5b4-00000462f520 
+on database directory memory:D:\documents\!škola\PA165 - Vývoj programových systémù v jazyce Java\project\pa165\pa165-airport-manager\AirportManager-backend\unit-testing-jpa with class loader sun.misc.Launcher$AppClassLoader@1b778d0c 
 Loaded from file:/C:/Users/Filip/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_13-b20
