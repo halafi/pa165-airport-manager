@@ -1,8 +1,5 @@
 package cz.muni.fi.pa165.airportmanager.backend;
 
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
@@ -20,11 +17,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import junit.framework.TestCase;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,21 +38,33 @@ public class StewardDAOImplTest extends TestCase {
     private DestinationDAO destDAO;
     private AirplaneDAO airplaneDAO;
     private FlightDAO flightDAO;
+    private EntityManagerFactory emf;
+    private EntityManager em;
     
     /**
-     * Sets up the whole test thing.
+     * Set up before each test.
      * @throws SQLException
      */
     @Before
     @Override
     public void setUp() throws SQLException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
+        emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
         stewDAO = new StewardDAOImpl(emf);
-        //destDAO = new DestinationDAOImpl(emf);
+        /*destDAO = new DestinationDAOImpl(emf);
         airplaneDAO = new AirplaneDAOImpl(emf);
-        flightDAO = new FlightDAOImpl(emf);
+        flightDAO = new FlightDAOImpl(emf);*/
     }
 
+
+    /**
+     * Tear down after each test.
+     */
+    @After
+    public void close() {
+        emf.close();
+        em.close();
+    }
+    
     /**
      * Test for get steward.
      */
@@ -110,13 +121,24 @@ public class StewardDAOImplTest extends TestCase {
     @Test
     public void testGetAllStewardsFlights() throws JPAException {
         Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
-        airplaneDAO.createAirplane(plane1);
+        //airplaneDAO.createAirplane(plane1);
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(plane1);
+        em.getTransaction().commit();
         Destination dest1 = newDestination("CZB","Czech Republic","Brno");
-        destDAO.createDestination(dest1);
+        //destDAO.createDestination(dest1);
+        em.getTransaction().begin();
+        em.persist(dest1);
+        em.getTransaction().commit();
         Destination dest2 = newDestination("USN","United States","New York");
-        destDAO.createDestination(dest2);
+        //destDAO.createDestination(dest2);
+        em.getTransaction().begin();
+        em.persist(dest2);
+        em.getTransaction().commit();
         Steward steward1 = newSteward("Elaine","Dickinson");
         stewDAO.createSteward(steward1);
+        
         
         assertTrue(stewDAO.getAllStewardsFlights(steward1).isEmpty());
         
@@ -128,7 +150,9 @@ public class StewardDAOImplTest extends TestCase {
         stewList.add(steward1);
         
         Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest2,plane1,stewList);
-        flightDAO.createFlight(flight1);
+        em.getTransaction().begin();
+        em.persist(flight1);
+        em.getTransaction().commit();
         List<Flight> flightList = new ArrayList<Flight>();
         flightList.add(flight1);
         
