@@ -40,7 +40,7 @@ public class DestinationDAOTest {
     @Before//Class
     public void init(){
         emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
-        destDAO = new DestinationDAOImpl();
+        destDAO = new DestinationDAOImpl(emf);
         manager = emf.createEntityManager();
     }
     
@@ -117,7 +117,11 @@ public class DestinationDAOTest {
         manager.getTransaction().commit();
         
         des1.setCity("Kosice");
-        destDAO.updateDestination(des1);
+        try{
+            destDAO.updateDestination(des1);
+        } catch (Exception ex){
+            fail("samo wrote this"+ex);//SAMO
+        }
         
         manager.getTransaction().begin();
         Destination result = manager.find(Destination.class, des1.getId());
@@ -138,7 +142,8 @@ public class DestinationDAOTest {
             destDAO.updateDestination(des3);
             fail("Updated absent destination");
         } catch (Exception ex){
-            if(!(ex instanceof JPAException)){
+            //if(!(ex instanceof JPAException)){
+            if(!(ex instanceof IllegalArgumentException)){//SAMODIDTHIS
                 fail("Update destination absent destination - bad exception " + ex);
             }
         }
@@ -191,7 +196,8 @@ public class DestinationDAOTest {
             destDAO.removeDestination(des2);
             fail("Remove destination absent destination - no exception");
         } catch (Exception ex){
-            if(!(ex instanceof JPAException)){
+            //if(!(ex instanceof JPAException)){
+            if(!(ex instanceof IllegalArgumentException)){//SAMODIDTHIS
                 fail("Remove destination absent destination - bad exception " + ex);
             }
         }
@@ -338,7 +344,8 @@ public class DestinationDAOTest {
         try{
             destDAO.getAllIncomingFlights(des3);
             fail("Get all incoming flights absent argument - no exception");
-        } catch (JPAException e){
+        //} catch (JPAException e){
+        } catch (IllegalArgumentException e){//SAMODIDTHIS
         } catch (Exception ex){
             fail("Get all incoming flights absent argument - bad ecxeption");
         }
@@ -454,7 +461,8 @@ public class DestinationDAOTest {
         try{
             destDAO.getAllOutcomingFlights(des3);
             fail("Get all outcoming flights absent argument - no exception");
-        } catch (JPAException e){
+        //} catch (JPAException e){
+        } catch (IllegalArgumentException e){//SAMODIDTHIS
         } catch (Exception ex){
             fail("Get all outcoming flights absent argument - bad ecxeption");
         }

@@ -23,7 +23,7 @@ public interface DestinationDAO {
      * 
      * @param destination specifies new destination
      */
-    public void updateDestination(Destination destination);
+    public void updateDestination(Destination destination) throws JPAException;
     
     /**
      * Removes destination.
