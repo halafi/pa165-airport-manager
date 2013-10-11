@@ -134,7 +134,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         EntityManager em = emf.createEntityManager();
         
         Query flightsQuery = em.createNamedQuery("Flight.findByAirplane");
-        flightsQuery.setParameter("airplane", airplane);
+        flightsQuery.setParameter("airplane", airplane.getId());
         
         List<Flight> flights = flightsQuery.getResultList();
         
