@@ -51,7 +51,7 @@ public class StewardDAOImplTest extends TestCase {
     @Before
     @Override
     public void setUp() throws SQLException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportManager");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
         stewDAO = new StewardDAOImpl(emf);
         //destDAO = new DestinationDAOImpl(emf);
         //airplaneDAO = new AirplaneDAOImpl(emf);
