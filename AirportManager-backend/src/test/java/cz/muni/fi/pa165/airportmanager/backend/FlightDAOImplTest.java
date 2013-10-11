@@ -14,10 +14,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import org.junit.After;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -58,7 +55,7 @@ public class FlightDAOImplTest {
 
         timeEarlier = new Timestamp(new GregorianCalendar(2013, 1, 1, 12, 00, 00).getTimeInMillis());
         timeLater = new Timestamp(new GregorianCalendar(2013, 1, 1, 15, 30, 00).getTimeInMillis());
-        
+
         EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
@@ -79,17 +76,22 @@ public class FlightDAOImplTest {
 
     }
 
-   /* @Before
-    public void fillTables() {
+    /* @Before
+     public void fillTables() {
         
         
-    }*/
-
+     }*/
     //createFlight method
-
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void createFlightWithNull() throws JPAException {
-        flightDao.createFlight(null);
+        try {
+            flightDao.createFlight(null);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException ex) {
+            //ok
+        } catch (Exception ex) {
+            fail("IllegalArgumentException expected" + ex.getMessage());
+        }
     }
 
     @Test
@@ -195,25 +197,17 @@ public class FlightDAOImplTest {
 
     }
 
-    @Test
-    public void createFlightWithEmptyStewardList() {
-        List<Steward> stewardsEmpty = new ArrayList<Steward>();
-        Flight flight = createFlight(plane1, dest1, dest1, stewardsEmpty, timeEarlier, timeEarlier);
-
-        try {
-            flightDao.createFlight(flight);
-            fail("Succesfully created flight with empty steward List.");
-        } catch (IllegalArgumentException ex) {
-            //OK
-        } catch (Exception ex) {
-            fail("Excepected IllegalArgumentException" + ex.getMessage());
-        }
-    }
-
     //removeFlight method
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void removeFlightWithNull() throws JPAException {
-        flightDao.removeFlight(null);
+        try {
+            flightDao.removeFlight(null);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException ex) {
+            //ok
+        } catch (Exception ex) {
+            fail("IllegalArgumentException expected" + ex.getMessage());
+        }
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -244,20 +238,65 @@ public class FlightDAOImplTest {
         em.clear();
         Flight flightFromDB = em.find(Flight.class, flight.getId());
 
-        assertNull("removeFlight() did not remove the flight", flightFromDB);
+        assertNull(
+                "removeFlight() did not remove the flight", flightFromDB);
+    }
+
+    @Test
+    public void removeFlightNotInDB() {
+        
+        Airplane plane4 = createAirplane(250, "air", "plane");
+
+        Flight flight = createFlight(plane4, dest1, dest1, stewards, timeEarlier, timeLater);
+        
+        EntityManager em = emf.createEntityManager();
+        
+        em.getTransaction().begin();
+        em.persist(plane4);
+        em.persist(flight);
+        em.getTransaction().commit();
+        
+        em.getTransaction().begin();
+        em.remove(flight);
+        em.getTransaction().commit();
+        em.close();
+
+
+        try {
+            flightDao.removeFlight(flight);
+            fail("Successfully removed flight, that is not in DB");
+        } catch (JPAException ex) {
+            //ok
+        } catch (Exception ex) {
+            fail("Bad Exception");
+        }
     }
 
     //updateFlight method
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void updateFlightWithNull() throws JPAException {
-        flightDao.updateFlight(null);
+        try {
+            flightDao.updateFlight(null);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException ex) {
+            //ok
+        } catch (Exception ex) {
+            fail("IllegalArgumentException expected" + ex.getMessage());
+        }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void updateFlightWithNullId() throws JPAException {
         Flight flightNullId = createFlight(null, null, null, null, null, null);
         flightNullId.setId(null);
-        flightDao.updateFlight(flightNullId);
+        try {
+            flightDao.updateFlight(flightNullId);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException ex) {
+            //ok
+        } catch (Exception ex) {
+            fail("IllegalArgumentException expected" + ex.getMessage());
+        }
     }
 
     public void updateFlightWithNullParameters() {
@@ -342,27 +381,36 @@ public class FlightDAOImplTest {
         }
 
     }
-
+    
     @Test
-    public void updateFlightWithEmptyStewardList() {
-        List<Steward> stewardsEmpty = new ArrayList<Steward>();
-        EntityManager em = emf.createEntityManager();
-        Flight flight = createFlight(plane1, dest1, dest2, stewards, timeEarlier, timeLater);
+    public void updateFlightNotInDB() {
+        
+        Airplane plane5 = createAirplane(350, "airr", "plane");
 
+        Flight flight = createFlight(plane1, dest1, dest1, stewards, timeEarlier, timeLater);
+        
+        EntityManager em = emf.createEntityManager();
+        
         em.getTransaction().begin();
+        em.persist(plane5);
         em.persist(flight);
         em.getTransaction().commit();
+        
+        em.getTransaction().begin();
+        em.remove(flight);
+        em.getTransaction().commit();
         em.close();
+        
+        flight.setAirplane(plane5);
 
-        flight.setStewardList(stewardsEmpty);
 
         try {
             flightDao.updateFlight(flight);
-            fail("Succesfully updated flight with empty steward List.");
-        } catch (IllegalArgumentException ex) {
-            //OK
+            fail("Successfully updated flight, that is not in DB");
+        } catch (JPAException ex) {
+            //ok
         } catch (Exception ex) {
-            fail("Excepected IllegalArgumentException" + ex.getMessage());
+            fail("Bad Exception");
         }
     }
 
@@ -412,18 +460,28 @@ public class FlightDAOImplTest {
             fail("Update flight - JPA Exception" + ex.getMessage());
         } catch (IllegalArgumentException ex) {
             fail("Update flight - IllegalArgumentException" + ex.getMessage());
+
+
         }
 
         Flight flightFromDB = em.find(Flight.class, flight.getId());
 
-        assertEquals("updateFlight() did not update flight (airplane)", plane3, flightFromDB.getAirplane());
+        assertEquals(
+                "updateFlight() did not update flight (airplane)", plane3, flightFromDB.getAirplane());
         em.close();
     }
-
     //getFlight method
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void getFlightWithNull() throws JPAException {
-        flightDao.getFlight(null);
+        try {
+            flightDao.getFlight(null);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException ex) {
+            //ok
+        } catch (Exception ex) {
+            fail("IllegalArgumentException expected" + ex.getMessage());
+        }
     }
 
     @Test
@@ -448,9 +506,12 @@ public class FlightDAOImplTest {
     }
 
     //getAllFlights method
-    /**
-     * COMMING SOON *
-     */
+    
+   /** @Test
+    public void getAllFlightsTest(){
+        
+    }
+    */
     //Constructors
     private static Destination createDetiantion(String code, String country, String city) {
         Destination des = new Destination();
