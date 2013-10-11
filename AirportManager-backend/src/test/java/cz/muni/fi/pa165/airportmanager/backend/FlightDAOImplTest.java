@@ -14,7 +14,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -38,8 +40,7 @@ public class FlightDAOImplTest {
 
     @BeforeClass
     public static void setUp() {
-        emf = Persistence.createEntityManagerFactory("AirportManager");
-        flightDao = new FlightDAOImpl(emf);
+        
         plane1 = createAirplane(100, "plane1", "type1");
         plane2 = createAirplane(200, "plane2", "type2");
 
@@ -55,6 +56,9 @@ public class FlightDAOImplTest {
 
         timeEarlier = new Timestamp(new GregorianCalendar(2013, 1, 1, 12, 00, 00).getTimeInMillis());
         timeLater = new Timestamp(new GregorianCalendar(2013, 1, 1, 15, 30, 00).getTimeInMillis());
+        
+        emf = Persistence.createEntityManagerFactory("AirportManager");
+        flightDao = new FlightDAOImpl(emf);
 
         EntityManager em = emf.createEntityManager();
 
@@ -76,11 +80,12 @@ public class FlightDAOImplTest {
 
     }
 
-    /* @Before
-     public void fillTables() {
+  /*  @Before
+    public void fillTables() {
         
         
-     }*/
+    }*/
+
     //createFlight method
     @Test
     public void createFlightWithNull() throws JPAException {
@@ -244,18 +249,18 @@ public class FlightDAOImplTest {
 
     @Test
     public void removeFlightNotInDB() {
-        
+
         Airplane plane4 = createAirplane(250, "air", "plane");
 
         Flight flight = createFlight(plane4, dest1, dest1, stewards, timeEarlier, timeLater);
-        
+
         EntityManager em = emf.createEntityManager();
-        
+
         em.getTransaction().begin();
         em.persist(plane4);
         em.persist(flight);
         em.getTransaction().commit();
-        
+
         em.getTransaction().begin();
         em.remove(flight);
         em.getTransaction().commit();
@@ -381,26 +386,26 @@ public class FlightDAOImplTest {
         }
 
     }
-    
+
     @Test
     public void updateFlightNotInDB() {
-        
+
         Airplane plane5 = createAirplane(350, "airr", "plane");
 
         Flight flight = createFlight(plane1, dest1, dest1, stewards, timeEarlier, timeLater);
-        
+
         EntityManager em = emf.createEntityManager();
-        
+
         em.getTransaction().begin();
         em.persist(plane5);
         em.persist(flight);
         em.getTransaction().commit();
-        
+
         em.getTransaction().begin();
         em.remove(flight);
         em.getTransaction().commit();
         em.close();
-        
+
         flight.setAirplane(plane5);
 
 
@@ -507,11 +512,32 @@ public class FlightDAOImplTest {
 
     //getAllFlights method
     
-   /** @Test
-    public void getAllFlightsTest(){
-        
-    }
-    */
+      @Test public void getAllFlightsTest() throws JPAException{
+          Flight flight1 = createFlight(plane1, dest1, dest2, stewards, timeEarlier, timeLater);
+          Flight flight2 = createFlight(plane2, dest2, dest1, stewards, timeEarlier, timeLater);
+          
+          EntityManager em = emf.createEntityManager();
+          
+          em.getTransaction().begin();
+          em.persist(flight1);
+          em.getTransaction().commit();
+          em.detach(flight1);
+          
+          em.getTransaction().begin();
+          em.persist(flight2);
+          em.getTransaction().commit();
+          em.detach(flight2);
+          
+          Query allFlights = em.createQuery("SELECT f FROM Flight f");
+          List<Flight> flights = allFlights.getResultList();
+          
+          List<Flight> flightsFromDB = flightDao.getAllFlight();
+          
+          assertEquals("getAllFlight() is not working correctly", flights, flightsFromDB);
+          
+                  
+      }
+     
     //Constructors
     private static Destination createDetiantion(String code, String country, String city) {
         Destination des = new Destination();
@@ -546,5 +572,13 @@ public class FlightDAOImplTest {
         flight.setDepartureTime(deperature);
         flight.setArrivalTime(arrival);
         return flight;
+    }
+    
+    private void assertDeepEquals(List<Flight> flightList1, List<Flight> flightList2) {
+        for (int i = 0; i < flightList1.size(); i++) {
+            Flight expected = flightList1.get(i);
+            Flight actual = flightList2.get(i);
+            assertEquals(expected, actual);
+        }
     }
 }
