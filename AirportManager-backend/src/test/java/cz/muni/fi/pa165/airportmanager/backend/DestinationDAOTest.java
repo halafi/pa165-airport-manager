@@ -370,9 +370,19 @@ public class DestinationDAOTest {
         Flight f4 = createFlight(end, des1);
         
         manager.getTransaction().begin();
+        manager.persist(start);
+        manager.persist(end);
+        manager.persist(des1);
+        manager.getTransaction().commit();
+        
+//        try{
+        manager.getTransaction().begin();
         manager.persist(f1);
         manager.persist(f2);
         manager.getTransaction().commit();
+//        }catch (Throwable ex){
+//            System.out.println("/////////////////////////////////////////////////////////" + ex);
+//        }
         
         getAllInOutcommingFlightsHelptesingMethod("Get all incoming flights", des1, true);
         
@@ -481,10 +491,18 @@ public class DestinationDAOTest {
         Destination start = createDestiantion("SVK", "Slovakia", "Presov");
         Destination end = createDestiantion("SVK", "Slovakia", "Nitra");
         
+        
+        
         Flight f1 = createFlight(start, des1);
         Flight f2 = createFlight(des1, end);
         Flight f3 = createFlight(des1, start);
         Flight f4 = createFlight(end, des1);
+        
+        manager.getTransaction().begin();
+        manager.persist(start);
+        manager.persist(end);
+        manager.persist(des1);
+        manager.getTransaction().commit();
         
         manager.getTransaction().begin();
         manager.persist(f1);
@@ -580,6 +598,11 @@ public class DestinationDAOTest {
         f.setOrigin(from);
         f.setTarget(to);
         Steward s = createSteward();
+        EntityManager man = emf.createEntityManager();
+        man.getTransaction().begin();
+        man.persist(s);
+        man.persist(ap);
+        man.getTransaction().commit();
         List<Steward> ls = new ArrayList<Steward>();
         ls.add(s);
         f.setStewardList(ls);
