@@ -6,6 +6,7 @@ package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ import javax.persistence.Table;
             query="SELECT a FROM Airplane a"
     )
 public class Airplane implements Serializable {
-    @OneToMany(mappedBy = "airplane")
+    @OneToMany(mappedBy = "airplane", cascade = CascadeType.ALL)
     private List<Flight> flights;
     
     private static final long serialVersionUID = 1L;
