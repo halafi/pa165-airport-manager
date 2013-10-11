@@ -16,7 +16,11 @@ import javax.persistence.Query;
 public class AirplaneDAOImpl implements AirplaneDAO {
     
 //    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165_AirportManager-backend_jar_1.0-SNAPSHOTPU");
-    private static EntityManagerFactory emf = MainClass.EM_FACTORY;
+    private final EntityManagerFactory emf;
+    
+    public AirplaneDAOImpl(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
     
     public void createAirplane(Airplane airplane) {
         
