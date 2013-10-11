@@ -1,10 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.airportmanager;
 
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
+import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
+import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
+import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
+import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
+import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
+import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,8 +31,9 @@ public class MainClass {
     public static final EntityManagerFactory EM_FACTORY = 
             Persistence.createEntityManagerFactory("AirportManager");
     
-    public static void main(String... atgs){
-//        chorkeTest();
+    public static void main(String[] args){
+        //chorkeTest();
+        //halafiTest();
     }
     
     private static void chorkeTest(){
@@ -52,5 +66,83 @@ public class MainClass {
         man.getTransaction().commit();
         
         System.out.println(ap1);
+    }
+    
+    private static void halafiTest() {
+        EntityManager man = EM_FACTORY.createEntityManager();
+        StewardDAO stewDAO = new StewardDAOImpl(EM_FACTORY);
+        //DestinationDAO destDAO = new DestinationDAOImpl(EM_FACTORY);
+        AirplaneDAO airplaneDAO = new AirplaneDAOImpl(EM_FACTORY);
+        FlightDAO flightDAO = new FlightDAOImpl(EM_FACTORY);
+        Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
+        airplaneDAO.createAirplane(plane1);
+        Destination dest1 = newDestination("CZB","Czech Republic","Brno");
+        //destDAO.createDestination(dest1);
+        man.getTransaction().begin();
+        man.persist(dest1);
+        man.getTransaction().commit();
+        man.close();
+        Steward steward1 = newSteward("Elaine","Dickinson");
+        try {
+            stewDAO.createSteward(steward1);
+        } catch (JPAException ex) {
+            
+        } catch (IllegalArgumentException ex) {
+            
+        }
+        List<Steward> stewList = new ArrayList<Steward>();
+        stewList.add(steward1);
+        
+        Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest1,plane1,stewList);
+        flightDAO.createFlight(flight1);
+    }
+    
+    /**
+     * Constructor for Steward.
+     */
+    private static Steward newSteward(String firstName, String lastName) {
+        Steward steward = new Steward();
+        steward.setFirstName(firstName);
+        steward.setLastName(lastName);
+        return steward;
+    }
+    
+    /**
+     * Constructor for Flight.
+     */
+    private static Flight newFlight(Timestamp departureTime, 
+            Timestamp arrivalTime, Destination origin, Destination target,
+            Airplane airplane, List<Steward> stewardList) {
+        Flight flight = new Flight();
+        flight.setDepartureTime(departureTime);
+        flight.setArrivalTime(arrivalTime);
+        flight.setOrigin(origin);
+        flight.setTarget(target);
+        flight.setAirplane(airplane);
+        flight.setStewardList(stewardList);
+        return flight;
+    }
+    
+    /**
+     * Constructor for Destination.
+     */
+    private static Destination newDestination(String code, String country, 
+            String city) {
+        Destination destination = new Destination();
+        destination.setCode(code);
+        destination.setCountry(country);
+        destination.setCity(city);
+        return destination;
+    }
+    
+    /**
+     * Constructor for Airplane.
+     */
+    private static Airplane newAirplane(int capacity, String name, String type) {
+        Airplane plane = new Airplane();
+        plane.setCapacity(capacity);
+        plane.setName(name);
+        plane.setType(type);
+        return plane;
     }
 }

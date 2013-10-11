@@ -12,12 +12,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  *
  * @author Samo
  */
 @Entity
+@Table(name="Flights")
 @NamedQueries({
     @NamedQuery(name="Flight.findByOutcoming", query="SELECT f FROM Flight f WHERE f.origin.id = :origin"),
     @NamedQuery(name="Flight.findByIncoming", query="SELECT f FROM Flight f WHERE f.target.id = :target"),

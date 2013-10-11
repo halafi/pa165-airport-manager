@@ -11,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  *
  * @author Juraj Duráni
  */
 @Entity
+@Table(name="Airplanes")
 @NamedQuery(
             name="Airplane.findAllAirplanes",
             query="SELECT a FROM Airplane a"
