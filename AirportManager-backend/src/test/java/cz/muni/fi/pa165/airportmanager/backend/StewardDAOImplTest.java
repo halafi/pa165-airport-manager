@@ -35,9 +35,9 @@ import org.junit.Test;
  */
 public class StewardDAOImplTest extends TestCase {
     private StewardDAO stewDAO;
-    private DestinationDAO destDAO;
-    private AirplaneDAO airplaneDAO;
-    private FlightDAO flightDAO;
+    //private DestinationDAO destDAO;
+    //private AirplaneDAO airplaneDAO;
+    //private FlightDAO flightDAO;
     private EntityManagerFactory emf;
     private EntityManager em;
     

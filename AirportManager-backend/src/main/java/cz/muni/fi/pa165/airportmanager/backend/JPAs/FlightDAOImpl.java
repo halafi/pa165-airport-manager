@@ -57,6 +57,8 @@ public class FlightDAOImpl implements FlightDAO {
             throw new IllegalArgumentException("Origin or target destination is null.");
         } else if(flight.getAirplane() == null) {
             throw new IllegalArgumentException("Airplane is null.");
+        } else if(flight.getDepartureTime().after(flight.getArrivalTime()) || flight.getArrivalTime().before(flight.getDepartureTime())) {
+            throw new IllegalArgumentException("Invalid Departure/Arrival time, wrong order.");
         } else {
             EntityManager em = emf.createEntityManager();
             if(em.find(Flight.class, flight.getId()) == null) {
