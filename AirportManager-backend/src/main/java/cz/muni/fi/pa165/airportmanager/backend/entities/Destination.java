@@ -1,10 +1,12 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,6 +16,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Destinations")
 public class Destination implements Serializable {
+    @OneToMany(mappedBy = "target")
+    private List<Flight> incoming;
+    @OneToMany(mappedBy = "origin")
+    private List<Flight> outcoming;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

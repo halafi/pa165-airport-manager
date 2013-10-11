@@ -5,12 +5,14 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,6 +26,8 @@ import javax.persistence.Table;
             query="SELECT a FROM Airplane a"
     )
 public class Airplane implements Serializable {
+    @OneToMany(mappedBy = "airplane")
+    private List<Flight> flights;
     
     private static final long serialVersionUID = 1L;
     
@@ -37,7 +41,7 @@ public class Airplane implements Serializable {
     
     @Column(length = 50)
     private String type;
-
+    
     public Long getId() {
         return id;
     }
