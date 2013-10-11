@@ -21,8 +21,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.fail;
 import junit.framework.TestCase;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -47,7 +51,7 @@ public class StewardDAOImplTest extends TestCase {
     @Before
     @Override
     public void setUp() throws SQLException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportManagerTest");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportManager");
         stewDAO = new StewardDAOImpl(emf);
         //destDAO = new DestinationDAOImpl(emf);
         //airplaneDAO = new AirplaneDAOImpl(emf);
@@ -71,9 +75,15 @@ public class StewardDAOImplTest extends TestCase {
     /**
      * Test for getting steward with null id.
      */
-    @Test (expected = IllegalArgumentException.class)
-    public void testGetStewardWithNullId() throws JPAException{
-        stewDAO.getSteward(null);
+    @Test //(expected = IllegalArgumentException.class)
+    public void testGetStewardWithNullId() {
+        try {
+            stewDAO.getSteward(null);
+        } catch (JPAException ex) {
+            fail("IllegalArgumentException not thrown.");
+        } catch (IllegalArgumentException ex) {
+            
+        }
     }
     
     /**
@@ -151,30 +161,48 @@ public class StewardDAOImplTest extends TestCase {
     /**
      * Attempt of creating null steward.
      */
-    @Test (expected = IllegalArgumentException.class)
-    public void testCreateNullSteward() throws JPAException {
+    @Test //(expected = IllegalArgumentException.class)
+    public void testCreateNullSteward() {
         Steward steward = null;
-        stewDAO.createSteward(steward);
+        try {
+            stewDAO.createSteward(steward);
+        } catch (JPAException ex) {
+            fail("IllegalArgumentException not thrown.");
+        } catch (IllegalArgumentException ex) {
+            
+        }
     }
     
     /**
      * Attempt of creating steward without last name.
      */
-    @Test (expected = IllegalArgumentException.class)
-    public void testCreateStewardWithoutLastName() throws JPAException {
+    @Test //(expected = IllegalArgumentException.class)
+    public void testCreateStewardWithoutLastName() {
         Steward steward = new Steward();
         steward.setFirstName("Elaine");
-        stewDAO.createSteward(steward);
+        try {
+            stewDAO.createSteward(steward);
+        } catch (JPAException ex) {
+            fail("IllegalArgumentException not thrown.");
+        } catch (IllegalArgumentException ex) {
+            
+        }
     }
     
     /**
      * Attempt of creating steward without first name.
      */
-    @Test (expected = IllegalArgumentException.class)
-    public void testCreateStewardWithoutFirstName() throws JPAException {
+    @Test //(expected = IllegalArgumentException.class)
+    public void testCreateStewardWithoutFirstName() {
         Steward steward = new Steward();
         steward.setLastName("Dickinson");
-        stewDAO.createSteward(steward);
+        try {
+            stewDAO.createSteward(steward);
+        } catch (JPAException ex) {
+            fail("IllegalArgumentException not thrown.");
+        } catch (IllegalArgumentException ex) {
+            
+        }
     }
     
     @Test
@@ -210,9 +238,16 @@ public class StewardDAOImplTest extends TestCase {
         assertNotNull(stewDAO.getSteward(steward2.getId()));
 
         stewDAO.removeSteward(steward1);
-        
-        assertNull(stewDAO.getSteward(steward1.getId()));
         assertNotNull(stewDAO.getSteward(steward2.getId()));
+        
+        try {
+            Steward removedSteward = stewDAO.getSteward(steward1.getId());
+        } catch (JPAException ex) {
+            return;
+        }
+        fail();
+        
+        
     }
     
     /**
