@@ -4,29 +4,24 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.JPAs;
 
-import cz.muni.fi.pa165.airportmanager.MainClass;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 public class StewardDAOImpl implements StewardDAO{
 
-//    private static final EntityManagerFactory FACTORY = 
-//            Persistence.createEntityManagerFactory("AirportManager");
-    private final EntityManagerFactory factory;// = MainClass.EM_FACTORY;
+    private final EntityManagerFactory factory;
 
     public StewardDAOImpl(EntityManagerFactory factory) {
         this.factory = factory;
-//        this.factory = MainClass.EM_FACTORY;
     }
     
     public void createSteward(Steward steward) throws  JPAException, IllegalArgumentException{
@@ -47,16 +42,10 @@ public class StewardDAOImpl implements StewardDAO{
             man.getTransaction().begin();
             man.persist(steward);
             man.getTransaction().commit();
-//            System.err.println("---------------------------------------------"
-//                    + " created "
-//                    + steward + "---------------------------------------------");
         } catch (Exception ex){
             if(man.getTransaction().isActive()){
                 man.getTransaction().rollback();
             }
-//            System.err.println("---------------------------------------------"
-//                    + " failed "
-//                    + steward + "---------------------------------------------");
             man.close();
             throw new JPAException("Error by creating steward " + steward, ex);
         }

@@ -4,7 +4,6 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend;
 
-import cz.muni.fi.pa165.airportmanager.MainClass;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
@@ -14,10 +13,8 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -31,31 +28,24 @@ import org.junit.BeforeClass;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 public class DestinationDAOTest {
     
     private static EntityManagerFactory emf;
-//    private Map<String, String> prop;
     private static EntityManager manager;
     private static DestinationDAO destDAO;
-    
-    public DestinationDAOTest() {
-//        prop = new HashMap<String, String>();
-//        prop.put("hibernate.connection.url", "jdbc:derby:memory:testingDB");
-    }
     
     
     @BeforeClass
     public static void init(){
-        emf = MainClass.EM_FACTORY;
+        emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
         destDAO = new DestinationDAOImpl();
     }
     
     @AfterClass
     public static void closing(){
         emf.close();
-//        prop.clear();
     }
     
     @Before
@@ -265,7 +255,7 @@ public class DestinationDAOTest {
         try{
             List<Destination> resultDAO = destDAO.getAllDestinations();
             if(!resultDAO.isEmpty()){
-                fail("Get all destinations empty DB - some destinations finded");
+                fail("Get all destinations empty DB - some destinations found");
             }
         } catch (JPAException e){
             fail("Get all destinations empty DB - exception thrown");
