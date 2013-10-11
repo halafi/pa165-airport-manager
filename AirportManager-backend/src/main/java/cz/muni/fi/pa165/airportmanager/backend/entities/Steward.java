@@ -9,12 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  *
  * @author Matus Makovy
  */
 @Entity
+@Table(name="Stewards")
 @NamedQueries({
     @NamedQuery(name = "Steward.findAllStewards", 
         query = "SELECT s FROM Steward s"),
