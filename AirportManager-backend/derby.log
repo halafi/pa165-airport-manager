@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Fri Oct 11 09:34:17 CEST 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0141-a66f-f5b4-00000462f520 
-on database directory memory:D:\documents\!škola\PA165 - Vývoj programových systémù v jazyce Java\project\pa165\pa165-airport-manager\AirportManager-backend\unit-testing-jpa with class loader sun.misc.Launcher$AppClassLoader@1b778d0c 
-Loaded from file:/C:/Users/Filip/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
+Fri Oct 11 10:15:32 CEST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0141-a695-b911-000000ae29a0 
+on database directory memory:D:\Dokumenty\GitHub\pa165-airport-manager\AirportManager-backend\unit-testing-jpa with class loader sun.misc.Launcher$AppClassLoader@13c5982 
+Loaded from file:/C:/Users/Chorke/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_13-b20
-user.dir=D:\documents\!škola\PA165 - Vývoj programových systémù v jazyce Java\project\pa165\pa165-airport-manager\AirportManager-backend
-os.name=Windows 8
-os.arch=amd64
-os.version=6.2
+java.runtime.version=1.7.0_07-b11
+user.dir=D:\Dokumenty\GitHub\pa165-airport-manager\AirportManager-backend
+os.name=Windows 7
+os.arch=x86
+os.version=6.1
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

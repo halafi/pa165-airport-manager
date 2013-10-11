@@ -14,7 +14,7 @@ import javax.persistence.NamedQuery;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 @Entity
 @NamedQuery(
