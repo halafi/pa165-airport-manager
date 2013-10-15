@@ -7,6 +7,6 @@
   <packaging>pom</packaging>
   <name>AirportManager</name>
     <modules>
-        <module>../AirportManager-backend</module>
+        <module>./AirportManager-backend</module>
     </modules>
 </project>
