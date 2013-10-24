@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.airportmanager.backend;
+package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
