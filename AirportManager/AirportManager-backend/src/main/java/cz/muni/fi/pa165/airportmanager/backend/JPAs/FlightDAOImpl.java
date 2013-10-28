@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -14,11 +15,8 @@ import javax.persistence.Query;
  */
 public class FlightDAOImpl implements FlightDAO {
     
-    private final EntityManagerFactory emf;
-    
-    public FlightDAOImpl(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
+    @PersistenceContext
+    private EntityManager em;
     
     public void createFlight(Flight flight) throws IllegalArgumentException {
         if(flight == null) {
@@ -36,7 +34,6 @@ public class FlightDAOImpl implements FlightDAO {
         } else if(flight.getDepartureTime().after(flight.getArrivalTime()) || flight.getArrivalTime().before(flight.getDepartureTime())) {
             throw new IllegalArgumentException("Invalid Departure/Arrival time, wrong order.");
         } else {
-            EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
             em.persist(flight);
             em.getTransaction().commit();
@@ -60,7 +57,6 @@ public class FlightDAOImpl implements FlightDAO {
         } else if(flight.getDepartureTime().after(flight.getArrivalTime()) || flight.getArrivalTime().before(flight.getDepartureTime())) {
             throw new IllegalArgumentException("Invalid Departure/Arrival time, wrong order.");
         } else {
-            EntityManager em = emf.createEntityManager();
             if(em.find(Flight.class, flight.getId()) == null) {
                 throw new JPAException("Flight in database is null.");
             }
@@ -77,7 +73,6 @@ public class FlightDAOImpl implements FlightDAO {
         } else if(flight.getId() == null) {
             throw new IllegalArgumentException("Flight flight to be removed id is not assigned.");
         } else {
-            EntityManager em = emf.createEntityManager();
             Flight flightToBeDeleted = em.find(Flight.class, flight.getId());
             if (flightToBeDeleted == null) {
                 throw new JPAException("Flight in database is null.");
@@ -93,7 +88,6 @@ public class FlightDAOImpl implements FlightDAO {
         if(id == null) {
             throw new IllegalArgumentException("Id is null.");
         }
-        EntityManager em = emf.createEntityManager();
         Flight toReturn = em.find(Flight.class, id);
         if(toReturn == null) {
             throw new JPAException("Flight is not in database.");
@@ -103,7 +97,6 @@ public class FlightDAOImpl implements FlightDAO {
     }
     
     public List<Flight> getAllFlight() throws JPAException{
-        EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT p FROM Flight p ");
         List<Flight> allFlights = query.getResultList();
         em.close();
