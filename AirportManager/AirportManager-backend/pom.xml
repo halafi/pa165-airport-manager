@@ -16,12 +16,11 @@
 
   <dependencies>
         <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>4.10</version>
-          <scope>test</scope>
-          <type>jar</type>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
         </dependency>
+            
 
         <dependency>
           <groupId>org.mockito</groupId>
@@ -76,8 +75,9 @@
        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.2.4.RELEASE</version>
-        </dependency>
+            <version>3.0.6.RELEASE</version>
+          <type>jar</type>
+       </dependency>
             
        <dependency>
             <groupId>org.springframework</groupId>

@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
@@ -10,65 +9,50 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import junit.framework.TestCase;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Tests for StewardDAOImpl.
  *
  * @author Filip
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@TransactionConfiguration(defaultRollback = true, transactionManager = "txManager")
+@ContextConfiguration(locations={"classpath:applicationContext.xml"})
 public class StewardDAOImplTest extends TestCase {
+    @Autowired
     private StewardDAO stewDAO;
-    //private DestinationDAO destDAO;
-    //private AirplaneDAO airplaneDAO;
-    //private FlightDAO flightDAO;
-    private EntityManagerFactory emf;
-    private EntityManager em;
     
-    /**
-     * Set up before each test.
-     * @throws SQLException
-     */
-    @Before
-    @Override
-    public void setUp() throws SQLException {
-        emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
-        stewDAO = new StewardDAOImpl(emf);
-        /*destDAO = new DestinationDAOImpl(emf);
-        airplaneDAO = new AirplaneDAOImpl(emf);
-        flightDAO = new FlightDAOImpl(emf);*/
-    }
-
-
-    /**
-     * Tear down after each test.
-     */
-    @After
-    public void close() {
-        emf.close();
-        em.close();
-    }
+    @Autowired
+    private DestinationDAO destDAO;
+    
+    @Autowired
+    private AirplaneDAO airplaneDAO;
+    
+    @Autowired
+    private FlightDAO flightDAO;
     
     /**
      * Test for get steward.
      */
     @Test
+    @Transactional
     public void testGetSteward() throws JPAException{
         Steward steward1 = newSteward("Elaine","Dickinson");
         Steward steward2 = newSteward("Joshua","Bloch");
@@ -82,7 +66,8 @@ public class StewardDAOImplTest extends TestCase {
     /**
      * Test for getting steward with null id.
      */
-    @Test //(expected = IllegalArgumentException.class)
+    @Test
+    @Transactional
     public void testGetStewardWithNullId() {
         try {
             stewDAO.getSteward(null);
@@ -97,6 +82,7 @@ public class StewardDAOImplTest extends TestCase {
      * Test for getting all stewards.
      */
     @Test
+    @Transactional
     public void testGetAllStewards() throws JPAException {
         assertTrue(stewDAO.getAllStewards().isEmpty());
         
@@ -119,27 +105,17 @@ public class StewardDAOImplTest extends TestCase {
      * Test for getting all stewards flights.
      */
     @Test
+    @Transactional
     public void testGetAllStewardsFlights() throws JPAException {
         Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
-        //airplaneDAO.createAirplane(plane1);
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(plane1);
-        em.getTransaction().commit();
+        airplaneDAO.createAirplane(plane1);
         Destination dest1 = newDestination("CZB","Czech Republic","Brno");
-        //destDAO.createDestination(dest1);
-        em.getTransaction().begin();
-        em.persist(dest1);
-        em.getTransaction().commit();
+        destDAO.createDestination(dest1);
         Destination dest2 = newDestination("USN","United States","New York");
-        //destDAO.createDestination(dest2);
-        em.getTransaction().begin();
-        em.persist(dest2);
-        em.getTransaction().commit();
+        destDAO.createDestination(dest2);
         Steward steward1 = newSteward("Elaine","Dickinson");
         stewDAO.createSteward(steward1);
-        
-        
+
         assertTrue(stewDAO.getAllStewardsFlights(steward1).isEmpty());
         
         List<Flight> expected = Collections.EMPTY_LIST;
@@ -150,9 +126,7 @@ public class StewardDAOImplTest extends TestCase {
         stewList.add(steward1);
         
         Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest2,plane1,stewList);
-        em.getTransaction().begin();
-        em.persist(flight1);
-        em.getTransaction().commit();
+        flightDAO.createFlight(flight1);
         List<Flight> flightList = new ArrayList<Flight>();
         flightList.add(flight1);
         
@@ -163,6 +137,7 @@ public class StewardDAOImplTest extends TestCase {
      * Test for steward creation.
      */
     @Test
+    @Transactional
     public void testCreateSteward() throws JPAException {
         Steward steward = newSteward("Elaine","Dickinson");
         stewDAO.createSteward(steward);
@@ -181,7 +156,8 @@ public class StewardDAOImplTest extends TestCase {
     /**
      * Attempt of creating null steward.
      */
-    @Test //(expected = IllegalArgumentException.class)
+    @Test
+    @Transactional
     public void testCreateNullSteward() {
         Steward steward = null;
         try {
@@ -196,7 +172,8 @@ public class StewardDAOImplTest extends TestCase {
     /**
      * Attempt of creating steward without last name.
      */
-    @Test //(expected = IllegalArgumentException.class)
+    @Test
+    @Transactional
     public void testCreateStewardWithoutLastName() {
         Steward steward = new Steward();
         steward.setFirstName("Elaine");
@@ -212,7 +189,8 @@ public class StewardDAOImplTest extends TestCase {
     /**
      * Attempt of creating steward without first name.
      */
-    @Test //(expected = IllegalArgumentException.class)
+    @Test
+    @Transactional
     public void testCreateStewardWithoutFirstName() {
         Steward steward = new Steward();
         steward.setLastName("Dickinson");
@@ -225,10 +203,12 @@ public class StewardDAOImplTest extends TestCase {
         }
     }
     
-    @Test
+    
     /**
      * Test for steward updating.
      */
+    @Test
+    @Transactional
     public void testUpdateSteward() throws JPAException {
         Steward steward = new Steward();
         steward.setFirstName("Elaine");
@@ -244,10 +224,12 @@ public class StewardDAOImplTest extends TestCase {
         assertNotSame(steward2, steward3);
     }
     
-    @Test
+    
     /**
      * Test for removing steward.
      */
+    @Test
+    @Transactional
     public void testRemoveSteward() throws JPAException{
         Steward steward1 = newSteward("Elaine","Dickinson");
         Steward steward2 = newSteward("Joshua","Bloch");
@@ -266,8 +248,6 @@ public class StewardDAOImplTest extends TestCase {
             return;
         }
         fail();
-        
-        
     }
     
     /**
