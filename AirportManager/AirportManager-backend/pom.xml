@@ -20,7 +20,7 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
         </dependency>
-            
+
 
         <dependency>
           <groupId>org.mockito</groupId>
@@ -32,7 +32,15 @@
         <dependency>
           <groupId>org.hibernate</groupId>
           <artifactId>hibernate-entitymanager</artifactId>
-          <version>4.2.5.Final</version>
+          <version>4.2.6.Final</version>
+          <scope>compile</scope>
+        </dependency>
+
+
+        <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-core</artifactId>
+          <version>4.2.6.Final</version>
           <scope>compile</scope>
         </dependency>
 
@@ -75,7 +83,7 @@
        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.0.6.RELEASE</version>
+            <version>3.2.4.RELEASE</version>
           <type>jar</type>
        </dependency>
             
@@ -102,8 +110,17 @@
             <artifactId>spring-beans</artifactId>
             <version>3.2.4.RELEASE</version>
         </dependency>
-            
-  <!--SPRING-->
+ 
+        <dependency>
+          <groupId>javax.inject</groupId>
+          <artifactId>javax.inject</artifactId>
+          <version>1</version>
+        </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>3.2.4.RELEASE</version>
+    </dependency>
   </dependencies>
   <build>
       <plugins>

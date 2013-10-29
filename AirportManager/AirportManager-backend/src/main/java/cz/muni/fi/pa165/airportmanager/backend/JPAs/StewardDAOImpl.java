@@ -8,6 +8,8 @@ import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -18,11 +20,12 @@ import javax.persistence.TypedQuery;
  */
 public class StewardDAOImpl implements StewardDAO{
 
-    private final EntityManagerFactory factory;
+    private EntityManagerFactory factory;
 
-    public StewardDAOImpl(EntityManagerFactory factory) {
+    public void setFactory(EntityManagerFactory factory) {
         this.factory = factory;
     }
+    
     
     public void createSteward(Steward steward) throws  JPAException, IllegalArgumentException{
         if(steward == null){
@@ -181,5 +184,10 @@ public class StewardDAOImpl implements StewardDAO{
             throw new JPAException("Error by finding all stewards flights (" + steward + ")", ex);
         }
     }
-    
+
+    @Override
+    public String toString() {
+        return super.toString() + "      " +factory.toString();
+    }
+ 
 }

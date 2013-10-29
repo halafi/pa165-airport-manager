@@ -3,38 +3,48 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans 
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/tx 
        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
        http://www.springframework.org/schema/aop 
-       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
 
     <!-- http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/orm.html#orm-jpa -->
     <!-- http://docs.spring.io/spring/docs/2.0.x/reference/transaction.html-->
     <!--http://simplespringtutorial.com/springDeclarativeTransactions.html-->
     
     <!--Tells Spring framework to read @Transactional annotation-->
-    <tx:annotation-config/>
+    <!--<tx:annotation-config/>-->
     <!--Automatically adds transaction support which eventually wraps your code in transaction scope-->
-    <tx:annotation-driven  transaction-manager="txManager"/>
+    <!--<tx:annotation-driven  transaction-manager="txManager"/>-->
+    <context:component-scan base-package="cz.muni.fi.pa165"/>
+    <!--<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>-->
     
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
       <property name="dataSource" ref="dataSource" />
     </bean>
     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="AirportManager" />
-        <property name="dataSource" ref="dataSource" />
+        <property name="persistenceUnitName" value="InMemoryTestPU" />
+        <!--<property name="dataSource" ref="dataSource" />-->
+        <!--<property name="persistenceUnitName" value="AirportManager" />-->
     </bean>
     
-     <!--<bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO" />-->
+     <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl" >
+         <property name="factory" ref="entityManagerFactory"/>
+     </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
         <property name="url" value="jdbc:derby://localhost:1527/AirportDB" />
         <property name="username" value="airportAdmin" />
         <property name="password" value="admin" />
     </bean>
+    
+    
 </beans>

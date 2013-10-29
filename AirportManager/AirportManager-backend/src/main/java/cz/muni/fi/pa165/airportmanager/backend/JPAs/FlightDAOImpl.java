@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Filip
  */
-@Transactional
+//@Transactional
 public class FlightDAOImpl implements FlightDAO {
     
-    @PersistenceContext
+//    @PersistenceContext
     private EntityManagerFactory entityManagerFactory;
     
     public void createFlight(Flight flight) throws IllegalArgumentException {

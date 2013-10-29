@@ -21,6 +21,10 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 /**
  *
@@ -28,73 +32,80 @@ import javax.persistence.Persistence;
  */
 public class MainClass {
     
-    public static final EntityManagerFactory EM_FACTORY = 
-            Persistence.createEntityManagerFactory("AirportManager");
+//    public static final EntityManagerFactory EM_FACTORY = 
+//            Persistence.createEntityManagerFactory("AirportManager");
     
     public static void main(String[] args){
-        //chorkeTest();
+        chorkeTest();
         //halafiTest();
     }
     
     private static void chorkeTest(){
-        EntityManager man = EM_FACTORY.createEntityManager();
-        Airplane ap = new Airplane();
-        ap.setCapacity(10);
-        ap.setName("air");
-        ap.setType("boeing");
-        Airplane ap1 = new Airplane();
-        ap1.setCapacity(100);
-        ap1.setName("airplane excelent");
-        ap1.setType("boeing 747");
+//        EntityManager man = EM_FACTORY.createEntityManager();
+//        Airplane ap = new Airplane();
+//        ap.setCapacity(10);
+//        ap.setName("air");
+//        ap.setType("boeing");
+//        Airplane ap1 = new Airplane();
+//        ap1.setCapacity(100);
+//        ap1.setName("airplane excelent");
+//        ap1.setType("boeing 747");
+//        
+//        
+//        man.getTransaction().begin();
+//        man.persist(ap);
+//        man.persist(ap1);
+//        man.getTransaction().commit();
+//        
+//        ap.setName("airplane");
+//        man.clear();
+//        man.close();
+//        man = EM_FACTORY.createEntityManager();
+//        man.getTransaction().begin();
+//        man.merge(ap);
+//        man.getTransaction().commit();
+//        
+//        man.getTransaction().begin();
+//        man.remove(ap1);
+//        man.getTransaction().commit();
+//        
+//        System.out.println(ap1);
+//        AnnotationConfigApplicationContext con = new AnnotationConfigApplicationContext(Config.class);
+//        con.register(StewardDAOImpl.class);
+//        con.refresh();
+        ApplicationContext con = new ClassPathXmlApplicationContext("applicationContext.xml");
+        StewardDAO s = con.getBean(StewardDAOImpl.class);
+        System.out.println(s);
         
-        
-        man.getTransaction().begin();
-        man.persist(ap);
-        man.persist(ap1);
-        man.getTransaction().commit();
-        
-        ap.setName("airplane");
-        man.clear();
-        man.close();
-        man = EM_FACTORY.createEntityManager();
-        man.getTransaction().begin();
-        man.merge(ap);
-        man.getTransaction().commit();
-        
-        man.getTransaction().begin();
-        man.remove(ap1);
-        man.getTransaction().commit();
-        
-        System.out.println(ap1);
     }
     
     private static void halafiTest() {
-        EntityManager man = EM_FACTORY.createEntityManager();
-        StewardDAO stewDAO = new StewardDAOImpl(EM_FACTORY);
-        //DestinationDAO destDAO = new DestinationDAOImpl(EM_FACTORY);
-        AirplaneDAO airplaneDAO = new AirplaneDAOImpl(EM_FACTORY);
-        FlightDAO flightDAO = new FlightDAOImpl(EM_FACTORY);
-        Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
-        airplaneDAO.createAirplane(plane1);
-        Destination dest1 = newDestination("CZB","Czech Republic","Brno");
-        //destDAO.createDestination(dest1);
-        man.getTransaction().begin();
-        man.persist(dest1);
-        man.getTransaction().commit();
-        man.close();
-        Steward steward1 = newSteward("Elaine","Dickinson");
-        try {
-            stewDAO.createSteward(steward1);
-        } catch (JPAException ex) {
-            
-        } catch (IllegalArgumentException ex) {
-            
-        }
-        List<Steward> stewList = new ArrayList<Steward>();
-        stewList.add(steward1);
-        
-        Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest1,plane1,stewList);
-        flightDAO.createFlight(flight1);
+//        EntityManager man = EM_FACTORY.createEntityManager();
+//        StewardDAO stewDAO = new StewardDAOImpl(EM_FACTORY);
+//        //DestinationDAO destDAO = new DestinationDAOImpl(EM_FACTORY);
+//        AirplaneDAO airplaneDAO = new AirplaneDAOImpl(EM_FACTORY);
+//        FlightDAO flightDAO = new FlightDAOImpl(EM_FACTORY);
+//        Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
+//        airplaneDAO.createAirplane(plane1);
+//        Destination dest1 = newDestination("CZB","Czech Republic","Brno");
+//        //destDAO.createDestination(dest1);
+//        man.getTransaction().begin();
+//        man.persist(dest1);
+//        man.getTransaction().commit();
+//        man.close();
+//        Steward steward1 = newSteward("Elaine","Dickinson");
+//        try {
+//            stewDAO.createSteward(steward1);
+//        } catch (JPAException ex) {
+//            
+//        } catch (IllegalArgumentException ex) {
+//            
+//        }
+//        List<Steward> stewList = new ArrayList<Steward>();
+//        stewList.add(steward1);
+//        
+//        Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest1,plane1,stewList);
+//        flightDAO.createFlight(flight1);
     }
     
     /**
