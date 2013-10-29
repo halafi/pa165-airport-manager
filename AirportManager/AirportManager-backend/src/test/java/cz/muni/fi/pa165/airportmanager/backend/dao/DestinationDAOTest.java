@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
+import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
@@ -15,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -25,42 +27,36 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 /**
  *
  * @author Juraj Duráni
  */
-public class DestinationDAOTest {
+public class DestinationDAOTest extends AbstractTest{
     
-    private static EntityManagerFactory emf;
-    private static EntityManager manager;
-    private static DestinationDAO destDAO;
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("testing");
+    private EntityManagerFactory emf;
+    private EntityManager manager;
+    
+    @Autowired
+    private DestinationDAO destDAO;
     
     
-    @Before//Class
+    @Before
     public void init(){
-        emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
-        destDAO = new DestinationDAOImpl(emf);
+        emf = Persistence.createEntityManagerFactory(bundle.getString("testingUNIT"));
         manager = emf.createEntityManager();
     }
     
-    @After//Class
+    @After
     public void closing(){
         manager.clear();
         manager.close();
         emf.close();
     }
     
-//    @Before
-//    public void initTest(){
-//        manager = emf.createEntityManager();
-//    }
-//    
-//    @After
-//    public void finishedTest(){
-//        manager.clear();
-//        manager.close();
-//    }
     
     @Test
     public void createDestinationTest(){
@@ -606,7 +602,7 @@ public class DestinationDAOTest {
         return s;
     }
     
-    private static Flight createFlight(Destination from, Destination to){
+    private Flight createFlight(Destination from, Destination to){
         Flight f = new Flight();
         Airplane ap = new Airplane();
         ap.setCapacity(100);

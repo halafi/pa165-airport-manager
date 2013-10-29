@@ -16,6 +16,7 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -31,12 +32,11 @@ import org.springframework.context.support.GenericXmlApplicationContext;
  * @author Chorke
  */
 public class MainClass {
-    
 //    public static final EntityManagerFactory EM_FACTORY = 
 //            Persistence.createEntityManagerFactory("AirportManager");
     
     public static void main(String[] args){
-        chorkeTest();
+//        chorkeTest();
         //halafiTest();
     }
     

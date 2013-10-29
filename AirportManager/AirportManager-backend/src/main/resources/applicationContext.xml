@@ -30,9 +30,9 @@
     </bean>
     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="InMemoryTestPU" />
+        <!--<property name="persistenceUnitName" value="InMemoryTestPU" />-->
         <!--<property name="dataSource" ref="dataSource" />-->
-        <!--<property name="persistenceUnitName" value="AirportManager" />-->
+        <property name="persistenceUnitName" value="AirportManager" />
     </bean>
     
      <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl" >

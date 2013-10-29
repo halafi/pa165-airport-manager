@@ -8,8 +8,6 @@ import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import java.util.List;
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -26,7 +24,7 @@ public class StewardDAOImpl implements StewardDAO{
         this.factory = factory;
     }
     
-    
+    @Override
     public void createSteward(Steward steward) throws  JPAException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null.");
@@ -55,6 +53,7 @@ public class StewardDAOImpl implements StewardDAO{
         man.close();
     }
 
+    @Override
     public void updateSteward(Steward steward) throws JPAException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null.");
@@ -87,6 +86,7 @@ public class StewardDAOImpl implements StewardDAO{
         man.close();
     }
 
+    @Override
     public void removeSteward(Steward steward) throws JPAException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null");
@@ -114,6 +114,7 @@ public class StewardDAOImpl implements StewardDAO{
         man.close();
     }
 
+    @Override
     public Steward getSteward(Long id) throws JPAException, IllegalArgumentException{
         if(id == null){
             throw new IllegalArgumentException("Can not fing stewar (id = null)");
@@ -139,6 +140,7 @@ public class StewardDAOImpl implements StewardDAO{
         return stew;
     }
 
+    @Override
     public List<Steward> getAllStewards() throws JPAException{
         EntityManager man = factory.createEntityManager();
         List<Steward> stewards;
@@ -158,6 +160,7 @@ public class StewardDAOImpl implements StewardDAO{
         }
     }
 
+    @Override
     public List<Flight> getAllStewardsFlights(Steward steward) throws JPAException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null");
@@ -187,7 +190,8 @@ public class StewardDAOImpl implements StewardDAO{
 
     @Override
     public String toString() {
-        return super.toString() + "      " +factory.toString();
+        return super.toString() + "      " +factory.toString() + "   " 
+                + (factory instanceof EntityManagerFactory);
     }
  
 }

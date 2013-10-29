@@ -24,11 +24,14 @@ public class DestinationDAOImpl implements DestinationDAO{
 
 //        private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportManager");
 //        private static EntityManagerFactory emf = MainClass.EM_FACTORY;
-        private final EntityManagerFactory emf;
-          
-        public DestinationDAOImpl(EntityManagerFactory emf) {
-            this.emf = emf;
-        }
+        private EntityManagerFactory emf;
+
+    //        public DestinationDAOImpl(EntityManagerFactory emf) {
+    //            this.emf = emf;
+    //        }
+    public void setEmf(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
         
         public void createDestination(Destination destination){
             if (destination == null){
