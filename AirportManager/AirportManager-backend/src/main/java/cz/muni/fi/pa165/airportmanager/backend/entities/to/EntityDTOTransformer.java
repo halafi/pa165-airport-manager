@@ -14,6 +14,14 @@ import java.util.List;
  */
 public class EntityDTOTransformer {
 
+    public static List<FlightTO> flightListConvert(List<Flight> flights) {
+        List<FlightTO> toReturn = new ArrayList<>(flights.size());
+        for(Flight f : flights){
+            toReturn.add(flightConvert(f));
+        }
+        return toReturn;
+    }
+    
     public static FlightTO flightConvert(Flight flight) {
         if (flight == null) {
             throw new NullPointerException("flight is null");
