@@ -30,7 +30,7 @@ import org.junit.Test;
  *
  * @author Samo
  */
-public class AirplaneDAOTest {
+public class AirplaneDAOImplTest {
     private static EntityManagerFactory emf;
     private static EntityManager em;
     private static AirplaneDAO airDAO;
