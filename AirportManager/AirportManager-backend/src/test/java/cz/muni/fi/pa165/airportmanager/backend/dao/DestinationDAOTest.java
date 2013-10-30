@@ -5,7 +5,6 @@
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
@@ -22,13 +21,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 /**
  *
@@ -43,7 +39,6 @@ public class DestinationDAOTest extends AbstractTest{
     @Autowired
     private DestinationDAO destDAO;
     
-    
     @Before
     public void init(){
         emf = Persistence.createEntityManagerFactory(bundle.getString("testingUNIT"));
@@ -56,7 +51,6 @@ public class DestinationDAOTest extends AbstractTest{
         manager.close();
         emf.close();
     }
-    
     
     @Test
     public void createDestinationTest(){
@@ -137,11 +131,9 @@ public class DestinationDAOTest extends AbstractTest{
             Destination des3 = createDestiantion("SVK", "Slovakia", "Nitra");
             destDAO.updateDestination(des3);
             fail("Updated absent destination");
+        } catch (IllegalArgumentException ex){
         } catch (Exception ex){
-            //if(!(ex instanceof JPAException)){
-            if(!(ex instanceof IllegalArgumentException)){//SAMODIDTHIS
-                fail("Update destination absent destination - bad exception " + ex);
-            }
+            fail("Update destination absent destination - bad exception " + ex);
         }
         try{
             des1.setCity(null);
@@ -191,11 +183,9 @@ public class DestinationDAOTest extends AbstractTest{
         try{
             destDAO.removeDestination(des2);
             fail("Remove destination absent destination - no exception");
+        } catch (IllegalArgumentException ex){
         } catch (Exception ex){
-            //if(!(ex instanceof JPAException)){
-            if(!(ex instanceof IllegalArgumentException)){//SAMODIDTHIS
-                fail("Remove destination absent destination - bad exception " + ex);
-            }
+            fail("Remove destination absent destination - bad exception " + ex);
         }
         try{
             destDAO.removeDestination(des1);
@@ -340,8 +330,7 @@ public class DestinationDAOTest extends AbstractTest{
         try{
             destDAO.getAllIncomingFlights(des3);
             fail("Get all incoming flights absent argument - no exception");
-        //} catch (JPAException e){
-        } catch (IllegalArgumentException e){//SAMODIDTHIS
+        } catch (IllegalArgumentException e){
         } catch (Exception ex){
             fail("Get all incoming flights absent argument - bad ecxeption");
         }
@@ -371,14 +360,10 @@ public class DestinationDAOTest extends AbstractTest{
         manager.persist(des1);
         manager.getTransaction().commit();
         
-//        try{
         manager.getTransaction().begin();
         manager.persist(f1);
         manager.persist(f2);
         manager.getTransaction().commit();
-//        }catch (Throwable ex){
-//            System.out.println("/////////////////////////////////////////////////////////" + ex);
-//        }
         
         getAllInOutcommingFlightsHelptesingMethod("Get all incoming flights", des1, true);
         
@@ -467,8 +452,7 @@ public class DestinationDAOTest extends AbstractTest{
         try{
             destDAO.getAllOutcomingFlights(des3);
             fail("Get all outcoming flights absent argument - no exception");
-        //} catch (JPAException e){
-        } catch (IllegalArgumentException e){//SAMODIDTHIS
+        } catch (IllegalArgumentException e){
         } catch (Exception ex){
             fail("Get all outcoming flights absent argument - bad ecxeption");
         }
@@ -619,7 +603,7 @@ public class DestinationDAOTest extends AbstractTest{
         man.persist(s);
         man.persist(ap);
         man.getTransaction().commit();
-        List<Steward> ls = new ArrayList<Steward>();
+        List<Steward> ls = new ArrayList<>();
         ls.add(s);
         f.setStewardList(ls);
         return f;
