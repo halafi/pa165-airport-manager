@@ -37,7 +37,7 @@ public class StewardServiceImpl implements StewardService{
     @Transactional(readOnly = false)
     public void createSteward(StewardTO steward) throws DataAccessException {
         try{
-            Steward stew = EntityDTOTransformer.getStewardEntity(steward);
+            Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
             stewardDao.createSteward(stew);
         } catch (IllegalArgumentException | JPAException ex){
             throw new ServiceDataAccessException("Error by creating steward", ex);
@@ -48,7 +48,7 @@ public class StewardServiceImpl implements StewardService{
     @Transactional(readOnly = false)
     public void updateSteward(StewardTO steward) throws DataAccessException {
         try{
-            Steward stew = EntityDTOTransformer.getStewardEntity(steward);
+            Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
             stewardDao.updateSteward(stew);
         } catch (IllegalArgumentException | JPAException ex){
             throw new ServiceDataAccessException("Error by updating steward", ex);
@@ -59,7 +59,7 @@ public class StewardServiceImpl implements StewardService{
     @Transactional(readOnly = false)
     public void removeSteward(StewardTO steward) throws DataAccessException {
         try{
-            Steward stew = EntityDTOTransformer.getStewardEntity(steward);
+            Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
             stewardDao.removeSteward(stew);
         } catch (IllegalArgumentException | JPAException ex){
             throw new ServiceDataAccessException("Error by removing steward", ex);
@@ -70,7 +70,7 @@ public class StewardServiceImpl implements StewardService{
     public StewardTO findSteward(Long id) throws DataAccessException {
         try{
             Steward s = stewardDao.getSteward(id);
-            return EntityDTOTransformer.getStewardTransferObject(s);
+            return EntityDTOTransformer.stewardConvert(s);
         } catch (IllegalArgumentException | JPAException ex){
             throw new ServiceDataAccessException("Error by finding steward", ex);
         }
@@ -82,7 +82,7 @@ public class StewardServiceImpl implements StewardService{
             List<Steward> list = stewardDao.getAllStewards();
             List<StewardTO> out = new ArrayList<>(list.size());
             for(Steward s : list){
-                out.add(EntityDTOTransformer.getStewardTransferObject(s));
+                out.add(EntityDTOTransformer.stewardConvert(s));
             }
             return out;
         } catch (IllegalArgumentException | JPAException ex){
@@ -93,11 +93,11 @@ public class StewardServiceImpl implements StewardService{
     @Override
     public List<FlightTO> getAllStewardsFlights(StewardTO steward) throws DataAccessException {
         try{
-            Steward stew = EntityDTOTransformer.getStewardEntity(steward);
+            Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
             List<Flight> flights = stewardDao.getAllStewardsFlights(stew);
             List<FlightTO> out = new ArrayList<>(flights.size());
             for(Flight f : flights){
-                out.add(EntityDTOTransformer.flightToTO(f));
+                out.add(EntityDTOTransformer.flightConvert(f));
             }
             return out;
         } catch (IllegalArgumentException | JPAException ex){

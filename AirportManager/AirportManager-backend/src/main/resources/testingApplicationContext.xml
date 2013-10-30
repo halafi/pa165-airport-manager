@@ -16,9 +16,9 @@
     
     <context:component-scan base-package="cz.muni.fi.pa165"/>
     
-    <tx:annotation-driven transaction-manager="txManager"/>
+    <tx:annotation-driven/>
     
-    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
@@ -48,6 +48,6 @@
          <property name="emf" ref="entityManagerFactory"/>
      </bean>
      
-     <bean id="destService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationServiceImpl" />
+     <bean id="destService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl" />
            
 </beans>

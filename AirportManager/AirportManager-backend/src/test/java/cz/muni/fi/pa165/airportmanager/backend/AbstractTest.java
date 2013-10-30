@@ -14,7 +14,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
  * @author Chorke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(defaultRollback = true, transactionManager = "txManager")
+@TransactionConfiguration(defaultRollback = true)
 @ContextConfiguration(locations={"file:src/main/resources/testingApplicationContext.xml"})
 public abstract class AbstractTest {
     
