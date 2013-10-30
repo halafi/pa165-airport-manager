@@ -1,14 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.airportmanager.backend.entities.to;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  *
- * @author Chorke
+ * @author Filip
  */
 public class FlightTO {
     private Long id;
@@ -56,4 +53,33 @@ public class FlightTO {
     public void setTarget(DestinationTO target) {
         this.target = target;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FlightTO other = (FlightTO) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "FlightTO{" + "id=" + id + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", origin=" + origin + ", target=" + target + '}';
+    }
+
+    
 }

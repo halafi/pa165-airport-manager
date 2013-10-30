@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.JPAs.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
@@ -11,7 +8,7 @@ import org.springframework.dao.DataAccessException;
 
 /**
  *
- * @author Juraj Duráni
+ * @author Filip
  */
 public interface FlightService {
     
