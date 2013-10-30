@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
@@ -17,17 +16,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import static org.junit.Assert.*;
-import junit.framework.TestCase;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,36 +29,29 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Filip
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@TransactionConfiguration(defaultRollback = true, transactionManager = "txManager")
-//@ContextConfiguration(locations={"file:src/main/resources/applicationContext.xml"})
 public class StewardDAOImplTest extends AbstractTest {
     
     @Autowired
     private StewardDAO stewDAO;
+     
+    /*@Autowired
+    private DestinationDAO destDAO;*/
     
-//    @Autowired
-//    private EntityManagerFactory emf;
-//    
-//    @Before
-//    public void setup(){
-//        EntityManager man = emf.createEntityManager();
-//    }
+    /*@Autowired
+    private AirplaneDAO airplaneDAO;*/
     
-//    @Autowired
-//    private DestinationDAO destDAO;
+    /*@Autowired
+    private FlightDAO flightDAO;*/
     
-//    @Autowired
-//    private AirplaneDAO airplaneDAO;
     
-//    @Autowired
-//    private FlightDAO flightDAO;
-    
+    @Before
+    public void setup() {
+        
+    }
     /**
      * Test for get steward.
      */
-//    @Test
-//    @Transactional
+    @Test
     public void testGetSteward() throws JPAException{
         Steward steward1 = newSteward("Elaine","Dickinson");
         Steward steward2 = newSteward("Joshua","Bloch");
@@ -80,7 +66,6 @@ public class StewardDAOImplTest extends AbstractTest {
      * Test for getting steward with null id.
      */
     @Test
-//    @Transactional
     public void testGetStewardWithNullId() {
         try {
             stewDAO.getSteward(null);
@@ -95,7 +80,6 @@ public class StewardDAOImplTest extends AbstractTest {
      * Test for getting all stewards.
      */
     @Test
-//    @Transactional
     public void testGetAllStewards() throws JPAException {
         assertTrue(stewDAO.getAllStewards().isEmpty());
         
@@ -117,40 +101,38 @@ public class StewardDAOImplTest extends AbstractTest {
     /**
      * Test for getting all stewards flights.
      */
-//    @Test
-//    @Transactional
-//    public void testGetAllStewardsFlights() throws JPAException {
-//        Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
-//        airplaneDAO.createAirplane(plane1);
-//        Destination dest1 = newDestination("CZB","Czech Republic","Brno");
-//        destDAO.createDestination(dest1);
-//        Destination dest2 = newDestination("USN","United States","New York");
-//        destDAO.createDestination(dest2);
-//        Steward steward1 = newSteward("Elaine","Dickinson");
-//        stewDAO.createSteward(steward1);
-//
-//        assertTrue(stewDAO.getAllStewardsFlights(steward1).isEmpty());
-//        
-//        List<Flight> expected = Collections.EMPTY_LIST;
-//        List<Flight> actual = stewDAO.getAllStewardsFlights(steward1);
-//        assertEquals(expected, actual);
-//        
-//        List<Steward> stewList = new ArrayList<Steward>();
-//        stewList.add(steward1);
-//        
-//        Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest2,plane1,stewList);
-//        flightDAO.createFlight(flight1);
-//        List<Flight> flightList = new ArrayList<Flight>();
-//        flightList.add(flight1);
-//        
-//        assertEquals(stewDAO.getAllStewardsFlights(steward1),flightList);
-//    }
-//    
+    /*@Test
+    public void testGetAllStewardsFlights() throws JPAException {
+        Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
+        airplaneDAO.createAirplane(plane1);
+        Destination dest1 = newDestination("CZB","Czech Republic","Brno");
+        destDAO.createDestination(dest1);
+        Destination dest2 = newDestination("USN","United States","New York");
+        destDAO.createDestination(dest2);
+        Steward steward1 = newSteward("Elaine","Dickinson");
+        stewDAO.createSteward(steward1);
+
+        assertTrue(stewDAO.getAllStewardsFlights(steward1).isEmpty());
+        
+        List<Flight> expected = Collections.EMPTY_LIST;
+        List<Flight> actual = stewDAO.getAllStewardsFlights(steward1);
+        assertEquals(expected, actual);
+        
+        List<Steward> stewList = new ArrayList<Steward>();
+        stewList.add(steward1);
+        
+        Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest2,plane1,stewList);
+        flightDAO.createFlight(flight1);
+        List<Flight> flightList = new ArrayList<Flight>();
+        flightList.add(flight1);
+        
+        assertEquals(stewDAO.getAllStewardsFlights(steward1),flightList);
+    }*/
+    
     /**
      * Test for steward creation.
      */
     @Test
-//    @Transactional
     public void testCreateSteward() throws JPAException {
         Steward steward = newSteward("Elaine","Dickinson");
         stewDAO.createSteward(steward);
@@ -170,7 +152,6 @@ public class StewardDAOImplTest extends AbstractTest {
      * Attempt of creating null steward.
      */
     @Test
-//    @Transactional
     public void testCreateNullSteward() {
         Steward steward = null;
         try {
@@ -186,7 +167,6 @@ public class StewardDAOImplTest extends AbstractTest {
      * Attempt of creating steward without last name.
      */
     @Test
-//    @Transactional
     public void testCreateStewardWithoutLastName() {
         Steward steward = new Steward();
         steward.setFirstName("Elaine");
@@ -203,7 +183,6 @@ public class StewardDAOImplTest extends AbstractTest {
      * Attempt of creating steward without first name.
      */
     @Test
-//    @Transactional
     public void testCreateStewardWithoutFirstName() {
         Steward steward = new Steward();
         steward.setLastName("Dickinson");
@@ -221,7 +200,6 @@ public class StewardDAOImplTest extends AbstractTest {
      * Test for steward updating.
      */
     @Test
-//    @Transactional
     public void testUpdateSteward() throws JPAException {
         Steward steward = new Steward();
         steward.setFirstName("Elaine");
@@ -242,7 +220,6 @@ public class StewardDAOImplTest extends AbstractTest {
      * Test for removing steward.
      */
     @Test
-//    @Transactional
     public void testRemoveSteward() throws JPAException{
         Steward steward1 = newSteward("Elaine","Dickinson");
         Steward steward2 = newSteward("Joshua","Bloch");

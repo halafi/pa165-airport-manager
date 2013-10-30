@@ -4,14 +4,12 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.JPAs;
 
-import cz.muni.fi.pa165.airportmanager.MainClass;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 
@@ -22,24 +20,16 @@ import javax.persistence.TypedQuery;
  */
 public class DestinationDAOImpl implements DestinationDAO{
 
-//        private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportManager");
-//        private static EntityManagerFactory emf = MainClass.EM_FACTORY;
-        private EntityManagerFactory emf;
+    private EntityManagerFactory factory;
 
-    //        public DestinationDAOImpl(EntityManagerFactory emf) {
-    //            this.emf = emf;
-    //        }
-    public void setEmf(EntityManagerFactory emf) {
-        this.emf = emf;
+    public void setFactory(EntityManagerFactory factory) {
+        this.factory = factory;
     }
         
         public void createDestination(Destination destination){
             if (destination == null){
                 throw new IllegalArgumentException("destination argument is null");
             }
-//            if (destination.getId() == null){
-//                throw new IllegalArgumentException("id argument is null");
-//            }
             if (destination.getCity() == null || destination.getCity() == ""){
                 throw new IllegalArgumentException("city argument is null");
             }
@@ -49,7 +39,7 @@ public class DestinationDAOImpl implements DestinationDAO{
             if (destination.getCountry() == null || destination.getCountry() == ""){
                 throw new IllegalArgumentException("country argument is null");
             }
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = factory.createEntityManager();
         
             em.getTransaction().begin();
             em.persist(destination);
@@ -76,7 +66,7 @@ public class DestinationDAOImpl implements DestinationDAO{
                 throw new IllegalArgumentException("country argument is null");
             }
             
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = factory.createEntityManager();
             
             em.getTransaction().begin();
             Destination destinationFromDB = em.find(Destination.class, destination.getId());
@@ -106,7 +96,7 @@ public class DestinationDAOImpl implements DestinationDAO{
             if (destination.getCountry() == null || destination.getCountry() == ""){
                 throw new IllegalArgumentException("country argument is null");
             }
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = factory.createEntityManager();
         
             em.getTransaction().begin();
             Destination destinationFromDB = em.find(Destination.class, destination.getId());
@@ -114,7 +104,6 @@ public class DestinationDAOImpl implements DestinationDAO{
                 throw new JPAException("destination not in database");
             } else {
                 em.remove(destinationFromDB);
-                //em.getTransaction().commit();
             }
             em.getTransaction().commit();
             em.close();
@@ -124,7 +113,7 @@ public class DestinationDAOImpl implements DestinationDAO{
             if(id == null){
                 throw new IllegalArgumentException("id argument is null");
             }
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = factory.createEntityManager();
             
             em.getTransaction().begin();
             Destination destination = em.find(Destination.class, id);
@@ -138,7 +127,7 @@ public class DestinationDAOImpl implements DestinationDAO{
         }
         
         public List<Destination> getAllDestinations() throws JPAException{
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = factory.createEntityManager();
             TypedQuery<Destination> query = em.createQuery(
             "SELECT d FROM Destination d", Destination.class);
             List<Destination> destinationsList = query.getResultList();
@@ -167,7 +156,7 @@ public class DestinationDAOImpl implements DestinationDAO{
             if (destination.getCountry() == null || destination.getCountry() == ""){
                 throw new IllegalArgumentException("country argument is null");
             }
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = factory.createEntityManager();
             em.getTransaction().begin();
             Destination destinationFromDB = em.find(Destination.class, destination.getId());
             em.getTransaction().commit();
@@ -205,7 +194,7 @@ public class DestinationDAOImpl implements DestinationDAO{
             if (destination.getCountry() == null || destination.getCountry() == ""){
                 throw new IllegalArgumentException("country argument is null");
             }
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = factory.createEntityManager();
             em.getTransaction().begin();
             Destination destinationFromDB = em.find(Destination.class, destination.getId());
             em.getTransaction().commit();

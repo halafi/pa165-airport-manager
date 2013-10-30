@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Juraj Duráni
  */
-public class DestinationDAOTest extends AbstractTest{
+public class DestinationDAOImplTest extends AbstractTest{
     
     private static final ResourceBundle bundle = ResourceBundle.getBundle("testing");
     private EntityManagerFactory emf;

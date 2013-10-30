@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.airportmanager.backend.JPAs;
 
-import cz.muni.fi.pa165.airportmanager.MainClass;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
@@ -15,13 +14,13 @@ import javax.persistence.Query;
  */
 public class AirplaneDAOImpl implements AirplaneDAO {
     
-//    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165_AirportManager-backend_jar_1.0-SNAPSHOTPU");
-    private final EntityManagerFactory emf;
-    
-    public AirplaneDAOImpl(EntityManagerFactory emf) {
+    private EntityManagerFactory emf;
+
+    public void setEmf(EntityManagerFactory emf) {
         this.emf = emf;
-    }
+    } 
     
+    @Override
     public void createAirplane(Airplane airplane) {
         
         if (airplane == null) {
@@ -43,6 +42,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         em.close();
     }
     
+    @Override
     public void updateAirplane(Airplane airplane) {
         
         if (airplane == null) {
@@ -68,6 +68,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         em.close();
     }
     
+    @Override
     public void removeAirplane(Airplane airplane) throws JPAException{
         
         if (airplane == null) {
@@ -93,6 +94,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         em.close();
     }
     
+    @Override
     public Airplane getAirplane(Long id) throws JPAException{
         
         if (id == null) {
@@ -114,6 +116,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         
     }
     
+    @Override
     public List<Airplane> getAllAirplanes() {
         
         EntityManager em = emf.createEntityManager();
@@ -125,6 +128,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         return airplanes;
     }
     
+    @Override
     public List<Flight> getAllAirplanesFlights(Airplane airplane) {
         
         if (airplane == null) {

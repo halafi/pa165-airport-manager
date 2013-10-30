@@ -21,23 +21,46 @@
     <!--Tells Spring framework to read @Transactional annotation-->
     <!--<tx:annotation-config/>-->
     <!--Automatically adds transaction support which eventually wraps your code in transaction scope-->
-    <!--<tx:annotation-driven  transaction-manager="txManager"/>-->
+    
     <context:component-scan base-package="cz.muni.fi.pa165"/>
+    <tx:annotation-driven />
     <!--<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>-->
     
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
       <property name="dataSource" ref="dataSource" />
     </bean>
+   
     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <!--<property name="persistenceUnitName" value="InMemoryTestPU" />-->
-        <!--<property name="dataSource" ref="dataSource" />-->
         <property name="persistenceUnitName" value="AirportManager" />
+        
+        <!--<property name="dataSource" ref="dataSource" />-->
     </bean>
     
-     <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl" >
+<!--     <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl" >
          <property name="factory" ref="entityManagerFactory"/>
      </bean>
+     
+     <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl" >
+         <property name="factory" ref="entityManagerFactory"/>
+     </bean>
+     
+    <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl" >
+        <property name="factory" ref="entityManagerFactory"/>
+    </bean>-->
+     
+    <!-- pridal MATUS - funguje to --> 
+    
+    <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl" >
+        <property name="emf" ref="entityManagerFactory"/>
+    </bean>
+     
+    <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.AirplaneServiceImpl">
+        <property name="airplaneDao" ref="airplaneDAO"/>
+    </bean>    
+    
+    <!-- koniec -->
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
