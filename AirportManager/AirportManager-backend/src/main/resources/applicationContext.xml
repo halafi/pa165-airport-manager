@@ -46,13 +46,21 @@
          <property name="factory" ref="entityManagerFactory"/>
      </bean>
      
-     <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl" >
-         <property name="factory" ref="entityManagerFactory"/>
-     </bean>
+    <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl" >
+        <property name="factory" ref="entityManagerFactory"/>
+    </bean>-->
      
-     <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl" >
-         <property name="factory" ref="entityManagerFactory"/>
-     </bean>-->
+    <!-- pridal MATUS - funguje to --> 
+    
+    <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl" >
+        <property name="emf" ref="entityManagerFactory"/>
+    </bean>
+     
+    <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.AirplaneServiceImpl">
+        <property name="airplaneDao" ref="airplaneDAO"/>
+    </bean>    
+    
+    <!-- koniec -->
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
