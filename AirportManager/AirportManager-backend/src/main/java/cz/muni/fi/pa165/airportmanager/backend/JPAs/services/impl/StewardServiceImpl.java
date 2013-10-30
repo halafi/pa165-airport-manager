@@ -15,18 +15,22 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Chorke
  */
-@Service
-@Transactional(readOnly = true)
+//@Service
+//@TransactionConfiguration(transactionManager = "transactionManager")
+//@Transactional(readOnly = true)
 public class StewardServiceImpl implements StewardService{
 
+    @Autowired
     private StewardDAO stewardDao;
 
     public void setStewardDao(StewardDAO stewardDao) {
@@ -34,7 +38,7 @@ public class StewardServiceImpl implements StewardService{
     }
     
     @Override
-    @Transactional(readOnly = false)
+//    @Transactional(readOnly = false)
     public void createSteward(StewardTO steward) throws DataAccessException {
         try{
             Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
@@ -45,7 +49,7 @@ public class StewardServiceImpl implements StewardService{
     }
 
     @Override
-    @Transactional(readOnly = false)
+//    @Transactional(readOnly = false)
     public void updateSteward(StewardTO steward) throws DataAccessException {
         try{
             Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
@@ -56,7 +60,7 @@ public class StewardServiceImpl implements StewardService{
     }
 
     @Override
-    @Transactional(readOnly = false)
+//    @Transactional(readOnly = false)
     public void removeSteward(StewardTO steward) throws DataAccessException {
         try{
             Steward stew = EntityDTOTransformer.stewardTOConvert(steward);

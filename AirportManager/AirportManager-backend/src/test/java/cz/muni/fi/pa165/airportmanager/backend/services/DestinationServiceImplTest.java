@@ -75,7 +75,8 @@ public class DestinationServiceImplTest extends AbstractTest{
     }
     
     private void setUpMock(){
-        
+        doThrow(IllegalArgumentException.class).when(destDao).createDestination(null);
+        //TODO
     }
     
     @Test

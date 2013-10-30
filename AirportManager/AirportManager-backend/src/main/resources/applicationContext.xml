@@ -23,7 +23,7 @@
     <!--Automatically adds transaction support which eventually wraps your code in transaction scope-->
     
     <context:component-scan base-package="cz.muni.fi.pa165"/>
-    <tx:annotation-driven />
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
@@ -40,6 +40,9 @@
     <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl" >
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+    
+    <!--drobne pridanie juraj-->
+    <bean id="fligthService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.FlightServiceImpl"/>
      
     <!-- pridal MATUS - funguje to --> 
     
@@ -57,16 +60,26 @@
         <property name="factory" ref="entityManagerFactory"/>
     </bean>
      
-    <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationServiceImpl">
+    <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl">
         <property name="DestinationDao" ref="destinationDAO"/>
     </bean>    
     <!-- end SAMO --> 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    
+    <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl" >
+         <property name="factory" ref="entityManagerFactory"/>
+     </bean>
+     
+     <bean id="stewardService" 
+           class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.StewardServiceImpl" >
+         <!--<property name="stewardDao" ref="stewDAO"/>-->
+     </bean>
+    
+<!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
         <property name="url" value="jdbc:derby://localhost:1527/AirportDB" />
         <property name="username" value="airportAdmin" />
         <property name="password" value="admin" />
-    </bean>
+    </bean>-->
     
     
 </beans>

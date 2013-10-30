@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -18,6 +19,7 @@ import javax.persistence.TypedQuery;
  */
 public class StewardDAOImpl implements StewardDAO{
 
+    @Autowired
     private EntityManagerFactory factory;
 
     public void setFactory(EntityManagerFactory factory) {
@@ -190,7 +192,7 @@ public class StewardDAOImpl implements StewardDAO{
 
     @Override
     public String toString() {
-        return super.toString() + "      " +factory.toString() + "   " 
+        return super.toString() + "      " + factory.getClass() + "   " 
                 + (factory instanceof EntityManagerFactory);
     }
  
