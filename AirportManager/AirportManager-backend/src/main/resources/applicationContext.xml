@@ -47,11 +47,11 @@
     <!-- pridal MATUS - funguje to --> 
     
     <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl" >
-        <property name="emf" ref="entityManagerFactory"/>
+<!--        <property name="emf" ref="entityManagerFactory"/>-->
     </bean>
      
     <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.AirplaneServiceImpl">
-        <!--<property name="airplaneDao" ref="airplaneDAO"/>-->
+        <property name="airplaneDao" ref="airplaneDAO"/>
     </bean>    
     
     <!-- koniec -->

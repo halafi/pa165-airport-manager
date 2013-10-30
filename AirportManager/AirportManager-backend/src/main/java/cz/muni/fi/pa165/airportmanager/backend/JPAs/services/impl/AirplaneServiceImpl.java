@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Matus Makovy
  */
+
 public class AirplaneServiceImpl implements AirplaneService {
 
     private AirplaneDAO airplaneDao;
@@ -41,6 +42,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
+    @Transactional
     public void updateAirplane(AirplaneTO airplane) throws DataAccessException {
 
         Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
@@ -54,6 +56,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
+    @Transactional
     public void removeAirplane(AirplaneTO airplane) throws DataAccessException {
 
         Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
@@ -66,6 +69,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
+    @Transactional
     public AirplaneTO getAirplane(Long id) throws DataAccessException {
         AirplaneTO airplaneTO;
 
@@ -79,6 +83,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
+    @Transactional
     public List<AirplaneTO> getAllAirplanes() throws DataAccessException {
 
         List<AirplaneTO> airplanesTO = new ArrayList<>();
@@ -99,6 +104,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
+    @Transactional
     public List<FlightTO> getAllAirplanesFlights(AirplaneTO airplane) throws DataAccessException {
 
         List<Flight> flights = new ArrayList<>();

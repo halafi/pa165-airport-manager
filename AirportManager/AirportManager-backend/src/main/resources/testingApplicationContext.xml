@@ -45,7 +45,7 @@
      </bean>
      
      <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl" >
-         <property name="emf" ref="entityManagerFactory"/>
+<!--         <property name="emf" ref="entityManagerFactory"/>-->
      </bean>
      
      <bean id="destService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl" />
