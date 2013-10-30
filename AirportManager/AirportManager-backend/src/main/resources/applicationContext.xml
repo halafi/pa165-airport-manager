@@ -23,11 +23,10 @@
     <!--Automatically adds transaction support which eventually wraps your code in transaction scope-->
     
     <context:component-scan base-package="cz.muni.fi.pa165"/>
-    <tx:annotation-driven />
-    <!--<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>-->
+    <tx:annotation-driven transaction-manager="txManager"/>
     
-    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-      <property name="dataSource" ref="dataSource" />
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
    
     

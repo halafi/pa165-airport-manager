@@ -17,12 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Chorke
  */
 @Service
+@Transactional(readOnly = true)
 public class StewardServiceImpl implements StewardService{
 
     private StewardDAO stewardDao;
@@ -32,6 +34,7 @@ public class StewardServiceImpl implements StewardService{
     }
     
     @Override
+    @Transactional(readOnly = false)
     public void createSteward(StewardTO steward) throws DataAccessException {
         try{
             Steward stew = EntityDTOTransformer.getStewardEntity(steward);
@@ -42,6 +45,7 @@ public class StewardServiceImpl implements StewardService{
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void updateSteward(StewardTO steward) throws DataAccessException {
         try{
             Steward stew = EntityDTOTransformer.getStewardEntity(steward);
@@ -52,6 +56,7 @@ public class StewardServiceImpl implements StewardService{
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void removeSteward(StewardTO steward) throws DataAccessException {
         try{
             Steward stew = EntityDTOTransformer.getStewardEntity(steward);

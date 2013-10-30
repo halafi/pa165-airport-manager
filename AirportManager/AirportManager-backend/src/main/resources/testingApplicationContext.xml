@@ -16,6 +16,12 @@
     
     <context:component-scan base-package="cz.muni.fi.pa165"/>
     
+    <tx:annotation-driven transaction-manager="txManager"/>
+    
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
  	<property name="location">
             <value>testing.properties</value>

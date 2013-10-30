@@ -32,7 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class DestinationDAOImplTest extends AbstractTest{
     
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("testing");
+//    private static final ResourceBundle bundle = ResourceBundle.getBundle("testing");
+    
+    @Autowired
     private EntityManagerFactory emf;
     private EntityManager manager;
     
@@ -41,15 +43,21 @@ public class DestinationDAOImplTest extends AbstractTest{
     
     @Before
     public void init(){
-        emf = Persistence.createEntityManagerFactory(bundle.getString("testingUNIT"));
+//        emf = Persistence.createEntityManagerFactory(bundle.getString("testingUNIT"));
         manager = emf.createEntityManager();
     }
     
     @After
     public void closing(){
+//        manager.getTransaction().begin();
+//        manager.createQuery("DELETE FROM Steward s").executeUpdate();
+//        manager.createQuery("DELETE FROM Airplane a").executeUpdate();
+//        manager.createQuery("DELETE FROM Flight f").executeUpdate();
+//        System.out.println(manager.createQuery("DELETE FROM Destination").executeUpdate());
+//        manager.getTransaction().commit();
         manager.clear();
         manager.close();
-        emf.close();
+//        emf.close();
     }
     
     @Test
