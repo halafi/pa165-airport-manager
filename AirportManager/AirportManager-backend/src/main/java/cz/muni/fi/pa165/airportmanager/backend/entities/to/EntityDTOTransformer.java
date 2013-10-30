@@ -1,16 +1,19 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities.to;
 
+import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 
 /**
  * Convertor for TO objects into entities.
+ *
  * @author Filip
  */
 public class EntityDTOTransformer {
+
     public static FlightTO flightToTO(Flight flight) {
-        if (flight == null)
+        if (flight == null) {
             throw new NullPointerException("flight is null");
-        else {
+        } else {
             FlightTO toReturn = new FlightTO();
             toReturn.setId(flight.getId());
             toReturn.setArrivalTime(flight.getArrivalTime());
@@ -21,5 +24,38 @@ public class EntityDTOTransformer {
             //toReturn.setAirplane(flight.getAirplane());
             return toReturn;
         }
+
+    }
+
+    public static Airplane AirplaneTOConvert(AirplaneTO airplaneTO) {
+        
+        if (airplaneTO == null) {
+            throw new IllegalArgumentException("airplaneTO is null");
+        }
+
+        Airplane airplane = new Airplane();
+
+        airplane.setCapacity(airplaneTO.getCapacity());
+        airplane.setId(airplaneTO.getId());
+        airplane.setName(airplaneTO.getName());
+        airplane.setType(airplaneTO.getType());
+
+        return airplane;
+    }
+
+    public static AirplaneTO AirplaneConvert(Airplane airplane) {
+        
+        if (airplane == null) {
+            throw new IllegalArgumentException("airplane is null");
+        }
+
+        AirplaneTO airplaneTO = new AirplaneTO();
+
+        airplaneTO.setCapacity(airplane.getCapacity());
+        airplaneTO.setId(airplane.getId());
+        airplaneTO.setName(airplane.getName());
+        airplaneTO.setType(airplane.getType());
+
+        return airplaneTO;
     }
 }
