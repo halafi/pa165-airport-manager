@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.ServiceDataAccessException;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.StewardService;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
+import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
@@ -77,13 +78,22 @@ public class StewardServiceImpl implements StewardService{
             }
             return out;
         } catch (IllegalArgumentException | JPAException ex){
-            throw new ServiceDataAccessException("Error by finding steward", ex);
+            throw new ServiceDataAccessException("Error by finding all stewards", ex);
         }
     }
 
     @Override
-    public List<FlightTO> getAllStewardsFlights() throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<FlightTO> getAllStewardsFlights(StewardTO steward) throws DataAccessException {
+        try{
+            Steward stew = StewardTO.getStewardEntity(steward);
+            List<Flight> flights = stewardDao.getAllStewardsFlights(stew);
+            List<FlightTO> out = new ArrayList<>(flights.size());
+            for(Flight f : flights){
+                //TODO
+            }
+            return out;
+        } catch (IllegalArgumentException | JPAException ex){
+            throw new ServiceDataAccessException("Error by finding all stewards flights", ex);
+        }
     }
-    
 }

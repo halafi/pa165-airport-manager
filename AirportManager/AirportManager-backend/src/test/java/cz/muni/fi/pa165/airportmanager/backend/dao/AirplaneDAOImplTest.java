@@ -38,7 +38,7 @@ public class AirplaneDAOImplTest {
     @BeforeClass
     public static void init(){
         emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
-        airDAO = new AirplaneDAOImpl(emf);
+//        airDAO = new AirplaneDAOImpl(emf);
     }
     
     @AfterClass

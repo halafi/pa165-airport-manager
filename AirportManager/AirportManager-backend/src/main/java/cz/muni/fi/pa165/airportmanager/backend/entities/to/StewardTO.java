@@ -38,6 +38,27 @@ public class StewardTO {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    @Override
+    public String toString() {
+        return "[" + id + "] " + firstName + " " + lastName;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(id == null
+                || obj == null
+                || !(obj instanceof StewardTO)){
+            return false;
+        }
+        StewardTO s = (StewardTO) obj;
+        return s.id == null ? false : s.id.equals(this.id);
+    }
     
     public static Steward getStewardEntity(StewardTO steward) throws IllegalArgumentException{
         if(steward == null){

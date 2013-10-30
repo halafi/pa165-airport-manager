@@ -11,7 +11,7 @@ import org.springframework.dao.DataAccessException;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 public interface StewardService {
     
@@ -25,5 +25,5 @@ public interface StewardService {
     
     List<StewardTO> findAllStewards() throws DataAccessException;
     
-    List<FlightTO> getAllStewardsFlights() throws DataAccessException;
+    List<FlightTO> getAllStewardsFlights(StewardTO steward) throws DataAccessException;
 }

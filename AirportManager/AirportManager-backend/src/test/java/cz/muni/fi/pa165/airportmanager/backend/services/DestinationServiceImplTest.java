@@ -4,14 +4,35 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
+import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationServiceImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+import org.junit.Before;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Juraj Duráni
  */
-public class DestinationServiceImplTest {
+public class DestinationServiceImplTest extends AbstractTest{
     
+    @Autowired
+    DestinationServiceImpl destService;
+    @Mock
+    DestinationDAO destDao;
+    
+    
+    @Before
+    public void setUp(){
+        MockitoAnnotations.initMocks(this);
+        System.out.println(destDao);
+        destService.setDestinationDao(destDao);
+    }
     
     @Test
     public void createTest(){
@@ -37,6 +58,17 @@ public class DestinationServiceImplTest {
     public void getAllTest(){
         //TODO
     }
+    
+    @Test
+    public void getAllIncomingFlightsTest(){
+        //TODO
+    }
+    
+    @Test
+    public void getAllOutcomingFlightsTest(){
+        //TODO
+    }
+    
     
     
 }
