@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.AirplaneTO;
+import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +28,14 @@ public class AirplaneServiceImpl implements AirplaneService{
     @Transactional
     public void createAirplane(AirplaneTO airplane) throws DataAccessException {
         
-        Airplane airplaneEntity = this.convertToEntity(airplane);
+        Airplane airplaneEntity = EntityDTOTransformer.AirplaneTOConvert(airplane);
 
         airplaneDao.createAirplane(airplaneEntity);
     }
 
     @Override
     public void updateAirplane(AirplaneTO airplane) throws DataAccessException {
-        Airplane airplaneEntity = this.convertToEntity(airplane);
+        Airplane airplaneEntity = EntityDTOTransformer.AirplaneTOConvert(airplane);
 
         airplaneDao.updateAirplane(airplaneEntity);
     }
@@ -42,7 +43,7 @@ public class AirplaneServiceImpl implements AirplaneService{
     @Override
     public void removeAirplane(AirplaneTO airplane) throws DataAccessException {
         
-        Airplane airplaneEntity = this.convertToEntity(airplane);
+        Airplane airplaneEntity = EntityDTOTransformer.AirplaneTOConvert(airplane);
         
         try {
             airplaneDao.removeAirplane(airplaneEntity);
@@ -56,7 +57,7 @@ public class AirplaneServiceImpl implements AirplaneService{
         AirplaneTO airplaneTO;
         
         try {
-            airplaneTO =  this.convertToTO(airplaneDao.getAirplane(id));
+            airplaneTO =  EntityDTOTransformer.AirplaneConvert(airplaneDao.getAirplane(id));
         } catch (JPAException ex) {
             throw new DataRetrievalFailureException(ex.getMessage());
         }
@@ -71,7 +72,7 @@ public class AirplaneServiceImpl implements AirplaneService{
         List<Airplane> airplanes = airplaneDao.getAllAirplanes();
         
         for(Airplane a : airplanes) {
-            AirplaneTO airplaneTO = this.convertToTO(a);
+            AirplaneTO airplaneTO = EntityDTOTransformer.AirplaneConvert(a);
             airplanesTO.add(airplaneTO);
         }
         
@@ -83,28 +84,4 @@ public class AirplaneServiceImpl implements AirplaneService{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    
-    private Airplane convertToEntity(AirplaneTO airplaneTO){
-        
-        Airplane airplane = new Airplane();
-        
-        airplane.setCapacity(airplaneTO.getCapacity());
-        airplane.setId(airplaneTO.getId());
-        airplane.setName(airplaneTO.getName());
-        airplane.setType(airplaneTO.getType());
-        
-        return airplane;
-    }
-    
-    private AirplaneTO convertToTO(Airplane airplane){
-        
-        AirplaneTO airplaneTO = new AirplaneTO();
-        
-        airplaneTO.setCapacity(airplane.getCapacity());
-        airplaneTO.setId(airplane.getId());
-        airplaneTO.setName(airplane.getName());
-        airplaneTO.setType(airplane.getType());
-        
-        return airplaneTO;
-    }
 }

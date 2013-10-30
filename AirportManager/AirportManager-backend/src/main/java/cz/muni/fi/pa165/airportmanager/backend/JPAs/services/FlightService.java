@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.JPAs.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
@@ -10,19 +7,51 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 /**
- *
- * @author Juraj Duráni
+ * service layer that uses DAO layer
+ * 
+ * @author Filip
  */
 public interface FlightService {
     
-    void createFlight(Flight flight) throws DataAccessException;
+    /**
+     * Creates Flight in DB.
+     * 
+     * @param flightTO flightTO to be created
+     * @throws ServiceDataAccessException
+     */
+    void createFlight(FlightTO flightTO) throws ServiceDataAccessException;
     
-    void updateFlight(Flight flight) throws DataAccessException;
+    /**
+     * Updates Flight in DB.
+     * 
+     * @param flightTO flightTO to be removed
+     * @throws ServiceDataAccessException
+     */
+    void updateFlight(FlightTO flightTO) throws ServiceDataAccessException;
     
-    void removeFlight(FlightTO flight) throws DataAccessException;
+    /**
+     * Removes Flight from DB
+     * 
+     * @param flightTO flightTO to be removed
+     * @throws ServiceDataAccessException
+     */
+    void removeFlight(FlightTO flightTO) throws ServiceDataAccessException;
     
-    FlightTO getFlight(Long id) throws DataAccessException;
+    /**
+     * Finds and return flightTO in DB according to id
+     * 
+     * @param id id of flightTO
+     * @return found flight
+     * @throws ServiceDataAccessException
+     */
+    FlightTO getFlight(Long id) throws ServiceDataAccessException;
     
-    List<FlightTO> getAllFlights() throws DataAccessException;
+    /**
+     * Finds all flights in DB
+     * 
+     * @return List of FlightTOs in DB
+     * @throws ServiceataAccessException
+     */
+    List<FlightTO> getAllFlights() throws ServiceDataAccessException;
     
 }
