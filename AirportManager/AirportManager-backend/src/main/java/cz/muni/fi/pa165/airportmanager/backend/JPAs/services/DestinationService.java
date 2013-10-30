@@ -5,6 +5,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.JPAs.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.DestinationTO;
+import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
 
@@ -39,4 +40,8 @@ public interface DestinationService {
      * @return List of all destinations
      */
     public List<DestinationTO> getAllDestinations() throws DataAccessException;
+    
+    public List<FlightTO> getAllIncomingFlights(DestinationTO destination) throws DataAccessException;
+    
+    public List<FlightTO> getAllOutcomingFlights(DestinationTO destination) throws DataAccessException;
 }

@@ -4,6 +4,10 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.entities.to;
 
+import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
+import java.util.List;
+import java.util.Objects;
+
 /**
  *
  * @author Samo
@@ -13,6 +17,24 @@ public class DestinationTO {
     private String code;
     private String country;
     private String city;
+    private List<Flight> incoming;
+    private List<Flight> outcoming;
+
+    public List<Flight> getIncoming() {
+        return incoming;
+    }
+
+    public void setIncoming(List<Flight> incoming) {
+        this.incoming = incoming;
+    }
+
+    public List<Flight> getOutcoming() {
+        return outcoming;
+    }
+
+    public void setOutcoming(List<Flight> outcoming) {
+        this.outcoming = outcoming;
+    }
 
     public Long getId() {
         return id;
@@ -44,6 +66,31 @@ public class DestinationTO {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.code);
+        hash = 53 * hash + Objects.hashCode(this.country);
+        hash = 53 * hash + Objects.hashCode(this.city);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DestinationTO other = (DestinationTO) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
     
     
