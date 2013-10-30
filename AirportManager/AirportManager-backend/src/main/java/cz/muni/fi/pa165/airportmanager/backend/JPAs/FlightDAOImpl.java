@@ -22,6 +22,7 @@ public class FlightDAOImpl implements FlightDAO {
         this.factory = factory;
     }
     
+    @Override
     public void createFlight(Flight flight) throws IllegalArgumentException {
         if(flight == null) {
             throw new IllegalArgumentException("Flight is null.");
@@ -46,6 +47,7 @@ public class FlightDAOImpl implements FlightDAO {
         }
     }
     
+    @Override
     public void updateFlight(Flight flight) throws JPAException, IllegalArgumentException {
         if(flight == null) {
             throw new IllegalArgumentException("Flight is null.");
@@ -73,6 +75,7 @@ public class FlightDAOImpl implements FlightDAO {
         }
     }
     
+    @Override
     public void removeFlight(Flight flight) throws JPAException, IllegalArgumentException {
         if(flight == null) {
             throw new IllegalArgumentException("Flight flight to be removed is null.");
@@ -91,6 +94,7 @@ public class FlightDAOImpl implements FlightDAO {
         }
     }
     
+    @Override
     public Flight getFlight(Long id) throws JPAException, IllegalArgumentException {
         if(id == null) {
             throw new IllegalArgumentException("Id is null.");
@@ -104,6 +108,7 @@ public class FlightDAOImpl implements FlightDAO {
         return toReturn;
     }
     
+    @Override
     public List<Flight> getAllFlight() throws JPAException{
         EntityManager em = factory.createEntityManager();
         Query query = em.createQuery("SELECT p FROM Flight p ");

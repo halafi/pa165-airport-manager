@@ -77,12 +77,22 @@ public class FlightServiceImpl implements FlightService {
         if(flightTO == null) {
             throw new ServiceDataAccessException("flightTO is null.");
         }
+        try {
+            flightDAO.updateFlight(EntityDTOTransformer.flightTOConvert(flightTO));
+        } catch (JPAException | IllegalArgumentException ex) {
+            throw new ServiceDataAccessException("Error when updating flight (service).", ex);
+        }
     }
 
     @Override
     public void removeFlight(FlightTO flightTO) throws ServiceDataAccessException {
         if(flightTO == null) {
             throw new ServiceDataAccessException("flightTO is null.");
+        }
+        try {
+            flightDAO.removeFlight(EntityDTOTransformer.flightTOConvert(flightTO));
+        } catch (JPAException | IllegalArgumentException ex) {
+            throw new ServiceDataAccessException("Error when removing flight (service).", ex);
         }
     }
 

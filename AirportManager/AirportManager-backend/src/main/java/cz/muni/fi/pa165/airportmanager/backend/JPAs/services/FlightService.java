@@ -50,7 +50,7 @@ public interface FlightService {
      * Finds all flights in DB
      * 
      * @return List of FlightTOs in DB
-     * @throws ServiceataAccessException
+     * @throws ServiceDataAccessException
      */
     List<FlightTO> getAllFlights() throws ServiceDataAccessException;
     
