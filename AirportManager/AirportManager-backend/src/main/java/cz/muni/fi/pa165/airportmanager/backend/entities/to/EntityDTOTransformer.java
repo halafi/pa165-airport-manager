@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.airportmanager.backend.entities.to;
 
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
+import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 
 /**
  * Convertor for TO objects into entities.
@@ -57,5 +58,27 @@ public class EntityDTOTransformer {
         airplaneTO.setType(airplane.getType());
 
         return airplaneTO;
+    }
+    
+    public static Steward getStewardEntity(StewardTO steward) throws IllegalArgumentException{
+        if(steward == null){
+            throw new IllegalArgumentException("Steward can not be null");
+        }
+        Steward stew = new Steward();
+        stew.setFirstName(new StringBuilder(steward.getFirstName()).toString());
+        stew.setLastName(new StringBuilder(steward.getLastName()).toString());
+        stew.setId(new Long(steward.getId().longValue()));
+        return stew;
+    }
+    
+    public static StewardTO getStewardTransferObject(Steward steward) throws IllegalArgumentException{
+        if(steward == null){
+            throw new IllegalArgumentException("Steward can not be null");
+        }
+        StewardTO stew = new StewardTO();
+        stew.setFirstName(new StringBuilder(steward.getFirstName()).toString());
+        stew.setLastName(new StringBuilder(steward.getLastName()).toString());
+        stew.setId(new Long(steward.getId().longValue()));
+        return stew;
     }
 }

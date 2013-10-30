@@ -4,7 +4,6 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.entities.to;
 
-import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 
 /**
  *
@@ -58,27 +57,5 @@ public class StewardTO {
         }
         StewardTO s = (StewardTO) obj;
         return s.id == null ? false : s.id.equals(this.id);
-    }
-    
-    public static Steward getStewardEntity(StewardTO steward) throws IllegalArgumentException{
-        if(steward == null){
-            throw new IllegalArgumentException("Steward can not be null");
-        }
-        Steward stew = new Steward();
-        stew.setFirstName(new StringBuilder(steward.firstName).toString());
-        stew.setLastName(new StringBuilder(steward.lastName).toString());
-        stew.setId(new Long(steward.id.longValue()));
-        return stew;
-    }
-    
-    public static StewardTO getStewardTransferObject(Steward steward) throws IllegalArgumentException{
-        if(steward == null){
-            throw new IllegalArgumentException("Steward can not be null");
-        }
-        StewardTO stew = new StewardTO();
-        stew.firstName = new StringBuilder(steward.getFirstName()).toString();
-        stew.lastName = new StringBuilder(steward.getLastName()).toString();
-        stew.id = new Long(steward.getId().longValue());
-        return stew;
     }
 }
