@@ -1,10 +1,16 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities.to;
 
+import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ * A data transfer object is a simple POJO that only contains the properties
+ * required for the client-side representation. The DTO only contains the data
+ * that we want to persist and none of the lazy loading or persistence logic
+ * added by the JPA instrumentation.
+ * 
  * @author Filip
  */
 public class FlightTO {
@@ -13,6 +19,30 @@ public class FlightTO {
     private Timestamp arrivalTime;
     private DestinationTO origin;
     private DestinationTO target;
+    private List<StewardTO> stewList;
+    private Airplane plane;
+
+    @Override
+    public String toString() {
+        return "FlightTO{" + "id=" + id + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", origin=" + origin + ", target=" + target + ", stewList=" + stewList + ", plane=" + plane + '}';
+    }
+
+    public List<StewardTO> getStewList() {
+        return stewList;
+    }
+
+    public void setStewList(List<StewardTO> stewList) {
+        this.stewList = stewList;
+    }
+
+    public Airplane getPlane() {
+        return plane;
+    }
+
+    public void setPlane(Airplane plane) {
+        this.plane = plane;
+    }
+
 
     public Long getId() {
         return id;
@@ -76,10 +106,7 @@ public class FlightTO {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "FlightTO{" + "id=" + id + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", origin=" + origin + ", target=" + target + '}';
-    }
+   
 
     
 }
