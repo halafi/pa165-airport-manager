@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities.to;
 
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
+import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 
@@ -81,4 +82,28 @@ public class EntityDTOTransformer {
         stew.setId(new Long(steward.getId().longValue()));
         return stew;
     }
+    
+    public static Destination getDestinationEntity(DestinationTO destinationTo){
+        if (destinationTo == null){
+            throw new IllegalArgumentException("DestinationTo is null");
+        }
+        Destination destination = new Destination();
+        destination.setId(new Long(destinationTo.getId()));
+        destination.setCity(destinationTo.getCity());
+        destination.setCode(destinationTo.getCode());
+        destination.setCountry(destinationTo.getCountry());
+        return destination;
+    }
+    
+    public static DestinationTO getDestinationTO(Destination destination){
+        if (destination == null){
+            throw new IllegalArgumentException("Destination is null");
+        }
+        DestinationTO destinationTo = new DestinationTO();
+        destinationTo.setId(new Long(destination.getId()));
+        destinationTo.setCity(destination.getCity());
+        destinationTo.setCode(destination.getCode());
+        destinationTo.setCountry(destination.getCountry());
+        return destinationTo;
+    } 
 }
