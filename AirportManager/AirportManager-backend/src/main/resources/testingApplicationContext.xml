@@ -30,6 +30,10 @@
          <property name="factory" ref="entityManagerFactory"/>
      </bean>
      
+     <bean id="fligDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl" >
+         <property name="entityManagerFactory" ref="entityManagerFactory"/>
+     </bean>
+     
      <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl" >
          <property name="factory" ref="entityManagerFactory"/>
      </bean>

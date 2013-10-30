@@ -65,9 +65,9 @@ public class EntityDTOTransformer {
             throw new IllegalArgumentException("Steward can not be null");
         }
         Steward stew = new Steward();
-        stew.setFirstName(new StringBuilder(steward.getFirstName()).toString());
-        stew.setLastName(new StringBuilder(steward.getLastName()).toString());
-        stew.setId(new Long(steward.getId().longValue()));
+        stew.setFirstName(steward.getFirstName());
+        stew.setLastName(steward.getLastName());
+        stew.setId(steward.getId());
         return stew;
     }
     
@@ -76,9 +76,9 @@ public class EntityDTOTransformer {
             throw new IllegalArgumentException("Steward can not be null");
         }
         StewardTO stew = new StewardTO();
-        stew.setFirstName(new StringBuilder(steward.getFirstName()).toString());
-        stew.setLastName(new StringBuilder(steward.getLastName()).toString());
-        stew.setId(new Long(steward.getId().longValue()));
+        stew.setFirstName(steward.getFirstName());
+        stew.setLastName(steward.getLastName());
+        stew.setId(steward.getId());
         return stew;
     }
 }
