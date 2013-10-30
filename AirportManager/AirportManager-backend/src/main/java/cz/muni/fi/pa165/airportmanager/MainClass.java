@@ -73,11 +73,56 @@ public class MainClass {
 //        AnnotationConfigApplicationContext con = new AnnotationConfigApplicationContext(Config.class);
 //        con.register(StewardDAOImpl.class);
 //        con.refresh();
-        ApplicationContext con = new ClassPathXmlApplicationContext("applicationContext.xml");
-        StewardDAO s = con.getBean(StewardDAOImpl.class);
-        System.out.println(s);
-        
+//        ApplicationContext con = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        StewardDAO s = con.getBean(StewardDAOImpl.class);
+//        System.out.println(s);
+//        String s = "last name";
+//        Long l = new Long(1);
+//        Steward stew = new Steward();
+//        stew.setLastName(s);
+//        stew.setId(l);
+//        System.out.println(s);
+//        System.out.println(l);
+//        System.out.println(stew.getLastName());
+//        System.out.println(stew.getId());
+//        s = "aaa";
+//        System.out.println(s);
+//        System.out.println(l);
+//        System.out.println(stew.getLastName());
+//        System.out.println(stew.getId());
+//        ChorkeClass chc = new ChorkeClass();
+//        ChorkeSubClass chsc = new ChorkeSubClass();
+//        chsc.s = "first";
+//        
+//        chc.cl = chsc;
+//        
+//        ChorkeClass clazz = (ChorkeClass)chc.clone();
+//        System.out.println(chc.cl.s);
+//        System.out.println(clazz.cl.s);
+//        
+//        chc.cl.s = "second";
+//        System.out.println(chc.cl.s);
+//        System.out.println(clazz.cl.s);
     }
+    
+//    private static class ChorkeClass implements Cloneable{
+//        ChorkeSubClass cl;
+//
+//        @Override
+//        protected Object clone() {
+//            try{
+//                ChorkeClass c = (ChorkeClass) super.clone();
+//                c.cl = this.cl;
+//                return c;
+//            } catch (CloneNotSupportedException ex){}
+//            return null;
+//        }
+//        
+//    }
+//    
+//    private static class ChorkeSubClass {
+//        private String s;
+//    }
     
     private static void halafiTest() {
 //        EntityManager man = EM_FACTORY.createEntityManager();

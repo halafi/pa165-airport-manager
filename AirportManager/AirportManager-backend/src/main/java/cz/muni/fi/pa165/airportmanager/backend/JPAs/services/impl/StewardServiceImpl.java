@@ -16,14 +16,16 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Chorke
  */
+@Service
 public class StewardServiceImpl implements StewardService{
 
-    StewardDAO stewardDao;
+    private StewardDAO stewardDao;
 
     public void setStewardDao(StewardDAO stewardDao) {
         this.stewardDao = stewardDao;
@@ -90,7 +92,7 @@ public class StewardServiceImpl implements StewardService{
             List<Flight> flights = stewardDao.getAllStewardsFlights(stew);
             List<FlightTO> out = new ArrayList<>(flights.size());
             for(Flight f : flights){
-                //TODO
+                out.add(EntityDTOTransformer.flightToTO(f));
             }
             return out;
         } catch (IllegalArgumentException | JPAException ex){
