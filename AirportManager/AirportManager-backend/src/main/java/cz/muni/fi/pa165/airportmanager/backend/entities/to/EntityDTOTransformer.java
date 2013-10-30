@@ -4,6 +4,8 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Convertor for TO objects into entities.
@@ -12,7 +14,7 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
  */
 public class EntityDTOTransformer {
 
-    public static FlightTO flightToTO(Flight flight) {
+    public static FlightTO flightConvert(Flight flight) {
         if (flight == null) {
             throw new NullPointerException("flight is null");
         } else {
@@ -20,16 +22,39 @@ public class EntityDTOTransformer {
             toReturn.setId(flight.getId());
             toReturn.setArrivalTime(flight.getArrivalTime());
             toReturn.setDepartureTime(flight.getDepartureTime());
-            //toReturn.setOrigin(flight.getOrigin());
-            //toReturn.setTarget(flight.getTarget());
-            //toReturn.setStewardList(flight.getStewardList());
-            //toReturn.setAirplane(flight.getAirplane());
+            toReturn.setOrigin(destinationConvert(flight.getOrigin()));
+            toReturn.setTarget(destinationConvert(flight.getTarget()));
+            List<StewardTO> stewTOs = new ArrayList<>(flight.getStewardList().size());
+            for(Steward s : flight.getStewardList()){
+                stewTOs.add(EntityDTOTransformer.stewardConvert(s));
+            }
+            toReturn.setStewList(stewTOs);
+            toReturn.setAirplaneTO(airplaneConvert(flight.getAirplane()));
             return toReturn;
         }
-
+    }
+    
+    public static Flight flightTOConvert(FlightTO flightTO) {
+        if (flightTO == null) {
+            throw new NullPointerException("flightTO is null");
+        }
+        Flight toReturn = new Flight();
+        toReturn.setId(flightTO.getId());
+        toReturn.setArrivalTime(flightTO.getArrivalTime());
+        toReturn.setDepartureTime(flightTO.getDepartureTime());
+        toReturn.setAirplane(airplaneTOConvert(flightTO.getAirplaneTO()));
+        toReturn.setOrigin(destinationTOConvert(flightTO.getOrigin()));
+        toReturn.setTarget(destinationTOConvert(flightTO.getTarget()));
+        List<Steward> stews = new ArrayList<>(flightTO.getStewList().size());
+            for(StewardTO s : flightTO.getStewList()){
+                stews.add(EntityDTOTransformer.stewardTOConvert(s));
+            }
+        toReturn.setStewardList(stews);
+        return toReturn;
+        
     }
 
-    public static Airplane AirplaneTOConvert(AirplaneTO airplaneTO) {
+    public static Airplane airplaneTOConvert(AirplaneTO airplaneTO) {
         
         if (airplaneTO == null) {
             throw new IllegalArgumentException("airplaneTO is null");
@@ -45,7 +70,7 @@ public class EntityDTOTransformer {
         return airplane;
     }
 
-    public static AirplaneTO AirplaneConvert(Airplane airplane) {
+    public static AirplaneTO airplaneConvert(Airplane airplane) {
         
         if (airplane == null) {
             throw new IllegalArgumentException("airplane is null");
@@ -61,7 +86,7 @@ public class EntityDTOTransformer {
         return airplaneTO;
     }
     
-    public static Steward getStewardEntity(StewardTO steward) throws IllegalArgumentException{
+    public static Steward stewardTOConvert(StewardTO steward) throws IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Steward can not be null");
         }
@@ -72,7 +97,7 @@ public class EntityDTOTransformer {
         return stew;
     }
     
-    public static StewardTO getStewardTransferObject(Steward steward) throws IllegalArgumentException{
+    public static StewardTO stewardConvert(Steward steward) throws IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Steward can not be null");
         }
@@ -83,7 +108,7 @@ public class EntityDTOTransformer {
         return stew;
     }
     
-    public static Destination getDestinationEntity(DestinationTO destinationTo){
+    public static Destination destinationTOConvert(DestinationTO destinationTo){
         if (destinationTo == null){
             throw new IllegalArgumentException("DestinationTo is null");
         }
@@ -95,7 +120,7 @@ public class EntityDTOTransformer {
         return destination;
     }
     
-    public static DestinationTO getDestinationTO(Destination destination){
+    public static DestinationTO destinationConvert(Destination destination){
         if (destination == null){
             throw new IllegalArgumentException("Destination is null");
         }

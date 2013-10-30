@@ -20,12 +20,22 @@ public class FlightTO {
     private DestinationTO origin;
     private DestinationTO target;
     private List<StewardTO> stewList;
-    private Airplane plane;
+    private AirplaneTO airplaneTO;
+
+    public AirplaneTO getAirplaneTO() {
+        return airplaneTO;
+    }
+
+    public void setAirplaneTO(AirplaneTO airplaneTO) {
+        this.airplaneTO = airplaneTO;
+    }
 
     @Override
     public String toString() {
-        return "FlightTO{" + "id=" + id + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", origin=" + origin + ", target=" + target + ", stewList=" + stewList + ", plane=" + plane + '}';
+        return "FlightTO{" + "id=" + id + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", origin=" + origin + ", target=" + target + ", stewList=" + stewList + ", airplaneTO=" + airplaneTO + '}';
     }
+
+
 
     public List<StewardTO> getStewList() {
         return stewList;
@@ -35,13 +45,6 @@ public class FlightTO {
         this.stewList = stewList;
     }
 
-    public Airplane getPlane() {
-        return plane;
-    }
-
-    public void setPlane(Airplane plane) {
-        this.plane = plane;
-    }
 
 
     public Long getId() {
