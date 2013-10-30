@@ -60,7 +60,15 @@
     </bean>    
     
     <!-- koniec -->
-
+    <!-- begin Samo --> 
+    <bean id="destinationDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl" >
+        <property name="factory" ref="entityManagerFactory"/>
+    </bean>
+     
+    <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationServiceImpl">
+        <property name="DestinationDao" ref="destinationDAO"/>
+    </bean>    
+    <!-- end SAMO --> 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
         <property name="url" value="jdbc:derby://localhost:1527/AirportDB" />
