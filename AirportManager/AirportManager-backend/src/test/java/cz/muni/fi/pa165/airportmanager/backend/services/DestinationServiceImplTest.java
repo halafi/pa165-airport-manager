@@ -6,6 +6,8 @@ package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.ServiceDataAccessException;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
@@ -175,24 +177,140 @@ public class DestinationServiceImplTest extends AbstractTest{
         
     }
     
+    /**
+     * testuje sa aj getDestination(...) čiastočne
+     */
     @Test
     public void createTest(){
 //        destService.createDestination(destWithNullID);
+        try{
+            destService.createDestination(null);
+            fail("Create test - null argument");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Create test - null argument - bad exception");
+        }
+        try{
+            destService.createDestination(destRemovedFromDB);
+            fail("Create test - argument with nonnull ID");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Create test - argument with nonnull ID - bad exception");
+        }
+        try{
+            destService.createDestination(destWithNullAtributesAndID);
+            fail("Create test - null atributes");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Create test - null atributes - bad exception");
+        }
+        try{
+            destService.createDestination(destWithEmptyAtributesAndNullID);
+            fail("Create test - emptu atributes");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Create test - empty atributes - bad exception");
+        }
+        try{
+            destService.createDestination(destWithNullID);
+            Destination des = new Destination();
+            des.setCity(destWithNullID.getCity());
+            des.setCode(destWithNullID.getCode());
+            des.setCountry(destWithNullID.getCountry());
+            des.setId(-1L);
+            when(destDao.getDestination(-1L)).thenReturn(des);
+            DestinationTO desTO = destService.getDestination(-1L);
+            assertDeepEquals(desTO, EntityDTOTransformer.destinationConvert(des));
+            when(destDao.getDestination(-1L)).thenReturn(null);
+        } catch (ServiceDataAccessException ex){
+            fail("Create test - OK argument - exception thrown");
+        } catch (Exception ex){
+            fail("Create test - OK argument - bad exception");
+        }
     }
     
+    /**
+     * čiastočne aj getDestination(...)
+     */
     @Test
     public void removeTest(){
-        //TODO
+        try{
+            destService.removeDestination(null);
+            fail("Remove test - null argument");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Remove test - null argument - bad exception");
+        }
+        try{
+            destService.removeDestination(destWithNullID);
+            fail("Remove test - null ID");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Remove test - null ID - bad exception");
+        }
+        try{
+            destService.removeDestination(destRemovedFromDB);
+            fail("Remove test - argument not in DB");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Remove test - argument not in DB - bad exception");
+        }
+        try{
+            destService.removeDestination(destInDB1);
+            when(destDao.getDestination(destInDB1.getId())).thenThrow(JPAException.class);
+        } catch (ServiceDataAccessException ex){
+            fail("Remove test - OK argument - exception thrown");
+        } catch (Exception ex){
+            fail("Remove test - OK argument - bad exception");
+        }
+        
+        try{
+            DestinationTO d = destService.getDestination(destInDB1.getId());
+            if(d != null){
+                fail("Remove test - not removed");
+            }
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Remove test - removed - bad exception");
+        }
+        // navrátenie do pôvodného stavu
+        try{
+            when(destDao.getDestination(destInDB1.getId()))
+                .thenReturn(EntityDTOTransformer.destinationTOConvert(destInDB1));
+        } catch (JPAException ex){}
     }
     
+    /** 
+     * čiastočne aj getDestination(...)
+     */
     @Test
     public void updateTest(){
-        //TODO
+        try{
+            destService.updateDestination(null);
+            fail("Update test - null argument");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Update test - null argument - bad exception");
+        }
+        try{
+            destService.updateDestination(destWithNullID);
+            fail("Update test - null ID");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Update test - null ID - bad exception");
+        }
+        try{
+            destService.updateDestination(destWithEmptyAtributes);
+            fail("Update test - empty atributes");
+        } catch (ServiceDataAccessException ex){
+        } catch (Exception ex){
+            fail("Update test - empty atributes - bad exception");
+        }
     }
     
     @Test
     public void getTest(){
-        //TODO
+//        System.out.println(destService.getDestination(2L));
     }
     
     @Test
@@ -248,5 +366,12 @@ public class DestinationServiceImplTest extends AbstractTest{
         ls.add(s);
         f.setStewList(ls);
         return f;
+    }
+    
+    private void assertDeepEquals(DestinationTO des1, DestinationTO des2){
+        assertEquals(des1.getId(), des2.getId());
+        assertEquals(des1.getCity(), des2.getCity());
+        assertEquals(des1.getCode(), des2.getCode());
+        assertEquals(des1.getCountry(), des2.getCountry());
     }
 }

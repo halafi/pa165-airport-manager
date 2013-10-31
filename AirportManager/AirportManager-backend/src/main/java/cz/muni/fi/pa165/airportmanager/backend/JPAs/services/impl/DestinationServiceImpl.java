@@ -29,21 +29,21 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void createDestination(DestinationTO destinationTo) throws DataAccessException {
         try{
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
             destinationDao.createDestination(destination);
         }catch(Exception e){
-//            throw new ServiceDataAccessException("Destination creating error " + e.getMessage());
-            throw new ServiceDataAccessException("Destination creating error ", e);
+            throw new ServiceDataAccessException("Destination creating error " + e.getMessage());
+//            throw new ServiceDataAccessException("Destination creating error ", e);
         }
         
         
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void updateDestination(DestinationTO destinationTo) throws DataAccessException {
         try{
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
@@ -54,7 +54,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void removeDestination(DestinationTO destinationTo) throws DataAccessException {
         try{
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
@@ -65,7 +65,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public DestinationTO getDestination(Long id) throws DataAccessException {
         try{
             Destination destination = destinationDao.getDestination(id);
@@ -76,7 +76,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public List<DestinationTO> getAllDestinations() throws DataAccessException {
         try{
             List<DestinationTO> destinationsToList = new ArrayList<DestinationTO>();
@@ -93,7 +93,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public List<FlightTO> getAllIncomingFlights(DestinationTO destinationTo) throws DataAccessException {
         try{
             List<FlightTO> flightsToList = new ArrayList<FlightTO>();
@@ -111,7 +111,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public List<FlightTO> getAllOutcomingFlights(DestinationTO destinationTo) throws DataAccessException {
         try{
             List<FlightTO> flightsToList = new ArrayList<FlightTO>();
