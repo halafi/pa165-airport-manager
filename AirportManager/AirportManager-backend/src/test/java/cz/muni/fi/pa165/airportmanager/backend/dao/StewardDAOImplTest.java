@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -17,7 +17,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Filip
  */
-//@Transactional
+@Transactional
 public class StewardDAOImplTest extends AbstractTest {
     
     @Autowired
@@ -106,12 +105,12 @@ public class StewardDAOImplTest extends AbstractTest {
         List<Flight> actual = stewDAO.getAllStewardsFlights(steward1);
         assertEquals(expected, actual);
         
-        List<Steward> stewList = new ArrayList<Steward>();
+        List<Steward> stewList = new ArrayList<>();
         stewList.add(steward1);
         
         Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest2,plane1,stewList);
         em.persist(flight1);
-        List<Flight> flightList = new ArrayList<Flight>();
+        List<Flight> flightList = new ArrayList<>();
         flightList.add(flight1);
         
         assertEquals(stewDAO.getAllStewardsFlights(steward1),flightList);

@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractServiceTest;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.StewardServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
@@ -88,6 +88,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
     public void testFindSteward() throws JPAException {
         StewardTO expected = newStewardTO("Elaine","Dickinson");
         try {
+            expected.setId(new Long(1));
             service.createSteward(expected);
             StewardTO actual = service.findSteward(expected.getId());
             verify(stewDAO).getSteward(expected.getId());
