@@ -14,7 +14,6 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +35,8 @@ public class DestinationServiceImpl implements DestinationService {
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
             destinationDao.createDestination(destination);
         }catch(Exception e){
-            throw new ServiceDataAccessException("Destination creating error"+ e.getMessage());
+//            throw new ServiceDataAccessException("Destination creating error " + e.getMessage());
+            throw new ServiceDataAccessException("Destination creating error ", e);
         }
         
         
@@ -49,7 +49,7 @@ public class DestinationServiceImpl implements DestinationService {
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
             destinationDao.updateDestination(destination);
         }catch(Exception e){
-            throw new ServiceDataAccessException("Destination updating error"+ e.getMessage());
+            throw new ServiceDataAccessException("Destination updating error "+ e.getMessage());
         }
     }
 
@@ -60,7 +60,7 @@ public class DestinationServiceImpl implements DestinationService {
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
             destinationDao.removeDestination(destination);
         }catch(Exception e){
-            throw new ServiceDataAccessException("Destination deleting error"+ e.getMessage());
+            throw new ServiceDataAccessException("Destination deleting error "+ e.getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ public class DestinationServiceImpl implements DestinationService {
             Destination destination = destinationDao.getDestination(id);
             return EntityDTOTransformer.destinationConvert(destination);
         }catch(Exception e){
-            throw new ServiceDataAccessException("Destination finding error"+ e.getMessage());
+            throw new ServiceDataAccessException("Destination finding error "+ e.getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ public class DestinationServiceImpl implements DestinationService {
             }
             return destinationsToList;
         }catch(Exception e){
-            throw new ServiceDataAccessException("All destinations getting error"+ e.getMessage());
+            throw new ServiceDataAccessException("All destinations getting error "+ e.getMessage());
         }
     }
 
@@ -106,7 +106,7 @@ public class DestinationServiceImpl implements DestinationService {
             }
             return flightsToList;
         }catch(Exception e){
-            throw new ServiceDataAccessException("All incoming flights retrieving error"+ e.getMessage());
+            throw new ServiceDataAccessException("All incoming flights retrieving error "+ e.getMessage());
         }
     }
 
@@ -124,7 +124,7 @@ public class DestinationServiceImpl implements DestinationService {
             }
             return flightsToList;
         }catch(Exception e){
-            throw new ServiceDataAccessException("All outcoming flights retrieving error"+ e.getMessage());
+            throw new ServiceDataAccessException("All outcoming flights retrieving error "+ e.getMessage());
         }
     }    
 }
