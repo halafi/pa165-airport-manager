@@ -43,7 +43,7 @@ public class MainClass {
 //            Persistence.createEntityManagerFactory("AirportManager");
     
     public static void main(String[] args){
-//        chorkeTest();
+        chorkeTest();
         //halafiTest();
     }
     
@@ -81,8 +81,8 @@ public class MainClass {
 //        con.register(StewardDAOImpl.class);
 //        con.refresh();
         ClassPathXmlApplicationContext con = new ClassPathXmlApplicationContext("applicationContext.xml");
-        StewardDAO s = con.getBean(StewardDAOImpl.class);
-//        StewardService s = con.getBean(StewardServiceImpl.class);
+//        StewardDAO s = con.getBean(StewardDAOImpl.class);
+        StewardService s = con.getBean(StewardService.class);
 //        FlightService s = con.getBean(FlightServiceImpl.class);
 //        DestinationService s = con.getBean(DestinationServiceImpl.class);
 //        AirplaneService s = con.getBean(AirplaneServiceImpl.class);

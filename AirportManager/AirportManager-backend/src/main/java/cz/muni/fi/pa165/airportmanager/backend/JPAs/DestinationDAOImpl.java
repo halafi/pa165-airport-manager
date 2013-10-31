@@ -58,7 +58,7 @@ public class DestinationDAOImpl implements DestinationDAO{
             }
             
             if (destination.getId() == null) {
-            throw new IllegalArgumentException("airplane id is null");
+            throw new IllegalArgumentException("destination id is null");
             }
             if (destination.getCity() == null || destination.getCity() == ""){
                 throw new IllegalArgumentException("city argument is null");
@@ -89,7 +89,7 @@ public class DestinationDAOImpl implements DestinationDAO{
                 throw new IllegalArgumentException("destination argument is null");
             }
             if (destination.getId() == null) {
-            throw new IllegalArgumentException("airplane id is null");
+            throw new IllegalArgumentException("destination id is null");
             }
             if (destination.getCity() == null || destination.getCity() == ""){
                 throw new IllegalArgumentException("city argument is null");
@@ -149,7 +149,7 @@ public class DestinationDAOImpl implements DestinationDAO{
                 throw new IllegalArgumentException("destination argument is null");
             }
             if (destination.getId() == null) {
-            throw new IllegalArgumentException("airplane id is null");
+            throw new IllegalArgumentException("destination id is null");
             }
             if (destination.getCity() == null || destination.getCity() == ""){
                 throw new IllegalArgumentException("city argument is null");
@@ -187,7 +187,7 @@ public class DestinationDAOImpl implements DestinationDAO{
                 throw new IllegalArgumentException("destination argument is null");
             }
             if (destination.getId() == null) {
-            throw new IllegalArgumentException("airplane id is null");
+            throw new IllegalArgumentException("destination id is null");
             }
             if (destination.getCity() == null || destination.getCity() == ""){
                 throw new IllegalArgumentException("city argument is null");

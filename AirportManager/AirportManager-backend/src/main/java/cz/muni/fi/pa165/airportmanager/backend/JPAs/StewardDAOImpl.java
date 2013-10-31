@@ -9,10 +9,9 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -48,6 +47,7 @@ public class StewardDAOImpl implements StewardDAO{
 //            manager.getTransaction().begin();
             manager.persist(steward);
 //            manager.getTransaction().commit();
+            System.out.println(steward);
         } catch (Exception ex){
 //            if(manager.getTransaction().isActive()){
 //                manager.getTransaction().rollback();

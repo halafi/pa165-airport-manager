@@ -38,11 +38,11 @@
     </bean>
      
     <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl" >
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <!--<property name="entityManagerFactory" ref="entityManagerFactory"/>-->
     </bean>
     
     <!--drobne pridanie juraj-->
-    <bean id="fligthService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.FlightServiceImpl"/>
+    <bean id="fligthService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.FlightServiceImpl"/>
      
     <!-- pridal MATUS - funguje to --> 
     
@@ -61,12 +61,12 @@
     </bean>
      
     <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl">
-        <property name="destinationDAO" ref="destDAO"/>
+        <property name="destinationDao" ref="destDAO"/>
     </bean>    
     <!-- end SAMO --> 
     
     <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl" >
-         <property name="factory" ref="entityManagerFactory"/>
+         <!--<property name="factory" ref="entityManagerFactory"/>-->
      </bean>
      
      <bean id="stewardService" 

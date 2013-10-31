@@ -29,6 +29,7 @@ import javax.persistence.EntityManager;
 import org.junit.Test;
 import org.junit.Before;
 import org.mockito.Mock;
+import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
@@ -43,7 +44,7 @@ public class DestinationServiceImplTest extends AbstractTest{
     
     private static int counter = 0;
     
-    @Autowired
+    @InjectMocks
     private DestinationServiceImpl destService;
     
     @Mock
@@ -66,7 +67,8 @@ public class DestinationServiceImplTest extends AbstractTest{
     @Before
     public void setUp() throws JPAException{
         MockitoAnnotations.initMocks(this);
-        destService.setDestinationDao(destDao);
+        System.out.println(destService);
+//        destService.setDestinationDao(destDao);
         
         destInDB1 = getDestination();
         destInDB1.setId(1L);

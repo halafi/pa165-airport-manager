@@ -56,6 +56,6 @@ public class StewardTO {
             return false;
         }
         StewardTO s = (StewardTO) obj;
-        return s.id == null ? false : s.id.equals(this.id);
+        return s.id.equals(this.id);
     }
 }

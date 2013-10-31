@@ -95,7 +95,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
             assertEquals(expected, actual);
             assertDeepEquals(expected, actual);
         } catch (DataAccessException ex) {
-            fail("DataAccessException was thrown.");
+            fail("DataAccessException was thrown. " + ex);
         }
     }
     

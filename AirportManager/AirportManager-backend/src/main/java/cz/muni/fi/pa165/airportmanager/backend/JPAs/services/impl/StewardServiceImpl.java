@@ -25,9 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Chorke
  */
-//@Service
+@Service
 //@TransactionConfiguration(transactionManager = "transactionManager")
-//@Transactional
+@Transactional(readOnly = true)
 public class StewardServiceImpl implements StewardService{
 
     @Autowired
@@ -38,7 +38,7 @@ public class StewardServiceImpl implements StewardService{
     }
     
     @Override
-//    @Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public void createSteward(StewardTO steward) throws DataAccessException {
         try{
             Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
@@ -50,7 +50,7 @@ public class StewardServiceImpl implements StewardService{
     }
 
     @Override
-//    @Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public void updateSteward(StewardTO steward) throws DataAccessException {
         try{
             Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
@@ -61,7 +61,7 @@ public class StewardServiceImpl implements StewardService{
     }
 
     @Override
-//    @Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public void removeSteward(StewardTO steward) throws DataAccessException {
         try{
             Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
