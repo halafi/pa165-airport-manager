@@ -8,7 +8,6 @@ import cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.AirplaneService;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationService;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.FlightService;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.FlightServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.StewardService;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.AirplaneServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl;
