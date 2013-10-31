@@ -40,6 +40,7 @@ public class DestinationServiceImplTest extends AbstractTest{
     
     @Autowired
     private DestinationServiceImpl destService;
+    
     @Mock
     private DestinationDAO destDao;
     
