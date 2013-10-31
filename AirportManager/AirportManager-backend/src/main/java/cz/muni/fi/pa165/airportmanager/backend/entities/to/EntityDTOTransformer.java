@@ -121,7 +121,7 @@ public class EntityDTOTransformer {
             throw new IllegalArgumentException("DestinationTo is null");
         }
         Destination destination = new Destination();
-        destination.setId(new Long(destinationTo.getId()));
+        destination.setId(destinationTo.getId());
         destination.setCity(destinationTo.getCity());
         destination.setCode(destinationTo.getCode());
         destination.setCountry(destinationTo.getCountry());
@@ -133,7 +133,7 @@ public class EntityDTOTransformer {
             throw new IllegalArgumentException("Destination is null");
         }
         DestinationTO destinationTo = new DestinationTO();
-        destinationTo.setId(new Long(destination.getId()));
+        destinationTo.setId(destination.getId());
         destinationTo.setCity(destination.getCity());
         destinationTo.setCode(destination.getCode());
         destinationTo.setCountry(destination.getCountry());

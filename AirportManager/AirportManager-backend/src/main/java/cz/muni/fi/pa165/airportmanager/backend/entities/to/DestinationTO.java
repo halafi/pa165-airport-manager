@@ -92,6 +92,4 @@ public class DestinationTO {
         }
         return true;
     }
-    
-    
 }
