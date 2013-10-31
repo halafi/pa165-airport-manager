@@ -43,6 +43,7 @@ public class StewardServiceImpl implements StewardService{
         try{
             Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
             stewardDao.createSteward(stew);
+            steward.setId(stew.getId());
         } catch (IllegalArgumentException | JPAException ex){
             throw new ServiceDataAccessException("Error by creating steward", ex);
         }

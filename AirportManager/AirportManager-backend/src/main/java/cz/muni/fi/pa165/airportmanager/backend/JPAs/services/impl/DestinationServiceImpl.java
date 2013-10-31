@@ -34,6 +34,7 @@ public class DestinationServiceImpl implements DestinationService {
         try{
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
             destinationDao.createDestination(destination);
+            destinationTo.setId(destination.getId());
         }catch(Exception e){
             throw new ServiceDataAccessException("Destination creating error " + e.getMessage());
 //            throw new ServiceDataAccessException("Destination creating error ", e);
@@ -50,6 +51,7 @@ public class DestinationServiceImpl implements DestinationService {
             destinationDao.updateDestination(destination);
         }catch(Exception e){
             throw new ServiceDataAccessException("Destination updating error "+ e.getMessage());
+//            throw new ServiceDataAccessException("Destination updating error ", e);
         }
     }
 

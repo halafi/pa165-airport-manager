@@ -48,7 +48,7 @@ public class MainClass {
     }
     
     private static void chorkeTest(){
-//        EntityManager man = EM_FACTORY.createEntityManager();
+//        EntityManager manager = EM_FACTORY.createEntityManager();
 //        Airplane ap = new Airplane();
 //        ap.setCapacity(10);
 //        ap.setName("air");
@@ -59,22 +59,22 @@ public class MainClass {
 //        ap1.setType("boeing 747");
 //        
 //        
-//        man.getTransaction().begin();
-//        man.persist(ap);
-//        man.persist(ap1);
-//        man.getTransaction().commit();
+//        manager.getTransaction().begin();
+//        manager.persist(ap);
+//        manager.persist(ap1);
+//        manager.getTransaction().commit();
 //        
 //        ap.setName("airplane");
-//        man.clear();
-//        man.close();
-//        man = EM_FACTORY.createEntityManager();
-//        man.getTransaction().begin();
-//        man.merge(ap);
-//        man.getTransaction().commit();
+//        manager.clear();
+//        manager.close();
+//        manager = EM_FACTORY.createEntityManager();
+//        manager.getTransaction().begin();
+//        manager.merge(ap);
+//        manager.getTransaction().commit();
 //        
-//        man.getTransaction().begin();
-//        man.remove(ap1);
-//        man.getTransaction().commit();
+//        manager.getTransaction().begin();
+//        manager.remove(ap1);
+//        manager.getTransaction().commit();
 //        
 //        System.out.println(ap1);
 //        AnnotationConfigApplicationContext con = new AnnotationConfigApplicationContext(Config.class);
@@ -136,7 +136,7 @@ public class MainClass {
 //    }
     
     private static void halafiTest() {
-//        EntityManager man = EM_FACTORY.createEntityManager();
+//        EntityManager manager = EM_FACTORY.createEntityManager();
 //        StewardDAO stewDAO = new StewardDAOImpl(EM_FACTORY);
 //        //DestinationDAO destDAO = new DestinationDAOImpl(EM_FACTORY);
 //        AirplaneDAO airplaneDAO = new AirplaneDAOImpl(EM_FACTORY);
@@ -145,10 +145,10 @@ public class MainClass {
 //        airplaneDAO.createAirplane(plane1);
 //        Destination dest1 = newDestination("CZB","Czech Republic","Brno");
 //        //destDAO.createDestination(dest1);
-//        man.getTransaction().begin();
-//        man.persist(dest1);
-//        man.getTransaction().commit();
-//        man.close();
+//        manager.getTransaction().begin();
+//        manager.persist(dest1);
+//        manager.getTransaction().commit();
+//        manager.close();
 //        Steward steward1 = newSteward("Elaine","Dickinson");
 //        try {
 //            stewDAO.createSteward(steward1);

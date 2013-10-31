@@ -10,6 +10,7 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,12 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class StewardDAOImpl implements StewardDAO{
 
-    @Autowired
-    private EntityManagerFactory factory;
-
-    public void setFactory(EntityManagerFactory factory) {
-        this.factory = factory;
-    }
+//    @Autowired
+//    private EntityManagerFactory factory;
+//
+//    public void setFactory(EntityManagerFactory factory) {
+//        this.factory = factory;
+//    }
+    @PersistenceContext
+    private EntityManager manager;
     
     @Override
     public void createSteward(Steward steward) throws  JPAException, IllegalArgumentException{
@@ -40,19 +43,19 @@ public class StewardDAOImpl implements StewardDAO{
         if(steward.getLastName() == null || steward.getLastName().isEmpty()){
             throw new IllegalArgumentException("Stewards last name is null or empty");
         }
-        EntityManager man = factory.createEntityManager();
+//        EntityManager manager = factory.createEntityManager();
         try{
-            man.getTransaction().begin();
-            man.persist(steward);
-            man.getTransaction().commit();
+            manager.getTransaction().begin();
+            manager.persist(steward);
+            manager.getTransaction().commit();
         } catch (Exception ex){
-            if(man.getTransaction().isActive()){
-                man.getTransaction().rollback();
+            if(manager.getTransaction().isActive()){
+                manager.getTransaction().rollback();
             }
-            man.close();
+//            manager.close();
             throw new JPAException("Error by creating steward " + steward, ex);
         }
-        man.close();
+//        manager.close();
     }
 
     @Override
@@ -69,23 +72,24 @@ public class StewardDAOImpl implements StewardDAO{
         if(steward.getLastName() == null || steward.getLastName().isEmpty()){
             throw new IllegalArgumentException("Stewards last name is null or empty");
         }
-        EntityManager man = factory.createEntityManager();
+//        EntityManager manager = factory.createEntityManager();
+        manager.clear();
         try{
-            man.getTransaction().begin();
-            Steward finded = man.find(Steward.class, steward.getId());
+            manager.getTransaction().begin();
+            Steward finded = manager.find(Steward.class, steward.getId());
             if(finded == null){
                 throw new JPAException("Steward does not exist (" + steward + ")");
             }
-            man.merge(steward);
-            man.getTransaction().commit();
+            manager.merge(steward);
+            manager.getTransaction().commit();
         } catch (Exception ex){
-            if(man.getTransaction().isActive()){
-                man.getTransaction().rollback();
+            if(manager.getTransaction().isActive()){
+                manager.getTransaction().rollback();
             }
-            man.close();
+//            manager.close();
             throw new JPAException("Error by updating steward " + steward, ex);
         }
-        man.close();
+//        manager.close();
     }
 
     @Override
@@ -96,24 +100,25 @@ public class StewardDAOImpl implements StewardDAO{
         if(steward.getId() == null){
             throw new IllegalArgumentException("Stewards ID is null");
         }
-        EntityManager man = factory.createEntityManager();
+        manager.clear();
+//        EntityManager manager = factory.createEntityManager();
         try{
-            man.getTransaction().begin();
-            Steward stew = man.find(Steward.class, steward.getId());
+            manager.getTransaction().begin();
+            Steward stew = manager.find(Steward.class, steward.getId());
             if(stew == null){
-                man.getTransaction().rollback();
+                manager.getTransaction().rollback();
                 throw new JPAException("Steward does not exist (" + steward + ")");
             }
-            man.remove(stew);
-            man.getTransaction().commit();
+            manager.remove(stew);
+            manager.getTransaction().commit();
         } catch (Exception ex){
-            if(man.getTransaction().isActive()){
-                man.getTransaction().rollback();
+            if(manager.getTransaction().isActive()){
+                manager.getTransaction().rollback();
             }
-            man.close();
+//            manager.close();
             throw new JPAException("Error by removing steward " + steward, ex);
         }
-        man.close();
+//        manager.close();
     }
 
     @Override
@@ -121,43 +126,46 @@ public class StewardDAOImpl implements StewardDAO{
         if(id == null){
             throw new IllegalArgumentException("Can not fing stewar (id = null)");
         }
-        EntityManager man = factory.createEntityManager();
+//        EntityManager manager = factory.createEntityManager();
+        manager.clear();
         Steward stew = null;
         try{
-            man.getTransaction().begin();
-            stew = man.find(Steward.class, id);
+            manager.getTransaction().begin();
+            stew = manager.find(Steward.class, id);
             if(stew == null){
-                man.getTransaction().rollback();
+                manager.getTransaction().rollback();
                 throw new JPAException("Steward does not exist (" + id + ")");
             }
-            man.getTransaction().commit();
-            man.close();
+            manager.getTransaction().commit();
+//            manager.close();
+            return stew;
         } catch(Exception ex){
-            if(man.getTransaction().isActive()){
-                man.getTransaction().rollback();
+            if(manager.getTransaction().isActive()){
+                manager.getTransaction().rollback();
             }
-            man.close();
+//            manager.close();
             throw new JPAException("Error by finding steward (" + id + ")", ex);
         }
-        return stew;
+//        return stew;
     }
 
     @Override
     public List<Steward> getAllStewards() throws JPAException{
-        EntityManager man = factory.createEntityManager();
+//        EntityManager manager = factory.createEntityManager();
+        manager.clear();
         List<Steward> stewards;
         try{
-            man.getTransaction().begin();
-            stewards = man.createNamedQuery("Steward.findAllStewards", 
+            manager.getTransaction().begin();
+            stewards = manager.createNamedQuery("Steward.findAllStewards", 
                     Steward.class).getResultList();
-            man.getTransaction().commit();
-            man.close();
+            manager.getTransaction().commit();
+//            manager.close();
             return stewards;
         } catch(Exception ex){
-            if(man.getTransaction().isActive()){
-                man.getTransaction().rollback();
+            if(manager.getTransaction().isActive()){
+                manager.getTransaction().rollback();
             }
-            man.close();
+//            manager.close();
             throw new JPAException("Error by finding all stewards.",ex);
         }
     }
@@ -170,30 +178,30 @@ public class StewardDAOImpl implements StewardDAO{
         if(steward.getId() == null){
             throw new IllegalArgumentException("Stewards ID is null");
         }
-        EntityManager man = factory.createEntityManager();
+//        EntityManager manager = factory.createEntityManager();
+        manager.clear();
         List<Flight> flights;
         try{
-            man.getTransaction().begin();
-            TypedQuery<Flight> q = man.createNamedQuery("Steward.findAllStewardsFlights", 
+            manager.getTransaction().begin();
+            TypedQuery<Flight> q = manager.createNamedQuery("Steward.findAllStewardsFlights", 
                     Flight.class);
             q.setParameter("steward", steward);
             flights = q.getResultList();
-            man.getTransaction().commit();
-            man.close();
+            manager.getTransaction().commit();
+//            manager.close();
             return flights;
         } catch (Exception ex){
-            if(man.getTransaction().isActive()){
-                man.getTransaction().rollback();
+            if(manager.getTransaction().isActive()){
+                manager.getTransaction().rollback();
             }
-            man.close();
+//            manager.close();
             throw new JPAException("Error by finding all stewards flights (" + steward + ")", ex);
         }
     }
 
     @Override
     public String toString() {
-        return super.toString() + "      " + factory.getClass() + "   " 
-                + (factory instanceof EntityManagerFactory);
+        return super.toString();
     }
  
 }

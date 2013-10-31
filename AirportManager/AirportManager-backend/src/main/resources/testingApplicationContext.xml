@@ -36,17 +36,17 @@
     </bean>
     
     <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl" >
-         <property name="factory" ref="entityManagerFactory"/>
+         <!--<property name="factory" ref="entityManagerFactory"/>-->
      </bean>
      
      <bean id="fligDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl" />
      
      <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl" >
-         <property name="factory" ref="entityManagerFactory"/>
+         <!--<property name="factory" ref="entityManagerFactory"/>-->
      </bean>
      
      <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl" >
-         <property name="emf" ref="entityManagerFactory"/>
+         <!--<property name="emf" ref="entityManagerFactory"/>-->
      </bean>
 
      <bean id="destService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl" />

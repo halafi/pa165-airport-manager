@@ -116,6 +116,28 @@ public class EntityDTOTransformer {
         return stew;
     }
     
+    public static List<StewardTO> stewardListConvert(List<Steward> list) throws IllegalArgumentException{
+        if(list == null){
+            throw new IllegalArgumentException("List is null");
+        }
+        List<StewardTO> out = new ArrayList<>(list.size());
+        for(Steward s : list){
+            out.add(stewardConvert(s));
+        }
+        return out;
+    }
+    
+    public static List<Steward> stewardTOListConvert(List<StewardTO> list) throws IllegalArgumentException{
+        if(list == null){
+            throw new IllegalArgumentException("List is null");
+        }
+        List<Steward> out = new ArrayList<>(list.size());
+        for(StewardTO s : list){
+            out.add(stewardTOConvert(s));
+        }
+        return out;
+    }
+    
     public static Destination destinationTOConvert(DestinationTO destinationTo){
         if (destinationTo == null){
             throw new IllegalArgumentException("DestinationTo is null");
