@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
+import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
@@ -25,26 +26,34 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Samo
  */
-public class AirplaneDAOImplTest {
-    private static EntityManagerFactory emf;
-    private static EntityManager em;
-    private static AirplaneDAO airDAO;
+public class AirplaneDAOImplTest extends AbstractTest{
+    
+    @Autowired
+    private EntityManagerFactory emf;
+    private EntityManager em;
+    
+    
+    @Autowired
+    private AirplaneDAO airplaneDAO;
 
-    @BeforeClass
-    public static void init(){
-        emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
-//        airDAO = new AirplaneDAOImpl(emf);
+    //@BeforeClass
+    @Before
+    public void init(){
+        //emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
+        em = emf.createEntityManager();
+//        airplaneDAO = new AirplaneDAOImpl(emf);
     }
     
-    @AfterClass
-    public static void closeFactory(){
-        emf.close();
-    }
+//    @AfterClass
+//    public void closeFactory(){
+//        emf.close();
+//    }
     
     @Before
     public void initTest(){
@@ -53,6 +62,7 @@ public class AirplaneDAOImplTest {
     
     @After
     public void close() {
+        em.clear();
         em.close();
     }
     
@@ -61,7 +71,7 @@ public class AirplaneDAOImplTest {
         //everything right
         Airplane airplane1 = createAirplane(10, "GERT-Y", "Lockheed McDonnel");
         try{
-            airDAO.createAirplane(airplane1);
+            airplaneDAO.createAirplane(airplane1);
         } catch(Exception ex) {
             fail("Exception thrown" + ex.getMessage());
         }
@@ -73,7 +83,7 @@ public class AirplaneDAOImplTest {
         
         //with null
         try{
-            airDAO.createAirplane(null);
+            airplaneDAO.createAirplane(null);
             fail("No exception thrown");
         } catch(IllegalArgumentException ex) {
         } catch (Exception ex) {
@@ -83,7 +93,7 @@ public class AirplaneDAOImplTest {
         //with null params
         Airplane airplane2 = createAirplane(1, null, null);
         try{
-            airDAO.createAirplane(airplane2);
+            airplaneDAO.createAirplane(airplane2);
             fail("No exception thrown");
         } catch(IllegalArgumentException ex) {
         } catch (Exception ex) {
@@ -108,7 +118,7 @@ public class AirplaneDAOImplTest {
         em.getTransaction().commit();
         //OK
         try{
-            airDAO.updateAirplane(airplane1);
+            airplaneDAO.updateAirplane(airplane1);
         }catch(Exception ex){
             fail("Bad exception"+ ex.getMessage());
         }
@@ -120,7 +130,7 @@ public class AirplaneDAOImplTest {
         
         //with null
         try{
-            airDAO.updateAirplane(null);
+            airplaneDAO.updateAirplane(null);
             fail("No exception thrown");
         } catch(IllegalArgumentException ex) {
         } catch (Exception ex) {
@@ -133,7 +143,7 @@ public class AirplaneDAOImplTest {
         airplane2.setName(null);
         airplane2.setType(null);
         try{
-            airDAO.updateAirplane(airplane2);
+            airplaneDAO.updateAirplane(airplane2);
             fail("No exception thrown");
         } catch(IllegalArgumentException ex) {
         } catch(Exception ex){
@@ -143,7 +153,7 @@ public class AirplaneDAOImplTest {
         //not in DB
         Airplane airplane3 = createAirplane(100, "Air Force One", "Boeing 747");
         try{
-            airDAO.updateAirplane(airplane3);
+            airplaneDAO.updateAirplane(airplane3);
             fail("No exception thrown");
         } catch(IllegalArgumentException ex){
         } catch(Exception ex){
@@ -161,13 +171,13 @@ public class AirplaneDAOImplTest {
         em.getTransaction().commit();
         //ok
         try{
-            airDAO.removeAirplane(airplane1);
+            airplaneDAO.removeAirplane(airplane1);
         }catch(Exception ex){
             fail("Exception thrown" + ex.getMessage());
         }
         //with null
         try{
-            airDAO.removeAirplane(null);
+            airplaneDAO.removeAirplane(null);
             fail("No exception thrown");
         } catch(IllegalArgumentException ex) {
         } catch (Exception ex) {
@@ -184,7 +194,7 @@ public class AirplaneDAOImplTest {
         em.getTransaction().commit();
         
         try{
-            airDAO.removeAirplane(airplane2);
+            airplaneDAO.removeAirplane(airplane2);
             fail("No exception thrown");
         }catch(JPAException ex){
         }catch(Exception ex){
@@ -200,7 +210,7 @@ public class AirplaneDAOImplTest {
         em.getTransaction().commit();
         //ok
         try{
-            airDAO.getAirplane(airplane1.getId());
+            airplaneDAO.getAirplane(airplane1.getId());
         }catch(Exception ex){
             fail("Exception thrown");
         }
@@ -211,7 +221,7 @@ public class AirplaneDAOImplTest {
         em.getTransaction().commit();
         //with null
         try{
-            airDAO.getAirplane(null);
+            airplaneDAO.getAirplane(null);
             fail("No exception thrown");
         } catch(IllegalArgumentException ex) {
         } catch (Exception ex) {
@@ -228,7 +238,7 @@ public class AirplaneDAOImplTest {
         em.getTransaction().commit();
         
         try{
-            airDAO.getAirplane(airplane3.getId());
+            airplaneDAO.getAirplane(airplane3.getId());
             fail("No exception thrown");
         }catch(JPAException ex){
         }catch(Exception ex){
@@ -250,7 +260,7 @@ public class AirplaneDAOImplTest {
         //ok
         List<Airplane> airplaneList1 = new ArrayList<Airplane>();
         try{
-            airplaneList1 = airDAO.getAllAirplanes();
+            airplaneList1 = airplaneDAO.getAllAirplanes();
         }catch(Exception ex){
             fail("Exception thrown" + ex.getMessage());
         }
@@ -273,7 +283,7 @@ public class AirplaneDAOImplTest {
         List<Airplane> airplaneList3 = new ArrayList<Airplane>();
         List<Airplane> airplaneList4 = new ArrayList<Airplane>();
         try{
-            airplaneList3 = airDAO.getAllAirplanes();
+            airplaneList3 = airplaneDAO.getAllAirplanes();
         }catch(Exception ex){
             fail("Exception thrown" + ex.getMessage());
         }
@@ -302,7 +312,7 @@ public class AirplaneDAOImplTest {
         List<Flight> flightList = new ArrayList<Flight>();
         //null
         try{
-            airDAO.getAllAirplanesFlights(null);
+            airplaneDAO.getAllAirplanesFlights(null);
             fail("No exception thrown");
         }catch(IllegalArgumentException ex){
         }catch(Exception ex){
@@ -310,7 +320,7 @@ public class AirplaneDAOImplTest {
         }
         //ok
         try{
-            flightList = airDAO.getAllAirplanesFlights(airplane);
+            flightList = airplaneDAO.getAllAirplanesFlights(airplane);
         }catch(Exception ex){
             fail("Exception thrown");
         }

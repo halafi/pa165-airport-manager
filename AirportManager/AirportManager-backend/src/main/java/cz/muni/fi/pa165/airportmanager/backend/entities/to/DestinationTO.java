@@ -72,9 +72,6 @@ public class DestinationTO {
     public int hashCode() {
         int hash = 3;
         hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + Objects.hashCode(this.code);
-        hash = 53 * hash + Objects.hashCode(this.country);
-        hash = 53 * hash + Objects.hashCode(this.city);
         return hash;
     }
 
@@ -92,6 +89,12 @@ public class DestinationTO {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "DestinationTO{" + "id=" + id + ", code=" + code + ", country=" + country + ", city=" + city + ", incoming=" + incoming + ", outcoming=" + outcoming + '}';
+    }
+    
     
     
 }

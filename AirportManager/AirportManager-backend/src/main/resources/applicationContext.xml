@@ -56,12 +56,12 @@
     
     <!-- koniec -->
     <!-- begin Samo --> 
-    <bean id="destinationDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl" >
-        <property name="factory" ref="entityManagerFactory"/>
+    <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl" >
+<!--        <property name="factory" ref="entityManagerFactory"/>-->
     </bean>
      
     <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl">
-        <property name="DestinationDao" ref="destinationDAO"/>
+        <property name="destinationDAO" ref="destDAO"/>
     </bean>    
     <!-- end SAMO --> 
     
