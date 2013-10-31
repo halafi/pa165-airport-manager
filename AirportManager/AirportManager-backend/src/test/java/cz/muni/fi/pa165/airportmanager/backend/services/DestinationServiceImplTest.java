@@ -73,12 +73,12 @@ public class DestinationServiceImplTest extends AbstractTest{
         destWithNullID = getDestination();
         
         destWithNullAtributes = new DestinationTO();
-        destWithNullAtributes.setId(3L);
+        destWithNullAtributes.setId(1L);
         
         destWithNullAtributesAndID = new DestinationTO();
         
         destWithEmptyAtributes = new DestinationTO();
-        destWithEmptyAtributes.setId(4L);
+        destWithEmptyAtributes.setId(1L);
         destWithEmptyAtributes.setCity("");
         destWithEmptyAtributes.setCode("");
         destWithEmptyAtributes.setCountry("");
@@ -106,11 +106,7 @@ public class DestinationServiceImplTest extends AbstractTest{
         doThrow(IllegalArgumentException.class).when(destDao).createDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithNullAtributes));
         doThrow(IllegalArgumentException.class).when(destDao).createDestination(
-                EntityDTOTransformer.destinationTOConvert(destWithNullAtributesAndID));
-        doThrow(IllegalArgumentException.class).when(destDao).createDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithEmptyAtributes));
-        doThrow(IllegalArgumentException.class).when(destDao).createDestination(
-                EntityDTOTransformer.destinationTOConvert(destWithEmptyAtributesAndNullID));
         doThrow(IllegalArgumentException.class).when(destDao).createDestination(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* update */
@@ -120,21 +116,13 @@ public class DestinationServiceImplTest extends AbstractTest{
         doThrow(IllegalArgumentException.class).when(destDao).updateDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithNullAtributes));
         doThrow(IllegalArgumentException.class).when(destDao).updateDestination(
-                EntityDTOTransformer.destinationTOConvert(destWithNullAtributesAndID));
-        doThrow(IllegalArgumentException.class).when(destDao).updateDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithEmptyAtributes));
-        doThrow(IllegalArgumentException.class).when(destDao).updateDestination(
-                EntityDTOTransformer.destinationTOConvert(destWithEmptyAtributesAndNullID));
         doThrow(JPAException.class).when(destDao).updateDestination(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* remove */
         doThrow(IllegalArgumentException.class).when(destDao).removeDestination(null);
         doThrow(IllegalArgumentException.class).when(destDao).removeDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithNullID));
-        doThrow(IllegalArgumentException.class).when(destDao).removeDestination(
-                EntityDTOTransformer.destinationTOConvert(destWithNullAtributesAndID));
-        doThrow(IllegalArgumentException.class).when(destDao).removeDestination(
-                EntityDTOTransformer.destinationTOConvert(destWithEmptyAtributesAndNullID));
         doThrow(JPAException.class).when(destDao).removeDestination(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* get */
@@ -145,20 +133,12 @@ public class DestinationServiceImplTest extends AbstractTest{
         doThrow(IllegalArgumentException.class).when(destDao).getAllIncomingFlights(null);
         doThrow(IllegalArgumentException.class).when(destDao).getAllIncomingFlights(
                 EntityDTOTransformer.destinationTOConvert(destWithNullID));
-        doThrow(IllegalArgumentException.class).when(destDao).getAllIncomingFlights(
-                EntityDTOTransformer.destinationTOConvert(destWithNullAtributesAndID));
-        doThrow(IllegalArgumentException.class).when(destDao).getAllIncomingFlights(
-                EntityDTOTransformer.destinationTOConvert(destWithEmptyAtributesAndNullID));
         doThrow(JPAException.class).when(destDao).getAllIncomingFlights(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* getAllOutcoming */
         doThrow(IllegalArgumentException.class).when(destDao).getAllOutcomingFlights(null);
         doThrow(IllegalArgumentException.class).when(destDao).getAllOutcomingFlights(
                 EntityDTOTransformer.destinationTOConvert(destWithNullID));
-        doThrow(IllegalArgumentException.class).when(destDao).getAllOutcomingFlights(
-                EntityDTOTransformer.destinationTOConvert(destWithNullAtributesAndID));
-        doThrow(IllegalArgumentException.class).when(destDao).getAllOutcomingFlights(
-                EntityDTOTransformer.destinationTOConvert(destWithEmptyAtributesAndNullID));
         doThrow(JPAException.class).when(destDao).getAllOutcomingFlights(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* end doThrow */
