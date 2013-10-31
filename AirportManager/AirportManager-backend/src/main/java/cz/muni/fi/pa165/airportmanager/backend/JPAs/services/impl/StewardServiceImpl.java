@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 //@Service
 //@TransactionConfiguration(transactionManager = "transactionManager")
-//@Transactional(readOnly = true)
+//@Transactional
 public class StewardServiceImpl implements StewardService{
 
     @Autowired

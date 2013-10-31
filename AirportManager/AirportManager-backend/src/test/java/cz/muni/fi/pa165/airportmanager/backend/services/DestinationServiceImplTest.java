@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
+import cz.muni.fi.pa165.airportmanager.backend.AbstractServiceTest;
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationService;
@@ -32,6 +33,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -63,7 +65,6 @@ public class DestinationServiceImplTest extends AbstractTest{
     
     @Before
     public void setUp() throws JPAException{
-//        System.out.println(destService);
         MockitoAnnotations.initMocks(this);
         destService.setDestinationDao(destDao);
         
@@ -175,11 +176,6 @@ public class DestinationServiceImplTest extends AbstractTest{
                     EntityDTOTransformer.flightTOConvert(flight3),
                     EntityDTOTransformer.flightTOConvert(flight4)));
         /* end doReturn */
-        /* doNothing */
-        doNothing().when(destDao).createDestination(
-                EntityDTOTransformer.destinationTOConvert(destWithNullID));
-        /* end doNothing */
-        
     }
     
     /**
@@ -217,6 +213,8 @@ public class DestinationServiceImplTest extends AbstractTest{
             fail("Create test - empty atributes - bad exception " + ex);
         }
         try{
+            doNothing().when(destDao).createDestination(
+                EntityDTOTransformer.destinationTOConvert(destWithNullID));
             destService.createDestination(destWithNullID);
             Destination des = new Destination();
             des.setCity(destWithNullID.getCity());

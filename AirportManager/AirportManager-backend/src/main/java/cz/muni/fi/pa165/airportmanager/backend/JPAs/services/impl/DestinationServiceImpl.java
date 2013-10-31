@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Samo
  */
+//@Transactional
 public class DestinationServiceImpl implements DestinationService {
     private DestinationDAO destinationDao;
     

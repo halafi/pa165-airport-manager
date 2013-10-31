@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
+import cz.muni.fi.pa165.airportmanager.backend.AbstractServiceTest;
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
 import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
@@ -19,6 +20,7 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.junit.After;
 import org.junit.Test;
@@ -36,6 +38,7 @@ public class DestinationDAOImplTest extends AbstractTest{
     
     @Autowired
     private EntityManagerFactory emf;
+    @PersistenceContext
     private EntityManager manager;
     
     @Autowired
@@ -44,7 +47,7 @@ public class DestinationDAOImplTest extends AbstractTest{
     @Before
     public void init(){
 //        emf = Persistence.createEntityManagerFactory(bundle.getString("testingUNIT"));
-        manager = emf.createEntityManager();
+//        manager = emf.createEntityManager();
     }
     
     @After
@@ -55,8 +58,8 @@ public class DestinationDAOImplTest extends AbstractTest{
 //        manager.createQuery("DELETE FROM Flight f").executeUpdate();
 //        System.out.println(manager.createQuery("DELETE FROM Destination").executeUpdate());
 //        manager.getTransaction().commit();
-        manager.clear();
-        manager.close();
+//        manager.clear();
+//        manager.close();
 //        emf.close();
     }
     
@@ -90,8 +93,7 @@ public class DestinationDAOImplTest extends AbstractTest{
         des = createDestiantion("SVK", "Slovakia", "Poprad");
         try{
             destDAO.createDestination(des);
-            System.out.println("0000000000000000000000000000000000000000000000   "
-                    + des.getId());
+            System.out.println(des.getId());
         } catch(Exception e){
             if(!(e instanceof JPAException)){
                 fail("Destinations atributes OK - exception thrown " + e);
