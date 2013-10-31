@@ -45,13 +45,13 @@ public class StewardDAOImpl implements StewardDAO{
         }
 //        EntityManager manager = factory.createEntityManager();
         try{
-            manager.getTransaction().begin();
+//            manager.getTransaction().begin();
             manager.persist(steward);
-            manager.getTransaction().commit();
+//            manager.getTransaction().commit();
         } catch (Exception ex){
-            if(manager.getTransaction().isActive()){
-                manager.getTransaction().rollback();
-            }
+//            if(manager.getTransaction().isActive()){
+//                manager.getTransaction().rollback();
+//            }
 //            manager.close();
             throw new JPAException("Error by creating steward " + steward, ex);
         }
@@ -75,17 +75,17 @@ public class StewardDAOImpl implements StewardDAO{
 //        EntityManager manager = factory.createEntityManager();
         manager.clear();
         try{
-            manager.getTransaction().begin();
+//            manager.getTransaction().begin();
             Steward finded = manager.find(Steward.class, steward.getId());
             if(finded == null){
                 throw new JPAException("Steward does not exist (" + steward + ")");
             }
             manager.merge(steward);
-            manager.getTransaction().commit();
+//            manager.getTransaction().commit();
         } catch (Exception ex){
-            if(manager.getTransaction().isActive()){
-                manager.getTransaction().rollback();
-            }
+//            if(manager.getTransaction().isActive()){
+//                manager.getTransaction().rollback();
+//            }
 //            manager.close();
             throw new JPAException("Error by updating steward " + steward, ex);
         }
@@ -103,18 +103,18 @@ public class StewardDAOImpl implements StewardDAO{
         manager.clear();
 //        EntityManager manager = factory.createEntityManager();
         try{
-            manager.getTransaction().begin();
+//            manager.getTransaction().begin();
             Steward stew = manager.find(Steward.class, steward.getId());
             if(stew == null){
-                manager.getTransaction().rollback();
+//                manager.getTransaction().rollback();
                 throw new JPAException("Steward does not exist (" + steward + ")");
             }
             manager.remove(stew);
-            manager.getTransaction().commit();
+//            manager.getTransaction().commit();
         } catch (Exception ex){
-            if(manager.getTransaction().isActive()){
-                manager.getTransaction().rollback();
-            }
+//            if(manager.getTransaction().isActive()){
+//                manager.getTransaction().rollback();
+//            }
 //            manager.close();
             throw new JPAException("Error by removing steward " + steward, ex);
         }
@@ -130,19 +130,19 @@ public class StewardDAOImpl implements StewardDAO{
         manager.clear();
         Steward stew = null;
         try{
-            manager.getTransaction().begin();
+//            manager.getTransaction().begin();
             stew = manager.find(Steward.class, id);
             if(stew == null){
-                manager.getTransaction().rollback();
+//                manager.getTransaction().rollback();
                 throw new JPAException("Steward does not exist (" + id + ")");
             }
-            manager.getTransaction().commit();
+//            manager.getTransaction().commit();
 //            manager.close();
             return stew;
         } catch(Exception ex){
-            if(manager.getTransaction().isActive()){
-                manager.getTransaction().rollback();
-            }
+//            if(manager.getTransaction().isActive()){
+//                manager.getTransaction().rollback();
+//            }
 //            manager.close();
             throw new JPAException("Error by finding steward (" + id + ")", ex);
         }
@@ -155,16 +155,16 @@ public class StewardDAOImpl implements StewardDAO{
         manager.clear();
         List<Steward> stewards;
         try{
-            manager.getTransaction().begin();
+//            manager.getTransaction().begin();
             stewards = manager.createNamedQuery("Steward.findAllStewards", 
                     Steward.class).getResultList();
-            manager.getTransaction().commit();
+//            manager.getTransaction().commit();
 //            manager.close();
             return stewards;
         } catch(Exception ex){
-            if(manager.getTransaction().isActive()){
-                manager.getTransaction().rollback();
-            }
+//            if(manager.getTransaction().isActive()){
+//                manager.getTransaction().rollback();
+//            }
 //            manager.close();
             throw new JPAException("Error by finding all stewards.",ex);
         }
@@ -182,18 +182,18 @@ public class StewardDAOImpl implements StewardDAO{
         manager.clear();
         List<Flight> flights;
         try{
-            manager.getTransaction().begin();
+//            manager.getTransaction().begin();
             TypedQuery<Flight> q = manager.createNamedQuery("Steward.findAllStewardsFlights", 
                     Flight.class);
             q.setParameter("steward", steward);
             flights = q.getResultList();
-            manager.getTransaction().commit();
+//            manager.getTransaction().commit();
 //            manager.close();
             return flights;
         } catch (Exception ex){
-            if(manager.getTransaction().isActive()){
-                manager.getTransaction().rollback();
-            }
+//            if(manager.getTransaction().isActive()){
+//                manager.getTransaction().rollback();
+//            }
 //            manager.close();
             throw new JPAException("Error by finding all stewards flights (" + steward + ")", ex);
         }

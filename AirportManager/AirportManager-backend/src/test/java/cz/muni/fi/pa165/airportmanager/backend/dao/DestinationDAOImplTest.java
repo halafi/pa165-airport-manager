@@ -214,7 +214,7 @@ public class DestinationDAOImplTest extends AbstractTest{
             fail("Remove destination OK argument - destination has not been removed");
         }
         //clearing
-        removeFromDB(des1);
+//        removeFromDB(des1);
     }
     
     @Test

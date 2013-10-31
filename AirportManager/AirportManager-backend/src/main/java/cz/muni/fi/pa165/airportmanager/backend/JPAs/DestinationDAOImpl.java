@@ -45,9 +45,9 @@ public class DestinationDAOImpl implements DestinationDAO{
             }
             //EntityManager em = factory.createEntityManager();
         
-            //em.getTransaction().begin();
+//            em.getTransaction().begin();
             em.persist(destination);
-            //em.getTransaction().commit();
+//            em.getTransaction().commit();
         
             //em.close();
         }

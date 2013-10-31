@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Filip
  */
-@Transactional
+//@Transactional
 public class StewardDAOImplTest extends AbstractTest {
     
     @Autowired
