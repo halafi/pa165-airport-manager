@@ -4,7 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.daos;
 
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import java.util.List;
 

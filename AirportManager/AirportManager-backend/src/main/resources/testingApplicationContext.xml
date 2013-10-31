@@ -35,23 +35,23 @@
         <property name="persistenceUnitName" value="${testingUNIT}" />
     </bean>
     
-    <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl" >
+    <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl" >
          <!--<property name="factory" ref="entityManagerFactory"/>-->
      </bean>
      
-     <bean id="fligDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl" />
+     <bean id="fligDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" />
      
-     <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl" >
+     <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl" >
          <!--<property name="factory" ref="entityManagerFactory"/>-->
      </bean>
      
-     <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl" >
+     <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl" >
          <!--<property name="emf" ref="entityManagerFactory"/>-->
      </bean>
 
-     <bean id="destService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl" />
-     <bean id="flightService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.FlightServiceImpl" />
-     <bean id="stewService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.StewardServiceImpl" />
-     <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.AirplaneServiceImpl" />
+     <bean id="destService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl" />
+     <bean id="flightService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.FlightServiceImpl" />
+     <bean id="stewService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl" />
+     <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl" />
 
 </beans>

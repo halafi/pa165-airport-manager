@@ -5,8 +5,8 @@
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import org.mockito.Mock;
 import org.mockito.Mockito;

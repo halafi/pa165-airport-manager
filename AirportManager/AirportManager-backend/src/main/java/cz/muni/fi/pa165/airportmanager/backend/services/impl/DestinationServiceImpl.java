@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl;
+package cz.muni.fi.pa165.airportmanager.backend.services.impl;
 
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationService;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.ServiceDataAccessException;
+import cz.muni.fi.pa165.airportmanager.backend.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.backend.services.ServiceDataAccessException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;

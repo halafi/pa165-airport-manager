@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.airportmanager.backend.JPAs;
+package cz.muni.fi.pa165.airportmanager.backend.daos.impl;
 
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;

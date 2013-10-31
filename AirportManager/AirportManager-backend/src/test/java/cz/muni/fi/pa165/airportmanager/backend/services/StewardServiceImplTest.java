@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractServiceTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.JPAException;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.StewardServiceImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
