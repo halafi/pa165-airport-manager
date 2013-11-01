@@ -59,15 +59,15 @@
          <!--<property name="factory" ref="entityManagerFactory"/>-->
      <!--</bean>-->
      
-     <bean id="fligDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" />
+     <!--<bean id="fligDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" />-->
      
-     <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl" >
+     <!--<bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl" >-->
          <!--<property name="factory" ref="entityManagerFactory"/>-->
-     </bean>
+     <!--</bean>-->
      
-     <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl" >
+     <!--<bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl" >-->
          <!--<property name="emf" ref="entityManagerFactory"/>-->
-     </bean>
+     <!--</bean>-->
      
 <!--     <bean id="airService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl">
          <property name="airplaneDao" ref="airplaneDAO"/>

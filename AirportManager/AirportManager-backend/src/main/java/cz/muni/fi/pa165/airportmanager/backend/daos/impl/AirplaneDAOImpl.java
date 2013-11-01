@@ -7,13 +7,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Matus Makovy
  */
-@Transactional
+@Component
 public class AirplaneDAOImpl implements AirplaneDAO {
        
     @PersistenceContext
