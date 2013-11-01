@@ -10,6 +10,8 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +31,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author Filip
  */
-
 public class StewardDAOImplTest extends AbstractTest {
     
     @Autowired
@@ -140,7 +141,8 @@ public class StewardDAOImplTest extends AbstractTest {
         List<Flight> flightList = new ArrayList<>();
         flightList.add(flight1);
         
-        assertEquals(stewDAO.getAllStewardsFlights(steward1),flightList);
+        assertEquals(stewDAO.getAllStewardsFlights(steward1).size(),flightList.size());
+        assertFlightDeepEquals(stewDAO.getAllStewardsFlights(steward1),flightList);
     }
     
     /**
@@ -316,6 +318,21 @@ public class StewardDAOImplTest extends AbstractTest {
         assertEquals(stew1.getFirstName(), stew2.getFirstName());
         assertEquals(stew1.getLastName(), stew2.getLastName());
     }
+    
+    /**
+     * Check for equality of all flight parameters.
+     * @param fli1 flight number one to be compared
+     * @param fli2 flight number two to be compared
+     */
+    private void assertFlightDeepEquals(Flight fli1, Flight fli2) {
+        assertEquals(fli1.getId(), fli2.getId());
+        assertEquals(fli1.getAirplane(), fli2.getAirplane());
+        assertEquals(fli1.getArrivalTime(), fli2.getArrivalTime());
+        assertEquals(fli1.getDepartureTime(), fli2.getDepartureTime());
+        assertEquals(fli1.getTarget(), fli2.getTarget());
+        assertEquals(fli1.getOrigin(), fli2.getOrigin());
+        assertDeepEquals(fli1.getStewardList(), fli2.getStewardList());
+    }
     /**
      * Check for equality of two steward lists and all their parameters.
      * @param stewList1 steward list number one to be compared
@@ -326,6 +343,19 @@ public class StewardDAOImplTest extends AbstractTest {
             Steward expected = stewList1.get(i);
             Steward actual = stewList2.get(i);
             assertDeepEquals(expected, actual);
+        }
+    }
+    
+    /**
+     * Check for equality of two flight lists and all their parameters.
+     * @param flightList1 flight list number one to be compared
+     * @param flightList2 flight list number two to be compared
+     */
+    private void assertFlightDeepEquals(List<Flight> flightList1, List<Flight> flightList2) {
+        for (int i = 0; i < flightList1.size(); i++) {
+            Flight expected = flightList1.get(i);
+            Flight actual = flightList2.get(i);
+            assertFlightDeepEquals(expected, actual);
         }
     }
     /**
