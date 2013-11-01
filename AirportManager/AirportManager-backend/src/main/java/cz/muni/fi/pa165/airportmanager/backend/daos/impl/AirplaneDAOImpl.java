@@ -5,22 +5,17 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Matus Makovy
  */
+@Transactional
 public class AirplaneDAOImpl implements AirplaneDAO {
-    
-//    private EntityManagerFactory emf;
-//
-//    public void setEmf(EntityManagerFactory emf) {
-//        this.emf = emf;
-//    } 
-    
+       
     @PersistenceContext
     private EntityManager em;
     
@@ -37,13 +32,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
             throw new IllegalArgumentException("Airplane capacity must be greater than 0");
         }
          
-//        EntityManager em = emf.createEntityManager();
-//        
-//        em.getTransaction().begin();
         em.persist(airplane);
-//        em.getTransaction().commit();
-//        
-//        em.close();
     }
     
     @Override
@@ -62,14 +51,9 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         if (airplane.getId() == null) {
             throw new IllegalArgumentException("airplane id is null");
         }
-        
-//        EntityManager em = emf.createEntityManager();
-//        
-//        em.getTransaction().begin();
+
         em.merge(airplane);
-//        em.getTransaction().commit();
-//        
-//        em.close();
+
     }
     
     @Override
@@ -83,9 +67,6 @@ public class AirplaneDAOImpl implements AirplaneDAO {
             throw new IllegalArgumentException("airplane id is null");
         }
         
-//        EntityManager em = emf.createEntityManager();
-        
-//        em.getTransaction().begin();
         Airplane airplaneFromDB = em.find(Airplane.class, airplane.getId());
         
         if (airplaneFromDB == null) {
@@ -93,9 +74,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         }
         
         em.remove(airplaneFromDB);
-//        em.getTransaction().commit();
-//        
-//        em.close();
+
     }
     
     @Override
@@ -105,12 +84,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
             throw new IllegalArgumentException("id is null");
         }
         
-//        EntityManager em = emf.createEntityManager();
-        
-//        em.getTransaction().begin();
         Airplane airplane = em.find(Airplane.class, id);
-//        em.getTransaction().commit();
-//        em.close(); 
         
         if (airplane == null){
             throw new JPAException("Airplane with given id isn't in database");
@@ -122,8 +96,6 @@ public class AirplaneDAOImpl implements AirplaneDAO {
     
     @Override
     public List<Airplane> getAllAirplanes() {
-        
-//        EntityManager em = emf.createEntityManager();
         
         Query allAirplanes = em.createNamedQuery("Airplane.findAllAirplanes");
         
@@ -138,8 +110,6 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         if (airplane == null) {
             throw new IllegalArgumentException("airplane arugument is null");
         }
-        
-//        EntityManager em = emf.createEntityManager();
         
         Query flightsQuery = em.createNamedQuery("Flight.findByAirplane");
         flightsQuery.setParameter("airplane", airplane.getId());

@@ -13,13 +13,14 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Matus Makovy
  */
-
+@Service
 public class AirplaneServiceImpl implements AirplaneService {
 
     private AirplaneDAO airplaneDao;
