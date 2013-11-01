@@ -1,18 +1,17 @@
 package cz.muni.fi.pa165.airportmanager;
 
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.AirplaneService;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationService;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.FlightService;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.FlightServiceImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.StewardService;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.AirplaneServiceImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.StewardServiceImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.services.AirplaneService;
+import cz.muni.fi.pa165.airportmanager.backend.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.backend.services.FlightService;
+import cz.muni.fi.pa165.airportmanager.backend.services.StewardService;
+import cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl;
+import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
+import cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
@@ -44,12 +43,12 @@ public class MainClass {
 //            Persistence.createEntityManagerFactory("AirportManager");
     
     public static void main(String[] args){
-//        chorkeTest();
+        chorkeTest();
         //halafiTest();
     }
     
     private static void chorkeTest(){
-//        EntityManager man = EM_FACTORY.createEntityManager();
+//        EntityManager manager = EM_FACTORY.createEntityManager();
 //        Airplane ap = new Airplane();
 //        ap.setCapacity(10);
 //        ap.setName("air");
@@ -60,30 +59,30 @@ public class MainClass {
 //        ap1.setType("boeing 747");
 //        
 //        
-//        man.getTransaction().begin();
-//        man.persist(ap);
-//        man.persist(ap1);
-//        man.getTransaction().commit();
+//        manager.getTransaction().begin();
+//        manager.persist(ap);
+//        manager.persist(ap1);
+//        manager.getTransaction().commit();
 //        
 //        ap.setName("airplane");
-//        man.clear();
-//        man.close();
-//        man = EM_FACTORY.createEntityManager();
-//        man.getTransaction().begin();
-//        man.merge(ap);
-//        man.getTransaction().commit();
+//        manager.clear();
+//        manager.close();
+//        manager = EM_FACTORY.createEntityManager();
+//        manager.getTransaction().begin();
+//        manager.merge(ap);
+//        manager.getTransaction().commit();
 //        
-//        man.getTransaction().begin();
-//        man.remove(ap1);
-//        man.getTransaction().commit();
+//        manager.getTransaction().begin();
+//        manager.remove(ap1);
+//        manager.getTransaction().commit();
 //        
 //        System.out.println(ap1);
 //        AnnotationConfigApplicationContext con = new AnnotationConfigApplicationContext(Config.class);
 //        con.register(StewardDAOImpl.class);
 //        con.refresh();
         ClassPathXmlApplicationContext con = new ClassPathXmlApplicationContext("applicationContext.xml");
-        StewardDAO s = con.getBean(StewardDAOImpl.class);
-//        StewardService s = con.getBean(StewardServiceImpl.class);
+//        StewardDAO s = con.getBean(StewardDAOImpl.class);
+        StewardService s = con.getBean(StewardServiceImpl.class);
 //        FlightService s = con.getBean(FlightServiceImpl.class);
 //        DestinationService s = con.getBean(DestinationServiceImpl.class);
 //        AirplaneService s = con.getBean(AirplaneServiceImpl.class);
@@ -137,7 +136,7 @@ public class MainClass {
 //    }
     
     private static void halafiTest() {
-//        EntityManager man = EM_FACTORY.createEntityManager();
+//        EntityManager manager = EM_FACTORY.createEntityManager();
 //        StewardDAO stewDAO = new StewardDAOImpl(EM_FACTORY);
 //        //DestinationDAO destDAO = new DestinationDAOImpl(EM_FACTORY);
 //        AirplaneDAO airplaneDAO = new AirplaneDAOImpl(EM_FACTORY);
@@ -146,10 +145,10 @@ public class MainClass {
 //        airplaneDAO.createAirplane(plane1);
 //        Destination dest1 = newDestination("CZB","Czech Republic","Brno");
 //        //destDAO.createDestination(dest1);
-//        man.getTransaction().begin();
-//        man.persist(dest1);
-//        man.getTransaction().commit();
-//        man.close();
+//        manager.getTransaction().begin();
+//        manager.persist(dest1);
+//        manager.getTransaction().commit();
+//        manager.close();
 //        Steward steward1 = newSteward("Elaine","Dickinson");
 //        try {
 //            stewDAO.createSteward(steward1);

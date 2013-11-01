@@ -37,40 +37,40 @@
         <!--<property name="dataSource" ref="dataSource" />-->
     </bean>
      
-    <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.FlightDAOImpl" >
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" >
+        <!--<property name="entityManagerFactory" ref="entityManagerFactory"/>-->
     </bean>
     
     <!--drobne pridanie juraj-->
-    <bean id="fligthService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.FlightServiceImpl"/>
+    <bean id="fligthService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.FlightServiceImpl"/>
      
     <!-- pridal MATUS - funguje to --> 
     
-    <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.AirplaneDAOImpl" >
+    <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl" >
 <!--        <property name="emf" ref="entityManagerFactory"/>-->
     </bean>
      
-    <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.AirplaneServiceImpl">
+    <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl">
         <property name="airplaneDao" ref="airplaneDAO"/>
     </bean>    
     
     <!-- koniec -->
     <!-- begin Samo --> 
-    <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl" >
+    <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl" >
 <!--        <property name="factory" ref="entityManagerFactory"/>-->
     </bean>
      
-    <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl">
-        <property name="destinationDAO" ref="destDAO"/>
+    <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl">
+        <property name="destinationDao" ref="destDAO"/>
     </bean>    
     <!-- end SAMO --> 
     
-    <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.StewardDAOImpl" >
-         <property name="factory" ref="entityManagerFactory"/>
+    <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl" >
+         <!--<property name="factory" ref="entityManagerFactory"/>-->
      </bean>
      
      <bean id="stewardService" 
-           class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.StewardServiceImpl" >
+           class="cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl" >
          <!--<property name="stewardDao" ref="stewDAO"/>-->
      </bean>
     

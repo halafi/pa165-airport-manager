@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl;
+package cz.muni.fi.pa165.airportmanager.backend.services.impl;
 
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.DestinationService;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.ServiceDataAccessException;
+import cz.muni.fi.pa165.airportmanager.backend.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.backend.services.ServiceDataAccessException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
@@ -15,12 +15,15 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Samo
  */
+//@Transactional
+@Service
 public class DestinationServiceImpl implements DestinationService {
     private DestinationDAO destinationDao;
     
@@ -29,11 +32,12 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public void createDestination(DestinationTO destinationTo) throws DataAccessException {
         try{
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
             destinationDao.createDestination(destination);
+            destinationTo.setId(destination.getId());
         }catch(Exception e){
             throw new ServiceDataAccessException("Destination creating error " + e.getMessage());
 //            throw new ServiceDataAccessException("Destination creating error ", e);
@@ -43,18 +47,19 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public void updateDestination(DestinationTO destinationTo) throws DataAccessException {
         try{
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
             destinationDao.updateDestination(destination);
         }catch(Exception e){
             throw new ServiceDataAccessException("Destination updating error "+ e.getMessage());
+//            throw new ServiceDataAccessException("Destination updating error ", e);
         }
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public void removeDestination(DestinationTO destinationTo) throws DataAccessException {
         try{
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
@@ -76,7 +81,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public List<DestinationTO> getAllDestinations() throws DataAccessException {
         try{
             List<DestinationTO> destinationsToList = new ArrayList<DestinationTO>();
@@ -93,7 +98,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public List<FlightTO> getAllIncomingFlights(DestinationTO destinationTo) throws DataAccessException {
         try{
             List<FlightTO> flightsToList = new ArrayList<FlightTO>();
@@ -111,7 +116,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public List<FlightTO> getAllOutcomingFlights(DestinationTO destinationTo) throws DataAccessException {
         try{
             List<FlightTO> flightsToList = new ArrayList<FlightTO>();

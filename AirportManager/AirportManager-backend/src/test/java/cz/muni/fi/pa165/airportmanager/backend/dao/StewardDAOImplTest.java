@@ -1,10 +1,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
-import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
-import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
-import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -16,12 +13,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -29,25 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Filip
  */
+@Transactional
 public class StewardDAOImplTest extends AbstractTest {
     
     @Autowired
     private StewardDAO stewDAO;
      
-    /*@Autowired
-    private DestinationDAO destDAO;*/
+    @PersistenceContext
+    private EntityManager em;
     
-    /*@Autowired
-    private AirplaneDAO airplaneDAO;*/
-    
-    /*@Autowired
-    private FlightDAO flightDAO;*/
-    
-    
-    @Before
-    public void setup() {
-        
-    }
     /**
      * Test for get steward.
      */
@@ -101,14 +88,14 @@ public class StewardDAOImplTest extends AbstractTest {
     /**
      * Test for getting all stewards flights.
      */
-    /*@Test
+    @Test
     public void testGetAllStewardsFlights() throws JPAException {
         Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
-        airplaneDAO.createAirplane(plane1);
+        em.persist(plane1);
         Destination dest1 = newDestination("CZB","Czech Republic","Brno");
-        destDAO.createDestination(dest1);
+        em.persist(dest1);
         Destination dest2 = newDestination("USN","United States","New York");
-        destDAO.createDestination(dest2);
+        em.persist(dest2);
         Steward steward1 = newSteward("Elaine","Dickinson");
         stewDAO.createSteward(steward1);
 
@@ -118,16 +105,16 @@ public class StewardDAOImplTest extends AbstractTest {
         List<Flight> actual = stewDAO.getAllStewardsFlights(steward1);
         assertEquals(expected, actual);
         
-        List<Steward> stewList = new ArrayList<Steward>();
+        List<Steward> stewList = new ArrayList<>();
         stewList.add(steward1);
         
         Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest2,plane1,stewList);
-        flightDAO.createFlight(flight1);
-        List<Flight> flightList = new ArrayList<Flight>();
+        em.persist(flight1);
+        List<Flight> flightList = new ArrayList<>();
         flightList.add(flight1);
         
         assertEquals(stewDAO.getAllStewardsFlights(steward1),flightList);
-    }*/
+    }
     
     /**
      * Test for steward creation.

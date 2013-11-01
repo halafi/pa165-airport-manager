@@ -5,12 +5,14 @@
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.DestinationDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.ServiceDataAccessException;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.AirplaneServiceImpl;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.DestinationServiceImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.services.ServiceDataAccessException;
+import cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl;
+import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl;
+import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.AirplaneTO;

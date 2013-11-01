@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.airportmanager.backend.JPAs;
+package cz.muni.fi.pa165.airportmanager.backend.daos.impl;
 
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -45,9 +45,9 @@ public class DestinationDAOImpl implements DestinationDAO{
             }
             //EntityManager em = factory.createEntityManager();
         
-            //em.getTransaction().begin();
+//            em.getTransaction().begin();
             em.persist(destination);
-            //em.getTransaction().commit();
+//            em.getTransaction().commit();
         
             //em.close();
         }
@@ -58,7 +58,7 @@ public class DestinationDAOImpl implements DestinationDAO{
             }
             
             if (destination.getId() == null) {
-            throw new IllegalArgumentException("airplane id is null");
+            throw new IllegalArgumentException("destination id is null");
             }
             if (destination.getCity() == null || destination.getCity() == ""){
                 throw new IllegalArgumentException("city argument is null");
@@ -89,7 +89,7 @@ public class DestinationDAOImpl implements DestinationDAO{
                 throw new IllegalArgumentException("destination argument is null");
             }
             if (destination.getId() == null) {
-            throw new IllegalArgumentException("airplane id is null");
+            throw new IllegalArgumentException("destination id is null");
             }
             if (destination.getCity() == null || destination.getCity() == ""){
                 throw new IllegalArgumentException("city argument is null");
@@ -149,7 +149,7 @@ public class DestinationDAOImpl implements DestinationDAO{
                 throw new IllegalArgumentException("destination argument is null");
             }
             if (destination.getId() == null) {
-            throw new IllegalArgumentException("airplane id is null");
+            throw new IllegalArgumentException("destination id is null");
             }
             if (destination.getCity() == null || destination.getCity() == ""){
                 throw new IllegalArgumentException("city argument is null");
@@ -187,7 +187,7 @@ public class DestinationDAOImpl implements DestinationDAO{
                 throw new IllegalArgumentException("destination argument is null");
             }
             if (destination.getId() == null) {
-            throw new IllegalArgumentException("airplane id is null");
+            throw new IllegalArgumentException("destination id is null");
             }
             if (destination.getCity() == null || destination.getCity() == ""){
                 throw new IllegalArgumentException("city argument is null");

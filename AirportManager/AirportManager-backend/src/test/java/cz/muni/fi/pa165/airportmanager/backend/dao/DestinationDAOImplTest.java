@@ -4,8 +4,9 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
+import cz.muni.fi.pa165.airportmanager.backend.AbstractServiceTest;
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.JPAs.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -19,6 +20,7 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.junit.After;
 import org.junit.Test;
@@ -36,6 +38,7 @@ public class DestinationDAOImplTest extends AbstractTest{
     
     @Autowired
     private EntityManagerFactory emf;
+    @PersistenceContext
     private EntityManager manager;
     
     @Autowired
@@ -44,7 +47,7 @@ public class DestinationDAOImplTest extends AbstractTest{
     @Before
     public void init(){
 //        emf = Persistence.createEntityManagerFactory(bundle.getString("testingUNIT"));
-        manager = emf.createEntityManager();
+//        manager = emf.createEntityManager();
     }
     
     @After
@@ -55,8 +58,8 @@ public class DestinationDAOImplTest extends AbstractTest{
 //        manager.createQuery("DELETE FROM Flight f").executeUpdate();
 //        System.out.println(manager.createQuery("DELETE FROM Destination").executeUpdate());
 //        manager.getTransaction().commit();
-        manager.clear();
-        manager.close();
+//        manager.clear();
+//        manager.close();
 //        emf.close();
     }
     
@@ -90,15 +93,18 @@ public class DestinationDAOImplTest extends AbstractTest{
         des = createDestiantion("SVK", "Slovakia", "Poprad");
         try{
             destDAO.createDestination(des);
+            System.out.println(des.getId());
         } catch(Exception e){
             if(!(e instanceof JPAException)){
                 fail("Destinations atributes OK - exception thrown " + e);
             }
         }
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         Destination result = manager.find(Destination.class, des.getId());
         assertDeepEquals(result, des);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
+        //clearing
+        removeFromDB(des);
     }
     
     @Test
@@ -106,13 +112,13 @@ public class DestinationDAOImplTest extends AbstractTest{
         Destination des1 = createDestiantion("SVK", "Slovakia", "Poprad");
         Destination des2 = createDestiantion("SVK", "Slovakia", "Bratislava");
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(des1);
         manager.persist(des2);
-        manager.getTransaction().commit();
-        manager.getTransaction().begin();
+//        manager.getTransaction().commit();
+//        manager.getTransaction().begin();
         manager.remove(des2);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
         des1.setCity("Kosice");
         try{
@@ -121,7 +127,7 @@ public class DestinationDAOImplTest extends AbstractTest{
             fail("samo wrote this"+ex);//SAMO
         }
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         Destination result = manager.find(Destination.class, des1.getId());
         assertDeepEquals(des1, result);
         
@@ -170,6 +176,8 @@ public class DestinationDAOImplTest extends AbstractTest{
         } catch (Exception ex){
             fail("Update destination null argument - bad exception " + ex);
         }
+        //clearing
+        removeFromDB(des1);
     }
     
     @Test
@@ -177,9 +185,9 @@ public class DestinationDAOImplTest extends AbstractTest{
         Destination des1 = createDestiantion("SVK", "Slovakia", "Poprad");
         Destination des2 = createDestiantion("SVK", "Slovakia", "Bratislava");
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(des1);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
         try{
             destDAO.removeDestination(null);
@@ -201,25 +209,27 @@ public class DestinationDAOImplTest extends AbstractTest{
             fail("Remove destination OK argumen - Exception thrown " + ex);
         }
         manager.clear();
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         Destination result = manager.find(Destination.class, des1.getId());
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         if(result != null){
             fail("Remove destination OK argument - destination has not been removed");
         }
+        //clearing
+//        removeFromDB(des1);
     }
     
     @Test
     public void getDestinationTest(){
         Destination des1 = createDestiantion("SVK", "Slovakia", "Poprad");
         Destination des2 = createDestiantion("SVK", "Slovakia", "Poprad");
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(des1);
         manager.persist(des2);
-        manager.getTransaction().commit();
-        manager.getTransaction().begin();
+//        manager.getTransaction().commit();
+//        manager.getTransaction().begin();
         manager.remove(des2);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
         try{
             destDAO.getDestination(null);
@@ -246,6 +256,8 @@ public class DestinationDAOImplTest extends AbstractTest{
         } catch (Exception ex){
             fail("Get destination OK argument - exception thrown " + ex);
         }
+        //clearing
+        removeFromDB(des1);
     }
     
     @Test
@@ -266,35 +278,37 @@ public class DestinationDAOImplTest extends AbstractTest{
             fail("Get all destinations empty DB - bad exception thrown " + ex);
         }
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(des1);
         manager.persist(des2);
         manager.persist(des3);
-        manager.getTransaction().commit();
-        
+//        manager.getTransaction().commit();
+//        
         getAllDestHelpTestingMethod("Get all destinations non empty DB");
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(des4);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
         getAllDestHelpTestingMethod("Get all destinations added destination");
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.remove(des2);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
         getAllDestHelpTestingMethod("Get all destinations removed destination");
+        //clearing
+        removeFromDB(des1, des3, des4);
     }
     
     private void getAllDestHelpTestingMethod(String message){
         EntityManager man = emf.createEntityManager();
         List<Destination> resultDAO;
         List<Destination> result;
-        man.getTransaction().begin();
+//        man.getTransaction().begin();
         result = man.createQuery("SELECT d FROM Destination d",
                 Destination.class).getResultList();
-        man.getTransaction().commit();
+//        man.getTransaction().commit();
         try{
             resultDAO = destDAO.getAllDestinations();
             assertDeepEqualsDest(result, resultDAO);
@@ -311,13 +325,13 @@ public class DestinationDAOImplTest extends AbstractTest{
         Destination des2 = createDestiantion("SVK", "Slovakia", "Bratislava");
         Destination des3 = createDestiantion("SVK", "Slovakia", "Kosice");
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(des1);
         manager.persist(des2);
-        manager.getTransaction().commit();
-        manager.getTransaction().begin();
+//        manager.getTransaction().commit();
+//        manager.getTransaction().begin();
         manager.remove(des2);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
         try{
             destDAO.getAllIncomingFlights(null);
@@ -362,37 +376,41 @@ public class DestinationDAOImplTest extends AbstractTest{
         Flight f3 = createFlight(des1, start);
         Flight f4 = createFlight(end, des1);
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(start);
         manager.persist(end);
         manager.persist(des1);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(f1);
         manager.persist(f2);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
-        getAllInOutcommingFlightsHelptesingMethod("Get all incoming flights", des1, true);
+        getAllInOutcommingFlightsHelpTesingMethod("Get all incoming flights", des1, true);
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(f3);
         manager.persist(f4);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
-        getAllInOutcommingFlightsHelptesingMethod("Get all incoming flights added flight", des1, true);
+        getAllInOutcommingFlightsHelpTesingMethod("Get all incoming flights added flight", des1, true);
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.remove(f1);
         manager.remove(f2);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
-        getAllInOutcommingFlightsHelptesingMethod("Get all incoming flights removed flight", des1, true);
+        getAllInOutcommingFlightsHelpTesingMethod("Get all incoming flights removed flight", des1, true);
+        //clearing
+        removeFromDB(
+                f3, f4, 
+                des1, start, end);
     }
     
-    private void getAllInOutcommingFlightsHelptesingMethod(String message, Destination des, boolean incoming){
+    private void getAllInOutcommingFlightsHelpTesingMethod(String message, Destination des, boolean incoming){
         EntityManager man = emf.createEntityManager();
-        man.getTransaction().begin();
+//        man.getTransaction().begin();
         TypedQuery<Flight> query;
         if(incoming){
             query = man.createQuery(
@@ -409,8 +427,8 @@ public class DestinationDAOImplTest extends AbstractTest{
         }
         query.setParameter("desID", des.getId());
         List<Flight> result = query.getResultList();
-        System.out.println(result);
-        man.getTransaction().commit();
+//        System.out.println(result);
+//        man.getTransaction().commit();
         
         try{
             List<Flight> resultDAO;
@@ -433,13 +451,13 @@ public class DestinationDAOImplTest extends AbstractTest{
         Destination des2 = createDestiantion("SVK", "Slovakia", "Bratislava");
         Destination des3 = createDestiantion("SVK", "Slovakia", "Kosice");
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(des1);
         manager.persist(des2);
-        manager.getTransaction().commit();
-        manager.getTransaction().begin();
+//        manager.getTransaction().commit();
+//        manager.getTransaction().begin();
         manager.remove(des2);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
         try{
             destDAO.getAllOutcomingFlights(null);
@@ -486,32 +504,36 @@ public class DestinationDAOImplTest extends AbstractTest{
         Flight f3 = createFlight(des1, start);
         Flight f4 = createFlight(end, des1);
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(start);
         manager.persist(end);
         manager.persist(des1);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(f1);
         manager.persist(f2);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
-        getAllInOutcommingFlightsHelptesingMethod("Get all outcoming flights", des1, false);
+        getAllInOutcommingFlightsHelpTesingMethod("Get all outcoming flights", des1, false);
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.persist(f3);
         manager.persist(f4);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
-        getAllInOutcommingFlightsHelptesingMethod("Get all outcoming flights added flight", des1, false);
+        getAllInOutcommingFlightsHelpTesingMethod("Get all outcoming flights added flight", des1, false);
         
-        manager.getTransaction().begin();
+//        manager.getTransaction().begin();
         manager.remove(f1);
         manager.remove(f2);
-        manager.getTransaction().commit();
+//        manager.getTransaction().commit();
         
-        getAllInOutcommingFlightsHelptesingMethod("Get all outcoming flights removed flight", des1, false);
+        getAllInOutcommingFlightsHelpTesingMethod("Get all outcoming flights removed flight", des1, false);
+        //clearing
+        removeFromDB(
+                f3, f4, 
+                des1, start, end);
     }
     
     private void assertDeepEqualsDest(List<Destination> des1, List<Destination> des2){
@@ -607,13 +629,22 @@ public class DestinationDAOImplTest extends AbstractTest{
         f.setTarget(to);
         Steward s = createSteward();
         EntityManager man = emf.createEntityManager();
-        man.getTransaction().begin();
+//        man.getTransaction().begin();
         man.persist(s);
         man.persist(ap);
-        man.getTransaction().commit();
+//        man.getTransaction().commit();
         List<Steward> ls = new ArrayList<>();
         ls.add(s);
         f.setStewardList(ls);
         return f;
+    }
+    
+    private void removeFromDB(Object... objs){
+//        EntityManager man = emf.createEntityManager();
+//        man.getTransaction().begin();
+//        for(Object o : objs){
+//            man.remove(o);
+//        }
+//        man.getTransaction().commit();
     }
 }

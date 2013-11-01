@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.airportmanager.backend.JPAs.services;
+package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.AirplaneTO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
