@@ -30,12 +30,15 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public void createAirplane(AirplaneTO airplane) throws DataAccessException {
-
-        Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
+        
+        //SAMO
+        //Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
 
         try {
+            //SAMO
+            Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
             airplaneDao.createAirplane(airplaneEntity);
         } catch (Exception ex) {
             throw new ServiceDataAccessException(ex.getMessage());
@@ -43,12 +46,15 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public void updateAirplane(AirplaneTO airplane) throws DataAccessException {
 
-        Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
+        //SAMO
+        //Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
 
         try {
+            //SAMO
+            Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
             airplaneDao.updateAirplane(airplaneEntity);
         } catch (Exception ex) {
             throw new ServiceDataAccessException(ex.getMessage());
@@ -57,12 +63,14 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public void removeAirplane(AirplaneTO airplane) throws DataAccessException {
 
-        Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
+        //Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
 
         try {
+            //SAMO
+            Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
             airplaneDao.removeAirplane(airplaneEntity);
         } catch (Exception ex) {
             throw new ServiceDataAccessException(ex.getMessage());
@@ -70,7 +78,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public AirplaneTO getAirplane(Long id) throws DataAccessException {
         AirplaneTO airplaneTO;
 
@@ -84,7 +92,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public List<AirplaneTO> getAllAirplanes() throws DataAccessException {
 
         List<AirplaneTO> airplanesTO = new ArrayList<>();
@@ -105,16 +113,19 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public List<FlightTO> getAllAirplanesFlights(AirplaneTO airplane) throws DataAccessException {
 
         List<Flight> flights = new ArrayList<>();
         List<FlightTO> flightsTO = new ArrayList<>();
 
 
-        Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
+        //SAMO
+        //Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
 
         try {
+            //SAMO
+            Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
             flights = airplaneDao.getAllAirplanesFlights(airplaneEntity);
         } catch (Exception ex) {
             throw new ServiceDataAccessException(ex.getMessage());

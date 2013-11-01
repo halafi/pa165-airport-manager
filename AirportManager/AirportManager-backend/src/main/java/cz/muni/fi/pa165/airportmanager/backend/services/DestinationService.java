@@ -40,8 +40,16 @@ public interface DestinationService {
      * @return List of all destinations
      */
     public List<DestinationTO> getAllDestinations() throws DataAccessException;
-    
+    /*
+     * Returns list of all flights arriving to destination
+     * @param destination specifies destination to which flights arrive
+     * @return List of all flights arriving to specified destination
+     */
     public List<FlightTO> getAllIncomingFlights(DestinationTO destination) throws DataAccessException;
-    
+    /*
+     * Returns list of all flights departuring from destination
+     * @param destination specifies destination from which flights departure
+     * @return List of all flights departuring from specified destination
+     */
     public List<FlightTO> getAllOutcomingFlights(DestinationTO destination) throws DataAccessException;
 }

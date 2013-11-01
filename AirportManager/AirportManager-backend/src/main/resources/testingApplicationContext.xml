@@ -49,7 +49,7 @@
          <!--<property name="emf" ref="entityManagerFactory"/>-->
      </bean>
      
-     <bean id="airService" class="cz.muni.fi.pa165.airportmanager.backend.JPAs.services.impl.AirplaneServiceImpl">
+     <bean id="airService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl">
          <property name="airplaneDao" ref="airplaneDAO"/>
      </bean>
 
