@@ -15,15 +15,35 @@
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
     
     <context:component-scan base-package="cz.muni.fi.pa165"/>
+    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
     
-    <tx:annotation-driven/>
     <!--<context:annotation-config />-->
     <!--<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
-    
     
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+
+    <tx:advice id="testingAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" />
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:pointcut id="stewardDAOOperations" expression="execution(* 
+                    cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO.*(..))"/>
+        <aop:pointcut id="destinationDAOOperations" expression="execution(* 
+                    cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO.*(..))"/>
+        <aop:pointcut id="airplaneDAOOperations" expression="execution(* 
+                    cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO.*(..))"/>
+        <aop:pointcut id="flightDAOOperations" expression="execution(* 
+                    cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO.*(..))"/>
+        <aop:advisor advice-ref="testingAdvice" pointcut-ref="stewardDAOOperations"/>
+        <aop:advisor advice-ref="testingAdvice" pointcut-ref="destinationDAOOperations"/>
+        <aop:advisor advice-ref="testingAdvice" pointcut-ref="airplaneDAOOperations"/>
+        <aop:advisor advice-ref="testingAdvice" pointcut-ref="flightDAOOperations"/>
+    </aop:config>
     
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
  	<property name="location">
@@ -35,9 +55,9 @@
         <property name="persistenceUnitName" value="${testingUNIT}" />
     </bean>
     
-    <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl" >
+    <!--<bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl" >-->
          <!--<property name="factory" ref="entityManagerFactory"/>-->
-     </bean>
+     <!--</bean>-->
      
      <bean id="fligDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" />
      
@@ -53,9 +73,15 @@
          <property name="airplaneDao" ref="airplaneDAO"/>
      </bean>-->
 
-     <bean id="destService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl" />
+<!--     <bean id="destService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl" />
      <bean id="flightService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.FlightServiceImpl" />
      <bean id="stewService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl" />
-     <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl" />
-
+     <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl" />-->
+    
+<!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+        <property name="url" value="jdbc:derby:memory:unit-testing-jpa;create=true" />
+        <property name="username" value="" />
+        <property name="password" value="" />
+    </bean>-->
 </beans>

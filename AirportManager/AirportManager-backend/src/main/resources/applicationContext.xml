@@ -14,13 +14,6 @@
        http://www.springframework.org/schema/aop 
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
 
-    <!-- http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/orm.html#orm-jpa -->
-    <!-- http://docs.spring.io/spring/docs/2.0.x/reference/transaction.html-->
-    <!--http://simplespringtutorial.com/springDeclarativeTransactions.html-->
-    
-    <!--Tells Spring framework to read @Transactional annotation-->
-    <!--<tx:annotation-config/>-->
-    <!--Automatically adds transaction support which eventually wraps your code in transaction scope-->
     
     <context:component-scan base-package="cz.muni.fi.pa165"/>
     <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -28,7 +21,18 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-   
+    
+<!--    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:pointcut id="stewardServiceOperation" expression="execution(* 
+            cz.muni.fi.pa165.airportmanager.backend.services.StewardService.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="stewardServiceOperation"/>
+    </aop:config>-->
     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <!--<property name="persistenceUnitName" value="InMemoryTestPU" />-->
@@ -65,14 +69,13 @@
     </bean>    
     <!-- end SAMO --> 
     
-    <bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl" >
+    <!--<bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl" >-->
          <!--<property name="factory" ref="entityManagerFactory"/>-->
-     </bean>
+     <!--</bean>-->
      
-     <bean id="stewardService" 
-           class="cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl" >
+     <!--<bean id="stewardService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl" >-->
          <!--<property name="stewardDao" ref="stewDAO"/>-->
-     </bean>
+     <!--</bean>-->
     
 <!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
