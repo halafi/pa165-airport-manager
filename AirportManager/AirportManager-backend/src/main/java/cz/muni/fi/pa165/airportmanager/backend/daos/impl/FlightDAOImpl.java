@@ -6,14 +6,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * JPA implementation of FlightDAO.
  * 
  * @author Filip
  */
-@Transactional
 public class FlightDAOImpl implements FlightDAO {
     
     @PersistenceContext

@@ -11,23 +11,18 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Juraj Duráni
  */
+@Component
 public class StewardDAOImpl implements StewardDAO{
 
-//    @Autowired
-//    private EntityManagerFactory factory;
-//
-//    public void setFactory(EntityManagerFactory factory) {
-//        this.factory = factory;
-//    }
     @PersistenceContext
     private EntityManager manager;
-    
+
     @Override
     public void createSteward(Steward steward) throws  JPAException, IllegalArgumentException{
         if(steward == null){
@@ -47,7 +42,6 @@ public class StewardDAOImpl implements StewardDAO{
 //            manager.getTransaction().begin();
             manager.persist(steward);
 //            manager.getTransaction().commit();
-            System.out.println(steward);
         } catch (Exception ex){
 //            if(manager.getTransaction().isActive()){
 //                manager.getTransaction().rollback();
@@ -73,7 +67,7 @@ public class StewardDAOImpl implements StewardDAO{
             throw new IllegalArgumentException("Stewards last name is null or empty");
         }
 //        EntityManager manager = factory.createEntityManager();
-        manager.clear();
+//        manager.clear();
         try{
 //            manager.getTransaction().begin();
             Steward finded = manager.find(Steward.class, steward.getId());
@@ -100,7 +94,7 @@ public class StewardDAOImpl implements StewardDAO{
         if(steward.getId() == null){
             throw new IllegalArgumentException("Stewards ID is null");
         }
-        manager.clear();
+//        manager.clear();
 //        EntityManager manager = factory.createEntityManager();
         try{
 //            manager.getTransaction().begin();
@@ -127,11 +121,10 @@ public class StewardDAOImpl implements StewardDAO{
             throw new IllegalArgumentException("Can not fing stewar (id = null)");
         }
 //        EntityManager manager = factory.createEntityManager();
-        manager.clear();
-        Steward stew = null;
+//        manager.clear();
         try{
 //            manager.getTransaction().begin();
-            stew = manager.find(Steward.class, id);
+            Steward stew = manager.find(Steward.class, id);
             if(stew == null){
 //                manager.getTransaction().rollback();
                 throw new JPAException("Steward does not exist (" + id + ")");
@@ -152,7 +145,7 @@ public class StewardDAOImpl implements StewardDAO{
     @Override
     public List<Steward> getAllStewards() throws JPAException{
 //        EntityManager manager = factory.createEntityManager();
-        manager.clear();
+//        manager.clear();
         List<Steward> stewards;
         try{
 //            manager.getTransaction().begin();
@@ -179,7 +172,7 @@ public class StewardDAOImpl implements StewardDAO{
             throw new IllegalArgumentException("Stewards ID is null");
         }
 //        EntityManager manager = factory.createEntityManager();
-        manager.clear();
+//        manager.clear();
         List<Flight> flights;
         try{
 //            manager.getTransaction().begin();

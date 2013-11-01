@@ -15,22 +15,20 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 @Service
-//@TransactionConfiguration(transactionManager = "transactionManager")
 @Transactional(readOnly = true)
 public class StewardServiceImpl implements StewardService{
 
-    @Autowired
+    @Inject
     private StewardDAO stewardDao;
 
     public void setStewardDao(StewardDAO stewardDao) {

@@ -20,6 +20,7 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
+import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +32,17 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Chorke
  */
 public class MainClass {
-//    public static final EntityManagerFactory EM_FACTORY = 
+//      public static final EntityManagerFactory EM_FACTORY = 
 //            Persistence.createEntityManagerFactory("AirportManager");
     
     public static void main(String[] args){
@@ -81,12 +84,20 @@ public class MainClass {
 //        con.register(StewardDAOImpl.class);
 //        con.refresh();
         ClassPathXmlApplicationContext con = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        AnnotationConfigApplicationContext con = 
+//                new AnnotationConfigApplicationContext(ApplicationConfig.class);
 //        StewardDAO s = con.getBean(StewardDAOImpl.class);
-        StewardService s = con.getBean(StewardServiceImpl.class);
+        StewardService service = con.getBean(StewardService.class);
+        StewardTO stew = new StewardTO();
+        stew.setFirstName("ja");
+        stew.setLastName("ty");
+        service.createSteward(stew);
+        StewardTO finded = service.findSteward(stew.getId());
+        System.out.println(finded);
 //        FlightService s = con.getBean(FlightServiceImpl.class);
 //        DestinationService s = con.getBean(DestinationServiceImpl.class);
 //        AirplaneService s = con.getBean(AirplaneServiceImpl.class);
-        System.out.println(s);
+        System.out.println(service);
 //        String s = "last name";
 //        Long l = new Long(1);
 //        Steward stew = new Steward();
