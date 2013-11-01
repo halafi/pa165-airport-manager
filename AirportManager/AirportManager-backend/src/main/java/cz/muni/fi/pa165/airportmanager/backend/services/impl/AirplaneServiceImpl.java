@@ -12,6 +12,7 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AirplaneServiceImpl implements AirplaneService {
 
+    //@Autowired
     private AirplaneDAO airplaneDao;
 
     public void setAirplaneDao(AirplaneDAO airplaneDao) {
@@ -30,7 +32,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public void createAirplane(AirplaneTO airplane) throws DataAccessException {
         
         //SAMO
@@ -46,7 +48,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public void updateAirplane(AirplaneTO airplane) throws DataAccessException {
 
         //SAMO
@@ -63,7 +65,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public void removeAirplane(AirplaneTO airplane) throws DataAccessException {
 
         //Airplane airplaneEntity = EntityDTOTransformer.airplaneTOConvert(airplane);
@@ -78,7 +80,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public AirplaneTO getAirplane(Long id) throws DataAccessException {
         AirplaneTO airplaneTO;
 
@@ -92,7 +94,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public List<AirplaneTO> getAllAirplanes() throws DataAccessException {
 
         List<AirplaneTO> airplanesTO = new ArrayList<>();
@@ -113,7 +115,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public List<FlightTO> getAllAirplanesFlights(AirplaneTO airplane) throws DataAccessException {
 
         List<Flight> flights = new ArrayList<>();
