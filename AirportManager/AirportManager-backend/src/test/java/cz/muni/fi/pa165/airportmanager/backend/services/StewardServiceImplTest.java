@@ -4,8 +4,10 @@ import cz.muni.fi.pa165.airportmanager.backend.AbstractServiceTest;
 import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
+import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import org.junit.After;
@@ -18,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.DataAccessException;
 /**
@@ -62,9 +65,12 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      */
     @Test
     public void testCreateSteward() throws JPAException {
-        StewardTO stewTo = newStewardTO("Elaine","Dickinson");
-        service.createSteward(stewTo);
-        verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
+        StewardTO expected = newStewardTO("Elaine","Dickinson");
+        service.createSteward(expected);
+        verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(expected));
+        when(stewDAO.getSteward(-1L)).thenReturn(EntityDTOTransformer.stewardTOConvert(expected));
+        StewardTO actual = service.findSteward(-1L);
+        assertDeepEquals(actual, expected);
     }
     
     /**
@@ -87,7 +93,10 @@ public class StewardServiceImplTest extends AbstractServiceTest {
         verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
         stewTo.setFirstName("Marie");
         service.updateSteward(stewTo);
+        when(stewDAO.getSteward(-1L)).thenReturn(EntityDTOTransformer.stewardTOConvert(stewTo));
+        StewardTO actual = service.findSteward(-1L);
         verify(stewDAO).updateSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
+        assertDeepEquals(stewTo, actual);
     }
     
     /**
@@ -103,13 +112,18 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * Test for removing steward.
      * @throws JPAException
      */
-    @Test
+    @Test (expected=DataAccessException.class)
     public void testRemoveSteward() throws JPAException {
         StewardTO stewTo = newStewardTO("Elaine","Dickinson");
         service.createSteward(stewTo);
         verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
+        when(stewDAO.getSteward(-1L)).thenReturn(EntityDTOTransformer.stewardTOConvert(stewTo));
         service.removeSteward(stewTo);
         verify(stewDAO).removeSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
+        Steward stew = EntityDTOTransformer.stewardTOConvert(stewTo);
+        when(stewDAO.getSteward(-1L)).thenReturn(null);
+        StewardTO actual = service.findSteward(-1L);
+
     }
     
     /**
@@ -130,11 +144,11 @@ public class StewardServiceImplTest extends AbstractServiceTest {
         StewardTO expected = newStewardTO("Elaine","Dickinson");
         try {
             service.createSteward(expected);
-            //expected.setId(new Long(0));
-            StewardTO actual = service.findSteward(expected.getId());
-            verify(stewDAO).getSteward(expected.getId());
-            //assertEquals(expected, actual);
-            //assertDeepEquals(expected, actual);
+            verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(expected));
+            when(stewDAO.getSteward(-1L)).thenReturn(EntityDTOTransformer.stewardTOConvert(expected));
+            StewardTO actual = service.findSteward(-1L);
+            verify(stewDAO).getSteward(-1L);
+            assertDeepEquals(expected, actual);
         } catch (DataAccessException ex) {
             fail("DataAccessException was thrown. " + ex);
         }
@@ -146,19 +160,23 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      */
     @Test
     public void testFindAllStewards() throws JPAException {
-        StewardTO stew = Mockito.mock(StewardTO.class);
+        StewardTO stew = newStewardTO("Elaine","Dickinson");
+        StewardTO stew2 = newStewardTO("Samo","Teammate");
+        List<Steward> list = new ArrayList();
+        when(stewDAO.getAllStewards()).thenReturn(list);
         assertEquals(0, service.findAllStewards().size());
         verify(stewDAO).getAllStewards();
-        /*service.createSteward(stew);
+        service.createSteward(stew);
         verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(stew));
-        assertEquals(1, service.findAllStewards().size());*/
-        
-        /*List<StewardTO> expected = new ArrayList();
-        expected.add(stew);*/
-        //List<StewardTO> actual = service.findAllStewards();
-        //assertEquals(expected, actual);
-        //assertDeepEquals(expected, actual);
-        
+        list.add(EntityDTOTransformer.stewardTOConvert(stew));
+        when(stewDAO.getAllStewards()).thenReturn(list);
+        assertEquals(1, service.findAllStewards().size());
+        service.createSteward(stew2);
+        verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(stew2));
+        list.add(EntityDTOTransformer.stewardTOConvert(stew2));
+        when(stewDAO.getAllStewards()).thenReturn(list);
+        assertEquals(2, service.findAllStewards().size());
+        assertDeepEquals(EntityDTOTransformer.stewardListConvert(list), service.findAllStewards());
     }
     
     /**
@@ -200,6 +218,14 @@ public class StewardServiceImplTest extends AbstractServiceTest {
         assertEquals(stew1.getId(), stew2.getId());
         assertEquals(stew1.getFirstName(), stew2.getFirstName());
         assertEquals(stew1.getLastName(), stew2.getLastName());
+    }
+    
+    private void assertDeepEquals(List<StewardTO> stew1, List<StewardTO> stew2) {
+        for (int i = 0; i < stew1.size(); i++) {
+            StewardTO expected = stew1.get(i);
+            StewardTO actual = stew2.get(i);
+            assertDeepEquals(expected, actual);
+        }
     }
     
     /**
