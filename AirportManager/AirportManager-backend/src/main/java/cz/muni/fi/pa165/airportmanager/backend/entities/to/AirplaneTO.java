@@ -58,11 +58,11 @@ public class AirplaneTO {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 83 * hash + Objects.hashCode(this.flights);
-        hash = 83 * hash + Objects.hashCode(this.id);
-        hash = 83 * hash + this.capacity;
-        hash = 83 * hash + Objects.hashCode(this.name);
-        hash = 83 * hash + Objects.hashCode(this.type);
+        hash = 29 * hash + Objects.hashCode(this.flights);
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + this.capacity;
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + Objects.hashCode(this.type);
         return hash;
     }
 
@@ -92,6 +92,8 @@ public class AirplaneTO {
         }
         return true;
     }
+
+
 
     @Override
     public String toString() {

@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -63,8 +64,13 @@ public class Destination implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + (this.id != null ? this.id.hashCode() : 0);
+        int hash = 5;
+        hash = 13 * hash + Objects.hashCode(this.incoming);
+        hash = 13 * hash + Objects.hashCode(this.outcoming);
+        hash = 13 * hash + Objects.hashCode(this.id);
+        hash = 13 * hash + Objects.hashCode(this.code);
+        hash = 13 * hash + Objects.hashCode(this.country);
+        hash = 13 * hash + Objects.hashCode(this.city);
         return hash;
     }
 
@@ -77,11 +83,28 @@ public class Destination implements Serializable {
             return false;
         }
         final Destination other = (Destination) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+        if (!Objects.equals(this.incoming, other.incoming)) {
+            return false;
+        }
+        if (!Objects.equals(this.outcoming, other.outcoming)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
+        if (!Objects.equals(this.country, other.country)) {
+            return false;
+        }
+        if (!Objects.equals(this.city, other.city)) {
             return false;
         }
         return true;
     }
+
+
 
     @Override
     public String toString() {

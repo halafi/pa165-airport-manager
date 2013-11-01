@@ -4,6 +4,8 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.entities.to;
 
+import java.util.Objects;
+
 
 /**
  *
@@ -45,17 +47,33 @@ public class StewardTO {
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        int hash = 5;
+        hash = 73 * hash + Objects.hashCode(this.id);
+        hash = 73 * hash + Objects.hashCode(this.firstName);
+        hash = 73 * hash + Objects.hashCode(this.lastName);
+        return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(id == null
-                || obj == null
-                || !(obj instanceof StewardTO)){
+        if (obj == null) {
             return false;
         }
-        StewardTO s = (StewardTO) obj;
-        return s.id.equals(this.id);
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final StewardTO other = (StewardTO) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.firstName, other.firstName)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastName, other.lastName)) {
+            return false;
+        }
+        return true;
     }
+
+
 }

@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.airportmanager.backend.entities;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -99,7 +100,13 @@ public class Flight implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.departureTime);
+        hash = 29 * hash + Objects.hashCode(this.arrivalTime);
+        hash = 29 * hash + Objects.hashCode(this.origin);
+        hash = 29 * hash + Objects.hashCode(this.target);
+        hash = 29 * hash + Objects.hashCode(this.airplane);
+        hash = 29 * hash + Objects.hashCode(this.stewardList);
         return hash;
     }
 
@@ -112,11 +119,30 @@ public class Flight implements Serializable {
             return false;
         }
         final Flight other = (Flight) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.departureTime, other.departureTime)) {
+            return false;
+        }
+        if (!Objects.equals(this.arrivalTime, other.arrivalTime)) {
+            return false;
+        }
+        if (!Objects.equals(this.origin, other.origin)) {
+            return false;
+        }
+        if (!Objects.equals(this.target, other.target)) {
+            return false;
+        }
+        if (!Objects.equals(this.airplane, other.airplane)) {
+            return false;
+        }
+        if (!Objects.equals(this.stewardList, other.stewardList)) {
             return false;
         }
         return true;
     }
+
 
     @Override
     public String toString() {

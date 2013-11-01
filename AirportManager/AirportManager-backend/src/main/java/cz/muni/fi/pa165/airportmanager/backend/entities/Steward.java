@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -68,10 +69,10 @@ public class Steward implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + (this.id != null ? this.id.hashCode() : 0);
-        hash = 29 * hash + (this.firstName != null ? this.firstName.hashCode() : 0);
-        hash = 29 * hash + (this.lastName != null ? this.lastName.hashCode() : 0);
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        hash = 41 * hash + Objects.hashCode(this.firstName);
+        hash = 41 * hash + Objects.hashCode(this.lastName);
         return hash;
     }
 
@@ -84,17 +85,20 @@ public class Steward implements Serializable {
             return false;
         }
         final Steward other = (Steward) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if ((this.firstName == null) ? (other.firstName != null) : !this.firstName.equals(other.firstName)) {
+        if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
-        if ((this.lastName == null) ? (other.lastName != null) : !this.lastName.equals(other.lastName)) {
+        if (!Objects.equals(this.lastName, other.lastName)) {
             return false;
         }
         return true;
     }
+
+  
+    
     
     
 }

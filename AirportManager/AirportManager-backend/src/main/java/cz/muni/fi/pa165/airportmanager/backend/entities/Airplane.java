@@ -82,11 +82,11 @@ public class Airplane implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.flights);
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + this.capacity;
-        hash = 29 * hash + Objects.hashCode(this.name);
-        hash = 29 * hash + Objects.hashCode(this.type);
+        hash = 97 * hash + Objects.hashCode(this.flights);
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + this.capacity;
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.type);
         return hash;
     }
 
@@ -116,6 +116,8 @@ public class Airplane implements Serializable {
         }
         return true;
     }
+
+
 
     
     

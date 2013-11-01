@@ -70,8 +70,13 @@ public class DestinationTO {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 53 * hash + Objects.hashCode(this.id);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.code);
+        hash = 67 * hash + Objects.hashCode(this.country);
+        hash = 67 * hash + Objects.hashCode(this.city);
+        hash = 67 * hash + Objects.hashCode(this.incoming);
+        hash = 67 * hash + Objects.hashCode(this.outcoming);
         return hash;
     }
 
@@ -87,8 +92,25 @@ public class DestinationTO {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
+        if (!Objects.equals(this.country, other.country)) {
+            return false;
+        }
+        if (!Objects.equals(this.city, other.city)) {
+            return false;
+        }
+        if (!Objects.equals(this.incoming, other.incoming)) {
+            return false;
+        }
+        if (!Objects.equals(this.outcoming, other.outcoming)) {
+            return false;
+        }
         return true;
     }
+
+
 
     @Override
     public String toString() {
