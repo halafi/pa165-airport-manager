@@ -32,6 +32,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,14 +170,14 @@ public class AirplaneServiceImplTest extends AbstractTest{
             fail("Creating airplane with emptyArgs - no exception");
         }catch(DataAccessException ex){
         }catch(Exception ex){
-            fail("Creating airplane with emptyArgs - bad exception" + ex.getMessage());
+            fail("Creating airplane with emptyArgs - bad exception" + ex);
         }
         try{
             airplaneService.createAirplane(airplaneNullArgs);
             fail("Creating airplane with nullArgs - no exception");
         }catch(DataAccessException ex){
         }catch(Exception ex){
-            fail("Creating airplane with nullArgs - bad exception" + ex.getMessage());
+            fail("Creating airplane with nullArgs - bad exception" + ex);
         }
 //        try{
 //            airplaneService.createAirplane(airplaneNullId);
@@ -185,6 +186,13 @@ public class AirplaneServiceImplTest extends AbstractTest{
 //        }catch(Exception ex){
 //            fail("Creating airplane with null - bad exception" + ex.getMessage());
 //        }
+        try {
+            airplaneService.createAirplane(airplaneNullId);
+        } catch (Exception ex) {
+            fail("Creating airplane - exception thrown" + ex);
+        }
+        
+        verify(airplaneDAO).createAirplane(EntityDTOTransformer.airplaneTOConvert(airplaneNullId));
     }
     
     @Test
@@ -229,6 +237,13 @@ public class AirplaneServiceImplTest extends AbstractTest{
             //fail("Creating airplane with null - bad exception" + ex.getMessage());
             fail("Updating airplane with null id - bad exception" + ex);
         }
+        try {
+            airplaneService.updateAirplane(airplane1);
+        } catch (Exception ex) {
+            fail("Updating airplane - exception thrown" + ex);
+        }
+        
+        verify(airplaneDAO).updateAirplane(EntityDTOTransformer.airplaneTOConvert(airplaneNullId));
     }
     
     @Test
@@ -257,6 +272,13 @@ public class AirplaneServiceImplTest extends AbstractTest{
             //fail("Creating airplane with null - bad exception" + ex.getMessage());
             fail("Removing airplane with id not in db - bad exception" + ex);
         }
+        try {
+            airplaneService.removeAirplane(airplane1);
+        } catch (Exception ex) {
+            fail("Removing airplane - exception thrown" + ex);
+        }
+        
+        //verify(airplaneDAO).removeAirplane(EntityDTOTransformer.airplaneTOConvert(airplaneNullId));
     }
     
     @Test
