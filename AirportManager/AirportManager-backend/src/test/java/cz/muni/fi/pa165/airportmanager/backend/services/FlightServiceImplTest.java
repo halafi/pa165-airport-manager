@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -34,6 +35,7 @@ public class FlightServiceImplTest extends AbstractServiceTest {
 
     @InjectMocks
     private FlightServiceImpl flightService;
+    
     @Mock
     private FlightDAO flightDao;
     @Mock
@@ -42,24 +44,28 @@ public class FlightServiceImplTest extends AbstractServiceTest {
     private AirplaneDAO airplaneDao;
     @Mock
     private DestinationDAO destDao;
-    private Airplane plane1;
-    private Airplane plane2;
-    private Destination dest1;
-    private Destination dest2;
-    private Steward john;
-    private Steward paul;
-    private List<Steward> stewards;
-    private Timestamp timeEarlier;
-    private Timestamp timeLater;
-    private Flight flight1;
-    private FlightTO flight1TO;
-
-    @Before
-    public void setUp() throws JPAException {
-        MockitoAnnotations.initMocks(this);
-
-        plane1 = createAirplane(100, "plane1", "type1");
-        plane2 = createAirplane(200, "plane2", "type2");
+    
+    private static Airplane plane1;
+    private static Destination dest1;
+    private static Destination dest2;
+    private static Steward john;
+    private static Steward paul;
+    private static List<Steward> stewards;
+    private static Timestamp timeEarlier;
+    private static Timestamp timeLater;
+    private Flight flightWithoutID;
+    private FlightTO flightTOWithoutID;
+    private Flight flightWithID;
+    private FlightTO flightTOWithID;
+    private Flight flightNotInDB;
+    private FlightTO flightTONotInDB;
+    private FlightTO obtained;
+    private Long idNotInDB;
+    private Long id;
+    
+    @BeforeClass
+    public static void setUp(){
+        plane1 = createAirplane(100, "plane1", "type1");         
 
         dest1 = createDetiantion("code", "country", "city");
         dest2 = createDetiantion("code2", "country2", "city2");
@@ -70,18 +76,44 @@ public class FlightServiceImplTest extends AbstractServiceTest {
         stewards = new ArrayList<>();
         stewards.add(john);
         stewards.add(paul);
-
+        
         timeEarlier = new Timestamp(new GregorianCalendar(2013, 1, 1, 12, 00, 00).getTimeInMillis());
-        timeLater = new Timestamp(new GregorianCalendar(2013, 1, 1, 15, 30, 00).getTimeInMillis());
+        timeLater = new Timestamp(new GregorianCalendar(2013, 1, 1, 15, 30, 00).getTimeInMillis());      
+    }
 
-        flight1 = createFlight(plane1, dest1, dest2, stewards, timeEarlier, timeLater);
-        flight1TO = EntityDTOTransformer.flightConvert(flight1);
+    @Before
+    public void init() throws JPAException {
+        MockitoAnnotations.initMocks(this);  
+        
+        idNotInDB = new Long(3);
+        id = new Long(12);
+
+        flightWithoutID = createFlight(plane1, dest1, dest2, stewards, timeEarlier, timeLater);
+        flightTOWithoutID = EntityDTOTransformer.flightConvert(flightWithoutID);
+        
+        flightWithID = createFlight(plane1, dest1, dest2, stewards, timeEarlier, timeLater);
+        flightWithID.setId(id);
+        flightTOWithID = EntityDTOTransformer.flightConvert(flightWithID);
+        
+        flightNotInDB = createFlight(plane1, dest1, dest2, stewards, timeEarlier, timeLater);
+        flightNotInDB.setId(new Long(2));
+        flightTONotInDB = EntityDTOTransformer.flightConvert(flightNotInDB);
 
         doThrow(IllegalArgumentException.class).when(flightDao).createFlight(null);
         doThrow(IllegalArgumentException.class).when(flightDao).updateFlight(null);
         doThrow(IllegalArgumentException.class).when(flightDao).removeFlight(null);
         doThrow(IllegalArgumentException.class).when(flightDao).getFlight(null);
-
+        
+        doThrow(IllegalArgumentException.class).when(flightDao).updateFlight(flightWithoutID);
+        doThrow(IllegalArgumentException.class).when(flightDao).removeFlight(flightWithoutID);
+        
+        doThrow(JPAException.class).when(flightDao).updateFlight(flightNotInDB);
+        doThrow(JPAException.class).when(flightDao).removeFlight(flightNotInDB);
+        doThrow(JPAException.class).when(flightDao).getFlight(idNotInDB);
+        
+        doReturn(flightWithID).when(flightDao).getFlight(id);
+        
+        
     }
 
     @Test
@@ -99,12 +131,12 @@ public class FlightServiceImplTest extends AbstractServiceTest {
     @Test
     public void createFlightTest() {
         try {
-            flightService.createFlight(flight1TO);
+            flightService.createFlight(flightTOWithoutID);
         } catch (Exception ex) {
             fail("Exception thrown - no reason");
         }
         
-        verify(flightDao).createFlight(flight1);
+        verify(flightDao).createFlight(flightWithoutID);
     }
 
     @Test
@@ -118,6 +150,45 @@ public class FlightServiceImplTest extends AbstractServiceTest {
             fail("Wrong exception thrown");
         }
     }
+    
+    @Test
+    public void updateFlightTest() throws JPAException{
+        try{
+            flightService.updateFlight(flightTOWithID);
+        } catch(Exception ex){
+            fail("Exception thrown - no reason");
+        }
+        
+        verify(flightDao).updateFlight(flightWithID);
+    }
+    
+    @Test
+    public void updateFlightWithNullID() throws JPAException{
+        try{
+            flightService.updateFlight(flightTOWithoutID);
+            fail("No exception thrown");
+        } catch (DataAccessException ex){
+            //OK
+        } catch (Exception ex) {
+            fail("Wrong exception thrown");
+        }
+        
+        verify(flightDao).updateFlight(flightWithoutID);
+    }
+    
+    @Test
+    public void updateFlightNotinDB() throws JPAException{
+        try{
+            flightService.updateFlight(flightTONotInDB);
+            fail("No exception thrown");
+        } catch(DataAccessException ex){
+            //OK
+        } catch(Exception ex){
+            fail("Wrong exception thrown");
+        }
+        
+        verify(flightDao).updateFlight(flightNotInDB);
+    }
 
     @Test
     public void removeFlightWithNull() {
@@ -129,6 +200,44 @@ public class FlightServiceImplTest extends AbstractServiceTest {
         } catch (Exception ex) {
             fail("Wrong exception thrown");
         }
+    }
+    
+    @Test
+    public void removeFlightTest() throws JPAException{
+        try{
+            flightService.removeFlight(flightTOWithID);
+        } catch(Exception ex){
+            fail("Exception thrown - no reason");
+        }
+        
+        verify(flightDao).removeFlight(flightWithID);
+    }
+    
+    @Test
+    public void removeFlightWithNullID() throws JPAException {
+        try{
+            flightService.removeFlight(flightTOWithoutID);
+            fail("No exception thrown");
+        } catch(DataAccessException ex){
+            //OK
+        } catch(Exception ex){
+            fail("Wrong exception thrown");
+        }
+        
+        verify(flightDao).removeFlight(flightWithoutID);
+    }
+    
+    @Test
+    public void removeFlightNotInDB() throws JPAException{
+        try{
+            flightService.removeFlight(flightTONotInDB);
+        } catch(DataAccessException ex){
+            //OK
+        } catch(Exception ex){
+            fail("Wrong exception thrown");
+        }
+        
+        verify(flightDao).removeFlight(flightNotInDB);
     }
 
     @Test
@@ -142,11 +251,40 @@ public class FlightServiceImplTest extends AbstractServiceTest {
             fail("Wrong exception thrown");
         }
     }
+    
+    @Test
+    public void getFlightIdNotInDB() throws JPAException{
+        try{
+            flightService.getFlight(idNotInDB);
+            fail("No exception thrown");
+        } catch(DataAccessException ex){
+            //OK
+        } catch(Exception ex){
+            fail("No exception thrown");
+        }
+        
+        verify(flightDao).getFlight(idNotInDB);
+    }
+    
+    @Test
+    public void getFlightTest() throws JPAException{
+        
+        try{
+            obtained = flightService.getFlight(flightTOWithID.getId());
+        } catch(Exception ex){
+            fail("Exception thrown - no reason");
+        }
+        
+        assertEquals(flightTOWithID,obtained);
+        
+        verify(flightDao).getFlight(id);
+        
+    }
 
     /**
      * Constructor
      */
-    private Destination createDetiantion(String code, String country, String city) {
+    private static Destination createDetiantion(String code, String country, String city) {
         Destination des = new Destination();
         des.setCode(code);
         des.setCity(city);
@@ -154,7 +292,7 @@ public class FlightServiceImplTest extends AbstractServiceTest {
         return des;
     }
 
-    private Airplane createAirplane(int capacity, String name, String type) {
+    private static Airplane createAirplane(int capacity, String name, String type) {
         Airplane airplane = new Airplane();
         airplane.setCapacity(capacity);
         airplane.setName(name);
@@ -162,14 +300,14 @@ public class FlightServiceImplTest extends AbstractServiceTest {
         return airplane;
     }
 
-    private Steward createSteward(String first, String last) {
+    private static Steward createSteward(String first, String last) {
         Steward steward = new Steward();
         steward.setFirstName(first);
         steward.setLastName(last);
         return steward;
     }
 
-    private Flight createFlight(Airplane airplane, Destination origin, Destination target,
+    private static Flight createFlight(Airplane airplane, Destination origin, Destination target,
             List<Steward> stewardList, Timestamp deperature, Timestamp arrival) {
         Flight flight = new Flight();
         flight.setAirplane(airplane);

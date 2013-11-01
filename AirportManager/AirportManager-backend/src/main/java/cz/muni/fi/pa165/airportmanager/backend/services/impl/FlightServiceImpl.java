@@ -80,7 +80,8 @@ public class FlightServiceImpl implements FlightService {
             throw new ServiceDataAccessException("flightTO is null.");
         }
         try {
-            flightDAO.updateFlight(EntityDTOTransformer.flightTOConvert(flightTO));
+            Flight flight = EntityDTOTransformer.flightTOConvert(flightTO);
+            flightDAO.updateFlight(flight);
         } catch (JPAException | IllegalArgumentException ex) {
             throw new ServiceDataAccessException("Error when updating flight (service).", ex);
         }
