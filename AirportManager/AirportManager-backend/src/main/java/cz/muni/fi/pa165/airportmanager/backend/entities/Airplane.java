@@ -6,6 +6,7 @@ package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -80,25 +81,44 @@ public class Airplane implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.flights);
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + this.capacity;
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + Objects.hashCode(this.type);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if(this.id == null 
-                || object == null
-                || !(object instanceof Airplane)){
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Airplane ap = (Airplane)object;
-        if(ap.getId() == null){
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        return ap.getId().equals(this.id);
+        final Airplane other = (Airplane) obj;
+        if (!Objects.equals(this.flights, other.flights)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (this.capacity != other.capacity) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type)) {
+            return false;
+        }
+        return true;
     }
 
+    
+    
     @Override
     public String toString() {
         return "Airplane {" + id + "}"

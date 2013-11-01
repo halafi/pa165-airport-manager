@@ -62,6 +62,7 @@ public class FlightServiceImplTest extends AbstractServiceTest {
     private FlightTO obtained;
     private Long idNotInDB;
     private Long id;
+    private List<FlightTO> flightTOs;
     
     @BeforeClass
     public static void setUp(){
@@ -113,6 +114,15 @@ public class FlightServiceImplTest extends AbstractServiceTest {
         
         doReturn(flightWithID).when(flightDao).getFlight(id);
         
+        List<Flight> flights = new ArrayList<>();
+        flights.add(flightWithID);
+        flights.add(flightNotInDB);
+        
+        flightTOs = new ArrayList<>();
+        flightTOs.add(flightTOWithID);
+        flightTOs.add(flightTONotInDB);
+        
+        doReturn(flights).when(flightDao).getAllFlight();      
         
     }
 
@@ -279,6 +289,25 @@ public class FlightServiceImplTest extends AbstractServiceTest {
         
         verify(flightDao).getFlight(id);
         
+    }
+    
+    @Test
+    public void getAllFlightsTest() throws JPAException{
+        
+        List<FlightTO> obtainedList = null;
+        
+        try{ 
+            obtainedList = flightService.getAllFlights();
+            if(obtainedList == null){
+                fail("No flights returned");
+            }
+        } catch(Exception ex){
+            fail("Exception thrown - no reason");
+        }
+        
+        assertEquals(flightTOs,obtainedList);
+        
+        verify(flightDao).getAllFlight();
     }
 
     /**

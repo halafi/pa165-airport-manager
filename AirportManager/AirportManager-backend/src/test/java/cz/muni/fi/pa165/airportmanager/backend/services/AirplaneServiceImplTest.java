@@ -222,7 +222,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
             fail("Updating airplane with nullArgs - bad exception" + ex);
         }
         try{
-            airplaneService.updateAirplane(createAirplane(10, "a", "a"));
+            airplaneService.updateAirplane(airplaneNullId);
             fail("Updating airplane with null id - no exception");
         }catch(ServiceDataAccessException ex){
         }catch(Exception ex){
