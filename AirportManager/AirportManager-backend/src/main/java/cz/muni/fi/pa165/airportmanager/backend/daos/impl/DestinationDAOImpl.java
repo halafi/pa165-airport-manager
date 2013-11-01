@@ -13,210 +13,214 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
 
-
 /**
- *  JPA implementation of DestinationDAO
- * 
+ * JPA implementation of DestinationDAO
+ *
  * @author Samo
  */
 @Component
-public class DestinationDAOImpl implements DestinationDAO{
+public class DestinationDAOImpl implements DestinationDAO {
 
     //private EntityManagerFactory factory;
-
     //public void setFactory(EntityManagerFactory factory) {
     //    this.factory = factory;
     //}
-    
     @PersistenceContext
     private EntityManager em;
-        
-        public void createDestination(Destination destination){
-            if (destination == null){
-                throw new IllegalArgumentException("destination argument is null");
-            }
-            if (destination.getCity() == null || destination.getCity() == ""){
-                throw new IllegalArgumentException("city argument is null");
-            }
-            if (destination.getCode() == null || destination.getCode() == ""){
-                throw new IllegalArgumentException("code argument is null");
-            }
-            if (destination.getCountry() == null || destination.getCountry() == ""){
-                throw new IllegalArgumentException("country argument is null");
-            }
-            //EntityManager em = factory.createEntityManager();
-        
+
+    @Override
+    public void createDestination(Destination destination) {
+        if (destination == null) {
+            throw new IllegalArgumentException("destination argument is null");
+        }
+        if (destination.getCity() == null || destination.getCity().isEmpty()) {
+            throw new IllegalArgumentException("city argument is null");
+        }
+        if (destination.getCode() == null || destination.getCode().isEmpty()) {
+            throw new IllegalArgumentException("code argument is null");
+        }
+        if (destination.getCountry() == null || destination.getCountry().isEmpty()) {
+            throw new IllegalArgumentException("country argument is null");
+        }
+        //EntityManager em = factory.createEntityManager();
+
 //            em.getTransaction().begin();
-            em.persist(destination);
+        em.persist(destination);
 //            em.getTransaction().commit();
-        
-            //em.close();
+
+        //em.close();
+    }
+
+    @Override
+    public void updateDestination(Destination destination) throws JPAException {
+        if (destination == null) {
+            throw new IllegalArgumentException("destination argument is null");
         }
-        
-        public void updateDestination(Destination destination) throws JPAException{
-            if(destination == null){
-                throw new IllegalArgumentException("destination argument is null");
-            }
-            
-            if (destination.getId() == null) {
+
+        if (destination.getId() == null) {
             throw new IllegalArgumentException("destination id is null");
-            }
-            if (destination.getCity() == null || destination.getCity() == ""){
-                throw new IllegalArgumentException("city argument is null");
-            }
-            if (destination.getCode() == null || destination.getCode() == ""){
-                throw new IllegalArgumentException("code argument is null");
-            }
-            if (destination.getCountry() == null || destination.getCountry() == ""){
-                throw new IllegalArgumentException("country argument is null");
-            }
-            
-            //EntityManager em = factory.createEntityManager();
-            
-            //em.getTransaction().begin();
-            Destination destinationFromDB = em.find(Destination.class, destination.getId());
-            if (destinationFromDB == null){
-                throw new JPAException("destination not in database");
-            } else {
-                em.merge(destination);
-            }
-            //em.getTransaction().commit();
-            
-            //em.close();
         }
-        
-        public void removeDestination(Destination destination) throws JPAException{
-            if(destination == null){
-                throw new IllegalArgumentException("destination argument is null");
-            }
-            if (destination.getId() == null) {
+        if (destination.getCity() == null || destination.getCity().isEmpty()) {
+            throw new IllegalArgumentException("city argument is null");
+        }
+        if (destination.getCode() == null || destination.getCode().isEmpty()) {
+            throw new IllegalArgumentException("code argument is null");
+        }
+        if (destination.getCountry() == null || destination.getCountry().isEmpty()) {
+            throw new IllegalArgumentException("country argument is null");
+        }
+
+        //EntityManager em = factory.createEntityManager();
+
+        //em.getTransaction().begin();
+        Destination destinationFromDB = em.find(Destination.class, destination.getId());
+        if (destinationFromDB == null) {
+            throw new JPAException("destination not in database");
+        } else {
+            em.merge(destination);
+        }
+        //em.getTransaction().commit();
+
+        //em.close();
+    }
+
+    @Override
+    public void removeDestination(Destination destination) throws JPAException {
+        if (destination == null) {
+            throw new IllegalArgumentException("destination argument is null");
+        }
+        if (destination.getId() == null) {
             throw new IllegalArgumentException("destination id is null");
-            }
-            if (destination.getCity() == null || destination.getCity() == ""){
-                throw new IllegalArgumentException("city argument is null");
-            }
-            if (destination.getCode() == null || destination.getCode() == ""){
-                throw new IllegalArgumentException("code argument is null");
-            }
-            if (destination.getCountry() == null || destination.getCountry() == ""){
-                throw new IllegalArgumentException("country argument is null");
-            }
-            //EntityManager em = factory.createEntityManager();
-        
-            //em.getTransaction().begin();
-            Destination destinationFromDB = em.find(Destination.class, destination.getId());
-            if (destinationFromDB == null){
-                throw new JPAException("destination not in database");
-            } else {
-                em.remove(destinationFromDB);
-            }
-            //em.getTransaction().commit();
-            //em.close();
         }
-        
-        public Destination getDestination(Long id) throws JPAException{
-            if(id == null){
-                throw new IllegalArgumentException("id argument is null");
-            }
-            //EntityManager em = factory.createEntityManager();
-            
-            //em.getTransaction().begin();
-            Destination destination = em.find(Destination.class, id);
-            //em.getTransaction().commit();
-            //em.close();
-            
-            if(destination == null){
-                throw new JPAException("destination not in database");
-            }
-            return destination;
+        if (destination.getCity() == null || destination.getCity().isEmpty()) {
+            throw new IllegalArgumentException("city argument is null");
         }
-        
-        public List<Destination> getAllDestinations() throws JPAException{
-            //EntityManager em = factory.createEntityManager();
-            TypedQuery<Destination> query = em.createQuery(
-            "SELECT d FROM Destination d", Destination.class);
-            List<Destination> destinationsList = query.getResultList();
-            
-            //em.close();
-            
-            if(destinationsList == null){
-                throw new JPAException("no destinations in database");
-            }
-            return destinationsList;
+        if (destination.getCode() == null || destination.getCode().isEmpty()) {
+            throw new IllegalArgumentException("code argument is null");
         }
-        
-        public List<Flight> getAllIncomingFlights(Destination destination) throws JPAException{
-            if(destination == null){
-                throw new IllegalArgumentException("destination argument is null");
-            }
-            if (destination.getId() == null) {
+        if (destination.getCountry() == null || destination.getCountry().isEmpty()) {
+            throw new IllegalArgumentException("country argument is null");
+        }
+        //EntityManager em = factory.createEntityManager();
+
+        //em.getTransaction().begin();
+        Destination destinationFromDB = em.find(Destination.class, destination.getId());
+        if (destinationFromDB == null) {
+            throw new JPAException("destination not in database");
+        } else {
+            em.remove(destinationFromDB);
+        }
+        //em.getTransaction().commit();
+        //em.close();
+    }
+
+    @Override
+    public Destination getDestination(Long id) throws JPAException {
+        if (id == null) {
+            throw new IllegalArgumentException("id argument is null");
+        }
+        //EntityManager em = factory.createEntityManager();
+
+        //em.getTransaction().begin();
+        Destination destination = em.find(Destination.class, id);
+        //em.getTransaction().commit();
+        //em.close();
+
+        if (destination == null) {
+            throw new JPAException("destination not in database");
+        }
+        return destination;
+    }
+
+    @Override
+    public List<Destination> getAllDestinations() throws JPAException {
+        //EntityManager em = factory.createEntityManager();
+        TypedQuery<Destination> query = em.createQuery(
+                "SELECT d FROM Destination d", Destination.class);
+        List<Destination> destinationsList = query.getResultList();
+
+        //em.close();
+
+        if (destinationsList == null) {
+            throw new JPAException("no destinations in database");
+        }
+        return destinationsList;
+    }
+
+    @Override
+    public List<Flight> getAllIncomingFlights(Destination destination) throws JPAException {
+        if (destination == null) {
+            throw new IllegalArgumentException("destination argument is null");
+        }
+        if (destination.getId() == null) {
             throw new IllegalArgumentException("destination id is null");
-            }
-            if (destination.getCity() == null || destination.getCity() == ""){
-                throw new IllegalArgumentException("city argument is null");
-            }
-            if (destination.getCode() == null || destination.getCode() == ""){
-                throw new IllegalArgumentException("code argument is null");
-            }
-            if (destination.getCountry() == null || destination.getCountry() == ""){
-                throw new IllegalArgumentException("country argument is null");
-            }
-            //EntityManager em = factory.createEntityManager();
-            //em.getTransaction().begin();
-            Destination destinationFromDB = em.find(Destination.class, destination.getId());
-            //em.getTransaction().commit();
-            if(destinationFromDB == null){
-                throw new JPAException("destination not in DB");
-            }
-            
-            TypedQuery<Flight> query = em.createNamedQuery(
-            "Flight.findByIncoming", Flight.class);
-            query.setParameter("target",destination.getId());
-            List<Flight> flightsList = query.getResultList();
-            
-            //em.close();
-            
-            if(flightsList == null){
-                throw new JPAException("no flights found");
-            }
-            return flightsList;
-            
         }
-        
-        public List<Flight> getAllOutcomingFlights(Destination destination) throws JPAException{
-            if(destination == null){
-                throw new IllegalArgumentException("destination argument is null");
-            }
-            if (destination.getId() == null) {
+        if (destination.getCity() == null || destination.getCity().isEmpty()) {
+            throw new IllegalArgumentException("city argument is null");
+        }
+        if (destination.getCode() == null || destination.getCode().isEmpty()) {
+            throw new IllegalArgumentException("code argument is null");
+        }
+        if (destination.getCountry() == null || destination.getCountry().isEmpty()) {
+            throw new IllegalArgumentException("country argument is null");
+        }
+        //EntityManager em = factory.createEntityManager();
+        //em.getTransaction().begin();
+        Destination destinationFromDB = em.find(Destination.class, destination.getId());
+        //em.getTransaction().commit();
+        if (destinationFromDB == null) {
+            throw new JPAException("destination not in DB");
+        }
+
+        TypedQuery<Flight> query = em.createNamedQuery(
+                "Flight.findByIncoming", Flight.class);
+        query.setParameter("target", destination.getId());
+        List<Flight> flightsList = query.getResultList();
+
+        //em.close();
+
+        if (flightsList == null) {
+            throw new JPAException("no flights found");
+        }
+        return flightsList;
+
+    }
+
+    @Override
+    public List<Flight> getAllOutcomingFlights(Destination destination) throws JPAException {
+        if (destination == null) {
+            throw new IllegalArgumentException("destination argument is null");
+        }
+        if (destination.getId() == null) {
             throw new IllegalArgumentException("destination id is null");
-            }
-            if (destination.getCity() == null || destination.getCity() == ""){
-                throw new IllegalArgumentException("city argument is null");
-            }
-            if (destination.getCode() == null || destination.getCode() == ""){
-                throw new IllegalArgumentException("code argument is null");
-            }
-            if (destination.getCountry() == null || destination.getCountry() == ""){
-                throw new IllegalArgumentException("country argument is null");
-            }
-            //EntityManager em = factory.createEntityManager();
-            //em.getTransaction().begin();
-            Destination destinationFromDB = em.find(Destination.class, destination.getId());
-            //em.getTransaction().commit();
-            if(destinationFromDB == null){
-                throw new JPAException("destination not in DB");
-            }
-            
-            TypedQuery<Flight> query = em.createNamedQuery(
-            "Flight.findByOutcoming", Flight.class);
-            query.setParameter("origin",destination.getId());
-            List<Flight> flightsList = query.getResultList();
-            
-            //em.close();
-            
-            if(flightsList == null){
-                throw new JPAException("no flights found");
-            }
-            return flightsList;
         }
+        if (destination.getCity() == null || destination.getCity().isEmpty()) {
+            throw new IllegalArgumentException("city argument is null");
+        }
+        if (destination.getCode() == null || destination.getCode().isEmpty()) {
+            throw new IllegalArgumentException("code argument is null");
+        }
+        if (destination.getCountry() == null || destination.getCountry().isEmpty()) {
+            throw new IllegalArgumentException("country argument is null");
+        }
+        //EntityManager em = factory.createEntityManager();
+        //em.getTransaction().begin();
+        Destination destinationFromDB = em.find(Destination.class, destination.getId());
+        //em.getTransaction().commit();
+        if (destinationFromDB == null) {
+            throw new JPAException("destination not in DB");
+        }
+
+        TypedQuery<Flight> query = em.createNamedQuery(
+                "Flight.findByOutcoming", Flight.class);
+        query.setParameter("origin", destination.getId());
+        List<Flight> flightsList = query.getResultList();
+
+        //em.close();
+
+        if (flightsList == null) {
+            throw new JPAException("no flights found");
+        }
+        return flightsList;
+    }
 }
