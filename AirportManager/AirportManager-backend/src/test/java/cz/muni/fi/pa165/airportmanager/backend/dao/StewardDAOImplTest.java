@@ -1,23 +1,20 @@
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
-import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
-import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -31,20 +28,17 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author Filip
  */
+//@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class StewardDAOImplTest extends AbstractTest {
     
     @Autowired
     private StewardDAO stewDAO;
     
     @Autowired
-    private FlightDAO flightDAO;
+    private EntityManagerFactory emf;
     
-    @Autowired
-    private DestinationDAO destDAO;
+    private EntityManager em;
     
-    @Autowired
-    private AirplaneDAO planeDAO;
-
     /**
      * Setup for each test.
      */
@@ -52,9 +46,8 @@ public class StewardDAOImplTest extends AbstractTest {
     public void setUp() {
         ApplicationContext context = new ClassPathXmlApplicationContext("testingApplicationContext.xml");
         stewDAO = context.getBean(StewardDAO.class);
-        flightDAO = context.getBean(FlightDAO.class);
-        destDAO = context.getBean(DestinationDAO.class);
-        planeDAO = context.getBean(AirplaneDAO.class);
+        emf = context.getBean(EntityManagerFactory.class);
+        em = emf.createEntityManager();
     }
     /**
      * Test for get steward.
@@ -115,14 +108,13 @@ public class StewardDAOImplTest extends AbstractTest {
     @Test
     public void testGetAllStewardsFlights() throws JPAException {
         Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
-        //em.persist(plane1);
-        planeDAO.createAirplane(plane1);
         Destination dest1 = newDestination("CZB","Czech Republic","Brno");
-        //em.persist(dest1);
-        destDAO.createDestination(dest1);
         Destination dest2 = newDestination("USN","United States","New York");
-        //em.persist(dest2);
-        destDAO.createDestination(dest2);
+        em.getTransaction().begin();
+        em.persist(plane1);
+        em.persist(dest1);
+        em.persist(dest2);
+        em.getTransaction().commit();
         Steward steward1 = newSteward("Elaine","Dickinson");
         stewDAO.createSteward(steward1);
 
@@ -136,8 +128,9 @@ public class StewardDAOImplTest extends AbstractTest {
         stewList.add(steward1);
         
         Flight flight1 = newFlight(new Timestamp(100000),new Timestamp(500000),dest1,dest2,plane1,stewList);
-        //em.persist(flight1);
-        flightDAO.createFlight(flight1);
+        em.getTransaction().begin();
+        em.persist(flight1);
+        em.getTransaction().commit();
         List<Flight> flightList = new ArrayList<>();
         flightList.add(flight1);
         
