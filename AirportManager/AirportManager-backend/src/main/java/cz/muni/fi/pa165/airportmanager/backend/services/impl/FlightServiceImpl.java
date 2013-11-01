@@ -14,12 +14,14 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Filip
  */
 @Service
+@Transactional
 public class FlightServiceImpl implements FlightService {
 
     @Autowired
@@ -36,6 +38,18 @@ public class FlightServiceImpl implements FlightService {
 
     public void setFlightDAO(FlightDAO flightDAO) {
         this.flightDAO = flightDAO;
+    }
+
+    public void setStewDAO(StewardDAO stewDAO) {
+        this.stewDAO = stewDAO;
+    }
+
+    public void setDestDAO(DestinationDAO destDAO) {
+        this.destDAO = destDAO;
+    }
+
+    public void setAirplaneDAO(AirplaneDAO airplaneDAO) {
+        this.airplaneDAO = airplaneDAO;
     }
 
     @Override

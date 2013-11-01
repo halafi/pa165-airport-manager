@@ -13,15 +13,12 @@ import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
 import org.springframework.dao.DataAccessException;
 /**
  *
@@ -34,22 +31,11 @@ public class StewardServiceImplTest extends AbstractServiceTest {
     @InjectMocks
     private StewardServiceImpl service;
 
-    @BeforeClass
-    public static void beforeClass() {
-       
-    }
-    
-    @Before
-     public void init() {
-        MockitoAnnotations.initMocks(this);
-        service.setStewardDao(stewDAO);
-    }
-
     @After
     public void reset() {
         Mockito.reset(stewDAO);
-        
     }
+    
     /**
      * Attempts to create Null Steward. Good luck with that!
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
