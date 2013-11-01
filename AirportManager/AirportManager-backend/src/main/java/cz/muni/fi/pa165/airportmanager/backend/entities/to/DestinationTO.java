@@ -101,7 +101,7 @@ public class DestinationTO {
         }
         return true;
     }
-
+ 
     @Override
     public String toString() {
         return "DestinationTO{" + "id=" + id + ", code=" + code + ", country=" + country + ", city=" + city + ", incoming=" + incoming + ", outcoming=" + outcoming + '}';
