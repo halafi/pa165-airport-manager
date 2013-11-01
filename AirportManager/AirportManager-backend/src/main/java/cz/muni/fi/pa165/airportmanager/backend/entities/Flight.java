@@ -106,7 +106,7 @@ public class Flight implements Serializable {
         hash = 29 * hash + Objects.hashCode(this.origin);
         hash = 29 * hash + Objects.hashCode(this.target);
         hash = 29 * hash + Objects.hashCode(this.airplane);
-        hash = 29 * hash + Objects.hashCode(this.stewardList);
+//        hash = 29 * hash + Objects.hashCode(this.stewardList);
         return hash;
     }
 
@@ -137,9 +137,9 @@ public class Flight implements Serializable {
         if (!Objects.equals(this.airplane, other.airplane)) {
             return false;
         }
-        if (!Objects.equals(this.stewardList, other.stewardList)) {
-            return false;
-        }
+//        if (!Objects.equals(this.stewardList, other.stewardList)) {
+//            return false;
+//        }
         return true;
     }
 

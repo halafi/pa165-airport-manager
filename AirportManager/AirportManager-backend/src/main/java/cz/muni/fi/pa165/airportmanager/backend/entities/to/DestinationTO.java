@@ -75,8 +75,8 @@ public class DestinationTO {
         hash = 67 * hash + Objects.hashCode(this.code);
         hash = 67 * hash + Objects.hashCode(this.country);
         hash = 67 * hash + Objects.hashCode(this.city);
-        hash = 67 * hash + Objects.hashCode(this.incoming);
-        hash = 67 * hash + Objects.hashCode(this.outcoming);
+//        hash = 67 * hash + Objects.hashCode(this.incoming);
+//        hash = 67 * hash + Objects.hashCode(this.outcoming);
         return hash;
     }
 
@@ -101,12 +101,12 @@ public class DestinationTO {
         if (!Objects.equals(this.city, other.city)) {
             return false;
         }
-        if (!Objects.equals(this.incoming, other.incoming)) {
-            return false;
-        }
-        if (!Objects.equals(this.outcoming, other.outcoming)) {
-            return false;
-        }
+//        if (!Objects.equals(this.incoming, other.incoming)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.outcoming, other.outcoming)) {
+//            return false;
+//        }
         return true;
     }
 

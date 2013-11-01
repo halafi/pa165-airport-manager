@@ -65,8 +65,8 @@ public class Destination implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 13 * hash + Objects.hashCode(this.incoming);
-        hash = 13 * hash + Objects.hashCode(this.outcoming);
+//        hash = 13 * hash + Objects.hashCode(this.incoming);
+//        hash = 13 * hash + Objects.hashCode(this.outcoming);
         hash = 13 * hash + Objects.hashCode(this.id);
         hash = 13 * hash + Objects.hashCode(this.code);
         hash = 13 * hash + Objects.hashCode(this.country);
@@ -83,12 +83,12 @@ public class Destination implements Serializable {
             return false;
         }
         final Destination other = (Destination) obj;
-        if (!Objects.equals(this.incoming, other.incoming)) {
-            return false;
-        }
-        if (!Objects.equals(this.outcoming, other.outcoming)) {
-            return false;
-        }
+//        if (!Objects.equals(this.incoming, other.incoming)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.outcoming, other.outcoming)) {
+//            return false;
+//        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }

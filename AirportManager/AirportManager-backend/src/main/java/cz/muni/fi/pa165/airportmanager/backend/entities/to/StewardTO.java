@@ -42,7 +42,7 @@ public class StewardTO {
 
     @Override
     public String toString() {
-        return "[" + id + "] " + firstName + " " + lastName;
+        return "Steward [" + id + "] " + firstName + " " + lastName;
     }
 
     @Override

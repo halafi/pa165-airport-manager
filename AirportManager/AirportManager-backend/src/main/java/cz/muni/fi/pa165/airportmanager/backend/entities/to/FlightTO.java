@@ -95,7 +95,7 @@ public class FlightTO {
         hash = 67 * hash + Objects.hashCode(this.arrivalTime);
         hash = 67 * hash + Objects.hashCode(this.origin);
         hash = 67 * hash + Objects.hashCode(this.target);
-        hash = 67 * hash + Objects.hashCode(this.stewList);
+//        hash = 67 * hash + Objects.hashCode(this.stewList);
         hash = 67 * hash + Objects.hashCode(this.airplaneTO);
         return hash;
     }
@@ -124,9 +124,9 @@ public class FlightTO {
         if (!Objects.equals(this.target, other.target)) {
             return false;
         }
-        if (!Objects.equals(this.stewList, other.stewList)) {
-            return false;
-        }
+//        if (!Objects.equals(this.stewList, other.stewList)) {
+//            return false;
+//        }
         if (!Objects.equals(this.airplaneTO, other.airplaneTO)) {
             return false;
         }

@@ -22,27 +22,15 @@ import static org.junit.Assert.*;
  */
 public class EntityConverterTest {
     
-    private void AssertDeepEquals(Flight f1, Flight f2){
+    private void AssertDeepEquals(Flight f1, FlightTO f2){
         //TODO
     }
     
-    private void AssertDeepEquals(FlightTO f1, FlightTO f2){
+    private void AssertDeepEquals(Airplane a1, AirplaneTO a2){
         //TODO
     }
     
-    private void AssertDeepEquals(Airplane a1, Airplane a2){
-        //TODO
-    }
-    
-    private void AssertDeepEquals(AirplaneTO a1, AirplaneTO a2){
-        //TODO
-    }
-    
-    private void AssertDeepEquals(Destination d1, Destination d2){
-        //TODO
-    }
-    
-    private void AssertDeepEquals(DestinationTO d1, DestinationTO d2){
+    private void AssertDeepEquals(Destination d1, DestinationTO d2){
         //TODO
     }
     

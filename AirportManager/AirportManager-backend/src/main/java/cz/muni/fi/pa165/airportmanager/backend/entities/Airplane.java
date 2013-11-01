@@ -82,7 +82,7 @@ public class Airplane implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.flights);
+//        hash = 97 * hash + Objects.hashCode(this.flights);
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + this.capacity;
         hash = 97 * hash + Objects.hashCode(this.name);
@@ -99,9 +99,9 @@ public class Airplane implements Serializable {
             return false;
         }
         final Airplane other = (Airplane) obj;
-        if (!Objects.equals(this.flights, other.flights)) {
-            return false;
-        }
+//        if (!Objects.equals(this.flights, other.flights)) {
+//            return false;
+//        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
