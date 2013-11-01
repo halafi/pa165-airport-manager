@@ -77,7 +77,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
         airplane2.setId(new Long(2));
         airplaneNull = null;
         airplaneNullId = createAirplane(10, "GERT-Y", "Boeing 747-800");
-        airplaneNullId.setId(null);
+        //airplaneNullId.setId(null);
         airplaneNullArgs = createAirplane(10, null, null);
         airplaneNullArgs.setId(new Long(3));
         airplaneEmptyArgs = createAirplane(10, "", "");
@@ -106,6 +106,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
         doThrow(IllegalArgumentException.class).when(airplaneDAO).updateAirplane(null);
         doThrow(IllegalArgumentException.class).when(airplaneDAO).updateAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNullId));
+        //doThrow(IllegalArgumentException.class).when(airplaneNullId.getId() == null);
         doThrow(IllegalArgumentException.class).when(airplaneDAO).updateAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNullArgs));
         doThrow(IllegalArgumentException.class).when(airplaneDAO).updateAirplane(
@@ -221,7 +222,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
             fail("Updating airplane with nullArgs - bad exception" + ex);
         }
         try{
-            airplaneService.updateAirplane(airplaneNullId);
+            airplaneService.updateAirplane(createAirplane(10, "a", "a"));
             fail("Updating airplane with null id - no exception");
         }catch(ServiceDataAccessException ex){
         }catch(Exception ex){
@@ -293,9 +294,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
             airList = airplaneService.getAllAirplanes();
             assertDeepEquals(airList.get(0), airplane1);
             assertDeepEquals(airList.get(1), airplane2);
-            //fail("Getting airplane with null - no exception");
         }catch(Exception ex){
-            //fail("Creating airplane with null - bad exception" + ex.getMessage());
             fail("Getting all airplanes - exception" + ex);
         }
     }
@@ -307,7 +306,6 @@ public class AirplaneServiceImplTest extends AbstractTest{
             fail("Getting flights for airplane null - no exception");
         }catch(ServiceDataAccessException ex){
         }catch(Exception ex){
-            //fail("Creating airplane with null - bad exception" + ex.getMessage());
             fail("Getting flights for airplane null - bad exception" + ex);
         }
         try{
@@ -315,7 +313,6 @@ public class AirplaneServiceImplTest extends AbstractTest{
             fail("Getting flights for airplane null id - no exception");
         }catch(ServiceDataAccessException ex){
         }catch(Exception ex){
-            //fail("Creating airplane with null - bad exception" + ex.getMessage());
             fail("Getting flights for airplane null id - bad exception" + ex);
         }
         try{
@@ -323,7 +320,6 @@ public class AirplaneServiceImplTest extends AbstractTest{
             fail("Getting flights for airplane not in db - no exception");
         }catch(ServiceDataAccessException ex){
         }catch(Exception ex){
-            //fail("Creating airplane with null - bad exception" + ex.getMessage());
             fail("Getting flights for airplane not in db - bad exception" + ex);
         }
         try{

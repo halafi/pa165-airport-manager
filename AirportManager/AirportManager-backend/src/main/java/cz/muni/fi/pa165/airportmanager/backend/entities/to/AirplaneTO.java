@@ -92,6 +92,11 @@ public class AirplaneTO {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "AirplaneTO{" + "flights=" + flights + ", id=" + id + ", capacity=" + capacity + ", name=" + name + ", type=" + type + '}';
+    }
     
     
     
