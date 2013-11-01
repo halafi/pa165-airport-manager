@@ -38,6 +38,18 @@ public class FlightServiceImpl implements FlightService {
         this.flightDAO = flightDAO;
     }
 
+    public void setStewDAO(StewardDAO stewDAO) {
+        this.stewDAO = stewDAO;
+    }
+
+    public void setDestDAO(DestinationDAO destDAO) {
+        this.destDAO = destDAO;
+    }
+
+    public void setAirplaneDAO(AirplaneDAO airplaneDAO) {
+        this.airplaneDAO = airplaneDAO;
+    }
+
     @Override
     public void createFlight(FlightTO flightTO) throws ServiceDataAccessException {
         if(flightTO == null) {
