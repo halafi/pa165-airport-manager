@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Samo
  */
-//@Transactional
+@Transactional
 @Service
 public class DestinationServiceImpl implements DestinationService {
     private DestinationDAO destinationDao;

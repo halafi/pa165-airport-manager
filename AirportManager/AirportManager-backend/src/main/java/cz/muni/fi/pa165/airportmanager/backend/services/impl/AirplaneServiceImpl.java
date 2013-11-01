@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Matus Makovy
  */
 @Service
+@Transactional
 public class AirplaneServiceImpl implements AirplaneService {
 
     //@Autowired
