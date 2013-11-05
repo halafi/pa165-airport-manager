@@ -5,16 +5,9 @@
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
-import cz.muni.fi.pa165.airportmanager.backend.services.ServiceDataAccessException;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl;
-import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
-import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.AirplaneTO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
@@ -30,12 +23,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 /**
