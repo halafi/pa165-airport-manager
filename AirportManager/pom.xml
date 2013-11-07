@@ -8,5 +8,6 @@
   <name>AirportManager</name>
     <modules>
         <module>./AirportManager-backend</module>
+        <module>./AirportManager-web</module>
     </modules>
 </project>
