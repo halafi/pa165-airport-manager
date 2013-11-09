@@ -21,10 +21,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class DestinationDAOImpl implements DestinationDAO {
 
-    //private EntityManagerFactory factory;
-    //public void setFactory(EntityManagerFactory factory) {
-    //    this.factory = factory;
-    //}
     @PersistenceContext
     private EntityManager em;
 
@@ -42,13 +38,8 @@ public class DestinationDAOImpl implements DestinationDAO {
         if (destination.getCountry() == null || destination.getCountry().isEmpty()) {
             throw new IllegalArgumentException("country argument is null");
         }
-        //EntityManager em = factory.createEntityManager();
 
-//            em.getTransaction().begin();
         em.persist(destination);
-//            em.getTransaction().commit();
-
-        //em.close();
     }
 
     @Override
@@ -70,18 +61,12 @@ public class DestinationDAOImpl implements DestinationDAO {
             throw new IllegalArgumentException("country argument is null");
         }
 
-        //EntityManager em = factory.createEntityManager();
-
-        //em.getTransaction().begin();
         Destination destinationFromDB = em.find(Destination.class, destination.getId());
         if (destinationFromDB == null) {
             throw new JPAException("destination not in database");
         } else {
             em.merge(destination);
         }
-        //em.getTransaction().commit();
-
-        //em.close();
     }
 
     @Override
@@ -101,17 +86,13 @@ public class DestinationDAOImpl implements DestinationDAO {
         if (destination.getCountry() == null || destination.getCountry().isEmpty()) {
             throw new IllegalArgumentException("country argument is null");
         }
-        //EntityManager em = factory.createEntityManager();
 
-        //em.getTransaction().begin();
         Destination destinationFromDB = em.find(Destination.class, destination.getId());
         if (destinationFromDB == null) {
             throw new JPAException("destination not in database");
         } else {
             em.remove(destinationFromDB);
         }
-        //em.getTransaction().commit();
-        //em.close();
     }
 
     @Override
@@ -119,13 +100,9 @@ public class DestinationDAOImpl implements DestinationDAO {
         if (id == null) {
             throw new IllegalArgumentException("id argument is null");
         }
-        //EntityManager em = factory.createEntityManager();
 
-        //em.getTransaction().begin();
         Destination destination = em.find(Destination.class, id);
-        //em.getTransaction().commit();
-        //em.close();
-
+        
         if (destination == null) {
             throw new JPAException("destination not in database");
         }
@@ -134,12 +111,9 @@ public class DestinationDAOImpl implements DestinationDAO {
 
     @Override
     public List<Destination> getAllDestinations() throws JPAException {
-        //EntityManager em = factory.createEntityManager();
         TypedQuery<Destination> query = em.createQuery(
                 "SELECT d FROM Destination d", Destination.class);
         List<Destination> destinationsList = query.getResultList();
-
-        //em.close();
 
         if (destinationsList == null) {
             throw new JPAException("no destinations in database");
@@ -164,10 +138,9 @@ public class DestinationDAOImpl implements DestinationDAO {
         if (destination.getCountry() == null || destination.getCountry().isEmpty()) {
             throw new IllegalArgumentException("country argument is null");
         }
-        //EntityManager em = factory.createEntityManager();
-        //em.getTransaction().begin();
+
         Destination destinationFromDB = em.find(Destination.class, destination.getId());
-        //em.getTransaction().commit();
+        
         if (destinationFromDB == null) {
             throw new JPAException("destination not in DB");
         }
@@ -177,13 +150,10 @@ public class DestinationDAOImpl implements DestinationDAO {
         query.setParameter("target", destination.getId());
         List<Flight> flightsList = query.getResultList();
 
-        //em.close();
-
         if (flightsList == null) {
             throw new JPAException("no flights found");
         }
         return flightsList;
-
     }
 
     @Override
@@ -203,10 +173,9 @@ public class DestinationDAOImpl implements DestinationDAO {
         if (destination.getCountry() == null || destination.getCountry().isEmpty()) {
             throw new IllegalArgumentException("country argument is null");
         }
-        //EntityManager em = factory.createEntityManager();
-        //em.getTransaction().begin();
+
         Destination destinationFromDB = em.find(Destination.class, destination.getId());
-        //em.getTransaction().commit();
+        
         if (destinationFromDB == null) {
             throw new JPAException("destination not in DB");
         }
@@ -215,8 +184,6 @@ public class DestinationDAOImpl implements DestinationDAO {
                 "Flight.findByOutcoming", Flight.class);
         query.setParameter("origin", destination.getId());
         List<Flight> flightsList = query.getResultList();
-
-        //em.close();
 
         if (flightsList == null) {
             throw new JPAException("no flights found");

@@ -39,8 +39,7 @@ public class DestinationServiceImpl implements DestinationService {
             destinationDao.createDestination(destination);
             destinationTo.setId(destination.getId());
         }catch(Exception e){
-            throw new ServiceDataAccessException("Destination creating error " + e.getMessage());
-//            throw new ServiceDataAccessException("Destination creating error ", e);
+            throw new ServiceDataAccessException("Destination creating error " + e);
         }
         
         
@@ -53,8 +52,7 @@ public class DestinationServiceImpl implements DestinationService {
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
             destinationDao.updateDestination(destination);
         }catch(Exception e){
-            throw new ServiceDataAccessException("Destination updating error "+ e.getMessage());
-//            throw new ServiceDataAccessException("Destination updating error ", e);
+            throw new ServiceDataAccessException("Destination updating error " + e);
         }
     }
 
@@ -65,7 +63,7 @@ public class DestinationServiceImpl implements DestinationService {
             Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
             destinationDao.removeDestination(destination);
         }catch(Exception e){
-            throw new ServiceDataAccessException("Destination deleting error "+ e.getMessage());
+            throw new ServiceDataAccessException("Destination deleting error " + e);
         }
     }
 
@@ -76,7 +74,7 @@ public class DestinationServiceImpl implements DestinationService {
             Destination destination = destinationDao.getDestination(id);
             return EntityDTOTransformer.destinationConvert(destination);
         }catch(Exception e){
-            throw new ServiceDataAccessException("Destination finding error "+ e.getMessage());
+            throw new ServiceDataAccessException("Destination finding error " + e);
         }
     }
 
@@ -93,7 +91,7 @@ public class DestinationServiceImpl implements DestinationService {
             }
             return destinationsToList;
         }catch(Exception e){
-            throw new ServiceDataAccessException("All destinations getting error "+ e.getMessage());
+            throw new ServiceDataAccessException("All destinations getting error " + e);
         }
     }
 
@@ -111,7 +109,7 @@ public class DestinationServiceImpl implements DestinationService {
             }
             return flightsToList;
         }catch(Exception e){
-            throw new ServiceDataAccessException("All incoming flights retrieving error "+ e.getMessage());
+            throw new ServiceDataAccessException("All incoming flights retrieving error " + e);
         }
     }
 
@@ -129,7 +127,7 @@ public class DestinationServiceImpl implements DestinationService {
             }
             return flightsToList;
         }catch(Exception e){
-            throw new ServiceDataAccessException("All outcoming flights retrieving error "+ e.getMessage());
+            throw new ServiceDataAccessException("All outcoming flights retrieving error " + e);
         }
     }    
 }

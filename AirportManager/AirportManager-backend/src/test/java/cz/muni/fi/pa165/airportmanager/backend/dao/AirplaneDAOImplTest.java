@@ -43,18 +43,10 @@ public class AirplaneDAOImplTest extends AbstractTest{
     @Autowired
     private AirplaneDAO airplaneDAO;
 
-    //@BeforeClass
     @Before
     public void init(){
-        //emf = Persistence.createEntityManagerFactory("InMemoryTestPU");
         em = emf.createEntityManager();
-//        airplaneDAO = new AirplaneDAOImpl(emf);
     }
-    
-//    @AfterClass
-//    public void closeFactory(){
-//        emf.close();
-//    }
     
     @Before
     public void initTest(){
@@ -370,6 +362,15 @@ public class AirplaneDAOImplTest extends AbstractTest{
         assertDeepEquals(f1.getAirplane(), f2.getAirplane());
         assertEquals(f1.getArrivalTime(), f2.getArrivalTime());
         assertEquals(f1.getDepartureTime(), f2.getDepartureTime());
+        assertDeepEqualsDestinations(f1.getOrigin(), f2.getOrigin());
+        assertDeepEqualsDestinations(f1.getTarget(), f2.getTarget());
+    }
+    
+    private void assertDeepEqualsDestinations(Destination d1, Destination d2){
+        assertEquals(d1.getId(), d2.getId());
+        assertEquals(d1.getCity(), d2.getCity());
+        assertEquals(d1.getCode(), d2.getCode());
+        assertEquals(d1.getCountry(), d2.getCountry());
     }
     
     private static Airplane createAirplane(int capacity, String name, String type) {
