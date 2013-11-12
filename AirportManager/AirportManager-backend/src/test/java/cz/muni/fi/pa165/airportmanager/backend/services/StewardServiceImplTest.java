@@ -13,13 +13,16 @@ import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataRetrievalFailureException;
 /**
  *
  * @author Filip
@@ -31,17 +34,27 @@ public class StewardServiceImplTest extends AbstractServiceTest {
     @InjectMocks
     private StewardServiceImpl service;
 
+    @Before
+    public void setUpMock() {
+        doThrow(DataRetrievalFailureException .class).when(stewDAO).createSteward(null);
+        doThrow(DataRetrievalFailureException .class).when(stewDAO).updateSteward(null);
+        doThrow(DataRetrievalFailureException .class).when(stewDAO).removeSteward(null);
+        doThrow(DataRetrievalFailureException .class).when(stewDAO).getSteward(null);
+        doThrow(DataRetrievalFailureException .class).when(stewDAO).getAllStewardsFlights(null);
+    }
+    
     @After
     public void reset() {
         Mockito.reset(stewDAO);
     }
+    
     
     /**
      * Attempts to create Null Steward. Good luck with that!
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
      */
     @Test (expected=DataAccessException.class)
-    public void testCreateNull() throws JPAException {
+    public void testCreateNull() {
         service.createSteward(null);
     }
     
@@ -50,7 +63,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * @throws JPAException 
      */
     @Test
-    public void testCreateSteward() throws JPAException {
+    public void testCreateSteward() {
         StewardTO expected = newStewardTO("Elaine","Dickinson");
         service.createSteward(expected);
         verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(expected));
@@ -64,7 +77,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
      */
     @Test (expected=DataAccessException.class)
-    public void testUpdateNull() throws JPAException {
+    public void testUpdateNull() {
         service.updateSteward(null);
     }
     
@@ -73,7 +86,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * @throws JPAException 
      */
     @Test
-    public void testUpdateSteward() throws JPAException {
+    public void testUpdateSteward() {
         StewardTO stewTo = newStewardTO("Elaine","Dickinson");
         service.createSteward(stewTo);
         verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
@@ -90,7 +103,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
      */
     @Test (expected=DataAccessException.class)
-    public void testRemoveNull() throws JPAException {
+    public void testRemoveNull() {
         service.removeSteward(null);
     }
     
@@ -99,17 +112,16 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * @throws JPAException
      */
     @Test (expected=DataAccessException.class)
-    public void testRemoveSteward() throws JPAException {
+    public void testRemoveSteward() {
         StewardTO stewTo = newStewardTO("Elaine","Dickinson");
         service.createSteward(stewTo);
         verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
         when(stewDAO.getSteward(-1L)).thenReturn(EntityDTOTransformer.stewardTOConvert(stewTo));
         service.removeSteward(stewTo);
         verify(stewDAO).removeSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
-        Steward stew = EntityDTOTransformer.stewardTOConvert(stewTo);
-        when(stewDAO.getSteward(-1L)).thenReturn(null);
+        //Steward stew = EntityDTOTransformer.stewardTOConvert(stewTo);
+        when(stewDAO.getSteward(-1L)).thenThrow(DataRetrievalFailureException .class);
         StewardTO actual = service.findSteward(-1L);
-
     }
     
     /**
@@ -126,7 +138,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * @throws JPAException 
      */
     @Test
-    public void testFindSteward() throws JPAException {
+    public void testFindSteward() {
         StewardTO expected = newStewardTO("Elaine","Dickinson");
         try {
             service.createSteward(expected);
@@ -145,7 +157,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * @throws JPAException 
      */
     @Test
-    public void testFindAllStewards() throws JPAException {
+    public void testFindAllStewards() {
         StewardTO stew = newStewardTO("Elaine","Dickinson");
         StewardTO stew2 = newStewardTO("Samo","Teammate");
         List<Steward> list = new ArrayList();
@@ -170,7 +182,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
      */
     @Test (expected=DataAccessException.class)
-    public void testGetAllNullFlights() throws JPAException {
+    public void testGetAllNullFlights() {
         service.getAllStewardsFlights(null);
     }
     
@@ -179,7 +191,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
      * @throws JPAException 
      */
     @Test
-    public void testGetAllStewardsFlights() throws JPAException {
+    public void testGetAllStewardsFlights() {
         StewardTO stewTo = newStewardTO("Elaine","Dickinson");
         service.getAllStewardsFlights(stewTo);
         verify(stewDAO).getAllStewardsFlights(EntityDTOTransformer.stewardTOConvert(stewTo));
@@ -217,7 +229,7 @@ public class StewardServiceImplTest extends AbstractServiceTest {
     /**
      * Comparator by id.
      */
-    private static Comparator<StewardTO> idComparator = new Comparator<StewardTO>() {
+    private static final Comparator<StewardTO> idComparator = new Comparator<StewardTO>() {
         @Override
         public int compare(StewardTO s1, StewardTO s2) {
             return s1.getId().compareTo(s2.getId());
