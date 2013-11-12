@@ -10,6 +10,12 @@ body {
     padding: 0;
 }
 
+h1 {
+    text-align: left; 
+    text-decoration: none; 
+    padding: 5px;
+    margin: 0px;
+}
 #main-wrapper {
     background: white;
     position: absolute;
@@ -33,7 +39,7 @@ body {
 .text-content {
     margin: 0.5em;
     background-color: rgb(221,221,221);
-    min-height: 10em;
+    
     padding: 0.5em;
 }
 
@@ -74,4 +80,31 @@ a:hover {
 }
 a:active {
     text-decoration:underline;
+}
+
+table {
+    text-align: left;
+}
+
+thead th {
+    padding-bottom: 2em;
+}
+
+table.basic { 
+    border-collapse: collapse; 
+    width: 85%;
+    margin: 5px;
+}
+
+table.basic tr:nth-child(odd) {
+    background-color: lightgray;
+}
+
+table.basic tr:nth-child(even) {
+    background-color: white;
+}
+
+table.basic th, table.basic td {  
+    border: solid 1px black;
+    padding: 3px;
 }
