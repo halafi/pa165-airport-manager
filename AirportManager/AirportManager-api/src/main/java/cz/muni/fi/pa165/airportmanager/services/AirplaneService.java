@@ -1,9 +1,8 @@
-package cz.muni.fi.pa165.airportmanager.backend.services;
+package cz.muni.fi.pa165.airportmanager.services;
 
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.AirplaneTO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import java.util.List;
-import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -17,7 +16,7 @@ public interface AirplaneService {
      * @param airplane airplane to be created
      * @throws DataAccessException in case of exception in lower layer
      */
-    public void createAirplane(AirplaneTO airplane) throws DataAccessException;
+    public void createAirplane(AirplaneTO airplane);
 
     /**
      * Updates airplane 
@@ -25,7 +24,7 @@ public interface AirplaneService {
      * @param airplane airplane to be updated
      * @throws DataAccessException in case of exception in lower layer
      */
-    public void updateAirplane(AirplaneTO airplane) throws DataAccessException;
+    public void updateAirplane(AirplaneTO airplane);
     
     /**
      * Removes airplane
@@ -33,7 +32,7 @@ public interface AirplaneService {
      * @param airplane airplane to be removed
      * @throws DataAccessException in case of exception in lower layer
      */
-    public void removeAirplane(AirplaneTO airplane) throws DataAccessException;
+    public void removeAirplane(AirplaneTO airplane);
 
     /**
      * Returns airplane according to ID
@@ -42,7 +41,7 @@ public interface AirplaneService {
      * @return airplane from DB
      * @throws DataAccessException in case of exception in lower layer
      */
-    public AirplaneTO getAirplane(Long id) throws DataAccessException;
+    public AirplaneTO getAirplane(Long id);
 
     /**
      * Returns all airplanes from DB
@@ -50,7 +49,7 @@ public interface AirplaneService {
      * @return all airplanes from DB
      * @throws DataAccessException in case of exception in lower layer
      */
-    public List<AirplaneTO> getAllAirplanes() throws DataAccessException;
+    public List<AirplaneTO> getAllAirplanes();
 
     /**
      * Returns all flights for one airplane
@@ -59,5 +58,5 @@ public interface AirplaneService {
      * @return List of flights
      * @throws DataAccessException in case of exception in lower layer
      */
-    public List<FlightTO> getAllAirplanesFlights(AirplaneTO airplane) throws DataAccessException;
+    public List<FlightTO> getAllAirplanesFlights(AirplaneTO airplane);
 }

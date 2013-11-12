@@ -8,11 +8,11 @@ import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
 import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.AirplaneTO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.DestinationTO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
+import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
+import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +28,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 
 /**
  *
@@ -78,34 +79,34 @@ public class AirplaneServiceImplTest extends AbstractTest{
     
     private void mockReactions() throws JPAException{
         //create
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).createAirplane(null);
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).createAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).createAirplane(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).createAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNullArgs));
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).createAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).createAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneEmptyArgs));
         //update
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).updateAirplane(null);
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).updateAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).updateAirplane(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).updateAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNullId));
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).updateAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).updateAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNullArgs));
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).updateAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).updateAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneEmptyArgs));
-        doThrow(JPAException.class).when(airplaneDAO).updateAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).updateAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNotInDb));
         //remove
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).removeAirplane(null);
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).removeAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).removeAirplane(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).removeAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNullId));
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).removeAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).removeAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNullArgs));
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).removeAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).removeAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneEmptyArgs));
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).removeAirplane(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).removeAirplane(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNotInDb));
         //get
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).getAirplane(null);
-        doThrow(JPAException.class).when(airplaneDAO).getAirplane(airplaneNotInDb.getId());
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAirplane(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAirplane(airplaneNotInDb.getId());
         //getAll
         when(airplaneDAO.getAllAirplanes()).thenReturn(Arrays.asList(
                 EntityDTOTransformer.airplaneTOConvert(
@@ -117,14 +118,14 @@ public class AirplaneServiceImplTest extends AbstractTest{
                 )
                 ));
         //getAllFlights
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).getAllAirplanesFlights(null);
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).getAllAirplanesFlights(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAllAirplanesFlights(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAllAirplanesFlights(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNullArgs));
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).getAllAirplanesFlights(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAllAirplanesFlights(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNullId));
-        doThrow(IllegalArgumentException.class).when(airplaneDAO).getAllAirplanesFlights(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAllAirplanesFlights(
                 EntityDTOTransformer.airplaneTOConvert(airplaneEmptyArgs));
-        doThrow(JPAException.class).when(airplaneDAO).getAllAirplanesFlights(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAllAirplanesFlights(
                 EntityDTOTransformer.airplaneTOConvert(airplaneNotInDb));
         when(airplaneDAO.getAllAirplanesFlights(EntityDTOTransformer.airplaneTOConvert(airplane1))).
                 thenReturn(Arrays.asList(
@@ -139,7 +140,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
         try{
             airplaneService.createAirplane(null);
             fail("Creating airplane with null - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Creating airplane with null - bad exception" + ex);
         }
@@ -171,35 +172,35 @@ public class AirplaneServiceImplTest extends AbstractTest{
         try{
             airplaneService.updateAirplane(airplaneEmptyArgs);
             fail("Updating airplane with emptyArgs - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Updating airplane with emptyArgs - bad exception" + ex);
         }
         try{
             airplaneService.updateAirplane(null);
             fail("Updating airplane with null - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Updating airplane with null - bad exception" + ex);
         }
         try{
             airplaneService.updateAirplane(airplaneNotInDb);
             fail("Updating airplane with with id not in db - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Updating airplane with id not in db - bad exception" + ex);
         }
         try{
             airplaneService.updateAirplane(airplaneNullArgs);
             fail("Updating airplane with nullArgs - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Updating airplane with nullArgs - bad exception" + ex);
         }
         try{
             airplaneService.updateAirplane(airplaneNullId);
             fail("Updating airplane with null id - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Updating airplane with null id - bad exception" + ex);
         }
@@ -217,21 +218,21 @@ public class AirplaneServiceImplTest extends AbstractTest{
         try{
             airplaneService.removeAirplane(null);
             fail("Removing airplane with null - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Removing airplane with null - bad exception" + ex);
         }
         try{
             airplaneService.removeAirplane(airplaneNullId);
             fail("Removing airplane with null id - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Removing airplane with null id - bad exception" + ex);
         }
         try{
             airplaneService.removeAirplane(airplaneNotInDb);
             fail("Removing airplane with id not in db - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Removing airplane with id not in db - bad exception" + ex);
         }
@@ -249,21 +250,21 @@ public class AirplaneServiceImplTest extends AbstractTest{
         try{
             airplaneService.getAirplane(null);
             fail("Getting airplane with null - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Getting airplane with null - bad exception" + ex);
         }
         try{
             airplaneService.getAirplane(airplaneNullId.getId());
             fail("Getting airplane with null id - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Getting airplane with null id - bad exception" + ex);
         }
         try{
             airplaneService.getAirplane(airplaneNotInDb.getId());
             fail("Getting airplane with id not in db - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Getting airplane with id not in db - bad exception" + ex);
         }
@@ -272,7 +273,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
     @Test
     public void getAllTest(){
         try{
-            List<AirplaneTO> airList = new ArrayList<AirplaneTO>();
+            List<AirplaneTO> airList;
             airList = airplaneService.getAllAirplanes();
             assertDeepEquals(airList.get(0), airplane1);
             assertDeepEquals(airList.get(1), airplane2);
@@ -286,26 +287,26 @@ public class AirplaneServiceImplTest extends AbstractTest{
         try{
             airplaneService.getAllAirplanesFlights(null);
             fail("Getting flights for airplane null - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Getting flights for airplane null - bad exception" + ex);
         }
         try{
             airplaneService.getAllAirplanesFlights(airplaneNullId);
             fail("Getting flights for airplane null id - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Getting flights for airplane null id - bad exception" + ex);
         }
         try{
             airplaneService.getAllAirplanesFlights(airplaneNotInDb);
             fail("Getting flights for airplane not in db - no exception");
-        }catch(ServiceDataAccessException ex){
+        }catch(DataAccessException ex){
         }catch(Exception ex){
             fail("Getting flights for airplane not in db - bad exception" + ex);
         }
         try{
-            List<FlightTO> flightList = new ArrayList<FlightTO>();
+            List<FlightTO> flightList;
             flightList = airplaneService.getAllAirplanesFlights(airplane1);
             assertDeepEqualsFlights(flight1, flightList.get(0));
         }catch(Exception ex){
@@ -320,7 +321,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
         flight.setDepartureTime(new Timestamp(new Long(1000)));
         flight.setOrigin(createDestination());
         flight.setTarget(createDestination());
-        List<StewardTO> stewardList = new ArrayList<StewardTO>();
+        List<StewardTO> stewardList = new ArrayList<>();
         stewardList.add(createSteward());
         flight.setStewList(stewardList);
         return flight;

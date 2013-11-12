@@ -9,11 +9,11 @@ import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.AirplaneTO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.DestinationTO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
+import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
+import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +26,8 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 
 /**
  *
@@ -99,45 +101,45 @@ public class DestinationServiceImplTest extends AbstractTest{
     private void setUpMock() throws JPAException{
         /* doThrow */
         /* create */
-        doThrow(IllegalArgumentException.class).when(destDao).createDestination(null);
-        doThrow(IllegalArgumentException.class).when(destDao).createDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).createDestination(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).createDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithNullAtributesAndID));
-        doThrow(IllegalArgumentException.class).when(destDao).createDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).createDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithEmptyAtributesAndNullID));
         //má nastavené ID
-        doThrow(IllegalArgumentException.class).when(destDao).createDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).createDestination(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* update */
-        doThrow(IllegalArgumentException.class).when(destDao).updateDestination(null);
-        doThrow(IllegalArgumentException.class).when(destDao).updateDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).updateDestination(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).updateDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithNullID));
-        doThrow(IllegalArgumentException.class).when(destDao).updateDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).updateDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithNullAtributes));
-        doThrow(IllegalArgumentException.class).when(destDao).updateDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).updateDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithEmptyAtributes));
-        doThrow(JPAException.class).when(destDao).updateDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).updateDestination(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* remove */
-        doThrow(IllegalArgumentException.class).when(destDao).removeDestination(null);
-        doThrow(IllegalArgumentException.class).when(destDao).removeDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).removeDestination(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).removeDestination(
                 EntityDTOTransformer.destinationTOConvert(destWithNullID));
-        doThrow(JPAException.class).when(destDao).removeDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).removeDestination(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* get */
-        doThrow(IllegalArgumentException.class).when(destDao).getDestination(null);
-        doThrow(JPAException.class).when(destDao).getDestination(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).getDestination(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).getDestination(
                 destRemovedFromDB.getId());
         /* getAllIncoming */
-        doThrow(IllegalArgumentException.class).when(destDao).getAllIncomingFlights(null);
-        doThrow(IllegalArgumentException.class).when(destDao).getAllIncomingFlights(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).getAllIncomingFlights(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).getAllIncomingFlights(
                 EntityDTOTransformer.destinationTOConvert(destWithNullID));
-        doThrow(JPAException.class).when(destDao).getAllIncomingFlights(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).getAllIncomingFlights(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* getAllOutcoming */
-        doThrow(IllegalArgumentException.class).when(destDao).getAllOutcomingFlights(null);
-        doThrow(IllegalArgumentException.class).when(destDao).getAllOutcomingFlights(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).getAllOutcomingFlights(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).getAllOutcomingFlights(
                 EntityDTOTransformer.destinationTOConvert(destWithNullID));
-        doThrow(JPAException.class).when(destDao).getAllOutcomingFlights(
+        doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).getAllOutcomingFlights(
                 EntityDTOTransformer.destinationTOConvert(destRemovedFromDB));
         /* end doThrow */
         /* doReturn */
@@ -180,28 +182,28 @@ public class DestinationServiceImplTest extends AbstractTest{
         try{
             destService.createDestination(null);
             fail("Create test - null argument");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Create test - null argument - bad exception " + ex);
         }
         try{
             destService.createDestination(destRemovedFromDB);
             fail("Create test - argument with nonnull ID");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Create test - argument with nonnull ID - bad exception " + ex);
         }
         try{
             destService.createDestination(destWithNullAtributesAndID);
             fail("Create test - null atributes");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Create test - null atributes - bad exception " + ex);
         }
         try{
             destService.createDestination(destWithEmptyAtributesAndNullID);
             fail("Create test - emptu atributes");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Create test - empty atributes - bad exception " + ex);
         }
@@ -219,7 +221,7 @@ public class DestinationServiceImplTest extends AbstractTest{
             assertDeepEquals(desTO, EntityDTOTransformer.destinationConvert(des));
             // pôvodné chovanie
             when(destDao.getDestination(-1L)).thenReturn(null);
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
             fail("Create test - OK argument - exception thrown " + ex);
         } catch (Exception ex){
             fail("Create test - OK argument - bad exception " + ex);
@@ -234,28 +236,32 @@ public class DestinationServiceImplTest extends AbstractTest{
         try{
             destService.removeDestination(null);
             fail("Remove test - null argument");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Remove test - null argument - bad exception " + ex);
         }
+        
         try{
             destService.removeDestination(destWithNullID);
             fail("Remove test - null ID");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Remove test - null ID - bad exception " + ex);
         }
+        
         try{
             destService.removeDestination(destRemovedFromDB);
             fail("Remove test - argument not in DB");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Remove test - argument not in DB - bad exception " + ex);
         }
+        
         try{
             destService.removeDestination(destInDB1);
-            when(destDao.getDestination(destInDB1.getId())).thenThrow(JPAException.class);
-        } catch (ServiceDataAccessException ex){
+            when(destDao.getDestination(destInDB1.getId()))
+                    .thenThrow(InvalidDataAccessResourceUsageException.class);
+        } catch (DataAccessException ex){
             fail("Remove test - OK argument - exception thrown " + ex);
         } catch (Exception ex){
             fail("Remove test - OK argument - bad exception " + ex);
@@ -266,15 +272,17 @@ public class DestinationServiceImplTest extends AbstractTest{
             if(d != null){
                 fail("Remove test - not removed");
             }
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Remove test - removed - bad exception " + ex);
         }
+
         // navrátenie do pôvodného stavu
         try{
             when(destDao.getDestination(destInDB1.getId()))
                 .thenReturn(EntityDTOTransformer.destinationTOConvert(destInDB1));
-        } catch (JPAException ex){}
+        } catch (Exception ex){}
+        System.out.println("navratenie");
     }
     
     /** 
@@ -285,28 +293,28 @@ public class DestinationServiceImplTest extends AbstractTest{
         try{
             destService.updateDestination(null);
             fail("Update test - null argument");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Update test - null argument - bad exception " + ex);
         }
         try{
             destService.updateDestination(destWithNullID);
             fail("Update test - null ID");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Update test - null ID - bad exception " + ex);
         }
         try{
             destService.updateDestination(destWithEmptyAtributes);
             fail("Update test - empty atributes");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Update test - empty atributes - bad exception " + ex);
         }
         try{
             destService.updateDestination(destWithNullAtributes);
             fail("Update test - null atributes");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Update test - null atributes - bad exception " + ex);
         }
@@ -318,7 +326,7 @@ public class DestinationServiceImplTest extends AbstractTest{
             destService.updateDestination(des);
             when(destDao.getDestination(destInDB1.getId()))
                     .thenReturn(EntityDTOTransformer.destinationTOConvert(des));
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
             fail("Update test - OK argument - exception thrown " + ex);
         } catch (Exception ex){
             fail("Update test - null argument - bad exception " + ex);
@@ -331,7 +339,7 @@ public class DestinationServiceImplTest extends AbstractTest{
             //pôvodné chovanie
             when(destDao.getDestination(destInDB1.getId()))
                     .thenReturn(EntityDTOTransformer.destinationTOConvert(destInDB1));
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Update test - null argument - bad exception " + ex);
         }
@@ -342,14 +350,14 @@ public class DestinationServiceImplTest extends AbstractTest{
         try{
             destService.getDestination(null);
             fail("Get test - null argument");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Get test - null argument - bad exception " + ex);
         }
         try{
             destService.getDestination(destRemovedFromDB.getId());
             fail("Get test - destination not in DB");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Get test - destination not in DB - bad exception " + ex);
         }
@@ -358,7 +366,7 @@ public class DestinationServiceImplTest extends AbstractTest{
             assertDeepEquals(result, destInDB1);
             result = destService.getDestination(destInDB2.getId());
             assertDeepEquals(result, destInDB2);
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
             fail("Get test - OK argument - exception thrown " + ex);
         } catch (Exception ex){
             fail("Get test - null argument - bad exception " + ex);
@@ -370,7 +378,7 @@ public class DestinationServiceImplTest extends AbstractTest{
         try{
             destService.getDestination(null);
             fail("Get test - null argument");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Get test - null argument - bad exception " + ex);
         }
@@ -378,7 +386,7 @@ public class DestinationServiceImplTest extends AbstractTest{
             List<DestinationTO> result = destService.getAllDestinations();
             List<DestinationTO> demand = Arrays.asList(destInDB1, destInDB2);
             assertDeepEqualsListDest(demand, result);
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
             fail("Get all test - exception thrown " + ex);
         } catch (Exception ex){
             fail("Get all test - bad exception " + ex);
@@ -390,21 +398,21 @@ public class DestinationServiceImplTest extends AbstractTest{
         try{
             destService.getAllIncomingFlights(null);
             fail("Get all incoming test - null argument");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Get all incoming test - null argument - bad exception " + ex);
         }
         try{
             destService.getAllIncomingFlights(destWithNullID);
             fail("Get all incoming test - null ID");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Get all incoming test - null ID - bad exception " + ex);
         }
         try{
             destService.getAllIncomingFlights(destRemovedFromDB);
             fail("Get all incoming test - destination not in DB");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Get all incoming test - destination not in DB - bad exception " + ex);
         }
@@ -415,7 +423,7 @@ public class DestinationServiceImplTest extends AbstractTest{
             result = destService.getAllIncomingFlights(destInDB2);
             demand = Arrays.asList(flight1, flight3);
             assertDeepEqualsListFlight(demand, result);
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
             fail("Get all incoming flights test - exception thrown " + ex);
         } catch (Exception ex){
             fail("Get all incoming flights test - bad exception " + ex);
@@ -427,21 +435,21 @@ public class DestinationServiceImplTest extends AbstractTest{
         try{
             destService.getAllOutcomingFlights(null);
             fail("Get all outcoming test - null argument");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Get all outcoming test - null argument - bad exception " + ex);
         }
         try{
             destService.getAllOutcomingFlights(destWithNullID);
             fail("Get all outcoming test - null ID");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Get all outcoming test - null ID - bad exception " + ex);
         }
         try{
             destService.getAllOutcomingFlights(destRemovedFromDB);
             fail("Get all outcoming test - destination not in DB");
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
         } catch (Exception ex){
             fail("Get all outcoming test - destination not in DB - bad exception " + ex);
         }
@@ -452,7 +460,7 @@ public class DestinationServiceImplTest extends AbstractTest{
             result = destService.getAllOutcomingFlights(destInDB2);
             demand = Arrays.asList(flight3, flight4);
             assertDeepEqualsListFlight(demand, result);
-        } catch (ServiceDataAccessException ex){
+        } catch (DataAccessException ex){
             fail("Get all outcoming flights test - exception thrown " + ex);
         } catch (Exception ex){
             fail("Get all outcoming flights test - bad exception " + ex);

@@ -4,18 +4,16 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.services.impl;
 
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
-import cz.muni.fi.pa165.airportmanager.backend.services.ServiceDataAccessException;
-import cz.muni.fi.pa165.airportmanager.backend.services.StewardService;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
+import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
+import cz.muni.fi.pa165.airportmanager.services.StewardService;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class StewardServiceImpl implements StewardService{
 
-    @Inject
+    @Autowired
     private StewardDAO stewardDao;
 
     public void setStewardDao(StewardDAO stewardDao) {
@@ -38,73 +36,49 @@ public class StewardServiceImpl implements StewardService{
     @Override
     @Transactional(readOnly = false)
     public void createSteward(StewardTO steward) throws DataAccessException {
-        try{
-            Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
-            stewardDao.createSteward(stew);
-            steward.setId(stew.getId());
-        } catch (IllegalArgumentException | JPAException ex){
-            throw new ServiceDataAccessException("Error by creating steward", ex);
-        }
+        Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
+        stewardDao.createSteward(stew);
+        steward.setId(stew.getId());
     }
 
     @Override
     @Transactional(readOnly = false)
     public void updateSteward(StewardTO steward) throws DataAccessException {
-        try{
-            Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
-            stewardDao.updateSteward(stew);
-        } catch (IllegalArgumentException | JPAException ex){
-            throw new ServiceDataAccessException("Error by updating steward", ex);
-        }
+        Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
+        stewardDao.updateSteward(stew);
     }
 
     @Override
     @Transactional(readOnly = false)
     public void removeSteward(StewardTO steward) throws DataAccessException {
-        try{
-            Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
-            stewardDao.removeSteward(stew);
-        } catch (IllegalArgumentException | JPAException ex){
-            throw new ServiceDataAccessException("Error by removing steward", ex);
-        }
+        Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
+        stewardDao.removeSteward(stew);
     }
 
     @Override
     public StewardTO findSteward(Long id) throws DataAccessException {
-        try{
-            Steward s = stewardDao.getSteward(id);
-            return EntityDTOTransformer.stewardConvert(s);
-        } catch (IllegalArgumentException | JPAException ex){
-            throw new ServiceDataAccessException("Error by finding steward", ex);
-        }
+        Steward s = stewardDao.getSteward(id);
+        return EntityDTOTransformer.stewardConvert(s);
     }
 
     @Override
     public List<StewardTO> findAllStewards() throws DataAccessException {
-        try{
-            List<Steward> list = stewardDao.getAllStewards();
-            List<StewardTO> out = new ArrayList<>(list.size());
-            for(Steward s : list){
-                out.add(EntityDTOTransformer.stewardConvert(s));
-            }
-            return out;
-        } catch (IllegalArgumentException | JPAException ex){
-            throw new ServiceDataAccessException("Error by finding all stewards", ex);
+        List<Steward> list = stewardDao.getAllStewards();
+        List<StewardTO> out = new ArrayList<>(list.size());
+        for(Steward s : list){
+            out.add(EntityDTOTransformer.stewardConvert(s));
         }
+        return out;
     }
 
     @Override
     public List<FlightTO> getAllStewardsFlights(StewardTO steward) throws DataAccessException {
-        try{
-            Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
-            List<Flight> flights = stewardDao.getAllStewardsFlights(stew);
-            List<FlightTO> out = new ArrayList<>(flights.size());
-            for(Flight f : flights){
-                out.add(EntityDTOTransformer.flightConvert(f));
-            }
-            return out;
-        } catch (IllegalArgumentException | JPAException ex){
-            throw new ServiceDataAccessException("Error by finding all stewards flights", ex);
+        Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
+        List<Flight> flights = stewardDao.getAllStewardsFlights(stew);
+        List<FlightTO> out = new ArrayList<>(flights.size());
+        for(Flight f : flights){
+            out.add(EntityDTOTransformer.flightConvert(f));
         }
+        return out;
     }
 }

@@ -10,9 +10,9 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
+import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.FlightServiceImpl;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 
 /**
  *
@@ -100,17 +101,17 @@ public class FlightServiceImplTest extends AbstractServiceTest {
         flightNotInDB.setId(new Long(2));
         flightTONotInDB = EntityDTOTransformer.flightConvert(flightNotInDB);
 
-        doThrow(IllegalArgumentException.class).when(flightDao).createFlight(null);
-        doThrow(IllegalArgumentException.class).when(flightDao).updateFlight(null);
-        doThrow(IllegalArgumentException.class).when(flightDao).removeFlight(null);
-        doThrow(IllegalArgumentException.class).when(flightDao).getFlight(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(flightDao).createFlight(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(flightDao).updateFlight(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(flightDao).removeFlight(null);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(flightDao).getFlight(null);
         
-        doThrow(IllegalArgumentException.class).when(flightDao).updateFlight(flightWithoutID);
-        doThrow(IllegalArgumentException.class).when(flightDao).removeFlight(flightWithoutID);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(flightDao).updateFlight(flightWithoutID);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(flightDao).removeFlight(flightWithoutID);
         
-        doThrow(JPAException.class).when(flightDao).updateFlight(flightNotInDB);
-        doThrow(JPAException.class).when(flightDao).removeFlight(flightNotInDB);
-        doThrow(JPAException.class).when(flightDao).getFlight(idNotInDB);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(flightDao).updateFlight(flightNotInDB);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(flightDao).removeFlight(flightNotInDB);
+        doThrow(InvalidDataAccessResourceUsageException.class).when(flightDao).getFlight(idNotInDB);
         
         doReturn(flightWithID).when(flightDao).getFlight(id);
         

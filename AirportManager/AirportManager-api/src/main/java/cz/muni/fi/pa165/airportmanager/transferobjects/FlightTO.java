@@ -1,6 +1,5 @@
-package cz.muni.fi.pa165.airportmanager.backend.entities.to;
+package cz.muni.fi.pa165.airportmanager.transferobjects;
 
-import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;

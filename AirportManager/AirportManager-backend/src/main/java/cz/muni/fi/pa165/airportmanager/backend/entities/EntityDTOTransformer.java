@@ -1,9 +1,13 @@
-package cz.muni.fi.pa165.airportmanager.backend.entities.to;
+package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
+import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +19,9 @@ import java.util.List;
 public class EntityDTOTransformer {
 
     public static List<FlightTO> flightListConvert(List<Flight> flights) {
+        if(flights == null){
+            return null;
+        }
         List<FlightTO> toReturn = new ArrayList<>(flights.size());
         for(Flight f : flights){
             toReturn.add(flightConvert(f));
@@ -24,7 +31,7 @@ public class EntityDTOTransformer {
     
     public static FlightTO flightConvert(Flight flight) {
         if (flight == null) {
-            throw new NullPointerException("flight is null");
+            return null;
         } else {
             FlightTO toReturn = new FlightTO();
             toReturn.setId(flight.getId());
@@ -44,7 +51,7 @@ public class EntityDTOTransformer {
     
     public static Flight flightTOConvert(FlightTO flightTO) {
         if (flightTO == null) {
-            throw new NullPointerException("flightTO is null");
+            return null;
         }
         Flight toReturn = new Flight();
         toReturn.setId(flightTO.getId());
@@ -65,7 +72,7 @@ public class EntityDTOTransformer {
     public static Airplane airplaneTOConvert(AirplaneTO airplaneTO) {
         
         if (airplaneTO == null) {
-            throw new IllegalArgumentException("airplaneTO is null");
+            return null;
         }
 
         Airplane airplane = new Airplane();
@@ -81,7 +88,7 @@ public class EntityDTOTransformer {
     public static AirplaneTO airplaneConvert(Airplane airplane) {
         
         if (airplane == null) {
-            throw new IllegalArgumentException("airplane is null");
+            return null;
         }
 
         AirplaneTO airplaneTO = new AirplaneTO();
@@ -96,7 +103,7 @@ public class EntityDTOTransformer {
     
     public static Steward stewardTOConvert(StewardTO steward) throws IllegalArgumentException{
         if(steward == null){
-            throw new IllegalArgumentException("Steward can not be null");
+            return null;
         }
         Steward stew = new Steward();
         stew.setFirstName(steward.getFirstName());
@@ -107,7 +114,7 @@ public class EntityDTOTransformer {
     
     public static StewardTO stewardConvert(Steward steward) throws IllegalArgumentException{
         if(steward == null){
-            throw new IllegalArgumentException("Steward can not be null");
+            return null;
         }
         StewardTO stew = new StewardTO();
         stew.setFirstName(steward.getFirstName());
@@ -118,7 +125,7 @@ public class EntityDTOTransformer {
     
     public static List<StewardTO> stewardListConvert(List<Steward> list) throws IllegalArgumentException{
         if(list == null){
-            throw new IllegalArgumentException("List is null");
+            return null;
         }
         List<StewardTO> out = new ArrayList<>(list.size());
         for(Steward s : list){
@@ -129,7 +136,7 @@ public class EntityDTOTransformer {
     
     public static List<Steward> stewardTOListConvert(List<StewardTO> list) throws IllegalArgumentException{
         if(list == null){
-            throw new IllegalArgumentException("List is null");
+            return null;
         }
         List<Steward> out = new ArrayList<>(list.size());
         for(StewardTO s : list){
@@ -140,7 +147,7 @@ public class EntityDTOTransformer {
     
     public static Destination destinationTOConvert(DestinationTO destinationTo){
         if (destinationTo == null){
-            throw new IllegalArgumentException("DestinationTo is null");
+            return null;
         }
         Destination destination = new Destination();
         destination.setId(destinationTo.getId());
@@ -152,7 +159,7 @@ public class EntityDTOTransformer {
     
     public static DestinationTO destinationConvert(Destination destination){
         if (destination == null){
-            throw new IllegalArgumentException("Destination is null");
+            return null;
         }
         DestinationTO destinationTo = new DestinationTO();
         destinationTo.setId(destination.getId());

@@ -11,13 +11,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Juraj Duráni
  */
-@Component
+@Repository
 public class StewardDAOImpl implements StewardDAO{
 
     @PersistenceContext

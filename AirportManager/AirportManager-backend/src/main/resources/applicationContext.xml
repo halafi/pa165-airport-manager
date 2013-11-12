@@ -29,27 +29,13 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
-<!--    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="*"/>
-        </tx:attributes>
-    </tx:advice>
-    
-    <aop:config>
-        <aop:pointcut id="stewardServiceOperation" expression="execution(* 
-            cz.muni.fi.pa165.airportmanager.backend.services.StewardService.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="stewardServiceOperation"/>
-    </aop:config>-->
     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <!--<property name="persistenceUnitName" value="InMemoryTestPU" />-->
         <property name="persistenceUnitName" value="AirportManager" />
         
-        <!--<property name="dataSource" ref="dataSource" />-->
     </bean>
      
     <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" >
-        <!--<property name="entityManagerFactory" ref="entityManagerFactory"/>-->
     </bean>
     
     <!--drobne pridanie juraj-->
@@ -74,22 +60,6 @@
     <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl">
         <property name="destinationDao" ref="destDAO"/>
     </bean>    
-    <!-- end SAMO --> 
-    
-    <!--<bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl" >-->
-         <!--<property name="factory" ref="entityManagerFactory"/>-->
-     <!--</bean>-->
-     
-     <!--<bean id="stewardService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl" >-->
-         <!--<property name="stewardDao" ref="stewDAO"/>-->
-     <!--</bean>-->
-    
-<!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
-        <property name="url" value="jdbc:derby://localhost:1527/AirportDB" />
-        <property name="username" value="airportAdmin" />
-        <property name="password" value="admin" />
-    </bean>-->
-    
+    <!-- end SAMO -->     
     
 </beans>

@@ -7,13 +7,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Matus Makovy
  */
-@Component
+@Repository
 public class AirplaneDAOImpl implements AirplaneDAO {
        
     @PersistenceContext

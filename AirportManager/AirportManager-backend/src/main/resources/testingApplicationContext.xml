@@ -15,16 +15,6 @@
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
     
     <context:component-scan base-package="cz.muni.fi.pa165"/>
-    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
-    
-    <!--<context:annotation-config />-->
-    
-    <!--
-        Post-processor to perform exception translation on @Repository classes
-        (from native exceptions such as JPA PersistenceExceptions to
-        Spring's DataAccessException hierarchy).
-    -->
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
     
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
@@ -51,43 +41,7 @@
         <aop:advisor advice-ref="testingAdvice" pointcut-ref="flightDAOOperations"/>
     </aop:config>
     
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
- 	<property name="location">
-            <value>testing.properties</value>
-        </property>
-    </bean>
-    
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="${testingUNIT}" />
+        <property name="persistenceUnitName" value="InMemoryTestPU" />
     </bean>
-    
-    <!--<bean id="stewDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl" >-->
-         <!--<property name="factory" ref="entityManagerFactory"/>-->
-     <!--</bean>-->
-     
-     <!--<bean id="fligDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" />-->
-     
-     <!--<bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl" >-->
-         <!--<property name="factory" ref="entityManagerFactory"/>-->
-     <!--</bean>-->
-     
-     <!--<bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl" >-->
-         <!--<property name="emf" ref="entityManagerFactory"/>-->
-     <!--</bean>-->
-     
-<!--     <bean id="airService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl">
-         <property name="airplaneDao" ref="airplaneDAO"/>
-     </bean>-->
-
-<!--     <bean id="destService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl" />
-     <bean id="flightService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.FlightServiceImpl" />
-     <bean id="stewService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl" />
-     <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl" />-->
-    
-<!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
-        <property name="url" value="jdbc:derby:memory:unit-testing-jpa;create=true" />
-        <property name="username" value="" />
-        <property name="password" value="" />
-    </bean>-->
 </beans>

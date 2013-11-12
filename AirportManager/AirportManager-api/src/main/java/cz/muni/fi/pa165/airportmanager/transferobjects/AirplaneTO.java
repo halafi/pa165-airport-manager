@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.airportmanager.backend.entities.to;
+package cz.muni.fi.pa165.airportmanager.transferobjects;
 
 import java.util.List;
 import java.util.Objects;

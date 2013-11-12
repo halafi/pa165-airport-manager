@@ -4,19 +4,19 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.services.impl;
 
-import cz.muni.fi.pa165.airportmanager.backend.services.DestinationService;
-import cz.muni.fi.pa165.airportmanager.backend.services.ServiceDataAccessException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
+import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.DestinationTO;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.EntityDTOTransformer;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
+import cz.muni.fi.pa165.airportmanager.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  *
@@ -34,100 +34,70 @@ public class DestinationServiceImpl implements DestinationService {
     @Override
     @Transactional
     public void createDestination(DestinationTO destinationTo) throws DataAccessException {
-        try{
-            Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
-            destinationDao.createDestination(destination);
-            destinationTo.setId(destination.getId());
-        }catch(Exception e){
-            throw new ServiceDataAccessException("Destination creating error " + e);
-        }
-        
-        
+        Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
+        destinationDao.createDestination(destination);
+        destinationTo.setId(destination.getId());
     }
 
     @Override
     @Transactional
     public void updateDestination(DestinationTO destinationTo) throws DataAccessException {
-        try{
-            Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
-            destinationDao.updateDestination(destination);
-        }catch(Exception e){
-            throw new ServiceDataAccessException("Destination updating error " + e);
-        }
+        Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
+        destinationDao.updateDestination(destination);
     }
 
     @Override
     @Transactional
     public void removeDestination(DestinationTO destinationTo) throws DataAccessException {
-        try{
-            Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
-            destinationDao.removeDestination(destination);
-        }catch(Exception e){
-            throw new ServiceDataAccessException("Destination deleting error " + e);
-        }
+        Destination destination = EntityDTOTransformer.destinationTOConvert(destinationTo);
+        destinationDao.removeDestination(destination);
     }
-
+    
     @Override
 //    @Transactional
     public DestinationTO getDestination(Long id) throws DataAccessException {
-        try{
-            Destination destination = destinationDao.getDestination(id);
-            return EntityDTOTransformer.destinationConvert(destination);
-        }catch(Exception e){
-            throw new ServiceDataAccessException("Destination finding error " + e);
-        }
+        Destination destination = destinationDao.getDestination(id);
+        return EntityDTOTransformer.destinationConvert(destination);
     }
 
     @Override
     @Transactional
     public List<DestinationTO> getAllDestinations() throws DataAccessException {
-        try{
-            List<DestinationTO> destinationsToList = new ArrayList<DestinationTO>();
-            List<Destination> destinationsList = new ArrayList<Destination>();
-            destinationsList = destinationDao.getAllDestinations();
-            for(Destination des : destinationsList){
-                DestinationTO desTo = EntityDTOTransformer.destinationConvert(des);
-                destinationsToList.add(desTo);
-            }
-            return destinationsToList;
-        }catch(Exception e){
-            throw new ServiceDataAccessException("All destinations getting error " + e);
+        List<DestinationTO> destinationsToList = new ArrayList<>();
+        List<Destination> destinationsList;
+        destinationsList = destinationDao.getAllDestinations();
+        for(Destination des : destinationsList){
+            DestinationTO desTo = EntityDTOTransformer.destinationConvert(des);
+            destinationsToList.add(desTo);
         }
+        return destinationsToList;
     }
 
     @Override
     @Transactional
     public List<FlightTO> getAllIncomingFlights(DestinationTO destinationTo) throws DataAccessException {
-        try{
-            List<FlightTO> flightsToList = new ArrayList<FlightTO>();
-            List<Flight> flightsList = new ArrayList<Flight>();
-            flightsList = destinationDao.getAllIncomingFlights
-                    (EntityDTOTransformer.destinationTOConvert(destinationTo));
-            for(Flight flight : flightsList){
-                FlightTO flightTo = EntityDTOTransformer.flightConvert(flight);
-                flightsToList.add(flightTo);
-            }
-            return flightsToList;
-        }catch(Exception e){
-            throw new ServiceDataAccessException("All incoming flights retrieving error " + e);
+        List<FlightTO> flightsToList = new ArrayList<>();
+        List<Flight> flightsList;
+        flightsList = destinationDao.getAllIncomingFlights
+                (EntityDTOTransformer.destinationTOConvert(destinationTo));
+        for(Flight flight : flightsList){
+            FlightTO flightTo = EntityDTOTransformer.flightConvert(flight);
+            flightsToList.add(flightTo);
         }
+        return flightsToList;
     }
 
     @Override
     @Transactional
     public List<FlightTO> getAllOutcomingFlights(DestinationTO destinationTo) throws DataAccessException {
-        try{
-            List<FlightTO> flightsToList = new ArrayList<FlightTO>();
-            List<Flight> flightsList = new ArrayList<Flight>();
-            flightsList = destinationDao.getAllOutcomingFlights
-                    (EntityDTOTransformer.destinationTOConvert(destinationTo));
-            for(Flight flight : flightsList){
-                FlightTO flightTo = EntityDTOTransformer.flightConvert(flight);
-                flightsToList.add(flightTo);
-            }
-            return flightsToList;
-        }catch(Exception e){
-            throw new ServiceDataAccessException("All outcoming flights retrieving error " + e);
+        List<FlightTO> flightsToList = new ArrayList<>();
+        List<Flight> flightsList;
+        flightsList = destinationDao.getAllOutcomingFlights
+                (EntityDTOTransformer.destinationTOConvert(destinationTo));
+        for(Flight flight : flightsList){
+            FlightTO flightTo = EntityDTOTransformer.flightConvert(flight);
+            flightsToList.add(flightTo);
         }
+        return flightsToList;
     }    
 }

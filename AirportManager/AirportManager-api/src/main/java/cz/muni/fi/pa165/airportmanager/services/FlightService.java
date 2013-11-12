@@ -1,10 +1,8 @@
 
-package cz.muni.fi.pa165.airportmanager.backend.services;
+package cz.muni.fi.pa165.airportmanager.services;
 
-import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.FlightTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import java.util.List;
-import org.springframework.dao.DataAccessException;
 
 /**
  * service layer that uses DAO layer
@@ -19,7 +17,7 @@ public interface FlightService {
      * @param flightTO flightTO to be created
      * @throws ServiceDataAccessException
      */
-    void createFlight(FlightTO flightTO) throws ServiceDataAccessException;
+    void createFlight(FlightTO flightTO);
     
     /**
      * Updates Flight in DB.
@@ -27,7 +25,7 @@ public interface FlightService {
      * @param flightTO flightTO to be removed
      * @throws ServiceDataAccessException
      */
-    void updateFlight(FlightTO flightTO) throws ServiceDataAccessException;
+    void updateFlight(FlightTO flightTO);
     
     /**
      * Removes Flight from DB
@@ -35,7 +33,7 @@ public interface FlightService {
      * @param flightTO flightTO to be removed
      * @throws ServiceDataAccessException
      */
-    void removeFlight(FlightTO flightTO) throws ServiceDataAccessException;
+    void removeFlight(FlightTO flightTO);
     
     /**
      * Finds and return flightTO in DB according to id
@@ -44,7 +42,7 @@ public interface FlightService {
      * @return found flight
      * @throws ServiceDataAccessException
      */
-    FlightTO getFlight(Long id) throws ServiceDataAccessException;
+    FlightTO getFlight(Long id);
     
     /**
      * Finds all flights in DB
@@ -52,6 +50,6 @@ public interface FlightService {
      * @return List of FlightTOs in DB
      * @throws ServiceDataAccessException
      */
-    List<FlightTO> getAllFlights() throws ServiceDataAccessException;
+    List<FlightTO> getAllFlights();
     
 }

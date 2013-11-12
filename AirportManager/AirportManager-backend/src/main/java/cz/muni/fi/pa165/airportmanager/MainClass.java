@@ -5,10 +5,6 @@ import cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.services.AirplaneService;
-import cz.muni.fi.pa165.airportmanager.backend.services.DestinationService;
-import cz.muni.fi.pa165.airportmanager.backend.services.FlightService;
-import cz.muni.fi.pa165.airportmanager.backend.services.StewardService;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl;
@@ -20,7 +16,8 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
-import cz.muni.fi.pa165.airportmanager.backend.entities.to.StewardTO;
+import cz.muni.fi.pa165.airportmanager.services.StewardService;
+import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,20 +81,20 @@ public class MainClass {
 //        con.register(StewardDAOImpl.class);
 //        con.refresh();
         ClassPathXmlApplicationContext con = new ClassPathXmlApplicationContext("applicationContext.xml");
-//        AnnotationConfigApplicationContext con = 
-//                new AnnotationConfigApplicationContext(ApplicationConfig.class);
-        StewardService service = con.getBean(StewardService.class);
         StewardDAO stewdao = con.getBean(StewardDAO.class);
         Steward s = new Steward();
         s.setFirstName("ja");
         s.setLastName("ty");
         s.setId(1L);
         stewdao.createSteward(s);
+        
+//        StewardService service = con.getBean(StewardService.class);
 //        StewardTO stew = new StewardTO();
 //        stew.setFirstName("ja");
 //        stew.setLastName("ty");
 //        stew.setId(1L);
 //        service.createSteward(stew);
+//        
 //        StewardTO finded = service.findSteward(stew.getId());
 //        System.out.println(finded);
 //        FlightService s = con.getBean(FlightServiceImpl.class);

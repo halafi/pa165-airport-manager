@@ -1,3 +1,4 @@
 /AirportManager-backend/target/
 *.log
 /AirportManager/AirportManager-backend/target/
+/AirportManager/AirportManager-api/target/
