@@ -4,11 +4,13 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.daos.impl;
 
+import javax.persistence.PersistenceException;
+
 /**
  *
  * @author matus
  */
-public class JPAException extends Exception {
+public class JPAException extends PersistenceException {
     
     public JPAException() {
     }
