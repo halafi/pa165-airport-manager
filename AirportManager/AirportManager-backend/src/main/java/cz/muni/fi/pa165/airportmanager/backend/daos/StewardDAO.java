@@ -20,21 +20,21 @@ public interface StewardDAO {
      * 
      * @param steward specifies the steward to be created
      */
-    public void createSteward(Steward steward) throws JPAException, IllegalArgumentException;
+    public void createSteward(Steward steward);
     
      /**
      * Updates steward.
      * 
      * @param steward specifies the steward to be created
      */
-    public void updateSteward(Steward steward) throws JPAException, IllegalArgumentException;
+    public void updateSteward(Steward steward);
     
     /**
      * Deletes steward.
      * 
      * @param steward specifies the steward to be deleted
      */
-    public void removeSteward(Steward steward) throws JPAException, IllegalArgumentException;
+    public void removeSteward(Steward steward);
     
     /**
      * Returns steward specified by id.
@@ -42,14 +42,14 @@ public interface StewardDAO {
      * @param id specifies id of steward
      * @return steward specified by id 
      */
-    public Steward getSteward(Long id) throws JPAException, IllegalArgumentException;
+    public Steward getSteward(Long id);
     
     /**
      * Returns list of all stewards.
      * 
      * @return List of stewards
      */
-    public List<Steward> getAllStewards() throws JPAException;
+    public List<Steward> getAllStewards();
     
     /**
      * Returns List of all flights associated to steward.
@@ -57,5 +57,5 @@ public interface StewardDAO {
      * @param steward specifies the steward
      * @return List of flights
      */
-    public List<Flight> getAllStewardsFlights(Steward steward) throws JPAException, IllegalArgumentException;
+    public List<Flight> getAllStewardsFlights(Steward steward);
 }

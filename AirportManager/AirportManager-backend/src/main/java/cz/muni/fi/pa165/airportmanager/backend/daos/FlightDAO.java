@@ -21,7 +21,7 @@ public interface FlightDAO {
      * @throws IllegalArgumentException when some atributes have illegal states
      * @throws JPAException when an error occurs by creating
      */
-    public void createFlight(Flight flight) throws IllegalArgumentException;
+    public void createFlight(Flight flight);
     
     /**
      * Updates {@link Flight} {@code flight} in DB.
@@ -30,7 +30,7 @@ public interface FlightDAO {
      * @throws JPAException when {@code flight} does not exist or error occurs by updating
      * @throws IllegalArgumentException when {@code flight} has some illegal atributes
      */
-    public void updateFlight(Flight flight) throws JPAException, IllegalArgumentException;
+    public void updateFlight(Flight flight);
     
     /**
      * Removes {@link Flight} {@code flight} from DB
@@ -39,7 +39,7 @@ public interface FlightDAO {
      * @throws JPAException when {@code flight} does not exist or some error occurs by removing
      * @throws IllegalArgumentException when {@code flight.getId() == null}
      */
-    public void removeFlight(Flight flight) throws JPAException, IllegalArgumentException;
+    public void removeFlight(Flight flight);
     
     /**
      * Finds and return {@link Flight} {@code flight} in DB acording to {@code id}
@@ -50,7 +50,7 @@ public interface FlightDAO {
      *      by findig
      * @throws IllegalArgumentException when {@code id == null}
      */
-    public Flight getFlight(Long id) throws JPAException, IllegalArgumentException;
+    public Flight getFlight(Long id);
     
     /**
      * Finds all flights in DB
@@ -58,5 +58,5 @@ public interface FlightDAO {
      * @return {@link List} of {@link Flight}{@code s} in DB
      * @throws JPAException when some error occurs by finding
      */
-    public List<Flight> getAllFlight() throws JPAException;
+    public List<Flight> getAllFlight();
 }

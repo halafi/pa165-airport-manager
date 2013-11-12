@@ -24,7 +24,7 @@ public class StewardDAOImpl implements StewardDAO{
     private EntityManager manager;
 
     @Override
-    public void createSteward(Steward steward) throws  JPAException, IllegalArgumentException{
+    public void createSteward(Steward steward){
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null.");
         }
@@ -45,7 +45,7 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public void updateSteward(Steward steward) throws JPAException, IllegalArgumentException{
+    public void updateSteward(Steward steward){
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null.");
         }
@@ -70,7 +70,7 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public void removeSteward(Steward steward) throws JPAException, IllegalArgumentException{
+    public void removeSteward(Steward steward){
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null");
         }
@@ -89,7 +89,7 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public Steward getSteward(Long id) throws JPAException, IllegalArgumentException{
+    public Steward getSteward(Long id){
         if(id == null){
             throw new IllegalArgumentException("Can not fing stewar (id = null)");
         }
@@ -105,7 +105,7 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public List<Steward> getAllStewards() throws JPAException{
+    public List<Steward> getAllStewards(){
         List<Steward> stewards;
         try{
             stewards = manager.createNamedQuery("Steward.findAllStewards", 
@@ -117,7 +117,7 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public List<Flight> getAllStewardsFlights(Steward steward) throws JPAException, IllegalArgumentException{
+    public List<Flight> getAllStewardsFlights(Steward steward){
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null");
         }

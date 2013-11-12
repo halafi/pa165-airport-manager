@@ -57,7 +57,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
     }
     
     @Override
-    public void removeAirplane(Airplane airplane) throws JPAException{
+    public void removeAirplane(Airplane airplane){
         
         if (airplane == null) {
             throw new IllegalArgumentException("airplane argument is null");
@@ -78,7 +78,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
     }
     
     @Override
-    public Airplane getAirplane(Long id) throws JPAException{
+    public Airplane getAirplane(Long id){
         
         if (id == null) {
             throw new IllegalArgumentException("id is null");

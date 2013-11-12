@@ -1,38 +1,14 @@
 package cz.muni.fi.pa165.airportmanager;
 
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.StewardDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl;
-import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
-import cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl;
-import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
-import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
-import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
-import cz.muni.fi.pa165.airportmanager.services.StewardService;
-import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
-import org.springframework.stereotype.Component;
+
 
 /**
  *

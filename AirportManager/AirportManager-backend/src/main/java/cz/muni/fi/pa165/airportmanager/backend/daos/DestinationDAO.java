@@ -23,21 +23,21 @@ public interface DestinationDAO {
      * 
      * @param destination specifies new destination
      */
-    public void updateDestination(Destination destination) throws JPAException;
+    public void updateDestination(Destination destination);
     
     /**
      * Removes destination.
      * 
      * @param destination specifies destination to be removed
      */
-    public void removeDestination(Destination destination) throws JPAException;
+    public void removeDestination(Destination destination);
     
     /**
      * Returns all destinations.
      * 
      * @return List of destinations
      */
-    public List<Destination> getAllDestinations() throws JPAException;
+    public List<Destination> getAllDestinations();
     
     /**
      * Returns one destination according to id.
@@ -45,7 +45,7 @@ public interface DestinationDAO {
      * @param id specifies id of destination
      * @return desired destination
      */
-    public Destination getDestination(Long id) throws JPAException;
+    public Destination getDestination(Long id);
     
     /**
      * Returns all flights that have this destination set as target.
@@ -53,7 +53,7 @@ public interface DestinationDAO {
      * @param destination specifies target destination
      * @return List of flights
      */
-    public List<Flight> getAllIncomingFlights(Destination destination) throws JPAException;
+    public List<Flight> getAllIncomingFlights(Destination destination);
     
     /**
      * Returns all flights that have this destination set as origin.
@@ -61,5 +61,5 @@ public interface DestinationDAO {
      * @param destination specifies origin destination
      * @return List of flights
      */
-    public List<Flight> getAllOutcomingFlights(Destination destination) throws JPAException;       
+    public List<Flight> getAllOutcomingFlights(Destination destination);       
 }

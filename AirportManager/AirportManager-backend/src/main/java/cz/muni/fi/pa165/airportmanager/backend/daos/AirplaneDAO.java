@@ -29,7 +29,7 @@ public interface AirplaneDAO {
      * 
      * @param airplane 
      */
-    public void removeAirplane(Airplane airplane) throws JPAException;
+    public void removeAirplane(Airplane airplane);
     
     /**
      * Returns Airplane with desired id.
@@ -37,7 +37,7 @@ public interface AirplaneDAO {
      * @param id id of desired Airplane
      * @return desired Airplane1
      */
-    public Airplane getAirplane(Long id) throws JPAException;
+    public Airplane getAirplane(Long id);
     
     /**
      * Returns all airplanes.

@@ -35,31 +35,31 @@
         
     </bean>
      
-    <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" >
+<!--    <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" >
     </bean>
     
-    <!--drobne pridanie juraj-->
+    drobne pridanie juraj
     <bean id="fligthService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.FlightServiceImpl"/>
      
-    <!-- pridal MATUS - funguje to --> 
+     pridal MATUS - funguje to  
     
     <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl" >
-<!--        <property name="emf" ref="entityManagerFactory"/>-->
+        <property name="emf" ref="entityManagerFactory"/>
     </bean>
      
     <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl">
         <property name="airplaneDao" ref="airplaneDAO"/>
     </bean>    
     
-    <!-- koniec -->
-    <!-- begin Samo --> 
+     koniec 
+     begin Samo  
     <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl" >
-<!--        <property name="factory" ref="entityManagerFactory"/>-->
+        <property name="factory" ref="entityManagerFactory"/>
     </bean>
      
     <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl">
         <property name="destinationDao" ref="destDAO"/>
-    </bean>    
+    </bean>    -->
     <!-- end SAMO -->     
     
 </beans>

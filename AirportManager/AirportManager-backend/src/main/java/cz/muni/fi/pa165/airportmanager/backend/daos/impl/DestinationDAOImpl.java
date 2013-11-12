@@ -43,7 +43,7 @@ public class DestinationDAOImpl implements DestinationDAO {
     }
 
     @Override
-    public void updateDestination(Destination destination) throws JPAException {
+    public void updateDestination(Destination destination){
         if (destination == null) {
             throw new IllegalArgumentException("destination argument is null");
         }
@@ -70,7 +70,7 @@ public class DestinationDAOImpl implements DestinationDAO {
     }
 
     @Override
-    public void removeDestination(Destination destination) throws JPAException {
+    public void removeDestination(Destination destination){
         if (destination == null) {
             throw new IllegalArgumentException("destination argument is null");
         }
@@ -96,7 +96,7 @@ public class DestinationDAOImpl implements DestinationDAO {
     }
 
     @Override
-    public Destination getDestination(Long id) throws JPAException {
+    public Destination getDestination(Long id){
         if (id == null) {
             throw new IllegalArgumentException("id argument is null");
         }
@@ -122,7 +122,7 @@ public class DestinationDAOImpl implements DestinationDAO {
     }
 
     @Override
-    public List<Flight> getAllIncomingFlights(Destination destination) throws JPAException {
+    public List<Flight> getAllIncomingFlights(Destination destination){
         if (destination == null) {
             throw new IllegalArgumentException("destination argument is null");
         }
@@ -157,7 +157,7 @@ public class DestinationDAOImpl implements DestinationDAO {
     }
 
     @Override
-    public List<Flight> getAllOutcomingFlights(Destination destination) throws JPAException {
+    public List<Flight> getAllOutcomingFlights(Destination destination){
         if (destination == null) {
             throw new IllegalArgumentException("destination argument is null");
         }
