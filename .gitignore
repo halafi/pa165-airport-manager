@@ -2,3 +2,4 @@
 *.log
 /AirportManager/AirportManager-backend/target/
 /AirportManager/AirportManager-api/target/
+/AirportManager/AirportManager-web/target/
