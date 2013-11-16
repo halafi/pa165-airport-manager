@@ -1,10 +1,5 @@
 package cz.muni.fi.pa165.airportmanager.web.beans;
 
-
-
-
-
-import cz.muni.fi.pa165.airportmanager.web.beans.BaseActionBean;
 import cz.muni.fi.pa165.airportmanager.services.DestinationService;
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import java.util.List;
@@ -28,13 +23,12 @@ import org.slf4j.LoggerFactory;
  * @author Filip
  */
 @UrlBinding("/destinations/{$event}/{destination.id}")
-public class DestinationActionBean extends BaseActionBean {
-    final static Logger log = LoggerFactory.getLogger(DestinationActionBean.class);
+public class DestinationsActionBean extends BaseActionBean {
+    final static Logger log = LoggerFactory.getLogger(DestinationsActionBean.class);
 
-    @SpringBean //Spring can inject even to private and protected fields
+    @SpringBean
     protected DestinationService destinationService;
-
-    //--- part for showing a list of books ----
+    
     private List<DestinationTO> destinations;
 
     @DefaultHandler
@@ -48,7 +42,7 @@ public class DestinationActionBean extends BaseActionBean {
         return destinations;
     }
 
-    //--- part for adding a book ----
+    //--- part for adding a destination ----
 
     @ValidateNestedProperties(value = {
             @Validate(on = {"add", "save"}, field = "country", required = true),
@@ -82,7 +76,7 @@ public class DestinationActionBean extends BaseActionBean {
         this.destination = destination;
     }
 
-    //--- part for deleting a book ----
+    //--- part for deleting a destination ----
 
     public Resolution delete() {
         log.debug("delete({})", destination.getId());
@@ -95,10 +89,10 @@ public class DestinationActionBean extends BaseActionBean {
         return new RedirectResolution(this.getClass(), "list");
     }
 
-    //--- part for editing a book ----
+    //--- part for editing a destination ----
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save"})
-    public void loadBookFromDatabase() {
+    public void loadDestinationFromDatabase() {
         String ids = getContext().getRequest().getParameter("destination.id");
         if (ids == null) return;
         destination = destinationService.getDestination(Long.parseLong(ids));
