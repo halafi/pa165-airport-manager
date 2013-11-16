@@ -1,6 +1,12 @@
-package com.mycompany.airportmanager.web.beans;
+package cz.muni.fi.pa165.airportmanager.web.beans;
 
-import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
+
+
+
+
+import cz.muni.fi.pa165.airportmanager.web.beans.BaseActionBean;
+import cz.muni.fi.pa165.airportmanager.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -26,19 +32,19 @@ public class DestinationActionBean extends BaseActionBean {
     final static Logger log = LoggerFactory.getLogger(DestinationActionBean.class);
 
     @SpringBean //Spring can inject even to private and protected fields
-    protected DestinationLibrary destinationLibrary;
+    protected DestinationService destinationService;
 
     //--- part for showing a list of books ----
-    private List<Destination> destinations;
+    private List<DestinationTO> destinations;
 
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
-        destinations = destinationLibrary.getAllDestinations();
+        destinations = destinationService.getAllDestinations();
         return new ForwardResolution("/destination/list.jsp");
     }
 
-    public List<Destination> getDestinations() {
+    public List<DestinationTO> getDestinations() {
         return destinations;
     }
 
@@ -49,11 +55,11 @@ public class DestinationActionBean extends BaseActionBean {
             @Validate(on = {"add", "save"}, field = "city", required = true),
             @Validate(on = {"add", "save"}, field = "code", required = true, minvalue = 800)
     })
-    private Destination destination;
+    private DestinationTO destination;
 
     public Resolution add() {
         log.debug("add() destination={}", destination);
-        destinationLibrary.createDestination(destination);
+        destinationService.createDestination(destination);
         getContext().getMessages().add(new LocalizableMessage(""
                 + "destination.add.message",escapeHTML(destination.getCountry()),
                 escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
@@ -63,16 +69,16 @@ public class DestinationActionBean extends BaseActionBean {
     //@Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
         //fill up the data for the table if validation errors occured
-        destinations = destinationLibrary.getAllDestinations();
+        destinations = destinationService.getAllDestinations();
         //return null to let the event handling continue
         return null;
     }
 
-    public Destination getDestination() {
+    public DestinationTO getDestination() {
         return destination;
     }
 
-    public void setDestination(Destination destination) {
+    public void setDestination(DestinationTO destination) {
         this.destination = destination;
     }
 
@@ -81,8 +87,8 @@ public class DestinationActionBean extends BaseActionBean {
     public Resolution delete() {
         log.debug("delete({})", destination.getId());
         //only id is filled by the form
-        destination = destinationLibrary.getDestination(destination.getId());
-        destinationLibrary.deleteDestination(destination.getId());
+        destination = destinationService.getDestination(destination.getId());
+        destinationService.removeDestination(destination);
         getContext().getMessages().add(new LocalizableMessage("destination.delete.message",
                 escapeHTML(destination.getCountry()),escapeHTML(escapeHTML(destination.getCity())),
                 escapeHTML(destination.getCode())));
@@ -93,9 +99,9 @@ public class DestinationActionBean extends BaseActionBean {
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save"})
     public void loadBookFromDatabase() {
-        String ids = getContext().getRequest().getParameter("book.id");
+        String ids = getContext().getRequest().getParameter("destination.id");
         if (ids == null) return;
-        destination = destinationLibrary.getDestination(Long.parseLong(ids));
+        destination = destinationService.getDestination(Long.parseLong(ids));
     }
 
     public Resolution edit() {
@@ -105,7 +111,7 @@ public class DestinationActionBean extends BaseActionBean {
 
     public Resolution save() {
         log.debug("save() destination={}", destination);
-        destinationLibrary.updateBook(destination);
+        destinationService.updateDestination(destination);
         return new RedirectResolution(this.getClass(), "list");
     }
 }

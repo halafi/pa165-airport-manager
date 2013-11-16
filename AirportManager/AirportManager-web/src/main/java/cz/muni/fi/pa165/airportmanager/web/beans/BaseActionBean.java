@@ -1,4 +1,6 @@
-package com.mycompany.airportmanager.web.beans;
+package cz.muni.fi.pa165.airportmanager.web.beans;
+
+
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
