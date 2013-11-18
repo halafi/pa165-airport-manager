@@ -54,17 +54,24 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public void createFlight(FlightTO flightTO) throws DataAccessException {
         Flight flight = EntityDTOTransformer.flightTOConvert(flightTO);
-        
-        for(int i = 0; i < flight.getStewardList().size(); i++){
-            stewDAO.createSteward(flight.getStewardList().get(i));
-            flightTO.getStewList().get(i).setId(flight.getStewardList().get(i).getId());
+        if (flight != null) {
+            for(int i = 0; i < flight.getStewardList().size(); i++){
+                stewDAO.createSteward(flight.getStewardList().get(i));
+                flightTO.getStewList().get(i).setId(flight.getStewardList().get(i).getId());
+            }
         }
-        airplaneDAO.createAirplane(flight.getAirplane());
-        flightTO.getAirplaneTO().setId(flight.getAirplane().getId());
-        destDAO.createDestination(flight.getOrigin());
-        flightTO.getOrigin().setId(flight.getOrigin().getId());
-        destDAO.createDestination(flight.getTarget());
-        flightTO.getTarget().setId(flight.getTarget().getId());
+        if (flight.getAirplane() != null) {
+            airplaneDAO.createAirplane(flight.getAirplane());
+            flightTO.getAirplaneTO().setId(flight.getAirplane().getId());
+        }
+        if (flight.getOrigin() != null) {
+            destDAO.createDestination(flight.getOrigin());
+            flightTO.getOrigin().setId(flight.getOrigin().getId());
+        }
+        if (flight.getTarget() != null) {
+            destDAO.createDestination(flight.getTarget());
+            flightTO.getTarget().setId(flight.getTarget().getId());
+        }
         flightDAO.createFlight(flight);
         flightTO.setId(flight.getId());
     }
