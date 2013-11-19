@@ -3,84 +3,79 @@
     Author     : Filip
 */
 body {
-    font-size: 1.5em;
+    font-size: 1em;
     font-family: Courier;
     background-color: rgb(221,221,221);
     margin: 0 auto;
     padding: 0;
 }
 
-h1 {
-    text-align: left; 
-    text-decoration: none; 
-    padding: 5px;
-    margin: 0px;
-}
 #main-wrapper {
     background: white;
     position: absolute;
     top: 0em;
-    left: 16em;
+    left: 25.5em;
     right: 0em;
+    margin: auto;
 }
-
+/*header*/
 .logo {
     float:left;
     padding-left: 0.5em;
     padding-top: 0.5em;
 }
-.header {
+
+.logout {
     text-align:right;
     padding: 1em;
     background: white;
 }
+/*header*/
 
+h1 {
+    text-align: left; 
+    text-decoration: none; 
+    padding: 5px;
+    margin: 0em;
+    font-size: 200%;
+}
 
 .text-content {
     margin: 0.5em;
     background-color: rgb(221,221,221);
-    
     padding: 0.5em;
 }
 
 #navigation {
+    background-color: darkgray;
     /*position*/
     position: absolute;
     top: 0.1em;
     left: 0em;
-    width: 15em;
+    width: 16em;
     height: 100%;
     margin: 0 auto;
     padding: 0.5em;
     /*font*/
-    line-height: 250%;
+    line-height: 220%;
     text-align: center;
-    font-size: 100%;
+    font-size: 150%;
     color: #000000;
 }
 
 .user {
-    border-bottom: 0.05em solid #000000;
+    border-bottom: 0.08em solid #000000;
 }
 
 .admin {
     
 }
 
-a:link {
-    text-decoration:none;
-    color: black;
-}
-a:visited {
-    text-decoration:none;
-    color: black;
-}
-a:hover {
-    text-decoration:underline;
-}
-a:active {
-    text-decoration:underline;
-}
+a {color: black;}
+a:link {}
+a:visited {}
+a:hover {}
+a:active {}
 
 table {
     text-align: left;
