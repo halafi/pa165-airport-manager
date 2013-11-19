@@ -14,7 +14,7 @@
        http://www.springframework.org/schema/aop 
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
     <!--old-->
-    <!--<context:component-scan base-package="cz.muni.fi.pa165"/>-->
+    <context:component-scan base-package="cz.muni.fi.pa165"/>
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
@@ -26,10 +26,6 @@
     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="AirportManager" />
-        
     </bean>
-    
-    <!--new-->
-    <bean class="cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl" />
     
 </beans>

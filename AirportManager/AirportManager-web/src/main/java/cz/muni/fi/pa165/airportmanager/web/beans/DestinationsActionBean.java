@@ -34,6 +34,11 @@ public class DestinationsActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
+        destination = new DestinationTO();
+        destination.setCity("aaa");
+        destination.setCountry("bbb");
+        destination.setCode("ccc");
+        destinationService.createDestination(destination);
         destinations = destinationService.getAllDestinations();
         return new ForwardResolution("/destination/list.jsp");
     }
