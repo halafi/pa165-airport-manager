@@ -13,6 +13,7 @@ import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class DestinationServiceImpl implements DestinationService {
+    
+    @Autowired
     private DestinationDAO destinationDao;
     
     public void setDestinationDao(DestinationDAO destinationDao){

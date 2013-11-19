@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AirplaneServiceImpl implements AirplaneService {
 
+    @Autowired
     private AirplaneDAO airplaneDao;
 
     public void setAirplaneDao(AirplaneDAO airplaneDao) {
