@@ -2,6 +2,10 @@
     Created on : Nov 12, 2013, 8:50:41 PM
     Author     : Filip
 */
+input.error {
+    background-color: red;
+}
+
 body {
     font-size: 1em;
     font-family: Courier;

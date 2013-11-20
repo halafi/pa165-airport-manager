@@ -27,7 +27,7 @@
                         <td><c:out value="${destination.code}"/></td>
                         <td>
                          <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="edit">
-                             <s:param name="destination.id" value="${destination.id}"/>edit <%--<f:message key="edit"/>--%>
+                             <s:param name="destination.id" value="${destination.id}"/><f:message key="edit"/>
                          </s:link>
                         </td>
                         <td>

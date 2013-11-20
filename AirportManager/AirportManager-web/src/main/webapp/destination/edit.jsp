@@ -6,14 +6,16 @@
     <s:layout-component name="body">
         
         <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" var="actionBean"/>
-
-        <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">
-            <s:hidden name="destination.id"/>
-            <fieldset><legend><f:message key="destination.edit.edit"/></legend>
-                <%@include file="form.jsp"%>
-                <s:submit name="save"><f:message key="destination.edit.save"/></s:submit>
-            </fieldset>
-        </s:form>
+        
+        <div class="text-content">
+            <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">
+                <s:hidden name="destination.id"/>
+                <fieldset><legend><f:message key="destination.edit.edit"/></legend>
+                    <%@include file="form.jsp"%>
+                    <s:submit name="save"><f:message key="destination.edit.save"/></s:submit>
+                </fieldset>
+            </s:form>
+        </div>
 
     </s:layout-component>
 </s:layout-render>

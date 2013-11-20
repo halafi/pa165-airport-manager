@@ -17,7 +17,7 @@
                 <a href="#">find steward</a><br/>
                 <a href="#">find airplane</a><br/>
                 <a href="#">find flight</a><br/>
-                <a href="#">find destination</a><br/>
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">find destinations</s:link><br/>
             </div>
             <div class="admin">
                 <a href="#">create steward</a><br/>
