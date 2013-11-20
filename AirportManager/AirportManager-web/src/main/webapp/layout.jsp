@@ -38,6 +38,7 @@
         </div>
         
         <s:messages/>
+        <s:errors/>
         <s:layout-component name="body"/>
     </div>
 </body>
