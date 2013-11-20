@@ -15,7 +15,7 @@
         <div id="navigation">
             <div class="user">
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">find steward</s:link><br/>
-                find airplane<br/>
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">find airplane</s:link><br/>
                 find flight<br/>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">find destinations</s:link><br/>
             </div>
@@ -23,7 +23,7 @@
                 <a href="#">create steward</a><br/>
                 <a href="#">create airplane</a><br/>
                 <a href="#">create flight</a><br/>
-                <a href="#">create destination</a><br/>
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="create"><f:message key="destination.create"/></s:link><br/>
             </div>
         </div>
 <!--header - logo + logout-->
