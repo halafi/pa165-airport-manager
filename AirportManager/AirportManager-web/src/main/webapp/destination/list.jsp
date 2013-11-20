@@ -16,8 +16,8 @@
                     <th><f:message key="destination.country"/></th>
                     <th><f:message key="destination.city"/></th>
                     <th><f:message key="destination.code"/></th>
-                    <th><f:message key="edit"/></th>
-                    <th><f:message key="delete"/></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <c:forEach items="${actionBean.destinations}" var="destination">
                     <tr>
@@ -26,15 +26,16 @@
                         <td><c:out value="${destination.city}"/></td>
                         <td><c:out value="${destination.code}"/></td>
                         <td>
-                         <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="edit">
-                             <s:param name="destination.id" value="${destination.id}"/><f:message key="edit"/>
-                         </s:link>
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="edit">
+                                <s:param name="destination.id" value="${destination.id}"/>
+                                <f:message key="edit"/>
+                            </s:link>
                         </td>
                         <td>
-                            <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">
-                                <s:hidden name="destination.id" value="${destination.id}"/>
-                                <s:submit name="delete"><f:message key="delete"/></s:submit>
-                            </s:form>
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="delete">
+                                <s:param name="destination.id" value="${destination.id}"/>
+                                <f:message key="delete"/>
+                            </s:link>
                         </td>
                     </tr>
                 </c:forEach>
@@ -42,6 +43,10 @@
 
             <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="create">
                 <f:message key="create"/>
+            </s:link>
+                
+            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="createTest">
+                <f:message key="createTest"/>
             </s:link>
         </div>
         

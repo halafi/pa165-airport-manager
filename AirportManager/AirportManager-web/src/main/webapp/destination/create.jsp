@@ -10,10 +10,10 @@
         <div class="text-content">
             <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">
                 <s:hidden name="destination.id"/>
-                <fieldset><legend><f:message key="destination.create.create"/></legend>
+                <fieldset><legend><f:message key="create"/></legend>
                     <%@include file="form.jsp"%>
-                    <s:submit name="save">
-                        <f:message key="destination.edit.save"/>
+                    <s:submit name="add">
+                        <f:message key="create"/>
                     </s:submit>
                 </fieldset>
             </s:form>
