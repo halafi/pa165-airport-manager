@@ -24,44 +24,50 @@ import org.slf4j.LoggerFactory;
  */
 @UrlBinding("/destinations/{$event}/{destination.id}")
 public class DestinationsActionBean extends BaseActionBean {
+    
     final static Logger log = LoggerFactory.getLogger(DestinationsActionBean.class);
-
     @SpringBean
     protected DestinationService destinationService;
-    
     private List<DestinationTO> destinations;
-
-    @DefaultHandler
-    public Resolution list() {
-        log.debug("list()");
-        destination = new DestinationTO();
-        destination.setCity("aaa");
-        destination.setCountry("bbb");
-        destination.setCode("ccc");
-        destinationService.createDestination(destination);
-        destinations = destinationService.getAllDestinations();
-        return new ForwardResolution("/destination/list.jsp");
-    }
+    private DestinationTO destination;
 
     public List<DestinationTO> getDestinations() {
         return destinations;
     }
+    
+    public DestinationTO getDestination() {
+        return destination;
+    }
+
+    public void setDestination(DestinationTO destination) {
+        this.destination = destination;
+    }
+    
+    @DefaultHandler
+    public Resolution list() {
+        log.debug("list()");
+        destinations = destinationService.getAllDestinations();
+        return new ForwardResolution("/destination/list.jsp");
+    }
 
     //--- part for adding a destination ----
-
+    public Resolution create() {
+        return new ForwardResolution("/destination/create.jsp");
+    }
+    
     @ValidateNestedProperties(value = {
             @Validate(on = {"add", "save"}, field = "country", required = true),
             @Validate(on = {"add", "save"}, field = "city", required = true),
             @Validate(on = {"add", "save"}, field = "code", required = true, minvalue = 800)
     })
-    private DestinationTO destination;
-
     public Resolution add() {
         log.debug("add() destination={}", destination);
         destinationService.createDestination(destination);
-        getContext().getMessages().add(new LocalizableMessage(""
-                + "destination.add.message",escapeHTML(destination.getCountry()),
-                escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
+        getContext().getMessages().add(
+                new LocalizableMessage("destination.add."+"message",
+                escapeHTML(destination.getCountry()),
+                escapeHTML(destination.getCity()),
+                escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
 
@@ -71,14 +77,6 @@ public class DestinationsActionBean extends BaseActionBean {
         destinations = destinationService.getAllDestinations();
         //return null to let the event handling continue
         return null;
-    }
-
-    public DestinationTO getDestination() {
-        return destination;
-    }
-
-    public void setDestination(DestinationTO destination) {
-        this.destination = destination;
     }
 
     //--- part for deleting a destination ----
@@ -107,7 +105,7 @@ public class DestinationsActionBean extends BaseActionBean {
         log.debug("edit() destination={}", destination);
         return new ForwardResolution("/destination/edit.jsp");
     }
-
+    
     public Resolution save() {
         log.debug("save() destination={}", destination);
         destinationService.updateDestination(destination);

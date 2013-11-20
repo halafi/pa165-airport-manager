@@ -40,11 +40,9 @@
                 </c:forEach>
             </table>
 
-            <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">
-                <fieldset><legend></legend>
-                    <s:submit name="add">Vytvořit novou destinaci</s:submit>
-                </fieldset>
-            </s:form>
+            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="create">
+                <f:message key="create"/>
+            </s:link>
         </div>
         
     </s:layout-component>
