@@ -15,7 +15,7 @@
         <div id="navigation">
             <div class="user">
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">find steward</s:link><br/>
-                find airplane<br/>
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">find airplane</s:link><br/>
                 find flight<br/>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">find destinations</s:link><br/>
             </div>
