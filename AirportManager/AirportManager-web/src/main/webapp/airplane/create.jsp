@@ -13,7 +13,7 @@
                 <fieldset><legend><f:message key="create"/></legend>
                     <%@include file="form.jsp"%>
                     <s:submit name="add">
-                        <f:message key="create"/>
+                        <f:message key="airplane.create"/>
                     </s:submit>
                 </fieldset>
             </s:form>

@@ -5,7 +5,7 @@
 
 <s:layout-render name="/layout.jsp"  titlekey="airplane.title">
     <s:layout-component name="body">
-        
+
         <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" var="actionBean"/>
 
         <div class="text-content">
@@ -16,8 +16,8 @@
                     <th><f:message key="airplane.capacity"/></th>
                     <th><f:message key="airplane.name"/></th>
                     <th><f:message key="airplane.type"/></th>
-                    <th><f:message key="edit"/></th>
-                    <th><f:message key="delete"/></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <c:forEach items="${actionBean.airplanes}" var="airplane">
                     <tr>
@@ -26,22 +26,21 @@
                         <td><c:out value="${airplane.name}"/></td>
                         <td><c:out value="${airplane.type}"/></td>
                         <td>
-                         <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" event="edit">
-                             <s:param name="airplane.id" value="${airplane.id}"/>edit
-                         </s:link>
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" event="edit">
+                                <s:param name="airplane.id" value="${airplane.id}"/>
+                                <f:message key="edit"/>
+                            </s:link>
                         </td>
                         <td>
-                            <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" action="add">
-                                <s:hidden name="airplane.id" value="${airplane.id}"/>
-                                <s:submit name="delete">delete</s:submit>
-                            </s:form>
-                        </td>
-                    </tr>
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" event="add">
+                                <s:param name="airplane.id" value="${airplane.id}"/>
+                                <f:message key="delete"/>
+                                </s:link>
+                            </td>
+                        </tr>
                 </c:forEach>
-            </table>
-
-<s:link href="/airplane/create.jsp">create</s:link>
+            </table>      
         </div>
-        
+
     </s:layout-component>
 </s:layout-render>
