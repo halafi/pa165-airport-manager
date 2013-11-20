@@ -61,20 +61,7 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new ForwardResolution("/destination/list.jsp");
     }
 
-    //--- part for adding a destination ----
     
-    
-    /*@ValidateNestedProperties(value = {
-            @Validate(on = {"add", "save"}, field = "country", required = true),
-            @Validate(on = {"add", "save"}, field = "city", required = true),
-            @Validate(on = {"add", "save"}, field = "code", required = true, minvalue = 800)
-    })*/
-    public Resolution add() {
-        log.debug("add() destination={}", destination);
-        destinationService.createDestination(destination);
-        return new RedirectResolution(this.getClass(), "list");
-    }
-
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
         //fill up the data for the table if validation errors occured
@@ -89,21 +76,33 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new RedirectResolution(this.getClass(), "list");
     }
 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save", "delete"})
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "delete"})
     public void loadDestinationFromDatabase() {
         String ids = getContext().getRequest().getParameter("destination.id");
         if (ids == null) return;
         destination = destinationService.getDestination(Long.parseLong(ids));
     }
 
-    public Resolution edit() {
-        log.debug("edit() destination={}", destination);
-        return new ForwardResolution("/destination/edit.jsp");
-    }
-    
     public Resolution create() {
         log.debug("create() destination={}", destination);
         return new ForwardResolution("/destination/create.jsp");
+    }
+    
+    /*@ValidateNestedProperties(value = {
+            @Validate(on = {"add", "save"}, field = "country", required = true),
+            @Validate(on = {"add", "save"}, field = "city", required = true),
+            @Validate(on = {"add", "save"}, field = "code", required = true, minvalue = 800)
+    })*/
+    public Resolution add() {
+        log.debug("add() destination={}", destination);
+        destinationService.createDestination(destination);
+        return new RedirectResolution(this.getClass(), "list");
+    }
+
+    
+    public Resolution edit() {
+        log.debug("edit() destination={}", destination);
+        return new ForwardResolution("/destination/edit.jsp");
     }
     
     public Resolution editSave() {

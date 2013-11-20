@@ -14,9 +14,9 @@
    <!--left navigation panel-->
         <div id="navigation">
             <div class="user">
-                <a href="#">find steward</a><br/>
-                <a href="#">find airplane</a><br/>
-                <a href="#">find flight</a><br/>
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">find steward</s:link><br/>
+                find airplane<br/>
+                find flight<br/>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">find destinations</s:link><br/>
             </div>
             <div class="admin">
@@ -40,7 +40,6 @@
         <s:messages/>
         <s:layout-component name="body"/>
     </div>
-
 </body>
 </html>
 </s:layout-definition>
