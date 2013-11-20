@@ -21,7 +21,7 @@
             </div>
             <div class="admin">
                 <a href="#">create steward</a><br/>
-                <a href="#">create airplane</a><br/>
+                <s:link href="/airplane/create.jsp"><f:message key="airplane.create"/></s:link><br/>
                 <a href="#">create flight</a><br/>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="create"><f:message key="destination.create"/></s:link><br/>
             </div>
