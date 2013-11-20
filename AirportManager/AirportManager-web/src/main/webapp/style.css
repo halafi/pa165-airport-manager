@@ -3,7 +3,7 @@
     Author     : Filip
 */
 input.error {
-    background-color: red;
+    background-color: orangered;
 }
 
 body {
@@ -18,7 +18,7 @@ body {
     background: white;
     position: absolute;
     top: 0em;
-    left: 25.5em;
+    left: 20.4em;
     right: 0em;
     margin: auto;
 }
@@ -54,7 +54,6 @@ h1 {
     background-color: darkgray;
     /*position*/
     position: absolute;
-    top: 0.1em;
     left: 0em;
     width: 16em;
     height: 100%;
@@ -63,7 +62,7 @@ h1 {
     /*font*/
     line-height: 220%;
     text-align: center;
-    font-size: 150%;
+    font-size: 120%;
     color: #000000;
 }
 
