@@ -13,26 +13,30 @@
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
                          var="actionBean"/>
-        <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
-            <s:hidden name="steward.id" />
+        <div class="text-content">
             <c:set var="mess" 
                    value="${pageContext.request.getParameter('formtitle') == 'steward.edit.title' 
                             ? 'steward.edit.title' : 'steward.create.new'}" />
-            <f:message key="${mess}"/>
-            <%@include file="form.jsp" %>
-            <c:set var="page" value="${pageContext.request.getParameter('formtitle')}" />
-            <c:choose>
-            <c:when test="${page == 'steward.edit.title'}">
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
-                        event="edit"><f:message key="steward.edit.save"/>
-                </s:link>
-            </c:when>
-            <c:otherwise>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
-                        event="add"><f:message key="steward.create.add"/>
-                </s:link>
-            </c:otherwise>
-            </c:choose>
-        </s:form>
+            <fieldset><legend><f:message key="${mess}"/></legend>
+                <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
+                    <s:hidden name="steward.id" />
+                    <%@include file="form.jsp" %>
+                    <c:set var="page" value="${pageContext.request.getParameter('formtitle')}" />
+                    <c:choose>
+                        <c:when test="${page == 'steward.edit.title'}">
+                            <s:submit name="save"><f:message key="steward.edit.save"/>
+                            </s:submit>
+                        </c:when>
+                        <c:otherwise>
+                            <s:submit name="add"><f:message key="steward.create.add"/>
+                            </s:submit>
+                        </c:otherwise>
+                    </c:choose>
+                    <s:submit name="cancel"><f:message key="steward.cancel"/>
+                    </s:submit>
+
+                </s:form>
+            </fieldset>
+        </div>
     </s:layout-component>
 </s:layout-render>
