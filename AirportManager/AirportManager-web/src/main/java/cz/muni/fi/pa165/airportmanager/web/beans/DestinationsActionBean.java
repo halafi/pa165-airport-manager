@@ -7,6 +7,7 @@ import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.HandlesEvent;
+import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -33,6 +34,11 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
     
     private List<DestinationTO> destinations;
     
+    @ValidateNestedProperties(value = {
+            @Validate(on = {"add", "save"}, field = "country", required = true),
+            @Validate(on = {"add", "save"}, field = "city", required = true),
+            @Validate(on = {"add", "save"}, field = "code", required = true)
+    })
     private DestinationTO destination;
 
     public List<DestinationTO> getDestinations() {
@@ -45,16 +51,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
 
     public void setDestination(DestinationTO destination) {
         this.destination = destination;
-    }
-    
-    public Resolution createTest() {
-        destination = new DestinationTO();
-        destination.setCity("Brno");
-        destination.setCode("BR");
-        destination.setCountry("CZECH");
-        destinationService.createDestination(destination);
-        destinations = destinationService.getAllDestinations();
-        return new ForwardResolution("/destination/list.jsp");
     }
     
     @DefaultHandler
@@ -75,6 +71,7 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
     public Resolution delete() {
         log.debug("delete({})", destination.getId());
         destinationService.removeDestination(destination);
+        getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCity()),escapeHTML(destination.getCode()),escapeHTML(destination.getCountry())));
         return new RedirectResolution(this.getClass(), "list");
     }
 
@@ -90,14 +87,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new ForwardResolution("/destination/create.jsp");
     }
     
-    @ValidateNestedProperties(value = {
-            @Validate(on = {"add", "save"}, field = "country", required = true),
-            @Validate(on = {"add", "save"}, field = "city", required = true),
-            @Validate(on = {"add", "save"}, field = "code", required = true)
-    })
     public Resolution add() {
         log.debug("add() destination={}", destination);
         destinationService.createDestination(destination);
+        getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCity()),escapeHTML(destination.getCode()),escapeHTML(destination.getCountry())));
         return new RedirectResolution(this.getClass(), "list");
     }
 
@@ -109,6 +102,7 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
     public Resolution save() {
         log.debug("save() destination={}", destination);
         destinationService.updateDestination(destination);
+        getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCity()),escapeHTML(destination.getCode()),escapeHTML(destination.getCountry())));
         return new RedirectResolution(this.getClass(), "list");
     }
 }
