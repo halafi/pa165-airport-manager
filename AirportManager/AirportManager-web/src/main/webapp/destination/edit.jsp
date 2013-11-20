@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
+
 <s:layout-render name="/layout.jsp" titlekey="index.title">
     <s:layout-component name="body">
         
@@ -10,9 +11,10 @@
         <div class="text-content">
             <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">
                 <s:hidden name="destination.id"/>
-                <fieldset><legend><f:message key="edit"/></legend>
+                <fieldset>
+                    <legend><f:message key="edit"/></legend>
                     <%@include file="form.jsp"%>
-                    <s:submit name="editSave">
+                    <s:submit name="save">
                         <f:message key="save"/>
                     </s:submit>
                 </fieldset>

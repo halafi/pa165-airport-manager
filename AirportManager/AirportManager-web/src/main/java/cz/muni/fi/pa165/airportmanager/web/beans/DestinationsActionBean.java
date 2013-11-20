@@ -6,11 +6,14 @@ import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.Validate;
+import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import org.slf4j.Logger;
@@ -61,7 +64,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new ForwardResolution("/destination/list.jsp");
     }
 
-    
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
         //fill up the data for the table if validation errors occured
@@ -76,7 +78,7 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new RedirectResolution(this.getClass(), "list");
     }
 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "delete"})
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"save", "edit", "delete"})
     public void loadDestinationFromDatabase() {
         String ids = getContext().getRequest().getParameter("destination.id");
         if (ids == null) return;
@@ -88,24 +90,23 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new ForwardResolution("/destination/create.jsp");
     }
     
-    /*@ValidateNestedProperties(value = {
+    @ValidateNestedProperties(value = {
             @Validate(on = {"add", "save"}, field = "country", required = true),
             @Validate(on = {"add", "save"}, field = "city", required = true),
-            @Validate(on = {"add", "save"}, field = "code", required = true, minvalue = 800)
-    })*/
+            @Validate(on = {"add", "save"}, field = "code", required = true)
+    })
     public Resolution add() {
         log.debug("add() destination={}", destination);
         destinationService.createDestination(destination);
         return new RedirectResolution(this.getClass(), "list");
     }
 
-    
     public Resolution edit() {
         log.debug("edit() destination={}", destination);
         return new ForwardResolution("/destination/edit.jsp");
     }
     
-    public Resolution editSave() {
+    public Resolution save() {
         log.debug("save() destination={}", destination);
         destinationService.updateDestination(destination);
         return new RedirectResolution(this.getClass(), "list");
