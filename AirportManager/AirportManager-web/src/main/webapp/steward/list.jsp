@@ -8,7 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
-<s:layout-render name="/layout.jsp" titlekey = "steward.title" >
+<s:layout-render name="/layout.jsp" titlekey="steward.title" >
     <s:layout-component name="body" >
         <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean" 
                          var="actionBean" />
@@ -28,15 +28,22 @@
                         <th><c:out value="${stew.id}"/></th>
                         <th><c:out value="${stew.firstName}"/></th>
                         <th><c:out value="${stew.lastName}"/></th>
-                        <th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
-                                event="edit"><s:param name="steward.id" value="${stew.id}"/>
+                        <th><s:link href="/steward/edit.jsp">
+                                <s:param name="formtitle" value="steward.edit.title"/>
                                 <f:message key="steward.edit"/></s:link></th>
+                        <%--<th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
+                                event="edit"><s:param name="steward.id" value="${stew.id}"/>
+<f:message key="steward.edit"/></s:link></th> --%>
                         <th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
                                 event="delete"><s:param name="steward.id" value="${stew.id}"/>
                                 <f:message key="steward.delete"/></s:link></th>
                     </tr>
                 </c:forEach>
             </table>
+                    <s:link href="/steward/edit.jsp">
+                        <s:param name="formtitle" value="steward.create.title" />
+                        <f:message key="steward.create.new"/>
+                    </s:link>
         </div>
     </s:layout-component>
 </s:layout-render>
