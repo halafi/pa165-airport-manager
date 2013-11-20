@@ -11,8 +11,8 @@
 <!DOCTYPE html>
 <h1>
     Welcome to Airport Manager!
-    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">
-        chod</s:link>
+    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">destination</s:link>
+    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">steward</s:link>
 </h1>
         
     

@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="${pageContext.request.locale}">
 <head>
-  <title>Airport Manager</title>
+  <title><f:message key="${titlekey}"/></title>
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
   <%--<s:layout-component name="header"/>--%>
 </head>
