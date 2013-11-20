@@ -23,7 +23,7 @@
                 <a href="#">create steward</a><br/>
                 <a href="#">create airplane</a><br/>
                 <a href="#">create flight</a><br/>
-                <a href="#">create destination</a><br/>
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="create"><f:message key="destination.create"/></s:link><br/>
             </div>
         </div>
 <!--header - logo + logout-->
