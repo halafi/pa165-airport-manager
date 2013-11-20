@@ -32,7 +32,7 @@
                             </s:link>
                         </td>
                         <td>
-                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" event="add">
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" event="delete">
                                 <s:param name="airplane.id" value="${airplane.id}"/>
                                 <f:message key="delete"/>
                                 </s:link>

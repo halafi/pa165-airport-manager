@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Matus Makovy
  */
-@UrlBinding("/airplane/{$event}/{airplane.id}")
+@UrlBinding("/airplanes/{$event}/{airplane.id}")
 public class AirplaneActionBean extends BaseActionBean implements ValidationErrorHandler {
 
     final static Logger log = LoggerFactory.getLogger(AirplaneActionBean.class);
@@ -55,6 +55,7 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
 
     @DefaultHandler
     public Resolution list() {
+        System.out.println("list called");
         log.debug("list()");
         airplanes = airplaneService.getAllAirplanes();
         return new ForwardResolution("/airplane/list.jsp");
@@ -69,6 +70,7 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
     }
 
     public Resolution delete() {
+        System.out.println("delete called");
         log.debug("delete({})", airplane.getId());
         airplaneService.removeAirplane(airplane);
         getContext().getMessages().add(new LocalizableMessage("airplane.deleted",airplane.getCapacity(),escapeHTML(airplane.getName()),escapeHTML(airplane.getType())));
@@ -83,6 +85,7 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
     }
 
     public Resolution add() {
+        System.out.println("add called");
         log.debug("add() airplane", airplane);
         airplaneService.createAirplane(airplane);
         getContext().getMessages().add(new LocalizableMessage("airplane.created",airplane.getCapacity(),escapeHTML(airplane.getName()),escapeHTML(airplane.getType())));
@@ -90,11 +93,13 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
     }
 
     public Resolution edit() {
+        System.out.println("edit called");
         log.debug("edit() airplane={}", airplane);
         return new ForwardResolution("/airplane/edit.jsp");
     }
 
     public Resolution save() {
+        System.out.println("save called");
         log.debug("save() airplane={}", airplane);
         airplaneService.updateAirplane(airplane);
         getContext().getMessages().add(new LocalizableMessage("airplane.updated",airplane.getCapacity(),escapeHTML(airplane.getName()),escapeHTML(airplane.getType())));

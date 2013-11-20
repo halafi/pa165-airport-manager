@@ -11,18 +11,15 @@ import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
-import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
-import net.sourceforge.stripes.validation.ValidationError;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -38,8 +35,10 @@ public class StewardsActionBean extends BaseActionBean{
     private List<StewardTO> stewards;
     private List<FlightTO> flights;
     @ValidateNestedProperties({
-            @Validate(on = {"add", "save"}, field = "firstName", required = true, minlength = 1),
-            @Validate(on = {"add", "save"}, field = "lastName", required = true, minlength = 1)
+            @Validate(on = {"add", "save"}, field = "firstName", 
+                    required = true, trim = true, minlength = 1),
+            @Validate(on = {"add", "save"}, field = "lastName", 
+                    required = true, trim = true, minlength = 1)
             })
     private StewardTO steward;
 
@@ -59,13 +58,18 @@ public class StewardsActionBean extends BaseActionBean{
         this.steward = steward;
     }
 
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save"})
+    public void loadSteward(){
+        String id = getContext().getRequest().getParameter("steward.id");
+        if(id == null){
+            return;
+        }
+        steward = stewService.findSteward(Long.parseLong(id));
+    }
+    
     @DefaultHandler
     public Resolution list(){
-//        steward = new StewardTO();
-//        steward.setFirstName("first");
-//        steward.setLastName("last");
         try{
-//            stewService.createSteward(steward);
             stewards = stewService.findAllStewards();
         } catch (DataAccessException ex){
             SimpleError err = new SimpleError("Error service providing " + ex);
@@ -78,11 +82,8 @@ public class StewardsActionBean extends BaseActionBean{
     }
     
     public Resolution add(){
-        System.out.println("add called");
         try{
-            System.out.println("before create " + steward + "  " + stewService);
             stewService.createSteward(steward);
-            System.out.println("after create " + steward);
             getContext().getMessages().add(new SimpleMessage("added steward", escapeHTML(steward.toString())));
         } catch (DataAccessException ex){
             SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
@@ -100,19 +101,17 @@ public class StewardsActionBean extends BaseActionBean{
     }
     
     public Resolution save(){
-        System.out.println("save called");
-        return new RedirectResolution(this.getClass(), "list");
-    }
-    
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save"})
-    public void loadSteward(){
-        String id = getContext().getRequest().getParameter("steward.id");
-        System.out.println(id);
-        if(id == null){
-            return;
+        try{
+            stewService.updateSteward(steward);
+            getContext().getMessages().add(new SimpleMessage("updated steward", escapeHTML(steward.toString())));
+        } catch (DataAccessException ex){
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            SimpleError err = new SimpleError("Unknown error", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
         }
-        steward = stewService.findSteward(Long.parseLong(id));
-        System.out.println(steward);
+        return new RedirectResolution(this.getClass(), "list");
     }
     
     public Resolution delete(){
@@ -129,6 +128,7 @@ public class StewardsActionBean extends BaseActionBean{
     }
     
     public Resolution flights(){
+        //TODO
         flights = stewService.getAllStewardsFlights(steward);
         return new ForwardResolution("/steward/list.jsp");
     }

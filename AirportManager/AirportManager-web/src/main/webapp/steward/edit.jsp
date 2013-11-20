@@ -11,8 +11,6 @@
 
 <s:layout-render name="/layout.jsp" titlekey="${pageContext.request.getParameter('formtitle')}">
     <s:layout-component name="body">
-        <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
-                         var="actionBean"/>
         <div class="text-content">
             <c:set var="mess" 
                    value="${pageContext.request.getParameter('formtitle') == 'steward.edit.title' 
@@ -34,7 +32,6 @@
                     </c:choose>
                     <s:submit name="cancel"><f:message key="steward.cancel"/>
                     </s:submit>
-
                 </s:form>
             </fieldset>
         </div>

@@ -28,10 +28,6 @@
                         <th><c:out value="${steward.id}"/></th>
                         <th><c:out value="${steward.firstName}"/></th>
                         <th><c:out value="${steward.lastName}"/></th>
-                            <%--<th><s:link href="/steward/edit.jsp">
-                                    <s:param name="formtitle" value="steward.edit.title"/>
-                                    <s:param name="steward.id" value="${steward.id}"/>
-                                    <f:message key="steward.edit"/></s:link></th> --%>
                         <th><s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
                                 <s:submit name="edit">
                                     <s:param name="steward.id" value="${steward.id}"/>
