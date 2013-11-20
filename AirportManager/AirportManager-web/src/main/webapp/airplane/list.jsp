@@ -31,7 +31,7 @@
                          </s:link>
                         </td>
                         <td>
-                            <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" action="airplane/add">
+                            <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" action="add">
                                 <s:hidden name="airplane.id" value="${airplane.id}"/>
                                 <s:submit name="delete">delete</s:submit>
                             </s:form>
