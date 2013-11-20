@@ -7,6 +7,9 @@ package cz.muni.fi.pa165.airportmanager.web.beans;
 import cz.muni.fi.pa165.airportmanager.services.AirplaneService;
 import cz.muni.fi.pa165.airportmanager.services.DestinationService;
 import cz.muni.fi.pa165.airportmanager.services.FlightService;
+import cz.muni.fi.pa165.airportmanager.services.StewardService;
+import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import static cz.muni.fi.pa165.airportmanager.web.beans.BaseActionBean.escapeHTML;
@@ -42,13 +45,52 @@ public class FlightsActionBean extends BaseActionBean{
     protected DestinationService destinationService;
     @SpringBean
     protected AirplaneService airplaneService;
+    @SpringBean
+    protected StewardService stewardService;
     
     private List<FlightTO> flights;
 
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
-        flights = flightService.getAllFlights();
+        
+//        flight = new FlightTO();
+        AirplaneTO airplane = new AirplaneTO();
+//        airplane.setCapacity(10);
+//        airplane.setName("plane");
+//        airplane.setType("planetype");
+//        airplaneService.createAirplane(airplane);
+//        System.out.println(airplane.toString());
+        airplane = airplaneService.getAllAirplanes().get(0);
+        System.out.println(airplane.toString());
+        DestinationTO des = new DestinationTO();
+//        des.setCity("city");
+//        des.setCode("ABD");
+//        des.setCountry("c1");
+//        destinationService.createDestination(des);
+        des = destinationService.getAllDestinations().get(0);
+//        System.out.println(des.toString());
+//        
+//        StewardTO stew = new StewardTO();
+//        stew.setFirstName("jano");
+//        stew.setLastName("jayes");
+//        stewardService.createSteward(stew);
+//        stew = stewardService.findAllStewards().get(0);
+        List<StewardTO> sl = new ArrayList<>();
+        //sl.add(stew);
+        
+        Timestamp ts = Timestamp.valueOf("2007-09-23 10:10:10.0");
+
+        flight.setAirplaneTO(airplane);
+        flight.setArrivalTime(ts);
+        flight.setDepartureTime(ts);
+        flight.setOrigin(des);
+        flight.setTarget(des);
+        flight.setStewList(sl);
+        System.out.println(flight.toString());
+        flightService.createFlight(flight);
+        flights =  flightService.getAllFlights();
+        //flights = flightService.getAllFlights();
         return new ForwardResolution("/flights/list.jsp");
     }
     
@@ -154,19 +196,32 @@ public class FlightsActionBean extends BaseActionBean{
 //        }
 //        
 //    }
-//    public Resolution createTest() {
-//        flight = new FlightTO();
-//        AirplaneTO airplane = new AirplaneTO();
-//        airplane.setCapacity(10);
-//        airplane.setName("plane");
-//        airplane.setType("planetype");
-//        airplane.setId(new Long(10));
-//        
-//        flight.setAirplaneTO(airplane);
-//        flight.setArrivalTime(new Timestamp(11111));
-//        flight.setDepartureTime(new Timestamp(11113));
-//        flightService.createFlight(flight);
-//        flights =  flightService.getAllFlights();
-//        return new ForwardResolution("/flights/list.jsp");
-//    }
+    public Resolution createTest() {
+        flight = new FlightTO();
+        AirplaneTO airplane = new AirplaneTO();
+        airplane.setCapacity(10);
+        airplane.setName("plane");
+        airplane.setType("planetype");
+        airplaneService.createAirplane(airplane);
+        DestinationTO des = new DestinationTO();
+        des.setCity("city");
+        des.setCode("ABD");
+        des.setCountry("c1");
+        destinationService.createDestination(des);
+//        StewardTO stew = new StewardTO();
+//        stew.setFirstName("jano");
+//        stew.setLastName("jayes");
+//        stewardService.createSteward(stew);
+        
+        Timestamp ts = Timestamp.valueOf("2007-09-23 10:10:10.0");
+
+        flight.setAirplaneTO(airplane);
+        flight.setArrivalTime(ts);
+        flight.setDepartureTime(ts);
+        flight.setOrigin(des);
+        flight.setTarget(des);
+        flightService.createFlight(flight);
+        flights =  flightService.getAllFlights();
+        return new ForwardResolution("/flights/list.jsp");
+    }
 }
