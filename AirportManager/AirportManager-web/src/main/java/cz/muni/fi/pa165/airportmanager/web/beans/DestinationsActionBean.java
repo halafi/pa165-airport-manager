@@ -86,7 +86,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCity()),escapeHTML(destination.getCode()),escapeHTML(destination.getCountry())));
         return null;
     }
 
@@ -119,6 +118,7 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             SimpleError err = new SimpleError("Unknown error" + ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
+        getContext().getMessages().add(new LocalizableMessage("destination.list.outcoming", escapeHTML(destination.getId().toString())));
         return new ForwardResolution("/destination/listOutcoming.jsp");
     }
     
@@ -136,6 +136,7 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             SimpleError err = new SimpleError("Unknown error" + ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
+        getContext().getMessages().add(new LocalizableMessage("destination.list.incoming", escapeHTML(destination.getId().toString())));
         return new ForwardResolution("/destination/listIncoming.jsp");
     }
     
@@ -151,7 +152,7 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCity()),escapeHTML(destination.getCode()),escapeHTML(destination.getCountry())));
+        getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
@@ -167,7 +168,7 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCity()),escapeHTML(destination.getCode()),escapeHTML(destination.getCountry())));
+        getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
@@ -183,6 +184,7 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
+        getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
