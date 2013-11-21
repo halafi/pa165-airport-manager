@@ -20,13 +20,13 @@ import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.HandlesEvent;
+import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
-import net.sourceforge.stripes.validation.SimpleError;
+import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import org.springframework.dao.DataAccessException;
@@ -54,14 +54,15 @@ public class StewardsActionBean extends BaseActionBean{
     
     private List<StewardTO> stewards;
     private List<FlightTO> flights;
+    
     @ValidateNestedProperties({
-            @Validate(on = {"add", "save"}, field = "firstName", 
+            @Validate(on = {"addsteward", "savesteward"}, field = "firstName", 
                     required = true, trim = true, minlength = 1),
-            @Validate(on = {"add", "save"}, field = "lastName", 
+            @Validate(on = {"addsteward", "savesteward"}, field = "lastName", 
                     required = true, trim = true, minlength = 1)
             })
     private StewardTO steward;
-
+    
     public List<FlightTO> getFlights() {
         return flights;
     }
@@ -78,14 +79,25 @@ public class StewardsActionBean extends BaseActionBean{
         this.steward = steward;
     }
 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save", "flights", "addflight"})
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"editsteward", "savesteward", 
+        "flights", "addflight", "deletesteward", "removeflight"})
     public void loadSteward(){
         String id = getContext().getRequest().getParameter("steward.id");
         if(id == null){
             return;
         }
-        steward = stewService.findSteward(Long.parseLong(id));
-        flights = stewService.getAllStewardsFlights(steward);
+        try{
+            steward = stewService.findSteward(Long.parseLong(id));
+            flights = stewService.getAllStewardsFlights(steward);
+        } catch (DataAccessException ex){
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
     }
     
     public FlightTO loadFlight(){
@@ -93,7 +105,18 @@ public class StewardsActionBean extends BaseActionBean{
         if(id == null){
             return null;
         }
-        return flightService.getFlight(Long.parseLong(id));
+        try{
+            return flightService.getFlight(Long.parseLong(id));
+        } catch (DataAccessException ex){
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        return null;
     }
     
     @DefaultHandler
@@ -103,62 +126,76 @@ public class StewardsActionBean extends BaseActionBean{
             prepareDB();
             stewards = stewService.findAllStewards();
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing " + ex);
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error" + ex);
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
-            System.out.println(ex);
-            ex.printStackTrace();
         }
         return new ForwardResolution("/steward/list.jsp");
     }
     
-    @HandlesEvent("add")
+    @HandlesEvent("addsteward")
     public Resolution addNewSteward(){
         try{
+            System.out.println("created steward: " + steward);
             stewService.createSteward(steward);
-            getContext().getMessages().add(new SimpleMessage("added steward", escapeHTML(steward.toString())));
+            getContext().getMessages().add(new LocalizableMessage("steward.created", 
+                    escapeHTML(steward.getFirstName()),
+                    escapeHTML(steward.getLastName())));
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new RedirectResolution(this.getClass(), "list");
     }
     
-    @HandlesEvent("edit")
+    @HandlesEvent("editsteward")
     public Resolution editCreateFormular(){
-        System.out.println("edit called");
         return new ForwardResolution("/steward/edit.jsp");
     }
     
-    @HandlesEvent("save")
+    @HandlesEvent("savesteward")
     public Resolution saveStewardsEdit(){
         try{
             stewService.updateSteward(steward);
-            getContext().getMessages().add(new SimpleMessage("updated steward", escapeHTML(steward.toString())));
+            getContext().getMessages().add(new LocalizableMessage("steward.updated", 
+                    escapeHTML(steward.getFirstName()),
+                    escapeHTML(steward.getLastName())));
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new RedirectResolution(this.getClass(), "list");
     }
     
-    @HandlesEvent("delete")
+    @HandlesEvent("deletesteward")
     public Resolution removeSteward(){
         try{
+            loadSteward();
             stewService.removeSteward(steward);
+            getContext().getMessages().add(new LocalizableMessage("steward.deleted", 
+                    escapeHTML(steward.getFirstName()),
+                    escapeHTML(steward.getLastName())));
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new RedirectResolution(this.getClass(),"list");
@@ -166,23 +203,15 @@ public class StewardsActionBean extends BaseActionBean{
     
     @HandlesEvent("flights")
     public Resolution showAllStewardsFlights(){
-        //TODO
-//        System.out.println("steward: " + steward);
-//        loadSteward();
-//        System.out.println(getContext().getRequest().getParameter("steward.id"));
-//        System.out.println("steward (after load): " + steward);
-//        if(steward == null){
-//            System.out.println("steward null");
-//        } else {
-//            flights = stewService.getAllStewardsFlights(steward);
-//        }
         try{
             flights = stewService.getAllStewardsFlights(steward);
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new ForwardResolution("/steward/flights.jsp?add=false");
@@ -191,14 +220,16 @@ public class StewardsActionBean extends BaseActionBean{
     @HandlesEvent("addflight")
     public Resolution showStewardsFlightToAdd(){
         try{
-//            flights = stewService.getAllStewardsFlights(steward);
+            flights = stewService.getAllStewardsFlights(steward);
             List<FlightTO> allFlights = flightService.getAllFlights();
             flights = getRemainingFights(flights, allFlights);
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new ForwardResolution("/steward/flights.jsp?add=true");
@@ -209,24 +240,24 @@ public class StewardsActionBean extends BaseActionBean{
        try{
             FlightTO flight = loadFlight();
             loadSteward();
-            System.out.println("flight: " + flight);
             if(flight == null){
                 throw new IllegalStateException("Missing flight id");
             }
-            System.out.println("stew list: " + flight.getStewList());
-            System.out.println("steward: " + steward);
             flight.getStewList().remove(steward);
             flightService.updateFlight(flight);
-//            flights = stewService.getAllStewardsFlights(steward);
+            flights = stewService.getAllStewardsFlights(steward);
+            stewService.updateSteward(steward);
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        if(getContext().getRequest().getParameter("event").equals("edit")){
-            ForwardResolution res = new ForwardResolution(this.getClass(), "edit");
+        if(getContext().getRequest().getParameter("event").equals("editsteward")){
+            ForwardResolution res = new ForwardResolution(this.getClass(), "editsteward");
             res.addParameter("formtitle", "steward.edit.title");
             return res;
         } else {
@@ -244,16 +275,18 @@ public class StewardsActionBean extends BaseActionBean{
             flight.getStewList().add(steward);
             flightService.updateFlight(flight);
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("steward.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-       return new ForwardResolution(this.getClass(), "addflight");
+        return new ForwardResolution(this.getClass(), "addflight");
     }
     
-    @HandlesEvent("cancel")
+    @HandlesEvent("cancelsteward")
     public Resolution doNothing(){
         return new RedirectResolution(this.getClass());
     }
@@ -323,7 +356,7 @@ public class StewardsActionBean extends BaseActionBean{
         f5.setDepartureTime(new Timestamp(time + 800000));
         
         StewardTO s = new StewardTO();
-        s.setFirstName("first");
+        s.setFirstName("firsť");
         s.setLastName("last");
         
         List<StewardTO> ls = new ArrayList<>();

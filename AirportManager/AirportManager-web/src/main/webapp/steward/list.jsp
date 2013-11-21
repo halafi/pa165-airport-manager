@@ -4,7 +4,7 @@
     Author     : Chorke
 --%>
 
-<%@page contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
@@ -28,20 +28,20 @@
                         <th><c:out value="${steward.id}"/></th>
                         <th><c:out value="${steward.firstName}"/></th>
                         <th><c:out value="${steward.lastName}"/></th>
-                        <th><s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
-                                <s:submit name="edit">
+                        <th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
+                                event="editsteward">
                                     <s:param name="steward.id" value="${steward.id}"/>
                                     <s:param name="formtitle" value="steward.edit.title"/>
-                                    <s:param name="event" value="edit"/>
-                                    <f:message key="steward.edit"/>
-                                </s:submit>
-                            </s:form></th> 
-                        <th><s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
-                                <s:submit name="delete">
+                                    <s:param name="event" value="editsteward"/>
+                                    <img class="icon" src="${pageContext.request.contextPath}/images/edit.png"/>
+                                
+                            </s:link></th> 
+                        <th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
+                                event="deletesteward">
                                     <s:param name="steward.id" value="${steward.id}"/>
-                                    <f:message key="steward.delete"/>
-                                </s:submit>
-                            </s:form>
+                                    <img class="icon" src="${pageContext.request.contextPath}/images/delete.png"/>
+                                
+                            </s:link>
                         </th>
                         <th><s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
                                 <s:submit name="flights">
@@ -58,11 +58,13 @@
                 <s:param name="formtitle" value="steward.create.title" />
                 <f:message key="steward.create.new"/>
             </s:link> --%>
-            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
-                    event="edit">
-                <s:param name="formtitle" value="steward.create.new"/>
-                <f:message key="steward.create.new"/></s:link>
-            </div>
+            <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
+                <s:submit name="editsteward">
+                    <s:param name="formtitle" value="steward.create.new"/>
+                    <f:message key="steward.create.new"/>
+                </s:submit>
+            </s:form>
+        </div>
     </s:layout-component>
 </s:layout-render>
 

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
@@ -62,13 +62,18 @@
             </tr>
         </c:forEach>
     </table>
-    <c:if test="${add != true}">
-        <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
+
+    <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
+        <c:if test="${add != true}">
             <s:submit name="addflight">
                 <s:param name="event" value="${pageContext.request.getParameter('event')}"/>
                 <s:param name="steward.id" value="${pageContext.request.getParameter('steward.id')}"/>
                 <f:message key="steward.flights.add"/>
             </s:submit>
-        </s:form>
-    </c:if>
+        </c:if>
+        <s:submit name="cancelsteward">
+            <f:message key="steward.cancel"/>
+        </s:submit>
+    </s:form>
+
 </div>

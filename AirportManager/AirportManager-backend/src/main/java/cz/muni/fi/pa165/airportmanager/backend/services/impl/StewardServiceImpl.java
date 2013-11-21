@@ -4,10 +4,12 @@
  */
 package cz.muni.fi.pa165.airportmanager.backend.services.impl;
 
+import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
+import cz.muni.fi.pa165.airportmanager.services.FlightService;
 import cz.muni.fi.pa165.airportmanager.services.StewardService;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
@@ -28,9 +30,16 @@ public class StewardServiceImpl implements StewardService{
 
     @Autowired
     private StewardDAO stewardDao;
+    
+    @Autowired
+    private FlightDAO flightDao;
 
     public void setStewardDao(StewardDAO stewardDao) {
         this.stewardDao = stewardDao;
+    }
+    
+    public void setFlightDao(FlightDAO flightDao) {
+        this.flightDao = flightDao;
     }
     
     @Override
@@ -52,6 +61,11 @@ public class StewardServiceImpl implements StewardService{
     @Transactional(readOnly = false)
     public void removeSteward(StewardTO steward) throws DataAccessException {
         Steward stew = EntityDTOTransformer.stewardTOConvert(steward);
+        List<Flight> flights = stewardDao.getAllStewardsFlights(stew);
+        for(Flight f : flights){
+            f.getStewardList().remove(stew);
+            flightDao.updateFlight(f);
+        }
         stewardDao.removeSteward(stew);
     }
 

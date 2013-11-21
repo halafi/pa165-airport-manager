@@ -79,7 +79,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    @Transactional//
+    @Transactional
     public void updateFlight(FlightTO flightTO) throws DataAccessException {
         flightDAO.updateFlight(EntityDTOTransformer.flightTOConvert(flightTO));
     }

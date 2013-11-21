@@ -4,7 +4,7 @@
     Author     : Chorke
 --%>
 
-<%@page contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
@@ -22,21 +22,21 @@
                     <%@include file="form.jsp" %>
                     <c:choose>
                         <c:when test="${page == 'steward.edit.title'}">
-                            <s:submit name="save"><f:message key="steward.edit.save"/>
+                            <s:submit name="savesteward"><f:message key="steward.edit.save"/>
                             </s:submit>
                         </c:when>
                         <c:otherwise>
-                            <s:submit name="add"><f:message key="steward.create.add"/>
+                            <s:submit name="addsteward"><f:message key="steward.create.add"/>
                             </s:submit>
                         </c:otherwise>
                     </c:choose>
-                    <s:submit name="cancel"><f:message key="steward.cancel"/>
+                    <s:submit name="cancelsteward"><f:message key="steward.cancel"/>
                     </s:submit>
                 </s:form>
             </fieldset>
-            <c:if test="${page == 'steward.edit.title'}">
-                <%@include file="flightslist.jsp" %>
-            </c:if>
         </div>
+        <c:if test="${page == 'steward.edit.title'}">
+            <%@include file="flightslist.jsp" %>
+        </c:if>
     </s:layout-component>
 </s:layout-render>
