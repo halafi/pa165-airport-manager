@@ -15,11 +15,11 @@
             <c:set var="mess" 
                    value="${pageContext.request.getParameter('formtitle') == 'steward.edit.title' 
                             ? 'steward.edit.title' : 'steward.create.new'}" />
+            <c:set var="page" value="${pageContext.request.getParameter('formtitle')}" />
             <fieldset><legend><f:message key="${mess}"/></legend>
                 <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
                     <s:hidden name="steward.id" />
                     <%@include file="form.jsp" %>
-                    <c:set var="page" value="${pageContext.request.getParameter('formtitle')}" />
                     <c:choose>
                         <c:when test="${page == 'steward.edit.title'}">
                             <s:submit name="save"><f:message key="steward.edit.save"/>
@@ -34,6 +34,9 @@
                     </s:submit>
                 </s:form>
             </fieldset>
+            <c:if test="${page == 'steward.edit.title'}">
+                <%@include file="flightslist.jsp" %>
+            </c:if>
         </div>
     </s:layout-component>
 </s:layout-render>

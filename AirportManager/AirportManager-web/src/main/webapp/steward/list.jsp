@@ -32,6 +32,7 @@
                                 <s:submit name="edit">
                                     <s:param name="steward.id" value="${steward.id}"/>
                                     <s:param name="formtitle" value="steward.edit.title"/>
+                                    <s:param name="event" value="edit"/>
                                     <f:message key="steward.edit"/>
                                 </s:submit>
                             </s:form></th> 
@@ -45,6 +46,7 @@
                         <th><s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
                                 <s:submit name="flights">
                                     <s:param name="steward.id" value="${steward.id}"/>
+                                    <s:param name="event" value="flights"/>
                                     <f:message key="steward.flights"/>
                                 </s:submit>
                             </s:form>

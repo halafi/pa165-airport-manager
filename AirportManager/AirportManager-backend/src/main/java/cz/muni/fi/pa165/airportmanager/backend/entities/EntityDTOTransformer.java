@@ -39,10 +39,11 @@ public class EntityDTOTransformer {
             toReturn.setDepartureTime(flight.getDepartureTime());
             toReturn.setOrigin(destinationConvert(flight.getOrigin()));
             toReturn.setTarget(destinationConvert(flight.getTarget()));
-            List<StewardTO> stewTOs = new ArrayList<>(flight.getStewardList().size());
-            for(Steward s : flight.getStewardList()){
-                stewTOs.add(EntityDTOTransformer.stewardConvert(s));
-            }
+            List<StewardTO> stewTOs = stewardListConvert(flight.getStewardList());
+//            List<StewardTO> stewTOs = new ArrayList<>(flight.getStewardList().size());
+//            for(Steward s : flight.getStewardList()){
+//                stewTOs.add(EntityDTOTransformer.stewardConvert(s));
+//            }
             toReturn.setStewList(stewTOs);
             toReturn.setAirplaneTO(airplaneConvert(flight.getAirplane()));
             return toReturn;
@@ -60,10 +61,11 @@ public class EntityDTOTransformer {
         toReturn.setAirplane(airplaneTOConvert(flightTO.getAirplaneTO()));
         toReturn.setOrigin(destinationTOConvert(flightTO.getOrigin()));
         toReturn.setTarget(destinationTOConvert(flightTO.getTarget()));
-        List<Steward> stews = new ArrayList<>(flightTO.getStewList().size());
-            for(StewardTO s : flightTO.getStewList()){
-                stews.add(EntityDTOTransformer.stewardTOConvert(s));
-            }
+        List<Steward> stews = stewardTOListConvert(flightTO.getStewList());
+//        List<Steward> stews = new ArrayList<>(flightTO.getStewList().size());
+//            for(StewardTO s : flightTO.getStewList()){
+//                stews.add(EntityDTOTransformer.stewardTOConvert(s));
+//            }
         toReturn.setStewardList(stews);
         return toReturn;
         

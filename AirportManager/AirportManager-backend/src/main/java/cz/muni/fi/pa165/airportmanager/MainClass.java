@@ -5,7 +5,16 @@ import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
+import cz.muni.fi.pa165.airportmanager.services.AirplaneService;
+import cz.muni.fi.pa165.airportmanager.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.services.FlightService;
+import cz.muni.fi.pa165.airportmanager.services.StewardService;
+import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -34,36 +43,102 @@ public class MainClass {
 //        ap1.setName("airplane excelent");
 //        ap1.setType("boeing 747");
 //        
-//        
-//        manager.getTransaction().begin();
-//        manager.persist(ap);
-//        manager.persist(ap1);
-//        manager.getTransaction().commit();
-//        
-//        ap.setName("airplane");
-//        manager.clear();
-//        manager.close();
-//        manager = EM_FACTORY.createEntityManager();
-//        manager.getTransaction().begin();
-//        manager.merge(ap);
-//        manager.getTransaction().commit();
-//        
-//        manager.getTransaction().begin();
-//        manager.remove(ap1);
-//        manager.getTransaction().commit();
-//        
 //        System.out.println(ap1);
 //        AnnotationConfigApplicationContext con = new AnnotationConfigApplicationContext(Config.class);
 //        con.register(StewardDAOImpl.class);
 //        con.refresh();
         ClassPathXmlApplicationContext con = new ClassPathXmlApplicationContext("applicationContext.xml");
-        StewardDAO stewdao = con.getBean(StewardDAO.class);
-        Steward s = new Steward();
-        s.setFirstName("ja");
-        s.setLastName("ty");
-        s.setId(1L);
-        stewdao.createSteward(s);
+//        StewardDAO stewdao = con.getBean(StewardDAO.class);
+//        Steward s = new Steward();
+//        s.setFirstName("ja");
+//        s.setLastName("ty");
+//        s.setId(1L);
+//        stewdao.createSteward(s);
         
+        StewardService stewService = con.getBean(StewardService.class);
+        AirplaneService airService = con.getBean(AirplaneService.class);
+        FlightService flightService = con.getBean(FlightService.class);
+        DestinationService desService = con.getBean(DestinationService.class);
+        
+        DestinationTO d1 = new DestinationTO();
+        DestinationTO d2 = new DestinationTO();
+        d1.setCity("pp1");
+        d1.setCountry("sk1");
+        d1.setCode("bla1");
+        d2.setCity("pp2");
+        d2.setCountry("sk2");
+        d2.setCode("bla2");
+        
+        AirplaneTO a = new AirplaneTO();
+        a.setCapacity(100);
+        a.setName("moje");
+        a.setType("747");
+        
+        long time = System.currentTimeMillis();
+        
+        FlightTO f1 = new FlightTO();
+        FlightTO f2 = new FlightTO();
+        FlightTO f3 = new FlightTO();
+        FlightTO f4 = new FlightTO();
+        FlightTO f5 = new FlightTO();
+        f1.setAirplaneTO(a);
+        f1.setOrigin(d1);
+        f1.setTarget(d2);
+        f1.setArrivalTime(new Timestamp(time + 100000));
+        f1.setDepartureTime(new Timestamp(time));
+        f2.setAirplaneTO(a);
+        f2.setOrigin(d1);
+        f2.setTarget(d2);
+        f2.setArrivalTime(new Timestamp(time + 300000));
+        f2.setDepartureTime(new Timestamp(time + 200000));
+        f3.setAirplaneTO(a);
+        f3.setOrigin(d1);
+        f3.setTarget(d2);
+        f3.setArrivalTime(new Timestamp(time + 500000));
+        f3.setDepartureTime(new Timestamp(time + 400000));
+        f4.setAirplaneTO(a);
+        f4.setOrigin(d1);
+        f4.setTarget(d2);
+        f4.setArrivalTime(new Timestamp(time + 700000));
+        f4.setDepartureTime(new Timestamp(time + 600000));
+        f5.setAirplaneTO(a);
+        f5.setOrigin(d1);
+        f5.setTarget(d2);
+        f5.setArrivalTime(new Timestamp(time + 900000));
+        f5.setDepartureTime(new Timestamp(time + 800000));
+        
+        StewardTO s = new StewardTO();
+        s.setFirstName("first");
+        s.setLastName("last");
+        
+        List<StewardTO> ls = new ArrayList<>();
+        List<StewardTO> empty = new ArrayList<>();
+        ls.add(s);
+        
+        f1.setStewList(ls);
+        f3.setStewList(ls);
+        f2.setStewList(empty);
+        f4.setStewList(empty);
+        f5.setStewList(empty);
+        
+        desService.createDestination(d1);
+        desService.createDestination(d2);
+        
+        airService.createAirplane(a);
+        
+        stewService.createSteward(s);
+        
+        flightService.createFlight(f1);
+        flightService.createFlight(f2);
+        flightService.createFlight(f3);
+        flightService.createFlight(f4);
+        flightService.createFlight(f5);
+        
+        FlightTO fl = stewService.getAllStewardsFlights(s).get(0);
+        System.out.println("list stewards: " + fl.getStewList());
+        fl.getStewList().remove(s);
+        flightService.updateFlight(fl);
+        System.out.println("list flights: " + stewService.getAllStewardsFlights(s));
 //        StewardService service = con.getBean(StewardService.class);
 //        StewardTO stew = new StewardTO();
 //        stew.setFirstName("ja");
@@ -77,53 +152,8 @@ public class MainClass {
 //        DestinationService s = con.getBean(DestinationServiceImpl.class);
 //        AirplaneService s = con.getBean(AirplaneServiceImpl.class);
 //        System.out.println(service);
-//        String s = "last name";
-//        Long l = new Long(1);
-//        Steward stew = new Steward();
-//        stew.setLastName(s);
-//        stew.setId(l);
-//        System.out.println(s);
-//        System.out.println(l);
-//        System.out.println(stew.getLastName());
-//        System.out.println(stew.getId());
-//        s = "aaa";
-//        System.out.println(s);
-//        System.out.println(l);
-//        System.out.println(stew.getLastName());
-//        System.out.println(stew.getId());
-//        ChorkeClass chc = new ChorkeClass();
-//        ChorkeSubClass chsc = new ChorkeSubClass();
-//        chsc.s = "first";
-//        
-//        chc.cl = chsc;
-//        
-//        ChorkeClass clazz = (ChorkeClass)chc.clone();
-//        System.out.println(chc.cl.s);
-//        System.out.println(clazz.cl.s);
-//        
-//        chc.cl.s = "second";
-//        System.out.println(chc.cl.s);
-//        System.out.println(clazz.cl.s);
     }
-    
-//    private static class ChorkeClass implements Cloneable{
-//        ChorkeSubClass cl;
-//
-//        @Override
-//        protected Object clone() {
-//            try{
-//                ChorkeClass c = (ChorkeClass) super.clone();
-//                c.cl = this.cl;
-//                return c;
-//            } catch (CloneNotSupportedException ex){}
-//            return null;
-//        }
-//        
-//    }
-//    
-//    private static class ChorkeSubClass {
-//        private String s;
-//    }
+
     
     private static void halafiTest() {
 //        EntityManager manager = EM_FACTORY.createEntityManager();
