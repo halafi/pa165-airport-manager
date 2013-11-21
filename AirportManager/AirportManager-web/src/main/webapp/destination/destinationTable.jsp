@@ -23,25 +23,25 @@
             <td>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="incoming">
                     <s:param name="destination.id" value="${destination.id}"/>
-                incoming flights
+                    <f:message key="destination.incoming"/>
                 </s:link>
             </td>
             <td>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="outcoming">
                     <s:param name="destination.id" value="${destination.id}"/>
-                outcoming flights
+                    <f:message key="destination.outcoming"/>
                 </s:link>
             </td>
             <td>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="edit">
                     <s:param name="destination.id" value="${destination.id}"/>
-                    <img class="icon" src="../images/edit.png"/>
+                    <img class="icon" src="${pageContext.request.contextPath}/images/edit.png"/>
                 </s:link>
             </td>
             <td>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="delete">
                     <s:param name="destination.id" value="${destination.id}"/>
-                    <img class="icon" src="../images/delete.png"/>
+                    <img class="icon" src="${pageContext.request.contextPath}/images/delete.png"/>
                 </s:link>
             </td>
         </tr>
