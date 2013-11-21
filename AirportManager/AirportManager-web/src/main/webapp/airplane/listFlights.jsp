@@ -3,11 +3,13 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp"  titlekey="airplane.title">
+<s:layout-render name="/layout.jsp" titlekey="airplane.title">
     <s:layout-component name="body">
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" var="actionBean"/>
+
         <div class="text-content">
+
             <h1><f:message key="airplane.list.allairplanes"/></h1>
             <table class="basic">
                 <tr>
@@ -37,11 +39,33 @@
                             <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" event="delete">
                                 <s:param name="airplane.id" value="${airplane.id}"/>
                                 <img class="icon" src="${pageContext.request.contextPath}/images/delete.png"/>
-                                </s:link>
-                            </td>
-                        </tr>
+                            </s:link>
+                        </td>
+                    </tr>
                 </c:forEach>
             </table>      
+
+            <h1><f:message key="flights.of.airplane"/> ${actionBean.airplane.id}</h1>
+            <table class="basic">
+                <tr>
+                    <th><f:message key="id"/></th>
+                    <th><f:message key="flight.departureTime"/></th>
+                    <th><f:message key="flight.arrivalTime"/></th>
+                    <th><f:message key="flight.origin"/></th>
+                    <th><f:message key="flight.target"/></th>
+                    <th><f:message key="flight.airplane"/></th>
+                </tr>
+                <c:forEach items="${actionBean.flights}" var="flight">
+                    <tr>
+                        <td>${flight.id}</td>
+                        <td><c:out value="${flight.departureTime}"/></td>
+                        <td><c:out value="${flight.arrivalTime}"/></td>
+                        <td><c:out value="${flight.origin.city}"/></td>
+                        <td><c:out value="${flight.target.city}"/></td>
+                        <td><c:out value="${flight.airplaneTO.name}"/></td>
+                    </tr>
+                </c:forEach>
+            </table>
         </div>
 
     </s:layout-component>

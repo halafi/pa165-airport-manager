@@ -10,7 +10,7 @@
         <div class="text-content">
             <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">
                 <s:hidden name="airplane.id"/>
-                <fieldset><legend><f:message key="create"/></legend>
+                <fieldset><legend><f:message key="airplane.create"/></legend>
                     <%@include file="form.jsp"%>
                     <s:submit name="add">
                         <f:message key="airplane.create"/>

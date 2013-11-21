@@ -2,10 +2,12 @@ package cz.muni.fi.pa165.airportmanager.web.beans;
 
 import cz.muni.fi.pa165.airportmanager.services.AirplaneService;
 import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import static cz.muni.fi.pa165.airportmanager.web.beans.BaseActionBean.escapeHTML;
 import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -34,12 +36,22 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
     
     private List<AirplaneTO> airplanes;
     
+    private List<FlightTO> flights;
+    
     @ValidateNestedProperties(value = {
         @Validate(on = {"add", "save"}, field = "name", required = true),
         @Validate(on = {"add", "save"}, field = "type", required = true),
         @Validate(on = {"add", "save"}, field = "capacity", required = true)
     })
     private AirplaneTO airplane;
+
+    public List<FlightTO> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(List<FlightTO> flights) {
+        this.flights = flights;
+    }
 
     public List<AirplaneTO> getAirplanes() {
         return airplanes;
@@ -55,7 +67,6 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
 
     @DefaultHandler
     public Resolution list() {
-        System.out.println("list called");
         log.debug("list()");
         airplanes = airplaneService.getAllAirplanes();
         return new ForwardResolution("/airplane/list.jsp");
@@ -63,14 +74,11 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
 
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
-        //fill up the data for the table if validation errors occured
         airplanes = airplaneService.getAllAirplanes();
-        //return null to let the event handling continue
         return null;
     }
 
     public Resolution delete() {
-        System.out.println("delete called");
         log.debug("delete({})", airplane.getId());
         airplaneService.removeAirplane(airplane);
         getContext().getMessages().add(new LocalizableMessage("airplane.deleted",airplane.getCapacity(),escapeHTML(airplane.getName()),escapeHTML(airplane.getType())));
@@ -85,25 +93,29 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
     }
 
     public Resolution add() {
-        System.out.println("add called");
         log.debug("add() airplane", airplane);
         airplaneService.createAirplane(airplane);
         getContext().getMessages().add(new LocalizableMessage("airplane.created",airplane.getCapacity(),escapeHTML(airplane.getName()),escapeHTML(airplane.getType())));
-        return new RedirectResolution(this.getClass(), "list");
+        return new RedirectResolution(this.getClass(), "list.jsp");
     }
 
     public Resolution edit() {
-        System.out.println("edit called");
         log.debug("edit() airplane={}", airplane);
         return new ForwardResolution("/airplane/edit.jsp");
     }
 
     public Resolution save() {
-        System.out.println("save called");
         log.debug("save() airplane={}", airplane);
         airplaneService.updateAirplane(airplane);
         getContext().getMessages().add(new LocalizableMessage("airplane.updated",airplane.getCapacity(),escapeHTML(airplane.getName()),escapeHTML(airplane.getType())));
         return new RedirectResolution(this.getClass(), "list");
+    }
+    
+    @HandlesEvent("flightsOfPlane") 
+    public Resolution listFlights(){
+        flights = airplaneService.getAllAirplanesFlights(airplane);
+        airplanes = airplaneService.getAllAirplanes();
+        return new ForwardResolution("/airplane/listFlights.jsp");
     }
 
     
