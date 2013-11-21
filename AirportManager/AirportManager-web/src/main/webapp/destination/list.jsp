@@ -28,13 +28,13 @@
                         <td>
                             <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="edit">
                                 <s:param name="destination.id" value="${destination.id}"/>
-                                <img src="../images/edit.png" width="24" height="24"/>
+                                <img class="icon" src="../images/edit.png"/>
                             </s:link>
                         </td>
                         <td>
                             <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="delete">
                                 <s:param name="destination.id" value="${destination.id}"/>
-                                <img src="../images/delete.png" width="24" height="24"/>
+                                <img class="icon" src="../images/delete.png"/>
                             </s:link>
                         </td>
                     </tr>
