@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.web.beans;
 
+import cz.muni.fi.pa165.airportmanager.services.FlightService;
 import cz.muni.fi.pa165.airportmanager.services.StewardService;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
@@ -11,6 +12,7 @@ import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.SimpleMessage;
@@ -31,6 +33,9 @@ public class StewardsActionBean extends BaseActionBean{
     
     @SpringBean
     private StewardService stewService;
+    
+    @SpringBean
+    private FlightService flightService;
     
     private List<StewardTO> stewards;
     private List<FlightTO> flights;
@@ -68,7 +73,8 @@ public class StewardsActionBean extends BaseActionBean{
     }
     
     @DefaultHandler
-    public Resolution list(){
+    @HandlesEvent("list")
+    public Resolution showStewardsList(){
         try{
             stewards = stewService.findAllStewards();
         } catch (DataAccessException ex){
@@ -81,7 +87,8 @@ public class StewardsActionBean extends BaseActionBean{
         return new ForwardResolution("/steward/list.jsp");
     }
     
-    public Resolution add(){
+    @HandlesEvent("add")
+    public Resolution addNewSteward(){
         try{
             stewService.createSteward(steward);
             getContext().getMessages().add(new SimpleMessage("added steward", escapeHTML(steward.toString())));
@@ -95,12 +102,14 @@ public class StewardsActionBean extends BaseActionBean{
         return new RedirectResolution(this.getClass(), "list");
     }
     
-    public Resolution edit(){
+    @HandlesEvent("edit")
+    public Resolution editCreateFormular(){
         System.out.println("edit called");
         return new ForwardResolution("/steward/edit.jsp");
     }
     
-    public Resolution save(){
+    @HandlesEvent("save")
+    public Resolution saveStewardsEdit(){
         try{
             stewService.updateSteward(steward);
             getContext().getMessages().add(new SimpleMessage("updated steward", escapeHTML(steward.toString())));
@@ -114,7 +123,8 @@ public class StewardsActionBean extends BaseActionBean{
         return new RedirectResolution(this.getClass(), "list");
     }
     
-    public Resolution delete(){
+    @HandlesEvent("delete")
+    public Resolution removeSteward(){
         try{
             stewService.removeSteward(steward);
         } catch (DataAccessException ex){
@@ -127,13 +137,25 @@ public class StewardsActionBean extends BaseActionBean{
         return new RedirectResolution(this.getClass(),"list");
     }
     
-    public Resolution flights(){
+    @HandlesEvent("flights")
+    public Resolution showAllStewardsFlights(){
         //TODO
         flights = stewService.getAllStewardsFlights(steward);
-        return new ForwardResolution("/steward/list.jsp");
+        return new ForwardResolution("/steward/flights.jsp");
     }
     
-    public Resolution cancel(){
+    @HandlesEvent("addflight")
+    public Resolution addStewardsFlight(){
+        return null;
+    }
+    
+    @HandlesEvent("removeflight")
+    public Resolution removeStewardsFlight(){
+        return null;
+    }
+    
+    @HandlesEvent("cancel")
+    public Resolution doNothing(){
         return new RedirectResolution(this.getClass());
     }
 }
