@@ -8,7 +8,6 @@
 
         <div class="text-content">
             <h1>Welcome to Airport Manager!</h1>
-            <p></p>
             <img src="http://doblelol.com/uploads/18/funny-patrick-day-jokes.jpg" width="400" height="400"/>
         </div>
         

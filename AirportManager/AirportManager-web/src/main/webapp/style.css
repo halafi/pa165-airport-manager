@@ -16,6 +16,10 @@ ul li {
 
 }
 
+html {
+    padding: 2em;
+}
+
 /*errorbox {
     background-color: white;
 }*/
@@ -25,38 +29,29 @@ body {
     font-family: tahoma;
     background-color: rgb(221,221,221);
     margin: 0 auto;
-    padding: 2em;
+    /*padding: 2em;*/
     max-width: 3000px;
 }
 
 p {
     padding: 0.4em;
     font-size: 100%;
-    
-}
-
-#header {
-    padding: 2em;
-}
-
-#main-wrapper {
-    /*background: rgb(221,221,221);*/
-    float: right;
-    /*margin-left: 20em;*/
 }
 /*header*/
-.logo {
-    float:left;
-    
-    padding-left: 1em;
-    padding-top: 1em;
+#header {
+    /*margin: 2em;*/
+    min-height: 100px;
+    float: bottom;
+    /*display: none;*/
 }
 
-.logout {
-    text-align:right;
-    margin-top: 1em;
-    padding: 1em;
-    font-size: 100%;
+#logo {
+    /*display: none;*/
+    float:left;
+}
+
+#logout {
+    float: right;
 }
 /*header*/
 
@@ -64,7 +59,7 @@ h1 {
     text-align: left; 
     text-decoration: none; 
     padding: 0.2em;
-    margin: 0em;
+    /*margin: 0em;*/
     font-size: 200%;
 }
 
@@ -78,18 +73,34 @@ h1 {
     min-height: 20em;
 }
 
+#main {
+    /*display: none;*/
+    /*padding: 0.1em;*/
+    /*overflow: scroll;*/
+    /*min-width: 1000px;*/
+    /*background-color: black;*/ 
+    /*clear: none;*/
+}
+
+#wrapper {
+    /*background: rgb(221,221,221);*/
+    float: right;
+    /*text-align: center;*/
+    /*overflow: scroll;*/
+    /*padding: 2em;*/
+}
 /* navigation menu */  
 #navigation {
     background-color: rgb(181,181,181);
-    /*position: absolute;*/
+/*    position: absolute;*/
     /*alignment-adjust: inherit;*/
     float: left;
-    top: 0em;
-    left: 0em;
+    /*top: 0em;*/
+    /*left: 0em;*/
     min-width: 13em;
     max-width: 20em;
     height: auto;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
     /*padding: 0.5em;*/
     line-height: 100%;
     text-align: center;
@@ -119,13 +130,13 @@ h1 {
 
 .navlink {
   color: black;
-  /*text-decoration: underline;*/
+  text-decoration: none;
   padding: .2em 1em;      
 }
 
 .navlink:hover {
   color: white;
-  text-decoration: underline; 
+  /*text-decoration: underline;*/ 
 /*  background: chartreuse;  */
 }
 
