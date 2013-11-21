@@ -12,7 +12,7 @@
             <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">
                 <s:hidden name="airplane.id"/>
                 <fieldset>
-                    <legend><f:message key="edit"/></legend>
+                    <legend><f:message key="airplane.edit"/></legend>
                     <%@include file="form.jsp"%>
                     <s:submit name="save">
                         <f:message key="save"/>
