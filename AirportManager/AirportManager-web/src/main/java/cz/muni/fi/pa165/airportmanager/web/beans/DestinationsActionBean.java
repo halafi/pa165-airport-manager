@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.airportmanager.web.beans;
 
 import cz.muni.fi.pa165.airportmanager.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.services.FlightService;
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
+import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import static cz.muni.fi.pa165.airportmanager.web.beans.BaseActionBean.escapeHTML;
 import java.util.List;
 import net.sourceforge.stripes.action.Before;
@@ -36,6 +38,8 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
     protected DestinationService destinationService;
     
     private List<DestinationTO> destinations;
+    
+    private List<FlightTO> flights;
     
     @ValidateNestedProperties(value = {
             @Validate(on = {"add", "save"}, field = "country", required = true),
@@ -101,6 +105,40 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         }
     }
 
+    @HandlesEvent("outcoming")
+    public Resolution getAllIncomingFlights() {
+        String ids = getContext().getRequest().getParameter("destination.id");
+        try {
+            destination = destinationService.getDestination(Long.parseLong(ids));
+            destinations = destinationService.getAllDestinations();
+            flights = destinationService.getAllOutcomingFlights(destination);
+        } catch (DataAccessException ex){
+            SimpleError err = new SimpleError("Error service providing " + ex);
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            SimpleError err = new SimpleError("Unknown error" + ex);
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        return new ForwardResolution("/destination/listOutcoming.jsp");
+    }
+    
+    @HandlesEvent("incoming")
+    public Resolution getAllOutcomingFlights() {
+        String ids = getContext().getRequest().getParameter("destination.id");
+        try {
+            destination = destinationService.getDestination(Long.parseLong(ids));
+            destinations = destinationService.getAllDestinations();
+            flights = destinationService.getAllIncomingFlights(destination);
+        } catch (DataAccessException ex){
+            SimpleError err = new SimpleError("Error service providing " + ex);
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            SimpleError err = new SimpleError("Unknown error" + ex);
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        return new ForwardResolution("/destination/listIncoming.jsp");
+    }
+    
     @HandlesEvent("add")
     public Resolution createDestination() {
         log.debug("add() destination={}", destination);
