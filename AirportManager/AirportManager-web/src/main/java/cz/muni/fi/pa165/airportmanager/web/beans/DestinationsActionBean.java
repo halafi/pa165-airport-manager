@@ -73,16 +73,8 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
 
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
-        //fill up the data for the table if validation errors occured
-        destinations = destinationService.getAllDestinations();
-        //return null to let the event handling continue
-        return null;
-    }
-    
-    public Resolution delete() {
-        log.debug("delete({})", destination.getId());
         try {
-            destinationService.removeDestination(destination);
+            destinations = destinationService.getAllDestinations();
         } catch(DataAccessException ex) {
             SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -91,17 +83,26 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCity()),escapeHTML(destination.getCode()),escapeHTML(destination.getCountry())));
-        return new RedirectResolution(this.getClass(), "list");
+        return null;
     }
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"save", "edit", "delete"})
     public void loadDestinationFromDatabase() {
         String ids = getContext().getRequest().getParameter("destination.id");
         if (ids == null) return;
-        destination = destinationService.getDestination(Long.parseLong(ids));
+        try {
+            destination = destinationService.getDestination(Long.parseLong(ids));
+        } catch (DataAccessException ex){
+            SimpleError err = new SimpleError("Error service providing " + ex);
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            SimpleError err = new SimpleError("Unknown error" + ex);
+            getContext().getValidationErrors().addGlobalError(err);
+        }
     }
 
-    public Resolution add() {
+    @HandlesEvent("add")
+    public Resolution createDestination() {
         log.debug("add() destination={}", destination);
         try {
             destinationService.createDestination(destination);
@@ -115,13 +116,9 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCity()),escapeHTML(destination.getCode()),escapeHTML(destination.getCountry())));
         return new RedirectResolution(this.getClass(), "list");
     }
-
-    public Resolution edit() {
-        log.debug("edit() destination={}", destination);
-        return new ForwardResolution("/destination/edit.jsp");
-    }
     
-    public Resolution save() {
+    @HandlesEvent("save")
+    public Resolution updateDestination() {
         log.debug("save() destination={}", destination);
         try {
             destinationService.updateDestination(destination);
@@ -136,7 +133,28 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    @HandlesEvent("delete")
+    public Resolution deleteDestination() {
+        log.debug("delete({})", destination.getId());
+        try {
+            destinationService.removeDestination(destination);
+        } catch(DataAccessException ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        return new RedirectResolution(this.getClass(), "list");
+    }
+    
+    //Follows some redirect resolutions
     public Resolution cancel(){
         return new RedirectResolution(this.getClass());
+    }
+    
+    public Resolution edit() {
+        log.debug("edit() destination={}", destination);
+        return new ForwardResolution("/destination/edit.jsp");
     }
 }

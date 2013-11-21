@@ -8,8 +8,8 @@ input.error, textarea.error {
 }
 
 .icon {
-     width: 24px;
-     height: 24px;
+     width: 18px;
+     height: 18px;
 }
 
 
@@ -20,18 +20,14 @@ errorbox {
 body {
     font-size: 1em;
     font-family: Courier;
-    background-color: rgb(221,221,221);
+    background-color: white;
     margin: 0 auto;
     padding: 0;
 }
 
 #main-wrapper {
     background: white;
-    position: absolute;
-    top: 0em;
-    left: 20.4em;
-    right: 0em;
-    margin: auto;
+    margin-left: 20.4em;
 }
 /*header*/
 .logo {
@@ -64,6 +60,7 @@ h1 {
     margin-bottom: 0.9em;
     padding: 1em;
     background-color: rgb(221,221,221);
+    min-height: 30em;
 }
 /* navigation menu */  
 #navigation {
@@ -123,7 +120,6 @@ a:active {}
 
 table {
     text-align: left;
-    font-size: 115%;
     margin: 5px;
     
 }
@@ -154,22 +150,22 @@ thead th {
 }
 
 table.basic { 
+    color: black;
     border-collapse: collapse; 
     width: 85%;
     margin: 5px;
-    font-size: 115%;
+    font-size: 100%;
 }
 
 table.basic tr {
-    font-size: 105%;
 }
 
 table.basic tr:nth-child(odd) {
-    background-color: lightgray;
+    background-color: rgb(225,225,225);
 }
 
 table.basic tr:nth-child(even) {
-    background-color: white;
+    background-color: rgb(250,250,250);
 }
 
 table.basic th, table.basic td {  
