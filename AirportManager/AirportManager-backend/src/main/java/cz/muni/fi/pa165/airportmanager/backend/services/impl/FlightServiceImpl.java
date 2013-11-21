@@ -49,6 +49,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
+    @Transactional//
     public void createFlight(FlightTO flightTO) throws DataAccessException {
         Flight flight = EntityDTOTransformer.flightTOConvert(flightTO);
         if (flight != null) {
@@ -57,15 +58,15 @@ public class FlightServiceImpl implements FlightService {
                 flightTO.getStewList().get(i).setId(flight.getStewardList().get(i).getId());
             }
 
-            if (flight.getAirplane() != null) {
+            if (flight.getAirplane() != null && flight.getAirplane().getId() == null) {
                 airplaneDAO.createAirplane(flight.getAirplane());
                 flightTO.getAirplaneTO().setId(flight.getAirplane().getId());
             }
-            if (flight.getOrigin() != null) {
+            if (flight.getOrigin() != null && flight.getOrigin().getId() == null) {
                 destDAO.createDestination(flight.getOrigin());
                 flightTO.getOrigin().setId(flight.getOrigin().getId());
             }
-            if (flight.getTarget() != null) {
+            if (flight.getTarget() != null  && flight.getTarget().getId() == null) {
                 destDAO.createDestination(flight.getTarget());
                 flightTO.getTarget().setId(flight.getTarget().getId());
             }
@@ -76,21 +77,25 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
+    @Transactional//
     public void updateFlight(FlightTO flightTO) throws DataAccessException {
         flightDAO.updateFlight(EntityDTOTransformer.flightTOConvert(flightTO));
     }
 
     @Override
+    @Transactional//
     public void removeFlight(FlightTO flightTO) throws DataAccessException {
         flightDAO.removeFlight(EntityDTOTransformer.flightTOConvert(flightTO));
     }
 
     @Override
+    @Transactional//
     public FlightTO getFlight(Long id) throws DataAccessException {
         return EntityDTOTransformer.flightConvert(flightDAO.getFlight(id));
     }
 
     @Override
+    @Transactional//
     public List<FlightTO> getAllFlights() throws DataAccessException {
         List<Flight> flights = flightDAO.getAllFlight();
         return flightListConvert(flights);

@@ -50,25 +50,37 @@ public class FlightsActionBean extends BaseActionBean{
     
     private List<FlightTO> flights;
 
+    //    @ValidateNestedProperties(value = {
+//            @Validate(on = {"add", "save"}, field = "departureTime", required = true),
+//            @Validate(on = {"add", "save"}, field = "arrivalTime", required = true),
+//            @Validate(on = {"add", "save"}, field = "origin", required = true),
+//            @Validate(on = {"add", "save"}, field = "target", required = true),
+//            @Validate(on = {"add", "save"}, field = "airplane", required = true)
+//    })
+    private FlightTO flight;
+    
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
-        
+        flight = new FlightTO();
 //        flight = new FlightTO();
         AirplaneTO airplane = new AirplaneTO();
-//        airplane.setCapacity(10);
-//        airplane.setName("plane");
-//        airplane.setType("planetype");
+ //       airplane.setCapacity(10);
+ //       airplane.setName("plane");
+ //       airplane.setType("planetype");
 //        airplaneService.createAirplane(airplane);
 //        System.out.println(airplane.toString());
+        System.out.println("****************************");
         airplane = airplaneService.getAllAirplanes().get(0);
+        System.out.println("****************************");
         System.out.println(airplane.toString());
+        System.out.println("****************************");
         DestinationTO des = new DestinationTO();
-//        des.setCity("city");
-//        des.setCode("ABD");
-//        des.setCountry("c1");
+        des.setCity("city");
+        des.setCode("ABD");
+        des.setCountry("c1");
 //        destinationService.createDestination(des);
-        des = destinationService.getAllDestinations().get(0);
+//      DestinationTO  des = destinationService.getAllDestinations().get(0);
 //        System.out.println(des.toString());
 //        
 //        StewardTO stew = new StewardTO();
@@ -80,12 +92,16 @@ public class FlightsActionBean extends BaseActionBean{
         //sl.add(stew);
         
         Timestamp ts = Timestamp.valueOf("2007-09-23 10:10:10.0");
-
-        flight.setAirplaneTO(airplane);
+        System.out.println("1****************************");
         flight.setArrivalTime(ts);
+        System.out.println("2****************************");
         flight.setDepartureTime(ts);
         flight.setOrigin(des);
+        System.out.println("3****************************");
+        flight.setAirplaneTO(airplane);
+        
         flight.setTarget(des);
+        System.out.println("4****************************");
         flight.setStewList(sl);
         System.out.println(flight.toString());
         flightService.createFlight(flight);
@@ -98,14 +114,8 @@ public class FlightsActionBean extends BaseActionBean{
         return flights;
     }
     
-    @ValidateNestedProperties(value = {
-            @Validate(on = {"add", "save"}, field = "departureTime", required = true),
-            @Validate(on = {"add", "save"}, field = "arrivalTime", required = true),
-            @Validate(on = {"add", "save"}, field = "origin", required = true),
-            @Validate(on = {"add", "save"}, field = "target", required = true),
-            @Validate(on = {"add", "save"}, field = "airplane", required = true)
-    })
-    private FlightTO flight;
+    
+
     
     //--- adding flight ----
     

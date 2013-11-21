@@ -57,7 +57,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
     
     @Override
-//    @Transactional
+    @Transactional//
     public DestinationTO getDestination(Long id) throws DataAccessException {
         Destination destination = destinationDao.getDestination(id);
         return EntityDTOTransformer.destinationConvert(destination);

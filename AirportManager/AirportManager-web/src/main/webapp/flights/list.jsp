@@ -58,6 +58,10 @@
                     <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="create">
                         <f:message key="create"/>
                     </s:link>
+                    
+                   <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="createTest">
+                        <f:message key="createTest"/>
+                    </s:link>
                 
         </div>
         
