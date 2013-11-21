@@ -19,24 +19,28 @@ import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
  * @author Samo
  */
 @UrlBinding("/flights/{$event}/{flight.id}")
-public class FlightsActionBean extends BaseActionBean{
+public class FlightsActionBean extends BaseActionBean implements ValidationErrorHandler{
     final static Logger log = LoggerFactory.getLogger(FlightsActionBean.class);
 
     @SpringBean
@@ -50,65 +54,27 @@ public class FlightsActionBean extends BaseActionBean{
     
     private List<FlightTO> flights;
 
-    //    @ValidateNestedProperties(value = {
-//            @Validate(on = {"add", "save"}, field = "departureTime", required = true),
-//            @Validate(on = {"add", "save"}, field = "arrivalTime", required = true),
-//            @Validate(on = {"add", "save"}, field = "origin", required = true),
-//            @Validate(on = {"add", "save"}, field = "target", required = true),
-//            @Validate(on = {"add", "save"}, field = "airplane", required = true)
-//    })
+        @ValidateNestedProperties(value = {
+            @Validate(on = {"add", "save"}, field = "departureTime", required = true),
+            @Validate(on = {"add", "save"}, field = "arrivalTime", required = true)//,
+//            @Validate(on = {"add", "updateFlight"}, field = "origin", required = true),
+//            @Validate(on = {"add", "updateFlight"}, field = "target", required = true),
+//            @Validate(on = {"add", "updateFlight"}, field = "airplane", required = true)
+    })
     private FlightTO flight;
     
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
-        flight = new FlightTO();
-//        flight = new FlightTO();
-        AirplaneTO airplane = new AirplaneTO();
- //       airplane.setCapacity(10);
- //       airplane.setName("plane");
- //       airplane.setType("planetype");
-//        airplaneService.createAirplane(airplane);
-//        System.out.println(airplane.toString());
-        System.out.println("****************************");
-        airplane = airplaneService.getAllAirplanes().get(0);
-        System.out.println("****************************");
-        System.out.println(airplane.toString());
-        System.out.println("****************************");
-        DestinationTO des = new DestinationTO();
-        des.setCity("city");
-        des.setCode("ABD");
-        des.setCountry("c1");
-//        destinationService.createDestination(des);
-//      DestinationTO  des = destinationService.getAllDestinations().get(0);
-//        System.out.println(des.toString());
-//        
-        StewardTO stew = new StewardTO();
-        stew.setFirstName("jano");
-        stew.setLastName("jayes");
-//        stewardService.createSteward(stew);
-        StewardTO stew1 = stewardService.findAllStewards().get(0);
-        List<StewardTO> sl = new ArrayList<>();
-        sl.add(stew);
-        sl.add(stew1);
-        
-        Timestamp ts = Timestamp.valueOf("2007-09-23 10:10:10.0");
-        System.out.println("1****************************");
-        flight.setArrivalTime(ts);
-        System.out.println("2****************************");
-        flight.setDepartureTime(ts);
-        flight.setOrigin(des);
-        System.out.println("3****************************");
-        flight.setAirplaneTO(airplane);
-        
-        flight.setTarget(des);
-        System.out.println("4****************************");
-        flight.setStewList(sl);
-        System.out.println(flight.toString());
-        add();
-        //flightService.createFlight(flight);
-        flights =  flightService.getAllFlights();
-        //flights = flightService.getAllFlights();
+        try {
+            flights =  flightService.getAllFlights();
+        } catch(DataAccessException ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         return new ForwardResolution("/flights/list.jsp");
     }
     
@@ -116,14 +82,19 @@ public class FlightsActionBean extends BaseActionBean{
         return flights;
     }
     
-    
-
-    
     //--- adding flight ----
-    
-    public Resolution add() {
+    @HandlesEvent("add")
+    public Resolution createFlight() {
         log.debug("add() flight={}", flight);
-        flightService.createFlight(flight);
+        try{
+            flightService.createFlight(flight);
+        } catch(DataAccessException ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         getContext().getMessages().add(new LocalizableMessage(""
                 + "flight.add.message",escapeHTML(flight.getOrigin().getCity()),
                 escapeHTML(flight.getTarget().getCity()),escapeHTML(flight.getDepartureTime().toString()),
@@ -132,45 +103,72 @@ public class FlightsActionBean extends BaseActionBean{
         return new RedirectResolution(this.getClass(), "list");
     }
     
-    //@Override
+    @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
-        //fill up the data for the table if validation errors occured
-        flights = flightService.getAllFlights();
+        try {
+            flights = flightService.getAllFlights();
+        } catch(DataAccessException ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         //return null to let the event handling continue
         return null;
     }
     
-    public List<StewardTO> getStewards(Long id){
-        flight = new FlightTO();
-        flight = flightService.getFlight(id);
-        List<StewardTO> stewList = new ArrayList<StewardTO>();
-        for(StewardTO stew : flight.getStewList()){
-            stewList.add(stew);
+//    public List<StewardTO> getStewards(Long id){
+//        flight = new FlightTO();
+//        flight = flightService.getFlight(id);
+//        List<StewardTO> stewList = new ArrayList<StewardTO>();
+//        for(StewardTO stew : flight.getStewList()){
+//            stewList.add(stew);
+//        }
+//        return stewList;
+//    }
+    
+    
+    
+    
+    @HandlesEvent("save")
+    public Resolution updateFlight() {
+        log.debug("save() flight={}", flight);
+        try {
+            flightService.updateFlight(flight);
+        } catch(DataAccessException ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
         }
-        return stewList;
+        return new RedirectResolution(this.getClass(), "list");
     }
     
-    
-    
-    
-
-    public Resolution save() {
-        log.debug("save() flight={}", flight);
-        flightService.updateFlight(flight);
-        return new RedirectResolution(this.getClass(), "list");
+    //Follows some redirect resolutions
+    public Resolution cancel(){
+        return new RedirectResolution(this.getClass());
     }
     
     public Resolution edit() {
         log.debug("edit() flight={}", flight);
-        return new ForwardResolution("/flight/edit.jsp");
+        return new ForwardResolution("/flights/edit.jsp");
     }
 
-    // edit
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save"})
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"save", "edit", "delete"})
     public void loadFlightFromDb() {
         String ids = getContext().getRequest().getParameter("flight.id");
         if (ids == null) return;
-        flight = flightService.getFlight(Long.parseLong(ids));
+        try {
+            flight = flightService.getFlight(Long.parseLong(ids));
+        } catch (DataAccessException ex){
+            SimpleError err = new SimpleError("Error service providing " + ex);
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            SimpleError err = new SimpleError("Unknown error" + ex);
+            getContext().getValidationErrors().addGlobalError(err);
+        }
     }
     
     //delete
@@ -185,8 +183,23 @@ public class FlightsActionBean extends BaseActionBean{
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    private List<DestinationTO> desList;
+    public List<DestinationTO> getDesList(){
+        desList = destinationService.getAllDestinations();
+        return desList;
+    }
     
+    private List<AirplaneTO> airList;
+    public List<AirplaneTO> getAirList(){
+        airList = airplaneService.getAllAirplanes();
+        return airList;
+    }
     
+    private List<StewardTO> stewList;
+    public List<StewardTO> getStewList(){
+        stewList = stewardService.findAllStewards();
+        return stewList;
+    }
     
     public FlightTO getFlight() {
         return flight;
@@ -201,39 +214,41 @@ public class FlightsActionBean extends BaseActionBean{
         return new ForwardResolution("/flights/create.jsp");
     }
  
-//    
-//    public Resolution getDestination(Long id) {
-//        if(id != null){
-//            destinationService.getDestination(id);
-//        }
-//        
-//    }
     public Resolution createTest() {
         flight = new FlightTO();
         AirplaneTO airplane = new AirplaneTO();
         airplane.setCapacity(10);
         airplane.setName("plane");
         airplane.setType("planetype");
-        airplaneService.createAirplane(airplane);
         DestinationTO des = new DestinationTO();
         des.setCity("city");
         des.setCode("ABD");
         des.setCountry("c1");
-        destinationService.createDestination(des);
-//        StewardTO stew = new StewardTO();
-//        stew.setFirstName("jano");
-//        stew.setLastName("jayes");
-//        stewardService.createSteward(stew);
-        
+        StewardTO stew = new StewardTO();
+        stew.setFirstName("jano");
+        stew.setLastName("jayes");
+        List<StewardTO> sl = new ArrayList<>();
+        sl.add(stew);
         Timestamp ts = Timestamp.valueOf("2007-09-23 10:10:10.0");
-
-        flight.setAirplaneTO(airplane);
         flight.setArrivalTime(ts);
         flight.setDepartureTime(ts);
         flight.setOrigin(des);
+        flight.setAirplaneTO(airplane);
+        
         flight.setTarget(des);
-        flightService.createFlight(flight);
+        flight.setStewList(sl);
+        createFlight();
         flights =  flightService.getAllFlights();
         return new ForwardResolution("/flights/list.jsp");
+    }
+    
+    public Resolution updateTest(){
+        flight = new FlightTO();
+        flight = flightService.getAllFlights().get(0);
+        Timestamp ts = Timestamp.valueOf("2010-09-23 10:10:10.0");
+        flight.setArrivalTime(ts);
+        //flightService.updateFlight(flight);
+        updateFlight();
+        return new RedirectResolution(this.getClass(), "list");
     }
 }
