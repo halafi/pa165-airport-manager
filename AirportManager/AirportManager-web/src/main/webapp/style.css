@@ -7,29 +7,41 @@ input.error, textarea.error {
     color: black;
 }
 
-errorbox {
-    background-color: white;
+.icon {
+     width: 18px;
+     height: 18px;
 }
+
+ul li {
+
+}
+
+/*errorbox {
+    background-color: white;
+}*/
 
 body {
     font-size: 1em;
     font-family: Courier;
-    background-color: rgb(221,221,221);
+    background-color: white;
     margin: 0 auto;
     padding: 0;
 }
 
+p {
+    padding: 0.4em;
+    font-size: 110%;
+    
+}
+
 #main-wrapper {
-    background: white;
-    position: absolute;
-    top: 0em;
-    left: 20.4em;
-    right: 0em;
-    margin: auto;
+    /*background: rgb(221,221,221);*/
+    margin-left: 20.4em;
 }
 /*header*/
 .logo {
     float:left;
+    
     padding-left: 1em;
     padding-top: 1em;
 }
@@ -38,7 +50,6 @@ body {
     text-align:right;
     margin-top: 1em;
     padding: 1em;
-    background: white;
     font-size: 120%;
 }
 /*header*/
@@ -52,14 +63,15 @@ h1 {
 }
 
 .text-content {
+    margin-top: 0;
     margin-left: 0.9em;
     margin-right: 0.9em;
-    
-    
-    margin-bottom: 1.5em;
+    margin-bottom: 0.9em;
     padding: 1em;
     background-color: rgb(221,221,221);
+    min-height: 20em;
 }
+
 /* navigation menu */  
 #navigation {
     background-color: rgb(181,181,181);
@@ -76,6 +88,7 @@ h1 {
 }
             
 #navlist {
+    
   margin: 0;
   padding: 0;
   color: white;
@@ -95,20 +108,16 @@ h1 {
 }
 
 .navlink:hover {
-  color: rgb(0,255,0);
+  color: white;
 
   text-decoration: underline; 
     
 }
-
-/* navigation menu */  
 .user {
     border-bottom: 0.08em solid #000000;
 }
-
-.admin {
-    
-}
+.admin {}
+/* navigation menu */  
 
 a {color: black;}
 a:link {}
@@ -118,7 +127,6 @@ a:active {}
 
 table {
     text-align: left;
-    font-size: 115%;
     margin: 5px;
     
 }
@@ -149,22 +157,22 @@ thead th {
 }
 
 table.basic { 
+    color: black;
     border-collapse: collapse; 
     width: 85%;
     margin: 5px;
-    font-size: 115%;
+    font-size: 100%;
 }
 
 table.basic tr {
-    font-size: 105%;
 }
 
 table.basic tr:nth-child(odd) {
-    background-color: lightgray;
+    background-color: rgb(225,225,225);
 }
 
 table.basic tr:nth-child(even) {
-    background-color: white;
+    background-color: rgb(250,250,250);
 }
 
 table.basic th, table.basic td {  

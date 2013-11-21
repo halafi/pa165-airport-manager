@@ -17,6 +17,9 @@
                     <s:submit name="save">
                         <f:message key="save"/>
                     </s:submit>
+                    <s:submit name="cancel">
+                        <f:message key="cancel"/>
+                    </s:submit>
                 </fieldset>
             </s:form>
         </div>

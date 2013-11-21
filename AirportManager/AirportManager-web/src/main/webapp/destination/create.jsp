@@ -16,6 +16,9 @@
                     <s:submit name="add">
                         <f:message key="destination.create"/>
                     </s:submit>
+                    <s:submit name="cancel">
+                        <f:message key="cancel"/>
+                    </s:submit>
                 </fieldset>
             </s:form>
         </div>
