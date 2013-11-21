@@ -54,8 +54,10 @@ public class FlightServiceImpl implements FlightService {
         Flight flight = EntityDTOTransformer.flightTOConvert(flightTO);
         if (flight != null) {
             for (int i = 0; i < flight.getStewardList().size(); i++) {
-                stewDAO.createSteward(flight.getStewardList().get(i));
-                flightTO.getStewList().get(i).setId(flight.getStewardList().get(i).getId());
+                if (flight.getStewardList().get(i).getId() == null){
+                    stewDAO.createSteward(flight.getStewardList().get(i));
+                    flightTO.getStewList().get(i).setId(flight.getStewardList().get(i).getId());
+                }
             }
 
             if (flight.getAirplane() != null && flight.getAirplane().getId() == null) {

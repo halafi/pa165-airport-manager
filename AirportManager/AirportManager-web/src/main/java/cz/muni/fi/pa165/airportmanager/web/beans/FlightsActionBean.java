@@ -83,13 +83,14 @@ public class FlightsActionBean extends BaseActionBean{
 //      DestinationTO  des = destinationService.getAllDestinations().get(0);
 //        System.out.println(des.toString());
 //        
-//        StewardTO stew = new StewardTO();
-//        stew.setFirstName("jano");
-//        stew.setLastName("jayes");
+        StewardTO stew = new StewardTO();
+        stew.setFirstName("jano");
+        stew.setLastName("jayes");
 //        stewardService.createSteward(stew);
-//        stew = stewardService.findAllStewards().get(0);
+        StewardTO stew1 = stewardService.findAllStewards().get(0);
         List<StewardTO> sl = new ArrayList<>();
-        //sl.add(stew);
+        sl.add(stew);
+        sl.add(stew1);
         
         Timestamp ts = Timestamp.valueOf("2007-09-23 10:10:10.0");
         System.out.println("1****************************");
