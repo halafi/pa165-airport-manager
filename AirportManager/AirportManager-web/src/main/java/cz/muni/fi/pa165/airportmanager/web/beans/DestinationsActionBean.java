@@ -82,11 +82,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         destination = destinationService.getDestination(Long.parseLong(ids));
     }
 
-    public Resolution create() {
-        log.debug("create() destination={}", destination);
-        return new ForwardResolution("/destination/create.jsp");
-    }
-    
     public Resolution add() {
         log.debug("add() destination={}", destination);
         destinationService.createDestination(destination);
