@@ -12,10 +12,13 @@ input.error, textarea.error {
      height: 18px;
 }
 
+ul li {
 
-errorbox {
-    background-color: white;
 }
+
+/*errorbox {
+    background-color: white;
+}*/
 
 body {
     font-size: 1em;
@@ -25,13 +28,20 @@ body {
     padding: 0;
 }
 
+p {
+    padding: 0.4em;
+    font-size: 110%;
+    
+}
+
 #main-wrapper {
-    background: white;
+    /*background: rgb(221,221,221);*/
     margin-left: 20.4em;
 }
 /*header*/
 .logo {
     float:left;
+    
     padding-left: 1em;
     padding-top: 1em;
 }
@@ -40,7 +50,6 @@ body {
     text-align:right;
     margin-top: 1em;
     padding: 1em;
-    background: white;
     font-size: 120%;
 }
 /*header*/
@@ -62,6 +71,7 @@ h1 {
     background-color: rgb(221,221,221);
     min-height: 20em;
 }
+
 /* navigation menu */  
 #navigation {
     background-color: rgb(181,181,181);
@@ -78,6 +88,7 @@ h1 {
 }
             
 #navlist {
+    
   margin: 0;
   padding: 0;
   color: white;
@@ -97,20 +108,16 @@ h1 {
 }
 
 .navlink:hover {
-  color: rgb(0,255,0);
+  color: white;
 
   text-decoration: underline; 
     
 }
-
-/* navigation menu */  
 .user {
     border-bottom: 0.08em solid #000000;
 }
-
-.admin {
-    
-}
+.admin {}
+/* navigation menu */  
 
 a {color: black;}
 a:link {}

@@ -15,6 +15,7 @@
         
         <div class="text-content">
             <h1>Arriving flights</h1>
+            <%@include file="flightTable.jsp"%>
         </div>
         
     </s:layout-component>

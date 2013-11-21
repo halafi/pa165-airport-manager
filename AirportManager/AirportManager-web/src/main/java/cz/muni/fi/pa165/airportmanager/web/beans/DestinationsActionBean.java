@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.web.beans;
 
 import cz.muni.fi.pa165.airportmanager.services.DestinationService;
-import cz.muni.fi.pa165.airportmanager.services.FlightService;
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import static cz.muni.fi.pa165.airportmanager.web.beans.BaseActionBean.escapeHTML;
@@ -31,16 +30,13 @@ import org.springframework.dao.DataAccessException;
  */
 @UrlBinding("/destinations/{$event}/{destination.id}")
 public class DestinationsActionBean extends BaseActionBean implements ValidationErrorHandler {
-    
     final static Logger log = LoggerFactory.getLogger(DestinationsActionBean.class);
-    
     @SpringBean
     protected DestinationService destinationService;
     
     private List<DestinationTO> destinations;
-    
     private List<FlightTO> flights;
-    
+
     @ValidateNestedProperties(value = {
             @Validate(on = {"add", "save"}, field = "country", required = true),
             @Validate(on = {"add", "save"}, field = "city", required = true),
@@ -50,6 +46,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
 
     public List<DestinationTO> getDestinations() {
         return destinations;
+    }
+    
+     public List<FlightTO> getFlights() {
+        return flights;
     }
     
     public DestinationTO getDestination() {
