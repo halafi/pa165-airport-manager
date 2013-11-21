@@ -83,11 +83,14 @@ h1 {
 }
 
 #wrapper {
-    /*background: rgb(221,221,221);*/
+/*    background: rgb(221,221,221);
     float: right;
-    /*text-align: center;*/
-    /*overflow: scroll;*/
-    /*padding: 2em;*/
+    text-align: center;
+    overflow: scroll;
+    padding: 2em;*/
+    width: 80%;
+    display: inline-block;
+    vertical-align: top;
 }
 /* navigation menu */  
 #navigation {
@@ -98,6 +101,8 @@ h1 {
     /*top: 0em;*/
     /*left: 0em;*/
     min-width: 13em;
+    display: inline-block;
+    width: 20%;
     max-width: 20em;
     height: auto;
     /*margin: 0 auto;*/

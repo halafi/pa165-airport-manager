@@ -27,7 +27,7 @@
                     <div class="user">
                         <ul id="navlist">
                             <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">find steward</s:link></li>
-                            <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">find airplane</s:link></li>
+                            <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean"><f:message key="airplane.find"/></s:link></li>
                             <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">find flight</s:link></a></li>
                             <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">find destinations</s:link></li>
                         </ul>
