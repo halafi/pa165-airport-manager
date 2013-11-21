@@ -22,21 +22,27 @@ ul li {
 
 body {
     font-size: 1em;
-    font-family: Courier;
-    background-color: white;
+    font-family: tahoma;
+    background-color: rgb(221,221,221);
     margin: 0 auto;
-    padding: 0;
+    padding: 2em;
+    max-width: 3000px;
 }
 
 p {
     padding: 0.4em;
-    font-size: 110%;
+    font-size: 100%;
     
+}
+
+#header {
+    padding: 2em;
 }
 
 #main-wrapper {
     /*background: rgb(221,221,221);*/
-    margin-left: 20.4em;
+    float: right;
+    /*margin-left: 20em;*/
 }
 /*header*/
 .logo {
@@ -50,7 +56,7 @@ p {
     text-align:right;
     margin-top: 1em;
     padding: 1em;
-    font-size: 120%;
+    font-size: 100%;
 }
 /*header*/
 
@@ -75,16 +81,19 @@ h1 {
 /* navigation menu */  
 #navigation {
     background-color: rgb(181,181,181);
-    position: absolute;
+    /*position: absolute;*/
+    /*alignment-adjust: inherit;*/
+    float: left;
     top: 0em;
     left: 0em;
-    width: 16em;
-    height: 100%;
+    min-width: 13em;
+    max-width: 20em;
+    height: auto;
     margin: 0 auto;
-    padding: 0.5em;
-    line-height: 220%;
+    /*padding: 0.5em;*/
+    line-height: 100%;
     text-align: center;
-    font-size: 120%;
+    font-size: 110%;
 }
             
 #navlist {
@@ -92,29 +101,36 @@ h1 {
   margin: 0;
   padding: 0;
   color: white;
-  letter-spacing: 0.05em;
+  /*letter-spacing: 0.05em;*/
   list-style-type: none;    
 
 }
 
 #navlist li {
-  margin: 0.8em;
+  padding: 1em 0em;
+  border: black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+#navlist li:hover{
+    background: chartreuse;
 }
 
 .navlink {
   color: black;
-  text-decoration: underline;
+  /*text-decoration: underline;*/
   padding: .2em 1em;      
 }
 
 .navlink:hover {
   color: white;
-
   text-decoration: underline; 
-    
+/*  background: chartreuse;  */
 }
+
 .user {
-    border-bottom: 0.08em solid #000000;
+    /*border-bottom: 0.08em solid #000000;*/
 }
 .admin {}
 /* navigation menu */  
@@ -137,7 +153,7 @@ table th {
 }
 
 input {
-    font-family: Courier;
+    /*font-family: Courier;*/
     border : black solid 0.09em;
     padding-left : 0.5em;
     padding-right : 0.5em;
@@ -146,6 +162,10 @@ input {
     color: black;
     background-color: white;
     font-size: 100%;
+}
+
+input:hover {
+    background-color: chartreuse;
 }
 
 legend {
