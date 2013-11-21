@@ -28,20 +28,38 @@
                     <th></th>
                     <th></th>
                 </tr>
-                <c:forEach items="${actionBean.flights}" var="flights">
+                <c:forEach items="${actionBean.flights}" var="flight">
                     <tr>
                         <td>${flight.id}</td>
                         <td><c:out value="${flight.departureTime}"/></td>
                         <td><c:out value="${flight.arrivalTime}"/></td>
                         <td><c:out value="${flight.origin.city}"/></td>
                         <td><c:out value="${flight.target.city}"/></td>
-                        <td><c:out value="${flight.airplane.name}"/></td>
+                        <td><c:out value="${flight.airplaneTO.name}"/></td>
+                        
+                        
                         <td>
                             <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="edit">
                                 <s:param name="flight.id" value="${flight.id}"/><f:message key="flight.stewards"/> <%--<f:message key="edit"/>--%>
                             </s:link>
                         </td>
+                        
                         <td>
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="edit">
+                                <s:param name="flight.id" value="${flight.id}"/>
+                                <img src="../images/edit.png" width="24" height="24"/>
+                            </s:link>
+                        </td>
+                        
+                        <td>
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="delete">
+                                <s:param name="flight.id" value="${flight.id}"/>
+                                <img src="../images/delete.png" width="24" height="24"/>
+                            </s:link>
+                        </td>
+                        
+                        
+<!--                        <td>
                          <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="edit">
                              <s:param name="flight.id" value="${flight.id}"/>edit <%--<f:message key="edit"/>--%>
                          </s:link>
@@ -50,7 +68,7 @@
                             <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="delete">
                              <s:param name="flight.id" value="${flight.id}"/>delete <%--<f:message key="edit"/>--%>
                          </s:link>
-                        </td>
+                        </td>-->
                     </tr>
                 </c:forEach>
             </table>

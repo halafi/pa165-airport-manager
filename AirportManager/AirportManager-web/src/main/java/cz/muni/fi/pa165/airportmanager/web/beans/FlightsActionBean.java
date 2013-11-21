@@ -105,7 +105,8 @@ public class FlightsActionBean extends BaseActionBean{
         System.out.println("4****************************");
         flight.setStewList(sl);
         System.out.println(flight.toString());
-        flightService.createFlight(flight);
+        add();
+        //flightService.createFlight(flight);
         flights =  flightService.getAllFlights();
         //flights = flightService.getAllFlights();
         return new ForwardResolution("/flights/list.jsp");
