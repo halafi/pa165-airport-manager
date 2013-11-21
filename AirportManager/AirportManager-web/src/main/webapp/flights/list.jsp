@@ -59,16 +59,7 @@
                         </td>
                         
                         
-<!--                        <td>
-                         <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="edit">
-                             <s:param name="flight.id" value="${flight.id}"/>edit <%--<f:message key="edit"/>--%>
-                         </s:link>
-                        </td>
-                        <td>
-                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="delete">
-                             <s:param name="flight.id" value="${flight.id}"/>delete <%--<f:message key="edit"/>--%>
-                         </s:link>
-                        </td>-->
+
                     </tr>
                 </c:forEach>
             </table>
@@ -79,6 +70,10 @@
                     
                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="createTest">
                         <f:message key="createTest"/>
+                    </s:link>
+                    
+                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="updateTest">
+                        <f:message key="updateTest"/>
                     </s:link>
                 
         </div>

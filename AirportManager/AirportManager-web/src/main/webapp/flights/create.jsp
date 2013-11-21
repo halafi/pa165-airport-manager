@@ -16,10 +16,14 @@
         <div class="text-content">
             <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">
                 <s:hidden name="flight.id"/>
-                <fieldset><legend><f:message key="create"/></legend>
+                <fieldset>
+                    <legend><f:message key="create"/></legend>
                     <%@include file="form.jsp"%>
                     <s:submit name="add">
-                        <f:message key="create"/>
+                        <f:message key="flight.create"/>
+                    </s:submit>
+                    <s:submit name="cancel">
+                        <f:message key="cancel"/>
                     </s:submit>
                 </fieldset>
             </s:form>
