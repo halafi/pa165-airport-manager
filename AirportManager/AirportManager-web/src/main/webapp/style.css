@@ -2,8 +2,13 @@
     Created on : Nov 12, 2013, 8:50:41 PM
     Author     : Filip
 */
-input.error {
+input.error, textarea.error {
     background-color: orangered;
+    color: black;
+}
+
+errorbox {
+    background-color: white;
 }
 
 body {
@@ -49,29 +54,54 @@ h1 {
 .text-content {
     margin-left: 0.9em;
     margin-right: 0.9em;
-    background-color: rgb(221,221,221);
-    padding: 1em;
-    /*margin-top: 1.5em;*/
+    
+    
     margin-bottom: 1.5em;
-}
-
-#navigation {
+    padding: 1em;
     background-color: rgb(221,221,221);
-    /*position*/
+}
+/* navigation menu */  
+#navigation {
+    background-color: rgb(181,181,181);
     position: absolute;
-    top: 0.8em;
+    top: 0em;
     left: 0em;
     width: 16em;
     height: 100%;
     margin: 0 auto;
     padding: 0.5em;
-    /*font*/
     line-height: 220%;
     text-align: center;
     font-size: 120%;
-    color: #000000;
+}
+            
+#navlist {
+  margin: 0;
+  padding: 0;
+  color: white;
+  letter-spacing: 0.05em;
+  list-style-type: none;    
+
 }
 
+#navlist li {
+  margin: 0.8em;
+}
+
+.navlink {
+  color: black;
+  text-decoration: underline;
+  padding: .2em 1em;      
+}
+
+.navlink:hover {
+  color: rgb(0,255,0);
+
+  text-decoration: underline; 
+    
+}
+
+/* navigation menu */  
 .user {
     border-bottom: 0.08em solid #000000;
 }

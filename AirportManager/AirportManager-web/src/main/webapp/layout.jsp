@@ -14,19 +14,23 @@
    <!--left navigation panel-->
         <div id="navigation">
             <div class="user">
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">find steward</s:link><br/>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">find airplane</s:link><br/>
-                find flight<br/>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">find destinations</s:link><br/>
+                <ul id="navlist">
+                    <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">find steward</s:link></li>
+                <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">find airplane</s:link></li>
+                <li><a class="navlink" href="#">find flight</a></li>
+                <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">find destinations</s:link></li>
+                </ul>
             </div>
             <div class="admin">
-                <s:link href="/steward/edit.jsp?formtitle=steward.create.new"><f:message key="steward.create.add"/></s:link><br/>
-                <s:link href="/airplane/create.jsp"><f:message key="airplane.create"/></s:link><br/>
-                <a href="#">create flight</a><br/>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="create"><f:message key="destination.create"/></s:link><br/>
+                <ul id="navlist">
+                <li><s:link class="navlink" href="/steward/edit.jsp?formtitle=steward.create.new"><f:message key="steward.create.add"/></s:link><li/>
+                <li><s:link class="navlink" href="/airplane/create.jsp"><f:message key="airplane.create"/></s:link><li/>
+                <li><a class="navlink" href="#">create flight</a><li/>
+                <li><s:link class="navlink" href="/destination/create.jsp"><f:message key="destination.create"/></s:link><li/>
+                </ul>
             </div>
         </div>
-<!--header - logo + logout-->
+    <!--header - logo + logout-->
     <div id="main-wrapper">
         <div class="logo">
             <img src="${pageContext.request.contextPath}/images/logo.png" height="70" width="600"/>
