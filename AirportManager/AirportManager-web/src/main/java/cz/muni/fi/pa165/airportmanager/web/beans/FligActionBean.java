@@ -12,6 +12,7 @@ import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
+import java.sql.Timestamp;
 import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -196,14 +197,19 @@ public class FligActionBean extends BaseActionBean{
     @HandlesEvent("editflight")
     public Resolution edit(){
         System.out.println("edit flight called");
-        arrDate = "arrdate";
-        arrTime = "arrtime";
-        depTime = "deptime";
-        depDate = "depdate";
-        System.out.println("arrTime: " + arrTime);
-        System.out.println("arrDate: " + arrDate);
-        System.out.println("depDate: " + depDate);
-        System.out.println("depTime: " + depTime);
+//        System.out.println("loc: " + getContext().getRequest().getLocale().getCountry());
+//        System.out.println("loc: " + getContext().getRequest().getLocale().getDisplayCountry());
+//        System.out.println("lang: " + getContext().getRequest().getLocale().getLanguage());
+//        System.out.println("lang: " + getContext().getRequest().getLocale().getDisplayLanguage());
+        String loc = getContext().getRequest().getLocale().getLanguage();
+        arrDate = formatDateStamp(flight.getArrivalTime(), loc);
+        arrTime = formatTimeStamp(flight.getArrivalTime(), loc);
+        depTime = formatTimeStamp(flight.getDepartureTime(), loc);
+        depDate = formatDateStamp(flight.getDepartureTime(), loc);
+//        System.out.println("arrTime: " + arrTime);
+//        System.out.println("arrDate: " + arrDate);
+//        System.out.println("depDate: " + depDate);
+//        System.out.println("depTime: " + depTime);
 //        loadFlight();
         return new ForwardResolution("/flight/edit.jsp");
     }
@@ -212,5 +218,24 @@ public class FligActionBean extends BaseActionBean{
     public Resolution doNothing(){
         System.out.println("cancel flight called");
         return new RedirectResolution(this.getClass());
+    }
+    
+    private String formatTimeStamp(Timestamp ts, String lang){
+        System.out.println(lang);
+        if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
+            return ts.getHours() + ":" + ts.getMinutes();
+        }
+        if(ts.getHours() > 12){
+            return (ts.getHours()-12) + ":" + ts.getMinutes() + " PM";
+        }
+        return ts.getHours() + ":" + ts.getMinutes() + " AM";
+    }
+    
+    private String formatDateStamp(Timestamp ts, String lang){
+        System.out.println(lang);
+        if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
+            return ts.getDate() + ". " + ts.getMonth() + ". " + ts.getYear();
+        }
+        return ts.getMonth()+ "/" + ts.getDate()+ "/" + ts.getYear();
     }
 }
