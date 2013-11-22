@@ -9,10 +9,7 @@
         <th><f:message key="destination.country"/></th>
         <th><f:message key="destination.city"/></th>
         <th><f:message key="destination.code"/></th>
-        <th>get</th>
-        <th>get</th>
-        <th><f:message key="edit"/></th>
-        <th><f:message key="delete"/></th>
+        <th colspan="4"><f:message key="operations"/></th>
     </tr>
     <c:forEach items="${actionBean.destinations}" var="destination">
         <tr>
@@ -20,7 +17,25 @@
             <td><c:out value="${destination.country}"/></td>
             <td><c:out value="${destination.city}"/></td>
             <td><c:out value="${destination.code}"/></td>
-            <td>
+<!--            <td>
+                <%--<s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">--%>
+                    <%--<s:submit name="incoming">--%>
+                        <%--<s:param name="destination.id" value="${destination.id}"/>--%>
+                        <%--<s:param name="event" value="incoming"/>--%>
+                        <%--<f:message key="destination.incoming"/>--%>
+                    <%--</s:submit>--%>
+                <%--</s:form>--%>
+             </td>
+             <td>
+                <%--<s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">--%>
+                    <%--<s:submit name="outcoming">--%>
+                        <%--<s:param name="destination.id" value="${destination.id}"/>--%>
+                        <%--<s:param name="event" value="outcoming"/>--%>
+                        <%--<f:message key="destination.outcoming"/>--%>
+                    <%--</s:submit>--%>
+                <%--</s:form>--%>
+            </td>-->
+                <td>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="incoming">
                     <s:param name="destination.id" value="${destination.id}"/>
                     <f:message key="destination.incoming"/>
