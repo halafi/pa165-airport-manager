@@ -22,7 +22,7 @@
                 </div>
             </div>
                 <!--left navigation panel-->
-            <div id="main-body">
+            <div id="main">
                 <div id="navigation">
                     <div class="user">
                         <ul id="navlist">
@@ -51,8 +51,10 @@
                     <s:layout-component name="body"/>
                 </div>
             </div>
-            <div>
-               
+            <div id="footer">
+                <f:message key="page.authors"/>: Bc. Juraj Duráni (359185), Bc. Matúš Makový (374426),
+                Bc. Samuel Peťovský (374591), Filip Halas (374137); <f:message key="page.fimu"/>;
+                e-mail: (učo)@mail.muni.cz
             </div>
         </body>
     </html>
