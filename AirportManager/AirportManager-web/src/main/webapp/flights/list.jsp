@@ -26,7 +26,7 @@
                     <th><f:message key="flight.origin"/></th>
                     <th><f:message key="flight.target"/></th>
                     <th><f:message key="flight.airplane"/></th>
-                    <th><f:message key="stewards"/></th>
+                    <th><f:message key="flight.stewards"/></th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -53,7 +53,7 @@
                                     </s:select>   
                                 </c:when>
                                 <c:otherwise>
-                                    <c:out value="No stewards"/>
+                                    <f:message key="flight.noStewards"/>
                                 </c:otherwise>
                             </c:choose>   
                         </s:form>

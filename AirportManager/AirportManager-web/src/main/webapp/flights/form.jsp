@@ -21,7 +21,7 @@
     <tr>
         <th><s:label for="f3" name="flight.origin"/></th>
         <td><s:select id="f3" name="flight.origin">
-                <s:option>Choose one</s:option>
+                <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="destination">
                         ${destination.city}
@@ -33,7 +33,7 @@
     <tr>
         <th><s:label for="f4" name="flight.target"/></th>
         <td><s:select id="f4" name="flight.target">
-                <s:option>Choose one</s:option>
+                <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="destination">
                         ${destination.city}
@@ -46,7 +46,7 @@
     <tr>
         <th><s:label for="f5" name="flight.airplane"/></th>
         <td><s:select id="f5" name="flight.airplane">
-                <s:option>Choose one</s:option>
+                <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.airList}" var="airplane">
                     <s:option value="airplane">
                         ${airplane.name}
@@ -58,7 +58,7 @@
     <tr>
         <th><s:label for="f6" name="flight.stewards"/></th>
         <td><s:select id="f6" name="flight.stewards">
-                <s:option>Choose one</s:option>
+                <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.stewList}" var="steward">
                     <s:option value="${steward}">
                         ${steward.firstName} ${steward.lastName}
