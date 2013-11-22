@@ -39,11 +39,11 @@
     </tr>
     <tr>
         <th><s:label for="f3" name="flight.origin"/></th>
-        <td><s:select id="f3" name="flight.origin" value="${actionBean.flight.origin.city}">
+        <td><s:select id="f3" name="origin" value="${actionBean.flight.origin.city}">
                 <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
-                    <s:option value="destination">
-                        ${destination.city} (${destination.id})
+                    <s:option value="${destination.id}">
+                        ${destination.city}
                     </s:option>
                 </c:forEach>
              </s:select>    
@@ -51,11 +51,11 @@
     </tr>
     <tr>
         <th><s:label for="f4" name="flight.target"/></th>
-        <td><s:select id="f4" name="flight.target" value="${actionBean.flight.target.city}">
+        <td><s:select id="f4" name="target" value="${actionBean.flight.target.city}">
                 <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
-                    <s:option value="destination">
-                        ${destination.city} (${destination.id})
+                    <s:option value="${destination.id}">
+                        ${destination.city}
                     </s:option>
                 </c:forEach>
              </s:select>    
@@ -64,11 +64,11 @@
     
     <tr>
         <th><s:label for="f5" name="flight.airplane"/></th>
-        <td><s:select id="f5" name="flight.airplane" value="${actionBean.flight.airplaneTO.name}">
-                <s:option><f:message key="flight.chooseOne"/></s:option>
+        <td><s:select id="f5" name="airplane" value="${actionBean.flight.airplaneTO.name}">
+                <s:option ><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.airList}" var="airplane">
-                    <s:option value="airplane">
-                        ${airplane.name} (${airplane.id})
+                    <s:option value="${airplane.id}">
+                        ${airplane.name}
                     </s:option>
                 </c:forEach>
              </s:select>    

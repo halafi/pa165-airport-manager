@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -47,22 +48,34 @@ public class FligActionBean extends BaseActionBean {
     private StewardService stewService;
     @SpringBean
     private DestinationService desService;
-    @ValidateNestedProperties(value = {
+//    @ValidateNestedProperties(value = {
         //            @Validate(on = {"addflight", "saveflight"}, field = "departureTime", required = true),
         //            @Validate(on = {"addflight", "saveflight"}, field = "arrivalTime", required = true),
-        @Validate(on = {"addflight", "saveflight"}, field = "origin", required = true),
-        @Validate(on = {"addflight", "saveflight"}, field = "target", required = true),
-        @Validate(on = {"addflight", "saveflight"}, field = "airplane", required = true)
-    })
+//        @Validate(on = {"addflight", "saveflight"}, field = "origin", required = true),
+//        @Validate(on = {"addflight", "saveflight"}, field = "target", required = true),
+//        @Validate(on = {"addflight", "saveflight"}, field = "airplane", required = true)
+//    }) 
     private FlightTO flight;
     private List<FlightTO> flights;
     private List<DestinationTO> desList;
     private List<AirplaneTO> airList;
     private List<StewardTO> stewList;
+    private static List<StewardTO> actualFlightStewList;
+    
+    @Validate(on = {"addflight", "saveflight"}, required = true)
     private String arrTime;
+    @Validate(on = {"addflight", "saveflight"}, required = true)
     private String arrDate;
+    @Validate(on = {"addflight", "saveflight"}, required = true)
     private String depTime;
+    @Validate(on = {"addflight", "saveflight"}, required = true)
     private String depDate;
+    @Validate(on = {"addflight", "saveflight"}, required = true)
+    private String target;
+    @Validate(on = {"addflight", "saveflight"}, required = true)
+    private String origin;
+    @Validate(on = {"addflight", "saveflight"}, required = true)
+    private String airplane;
 
     public List<DestinationTO> getDesList() {
         desList = desService.getAllDestinations();
@@ -76,6 +89,30 @@ public class FligActionBean extends BaseActionBean {
     public List<AirplaneTO> getAirList() {
         airList = airService.getAllAirplanes();
         return airList;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public String getAirplane() {
+        return airplane;
+    }
+
+    public void setAirplane(String airplane) {
+        this.airplane = airplane;
     }
 
     public void setAirList(List<AirplaneTO> airList) {
@@ -168,8 +205,8 @@ public class FligActionBean extends BaseActionBean {
         flight = new FlightTO();
         prepareFlight(getContext().getRequest().getLocale().getLanguage());
         flight.setStewList(new ArrayList<StewardTO>());
-        System.out.println(flight.getArrivalTime());
-        System.out.println(flight.getDepartureTime());
+//        System.out.println(flight.getArrivalTime());
+//        System.out.println(flight.getDepartureTime());
         flightService.createFlight(flight);
         return new RedirectResolution(this.getClass(), "listflight");
     }
@@ -188,8 +225,10 @@ public class FligActionBean extends BaseActionBean {
 //        System.out.println("depDate: " + depDate);
 //        System.out.println("depTime: " + depTime);
         prepareFlight(getContext().getRequest().getLocale().getLanguage());
-        System.out.println(flight.getArrivalTime());
-        System.out.println(flight.getDepartureTime());
+        System.out.println("actual list " + actualFlightStewList);
+        flight.setStewList(actualFlightStewList);
+//        System.out.println(flight.getArrivalTime());
+//        System.out.println(flight.getDepartureTime());
         flightService.updateFlight(flight);
         return new RedirectResolution(this.getClass(), "listflight");
     }
@@ -210,6 +249,8 @@ public class FligActionBean extends BaseActionBean {
         arrTime = formatTimeStamp(flight.getArrivalTime(), loc);
         depTime = formatTimeStamp(flight.getDepartureTime(), loc);
         depDate = formatDateStamp(flight.getDepartureTime(), loc);
+        actualFlightStewList = flight.getStewList();
+        System.out.println("edit actual: " + actualFlightStewList);
 //        System.out.println("arrTime: " + arrTime);
 //        System.out.println("arrDate: " + arrDate);
 //        System.out.println("depDate: " + depDate);
@@ -269,5 +310,18 @@ public class FligActionBean extends BaseActionBean {
             flight.setArrivalTime(stringToTimestampEN(arrDate + " " + arrTime));
             flight.setDepartureTime(stringToTimestampEN(depDate + " " + depTime));
         }
+//        List<StewardTO> s = getStewList();
+//        List<DestinationTO> d = getDesList();
+//        List<AirplaneTO> a = getAirList();
+        flight.setAirplaneTO(airService.getAirplane(getIdOfEntity(airplane)));
+        flight.setTarget(desService.getDestination(Long.parseLong(target)));
+        flight.setOrigin(desService.getDestination(Long.parseLong(origin)));
+    }
+    
+    private Long getIdOfEntity(String toParse){
+        System.out.println("String: " + toParse);
+        String[] s = toParse.split("[()]+");
+        System.out.println(Arrays.toString(s));
+        return Long.valueOf(s[s.length-1]);
     }
 }
