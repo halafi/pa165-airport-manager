@@ -24,26 +24,41 @@
                 <!--left navigation panel-->
             <div id="main">
                 <div id="navigation">
-                    <div class="user">
-                        <ul id="navlist">
-                            <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"><f:message key="steward.find"/></s:link></li>
-                            <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean"><f:message key="airplane.find"/></s:link></li>
-                            <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean"><f:message key="flight.find"/></s:link></a></li>
-                            <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">find destinations</s:link></li>
-                        </ul>
-                    </div>
-                    <div class="admin">
-                        <ul id="navlist">
-                            <li><s:link class="navlink" href="/steward/edit.jsp">
-                                    <f:message key="steward.create.add"/>
-                                    <s:param name="createnew" value="true"/>
-                                </s:link>
+                        <ul id="menu">
+                            <li class="navlink"><f:message key="airplane"/>
+                            <ul class="submenu">
+                                <li class="navlink"><s:link href="/airplane/create.jsp"><f:message key="create"/></s:link></li>
+                                <li class="navlink"><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean"><f:message key="list"/></s:link></li>
+                                </ul>
                             </li>
-                            <li><s:link class="navlink" href="/airplane/create.jsp"><f:message key="airplane.create"/></s:link></li>
-                            <li><s:link class="navlink" href="/flights/create.jsp"><f:message key="flight.create"/></s:link></li>
-                            <li><s:link class="navlink" href="/destination/create.jsp"><f:message key="destination.create"/></s:link></li>
-                        </ul>
-                    </div>
+                            <li class="navlink"><f:message key="destination"/>
+                            <ul class="submenu">
+                                <li class="navlink"><s:link href="/destination/create.jsp"><f:message key="create"/></s:link></li>
+                                <li class="navlink"><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean"><f:message key="list"/></s:link></li>
+                                </ul>
+                            </li>
+                            <li class="navlink"><f:message key="flight"/>
+                            <ul class="submenu">
+                                <li class="navlink"><s:link href="/flights/create.jsp"><f:message key="create"/></s:link></li>
+                                <li class="navlink"><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean"><f:message key="list"/></s:link></li>             
+                                </ul>
+                            </li>
+                            <li class="navlink"><f:message key="steward"/>
+                            <ul class="submenu">
+                                <li class="navlink">
+                                    <s:link href="/steward/edit.jsp">
+                                        <f:message key="create"/>
+                                        <s:param name="createnew" value="true"/>
+                                    </s:link>
+                                </li>
+                                <li class="navlink">
+                                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
+                                        <f:message key="list"/>
+                                    </s:link>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
                 <div id="wrapper">
                     <s:messages/>

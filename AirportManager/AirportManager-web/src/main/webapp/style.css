@@ -8,8 +8,8 @@ input.error, textarea.error {
 }
 
 .icon {
-     width: 18px;
-     height: 18px;
+    width: 18px;
+    height: 18px;
 }
 
 ul li {
@@ -24,16 +24,12 @@ html {
     background-color: white;
 }
 
-/*errorbox {
-    background-color: white;
-}*/
-
 body {
     font-size: 1em;
     font-family: tahoma;
     background-color: rgb(221,221,221);
     margin: 0 auto;
-    /*padding: 2em;*/
+
     max-width: 3000px;
 }
 
@@ -43,17 +39,12 @@ p {
 }
 /*header*/
 #header {
-    /*padding: 1em;*/
-    /*margin: 1em;*/
-    /*min-height: 100px;*/
     float: bottom;
     display: inline-block;
     width: 100%;
-    /*display: none;*/
 }
 
 #logo {
-    /*display: none;*/
     float:left;
     padding: 1em;
 }
@@ -68,7 +59,6 @@ h1 {
     text-align: left; 
     text-decoration: none; 
     padding: 0.2em;
-    /*margin: 0em;*/
     font-size: 200%;
 }
 
@@ -83,39 +73,19 @@ h1 {
 }
 
 #main {
-    /*display: none;*/
     padding: 1em;
-    /*overflow: scroll;*/
-    /*min-width: 1000px;*/
-    /*background-color: black;*/ 
-    /*clear: none;*/
 }
 
 #wrapper {
-    /*background: rgb(221,221,221);*/
-    /*float: right;*/
-    /*text-align: center;*/
-    /*overflow: scroll;*/
-    /*padding: 2em;*/
     width: 75%;
     display: inline-block;
     vertical-align: top;
 }
 /* navigation menu */  
 #navigation {
-    background-color: rgb(181,181,181);
-/*    position: absolute;*/
-    /*alignment-adjust: inherit;*/
     float: left;
-    /*top: 0em;*/
-    /*left: 0em;*/
-    min-width: 13em;
     display: inline-block;
-    width: 15%;
-    max-width: 20em;
-    height: auto;
-    /*margin: 0 auto;*/
-    /*padding: 0.5em;*/
+    height: 29px;
     line-height: 100%;
     text-align: center;
     font-size: 110%;
@@ -130,45 +100,33 @@ h1 {
     margin-top: 12em;
 }
 
-#navlist {
-    
-  margin: 0;
-  padding: 0;
-  color: white;
-  /*letter-spacing: 0.05em;*/
-  list-style-type: none;    
-
+#menu > li {
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
+    text-align: center;
+    min-width: 101px;
+    border: black;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    background-color:  gray;
 }
 
-#navlist li {
-  padding: 0.8em 0em;
-  border: black;
-  border-style: solid;
-  border-width: 1px;
-}
-
-#navlist li:hover{
+#menu > li:hover{
     background: chartreuse;
 }
 
 .navlink {
-  color: black;
-  text-decoration: none;
-  /*padding: .2em 1em;*/    
-  /*min-width: 20em;*/
-  /*max-width: 20em;*/
-  /*min-height: 20em;*/
+    color: black;
+    text-decoration: none;
 }
 
 .navlink:hover {
-  color: white;
-  /*text-decoration: underline;*/ 
-  /*background: chartreuse;*/
-  /*min-height: 3em;*/
+    color: white;
 }
 
 .user {
-    /*border-bottom: 0.08em solid #000000;*/
+
 }
 .admin {}
 /* navigation menu */  
@@ -182,7 +140,7 @@ a:active {}
 table {
     text-align: left;
     margin: 5px;
-    
+
 }
 
 table th {
@@ -191,7 +149,6 @@ table th {
 }
 
 input {
-    /*font-family: Courier;*/
     border : black solid 0.09em;
     padding-left : 0.5em;
     padding-right : 0.5em;
@@ -236,4 +193,38 @@ table.basic tr:nth-child(even) {
 table.basic th, table.basic td {  
     border: solid 1px black;
     padding: 3px;
+}
+
+#menu {
+    list-style-type: none;
+    padding:0;
+    margin: 0;
+    color: white;
+}
+
+.submenu {
+    list-style-type: none;
+    display: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width:100px;
+    top: 162px;
+    background:white;
+    border: 1px solid black;
+}
+
+.submenu li {
+    padding: 0.25em 1em;   
+}
+
+#menu li:hover > ul {
+    display: block;
+}
+
+.submenu a {
+    text-decoration: none;
+}
+.submenu li:hover {
+    background-color: chartreuse;
 }
