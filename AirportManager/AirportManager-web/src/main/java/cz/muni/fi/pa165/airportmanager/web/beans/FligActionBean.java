@@ -12,6 +12,7 @@ import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
+import static cz.muni.fi.pa165.airportmanager.web.beans.BaseActionBean.escapeHTML;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,8 +31,10 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -56,11 +59,12 @@ public class FligActionBean extends BaseActionBean {
 //        @Validate(on = {"addflight", "saveflight"}, field = "airplane", required = true)
 //    }) 
     private FlightTO flight;
+    private LocalizableError err;
     private List<FlightTO> flights;
     private List<DestinationTO> desList;
     private List<AirplaneTO> airList;
     private List<StewardTO> stewList;
-    private static List<StewardTO> actualFlightStewList;
+    //private static List<StewardTO> actualFlightStewList;
     
     @Validate(on = {"addflight", "saveflight"}, required = true)
     private String arrTime;
@@ -176,7 +180,7 @@ public class FligActionBean extends BaseActionBean {
         this.flights = flights;
     }
 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"addflight",
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"saveflight",
         "editflight", "deleteflight"})
     public void loadFlight() {
         String id = getContext().getRequest().getParameter("flight.id");
@@ -184,14 +188,34 @@ public class FligActionBean extends BaseActionBean {
             System.out.println("flight id is null or epmty");
             return;
         }
-        flight = flightService.getFlight(Long.parseLong(id));
+        try{
+            flight = flightService.getFlight(Long.parseLong(id));
+        } catch (DataAccessException ex){
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
     }
 
     @DefaultHandler
     @HandlesEvent("listflight")
     public Resolution listFlights() {
         System.out.println("list called");
-        flights = flightService.getAllFlights();
+        try{
+            flights = flightService.getAllFlights();
+        } catch (DataAccessException ex){
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         return new ForwardResolution("/flight/list.jsp");
     }
 
@@ -207,7 +231,17 @@ public class FligActionBean extends BaseActionBean {
         flight.setStewList(new ArrayList<StewardTO>());
 //        System.out.println(flight.getArrivalTime());
 //        System.out.println(flight.getDepartureTime());
-        flightService.createFlight(flight);
+        try{
+            flightService.createFlight(flight);
+        } catch (DataAccessException ex){
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         return new RedirectResolution(this.getClass(), "listflight");
     }
 
@@ -225,11 +259,21 @@ public class FligActionBean extends BaseActionBean {
 //        System.out.println("depDate: " + depDate);
 //        System.out.println("depTime: " + depTime);
         prepareFlight(getContext().getRequest().getLocale().getLanguage());
-        System.out.println("actual list " + actualFlightStewList);
-        flight.setStewList(actualFlightStewList);
+        //System.out.println("actual list " + actualFlightStewList);
+        //flight.setStewList(actualFlightStewList);
 //        System.out.println(flight.getArrivalTime());
 //        System.out.println(flight.getDepartureTime());
-        flightService.updateFlight(flight);
+        try{
+            flightService.updateFlight(flight);
+        } catch (DataAccessException ex){
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         return new RedirectResolution(this.getClass(), "listflight");
     }
 
@@ -237,7 +281,17 @@ public class FligActionBean extends BaseActionBean {
     public Resolution removeFlight() {
         System.out.println("delete flight called");
 //        loadFlight();
-        flightService.removeFlight(flight);
+        try{
+            flightService.removeFlight(flight);
+        } catch (DataAccessException ex){
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex){
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         return new RedirectResolution(this.getClass(), "listflight");
     }
 
@@ -249,8 +303,8 @@ public class FligActionBean extends BaseActionBean {
         arrTime = formatTimeStamp(flight.getArrivalTime(), loc);
         depTime = formatTimeStamp(flight.getDepartureTime(), loc);
         depDate = formatDateStamp(flight.getDepartureTime(), loc);
-        actualFlightStewList = flight.getStewList();
-        System.out.println("edit actual: " + actualFlightStewList);
+        //actualFlightStewList = flight.getStewList();
+        //System.out.println("edit actual: " + actualFlightStewList);
 //        System.out.println("arrTime: " + arrTime);
 //        System.out.println("arrDate: " + arrDate);
 //        System.out.println("depDate: " + depDate);
@@ -286,7 +340,7 @@ public class FligActionBean extends BaseActionBean {
     
     public Timestamp stringToTimestampSK(String string) throws ParseException {
         
-        SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("dd.MM.yyy hh:mm");
+        SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("dd.MM.yyyy hh:mm");
         
         Date lFromDate1 = datetimeFormatter1.parse(string);
     
