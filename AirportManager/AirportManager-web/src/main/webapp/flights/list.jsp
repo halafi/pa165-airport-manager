@@ -9,6 +9,8 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 
 <s:layout-render name="/layout.jsp" titlekey="index.title">
@@ -33,8 +35,8 @@
                 <c:forEach items="${actionBean.flights}" var="flight">
                     <tr>
                         <td>${flight.id}</td>
-                        <td><c:out value="${flight.departureTime}"/></td>
-                        <td><c:out value="${flight.arrivalTime}"/></td>
+                        <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${flight.departureTime}"/></td>
+                        <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${flight.arrivalTime}"/></td>
                         <td><c:out value="${flight.origin.city}"/></td>
                         <td><c:out value="${flight.target.city}"/></td>
                         <td><c:out value="${flight.airplaneTO.name}"/></td>
