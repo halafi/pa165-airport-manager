@@ -31,8 +31,6 @@
                         <th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
                                 event="editsteward">
                                     <s:param name="steward.id" value="${steward.id}"/>
-                                    <s:param name="formtitle" value="steward.edit.title"/>
-                                    <s:param name="event" value="editsteward"/>
                                     <img class="icon" src="${pageContext.request.contextPath}/images/edit.png"/>
                                 
                             </s:link></th> 
@@ -59,8 +57,7 @@
                 <f:message key="steward.create.new"/>
             </s:link> --%>
             <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
-                <s:submit name="editsteward">
-                    <s:param name="formtitle" value="steward.create.new"/>
+                <s:submit name="createsteward">
                     <f:message key="steward.create.new"/>
                 </s:submit>
             </s:form>

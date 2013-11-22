@@ -42,6 +42,7 @@
                                 <s:submit name="removeflight">
                                     <s:param name="flight.id" value="${flight.id}"/>
                                     <s:param name="steward.id" value="${pageContext.request.getParameter('steward.id')}"/>
+                                    <s:param name="createnew" value="${pageContext.request.getParameter('createnew')}"/>
                                     <s:param name="event" value="${pageContext.request.getParameter('event')}"/>
                                     <f:message key="steward.flights.take"/>
                                 </s:submit>
@@ -52,7 +53,7 @@
                                 <s:submit name="addflighttolist">
                                     <s:param name="flight.id" value="${flight.id}"/>
                                     <s:param name="steward.id" value="${pageContext.request.getParameter('steward.id')}"/>
-                                    <s:param name="event" value="${pageContext.request.getParameter('event')}"/>
+                                    <s:param name="createnew" value="${pageContext.request.getParameter('createnew')}"/>
                                     <f:message key="steward.flights.add"/>
                                 </s:submit>
                             </s:form>
@@ -66,7 +67,7 @@
     <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
         <c:if test="${add != true}">
             <s:submit name="addflight">
-                <s:param name="event" value="${pageContext.request.getParameter('event')}"/>
+                <s:param name="createnew" value="${pageContext.request.getParameter('createnew')}"/>
                 <s:param name="steward.id" value="${pageContext.request.getParameter('steward.id')}"/>
                 <f:message key="steward.flights.add"/>
             </s:submit>
