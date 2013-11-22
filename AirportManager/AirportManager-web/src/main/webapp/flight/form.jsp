@@ -76,7 +76,7 @@
     </tr>
     <tr>
         <th><s:label for="f6" name="flight.stewards"/></th>
-        <td><s:select id="f6" name="flight.stewards">
+        <td><s:select multiple="true" size="3" id="f6" name="flight.stewards">
                 <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.stewList}" var="steward">
                     <s:option value="${steward}">

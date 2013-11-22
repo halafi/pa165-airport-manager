@@ -12,10 +12,6 @@ input.error, textarea.error {
     height: 18px;
 }
 
-ul li {
-
-}
-
 html {
     padding-left: 2em;
     padding-right: 2em;
@@ -125,10 +121,39 @@ h1 {
     color: white;
 }
 
-.user {
-
+#menu {
+    list-style-type: none;
+    padding:0;
+    margin: 0;
+    color: white;
 }
-.admin {}
+
+.submenu {
+    list-style-type: none;
+    display: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width:100px;
+    top: 162px;
+    background:white;
+    border: 1px solid black;
+}
+
+.submenu li {
+    padding: 0.25em 1em;   
+}
+
+#menu li:hover > ul {
+    display: block;
+}
+
+.submenu a {
+    text-decoration: none;
+}
+.submenu li:hover {
+    background-color: chartreuse;
+}
 /* navigation menu */  
 
 a {color: black;}
@@ -179,9 +204,6 @@ table.basic {
     font-size: 100%;
 }
 
-table.basic tr {
-}
-
 table.basic tr:nth-child(odd) {
     background-color: rgb(225,225,225);
 }
@@ -193,38 +215,4 @@ table.basic tr:nth-child(even) {
 table.basic th, table.basic td {  
     border: solid 1px black;
     padding: 3px;
-}
-
-#menu {
-    list-style-type: none;
-    padding:0;
-    margin: 0;
-    color: white;
-}
-
-.submenu {
-    list-style-type: none;
-    display: none;
-    padding: 0;
-    margin: 0;
-    position: absolute;
-    width:100px;
-    top: 162px;
-    background:white;
-    border: 1px solid black;
-}
-
-.submenu li {
-    padding: 0.25em 1em;   
-}
-
-#menu li:hover > ul {
-    display: block;
-}
-
-.submenu a {
-    text-decoration: none;
-}
-.submenu li:hover {
-    background-color: chartreuse;
 }

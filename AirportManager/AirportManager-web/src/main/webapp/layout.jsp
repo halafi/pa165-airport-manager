@@ -27,14 +27,14 @@
                         <ul id="menu">
                             <li class="navlink"><f:message key="airplane"/>
                             <ul class="submenu">
-                                <li class="navlink"><s:link href="/airplane/create.jsp"><f:message key="create"/></s:link></li>
-                                <li class="navlink"><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean"><f:message key="list"/></s:link></li>
+                                <s:link href="/airplane/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
+                                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean"><li class="navlink"><f:message key="list"/></li></s:link>
                                 </ul>
                             </li>
                             <li class="navlink"><f:message key="destination"/>
                             <ul class="submenu">
-                                <li class="navlink"><s:link href="/destination/create.jsp"><f:message key="create"/></s:link></li>
-                                <li class="navlink"><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean"><f:message key="list"/></s:link></li>
+                                <s:link href="/destination/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
+                                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean"><li class="navlink"><f:message key="list"/></li></s:link>
                                 </ul>
                             </li>
                             <li class="navlink"><f:message key="flight"/>
@@ -45,17 +45,21 @@
                             </li>
                             <li class="navlink"><f:message key="steward"/>
                             <ul class="submenu">
-                                <li class="navlink">
+                                
                                     <s:link href="/steward/edit.jsp">
+                                        <li class="navlink">
                                         <f:message key="create"/>
                                         <s:param name="createnew" value="true"/>
+                                        </li>
                                     </s:link>
-                                </li>
-                                <li class="navlink">
+                                
+                                
                                     <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
+                                        <li class="navlink">
                                         <f:message key="list"/>
+                                        </li>
                                     </s:link>
-                                </li>
+                                
                             </ul>
                         </li>
                     </ul>
