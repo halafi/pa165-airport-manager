@@ -26,6 +26,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
@@ -53,13 +54,16 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
     protected StewardService stewardService;
     
     private List<FlightTO> flights;
+    private List<DestinationTO> desList;
+    private List<AirplaneTO> airList;
+    private List<StewardTO> stewList;
 
         @ValidateNestedProperties(value = {
             @Validate(on = {"add", "save"}, field = "departureTime", required = true),
-            @Validate(on = {"add", "save"}, field = "arrivalTime", required = true)//,
-//            @Validate(on = {"add", "updateFlight"}, field = "origin", required = true),
-//            @Validate(on = {"add", "updateFlight"}, field = "target", required = true),
-//            @Validate(on = {"add", "updateFlight"}, field = "airplane", required = true)
+            @Validate(on = {"add", "save"}, field = "arrivalTime", required = true),
+            @Validate(on = {"add", "save"}, field = "origin", required = true),
+            @Validate(on = {"add", "save"}, field = "target", required = true),
+            @Validate(on = {"add", "save"}, field = "airplane", required = true)
     })
     private FlightTO flight;
     
@@ -69,10 +73,12 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
         try {
             flights =  flightService.getAllFlights();
         } catch(DataAccessException ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new ForwardResolution("/flights/list.jsp");
@@ -89,10 +95,12 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
         try{
             flightService.createFlight(flight);
         } catch(DataAccessException ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage(""
@@ -108,13 +116,14 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
         try {
             flights = flightService.getAllFlights();
         } catch(DataAccessException ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        //return null to let the event handling continue
         return null;
     }
     
@@ -137,10 +146,12 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
         try {
             flightService.updateFlight(flight);
         } catch(DataAccessException ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new RedirectResolution(this.getClass(), "list");
@@ -163,50 +174,51 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
         try {
             flight = flightService.getFlight(Long.parseLong(ids));
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing " + ex);
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error" + ex);
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
     }
     
-    //delete
-    public Resolution delete() {
+    @HandlesEvent("delete")
+    public Resolution deleteFlight() {
         log.debug("delete({})", flight.getId());
         //only id is filled by the form
-        flight = flightService.getFlight(flight.getId());
-        flightService.removeFlight(flight);
+        try{
+            flightService.removeFlight(flight);
+        } catch(DataAccessException ex) {
+            LocalizableError err = new LocalizableError("flight.error.service", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("flight.error.uknown", 
+                    escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         getContext().getMessages().add(new LocalizableMessage("flight.delete.message",escapeHTML(flight.getOrigin().getCity()),
                 escapeHTML(flight.getTarget().getCity()),escapeHTML(flight.getDepartureTime().toString()),
                 escapeHTML(flight.getAirplaneTO().getName())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
-    private List<DestinationTO> desList;
     public List<DestinationTO> getDesList(){
         desList = destinationService.getAllDestinations();
         return desList;
     }
     
-    private List<AirplaneTO> airList;
     public List<AirplaneTO> getAirList(){
         airList = airplaneService.getAllAirplanes();
         return airList;
     }
     
-    private List<StewardTO> stewList;
     public List<StewardTO> getStewList(){
         stewList = stewardService.findAllStewards();
         return stewList;
     }
-    
-//    private List<StewardTO> stewardList;
-//    @HandlesEvent("stewards")
-//    public Resolution getStewardList(){
-//        stewardList = flight.getStewList();
-//        return new ForwardResolution("/flights/listStewards.jsp");
-//    }
     
     public FlightTO getFlight() {
         return flight;

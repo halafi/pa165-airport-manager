@@ -14,7 +14,7 @@
         </div>
         
         <div class="text-content">
-            <h1>Leaving flights</h1>
+            <h1><f:message key="destination.leavingFlights"/> ${actionBean.destination.city}</h1>
             <%@include file="flightTable.jsp"%>
         </div>
         

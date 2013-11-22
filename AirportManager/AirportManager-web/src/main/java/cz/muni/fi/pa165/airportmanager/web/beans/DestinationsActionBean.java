@@ -15,6 +15,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
@@ -66,10 +67,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinations = destinationService.getAllDestinations();
         } catch(DataAccessException ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new ForwardResolution("/destination/list.jsp");
@@ -80,10 +81,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinations = destinationService.getAllDestinations();
         } catch(DataAccessException ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return null;
@@ -96,10 +97,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destination = destinationService.getDestination(Long.parseLong(ids));
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing " + ex);
+            LocalizableError err = new LocalizableError("Error service providing " + ex);
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error" + ex);
+            LocalizableError err = new LocalizableError("Unknown error" + ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
     }
@@ -112,10 +113,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             destinations = destinationService.getAllDestinations();
             flights = destinationService.getAllOutcomingFlights(destination);
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing " + ex);
+            LocalizableError err = new LocalizableError("Error service providing " + ex);
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error" + ex);
+            LocalizableError err = new LocalizableError("Unknown error" + ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.list.outcoming", escapeHTML(destination.getId().toString())));
@@ -130,10 +131,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             destinations = destinationService.getAllDestinations();
             flights = destinationService.getAllIncomingFlights(destination);
         } catch (DataAccessException ex){
-            SimpleError err = new SimpleError("Error service providing " + ex);
+            LocalizableError err = new LocalizableError("Error service providing " + ex);
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            SimpleError err = new SimpleError("Unknown error" + ex);
+            LocalizableError err = new LocalizableError("Unknown error" + ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.list.incoming", escapeHTML(destination.getId().toString())));
@@ -146,10 +147,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinationService.createDestination(destination);
         } catch(DataAccessException ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
@@ -162,10 +163,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinationService.updateDestination(destination);
         } catch(DataAccessException ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
@@ -178,10 +179,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinationService.removeDestination(destination);
         } catch(DataAccessException ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            SimpleError err = new SimpleError("Error service providing ", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("Error service providing ", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
