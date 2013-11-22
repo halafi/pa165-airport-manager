@@ -9,16 +9,33 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%--<s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" var="actionBean"/>--%>
-
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.css" />
+<link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.date.css" />
+<link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.time.css" />
+<!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
+<!--<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="../datetime/pickadate.js-3.3.0/lib/picker.js"></script>
+<script src="../datetime/pickadate.js-3.3.0/lib/picker.date.js"></script>
+<script src="../datetime/pickadate.js-3.3.0/lib/picker.time.js"></script>
 <s:errors/>
 <table>
     <tr>
-        <th><s:label for="f1" name="flight.departureTime"/></th>
-        <td><s:text id="f1" name="flight.departureTime"/></td>
+        <th><s:label for="f1date" name="flight.departureTime"/></th>
+        <td><s:text id="f1date" name="flight.departureTime" /></td>
     </tr>
     <tr>
-        <th><s:label for="f2" name="flight.arrivalTime"/></th>
-        <td><s:text id="f2" name="flight.arrivalTime"/></td>
+        <th><s:label for="f1time" name="flight.time"/></th>
+        <td><s:text id="f1time" name="flight.departureTime"/></td>
+    </tr>
+    <tr>
+        <th><s:label for="f2date" name="flight.arrivalTime"/></th>
+        <td><s:text id="f2date" name="flight.arrivalTime"/></td>
+    </tr>
+    <tr>
+        <th><s:label for="f2time" name="flight.time"/></th>
+        <td><s:text id="f2time" name="flight.arrivalTime"/></td>
     </tr>
     <tr>
         <th><s:label for="f3" name="flight.origin"/></th>
@@ -70,4 +87,28 @@
         </td>
     </tr>
 </table>
-       
+
+<script>
+    $(function() {
+        if(window.navigator.language == "Sk"){
+            $("#f1date, #f2date").pickadate({
+                monthsFull: [ 'január', 'február', 'marec', 'apríl', 'máj', 'jún', 'júl', 'august', 'september', 'október', 'november', 'december' ],
+                monthsShort: [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII' ],
+                weekdaysFull: [ 'nede?a', 'pondelok', 'utorok', 'streda', '?tvrtok', 'piatok', 'sobota' ],
+                weekdaysShort: [ 'Ne', 'Po', 'Ut', 'St', '?t', 'Pi', 'So' ],
+                today: 'dnes',
+                clear: 'vymaza?',
+                firstDay: 1,
+                format: 'd. mmmm yyyy',
+                formatSubmit: 'yyyy/mm/dd'
+            });
+        } else {
+            $("#f1date, #f2date").pickadate();
+        }
+    });
+</script>
+<script>
+    $(function() {
+        $("#f1time, #f2time").pickatime();
+    });
+</script>

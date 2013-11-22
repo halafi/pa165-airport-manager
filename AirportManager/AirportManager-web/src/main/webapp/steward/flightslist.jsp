@@ -74,7 +74,7 @@
             </s:submit>
         </c:if>
         <s:submit name="cancelsteward">
-            <f:message key="steward.cancel"/>
+            <f:message key="steward.ok"/>
         </s:submit>
     </s:form>
 

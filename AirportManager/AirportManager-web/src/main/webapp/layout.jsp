@@ -9,7 +9,7 @@
             <title><f:message key="${titlekey}"/></title>
             <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
             <meta equiv="Content-Type" content="text/html; charset=UTF-8">
-            <%--<s:layout-component name="header"/>--%>
+            <s:layout-component name="header"/>
         </head>
         <body>
             <div id="header">
