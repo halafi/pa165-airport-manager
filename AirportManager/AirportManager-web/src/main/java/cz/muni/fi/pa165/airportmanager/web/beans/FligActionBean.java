@@ -17,8 +17,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sourceforge.stripes.action.Before;
@@ -267,21 +270,29 @@ public class FligActionBean extends BaseActionBean {
     
     private String formatTimeStamp(Timestamp ts, String lang){
         System.out.println(lang);
+        Calendar cal = new GregorianCalendar();
+        cal.setTimeInMillis(ts.getTime());
         if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
-            return ts.getHours() + ":" + ts.getMinutes();
+            return cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
         }
-        if(ts.getHours() > 12){
-            return (ts.getHours()-12) + ":" + ts.getMinutes() + " PM";
+        if(cal.get(Calendar.AM_PM) == cal.get(Calendar.AM)){
+            return cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + " AM";
         }
-        return ts.getHours() + ":" + ts.getMinutes() + " AM";
+        return cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + " PM";
     }
     
     private String formatDateStamp(Timestamp ts, String lang){
         System.out.println(lang);
+        Calendar cal = new GregorianCalendar();
+        cal.setTimeInMillis(ts.getTime());
         if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
-            return ts.getDate() + ". " + ts.getMonth() + ". " + ts.getYear();
+            return cal.get(Calendar.DATE) + ". " + 
+                    (cal.get(Calendar.MONTH)+1) + ". " + 
+                    cal.get(Calendar.YEAR);
         }
-        return ts.getMonth()+ "/" + ts.getDate()+ "/" + ts.getYear();
+        return (cal.get(Calendar.MONTH)+1) + "/" + 
+                    cal.get(Calendar.DATE) + "/" + 
+                    cal.get(Calendar.YEAR);
     }
     
     public Timestamp stringToTimestampSK(String string) throws ParseException {
