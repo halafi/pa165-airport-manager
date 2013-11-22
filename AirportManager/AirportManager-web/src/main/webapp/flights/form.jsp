@@ -3,7 +3,7 @@
     Created on : 20.11.2013, 13:06:11
     Author     : Samo
 --%>
-
+<%@page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -13,8 +13,8 @@
 <link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.css" />
 <link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.date.css" />
 <link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.time.css" />
-<!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
-<!--<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="../datetime/pickadate.js-3.3.0/lib/picker.js"></script>
 <script src="../datetime/pickadate.js-3.3.0/lib/picker.date.js"></script>
@@ -90,14 +90,26 @@
 
 <script>
     $(function() {
-        if(window.navigator.language == "Sk"){
+        if(navigator.language === 'sk'){
             $("#f1date, #f2date").pickadate({
-                monthsFull: [ 'janu�r', 'febru�r', 'marec', 'apr�l', 'm�j', 'j�n', 'j�l', 'august', 'september', 'okt�ber', 'november', 'december' ],
+                monthsFull: [ 'január', 'február', 'marec', 'apríl', 'máj', 'jún', 'júl', 'august', 'september', 'október', 'november', 'december' ],
                 monthsShort: [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII' ],
-                weekdaysFull: [ 'nede?a', 'pondelok', 'utorok', 'streda', '?tvrtok', 'piatok', 'sobota' ],
-                weekdaysShort: [ 'Ne', 'Po', 'Ut', 'St', '?t', 'Pi', 'So' ],
+                weekdaysFull: [ 'nedeľa', 'pondelok', 'utorok', 'streda', 'štvrtok', 'piatok', 'sobota' ],
+                weekdaysShort: [ 'Ne', 'Po', 'Ut', 'St', 'Št', 'Pi', 'So' ],
                 today: 'dnes',
-                clear: 'vymaza?',
+                clear: 'vymazať',
+                firstDay: 1,
+                format: 'd. mmmm yyyy',
+                formatSubmit: 'yyyy/mm/dd'
+            });
+        } else if(navigator.language === 'cs' || navigator.language === 'cz'){
+            $("#f1date, #f2date").pickadate({
+                monthsFull: [ 'leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec' ],
+                monthsShort: [ 'led', 'úno', 'bře', 'dub', 'kvě', 'čer', 'čvc', 'srp', 'zář', 'říj', 'lis', 'pro' ],
+                weekdaysFull: [ 'neděle', 'pondělí', 'úterý', 'středa', 'čtvrtek', 'pátek', 'sobota' ],
+                weekdaysShort: [ 'ne', 'po', 'út', 'st', 'čt', 'pá', 'so' ],
+                today: 'dnes',
+                clear: 'vymazat',
                 firstDay: 1,
                 format: 'd. mmmm yyyy',
                 formatSubmit: 'yyyy/mm/dd'
@@ -109,6 +121,16 @@
 </script>
 <script>
     $(function() {
-        $("#f1time, #f2time").pickatime();
+        if(navigator.language === 'sk' 
+                || navigator.language === 'cs' 
+                || navigator.language === 'cz'){
+            $("#f1time, #f2time").pickatime({
+                format: 'H:i',
+                formatLabel: 'H:i',
+                formatSubmit: 'H:i'
+            });
+        } else {
+            $("#f1time, #f2time").pickatime();
+        }
     });
 </script>
