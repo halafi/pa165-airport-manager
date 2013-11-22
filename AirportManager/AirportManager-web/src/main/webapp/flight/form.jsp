@@ -43,7 +43,7 @@
                 <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="destination">
-                        ${destination.city}
+                        ${destination.city} (${destination.id})
                     </s:option>
                 </c:forEach>
              </s:select>    
@@ -55,7 +55,7 @@
                 <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="destination">
-                        ${destination.city}
+                        ${destination.city} (${destination.id})
                     </s:option>
                 </c:forEach>
              </s:select>    
@@ -68,13 +68,13 @@
                 <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.airList}" var="airplane">
                     <s:option value="airplane">
-                        ${airplane.name}
+                        ${airplane.name} (${airplane.id})
                     </s:option>
                 </c:forEach>
              </s:select>    
         </td>
     </tr>
-    <tr>
+<!--    <tr>
         <th><s:label for="f6" name="flight.stewards"/></th>
         <td><s:select multiple="true" size="3" id="f6" name="flight.stewards">
                 <s:option><f:message key="flight.chooseOne"/></s:option>
@@ -85,7 +85,7 @@
                 </c:forEach>
              </s:select>    
         </td>
-    </tr>
+    </tr>-->
 </table>
 
 <script>
@@ -112,7 +112,7 @@
                 clear: 'vymazat',
                 firstDay: 1,
                 format: 'd. mm. yyyy',
-                formatSubmit: 'yyyy/mm/dd'
+                formatSubmit: 'd. mm. yyyy'
             });
         } else {
             $("#f1date, #f2date").pickadate({
@@ -132,7 +132,11 @@
                 formatSubmit: 'H:i'
             });
         } else {
-            $("#f1time, #f2time").pickatime();
+            $("#f1time, #f2time").pickatime({
+//                format: 'H:i',
+//                formatLabel: 'H:i',
+//                formatSubmit: 'H:i'
+            });
         }
     });
 </script>

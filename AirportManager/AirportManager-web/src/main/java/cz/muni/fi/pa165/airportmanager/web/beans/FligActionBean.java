@@ -15,6 +15,7 @@ import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -158,12 +159,17 @@ public class FligActionBean extends BaseActionBean {
     }
 
     @HandlesEvent("addflight")
-    public Resolution addNewFlight() {
+    public Resolution addNewFlight() throws ParseException {
         System.out.println("add fligth called");
-        System.out.println("arrTime: " + arrTime);
-        System.out.println("arrDate: " + arrDate);
-        System.out.println("depDate: " + depDate);
-        System.out.println("depTime: " + depTime);
+//        System.out.println("arrTime: " + arrTime);
+//        System.out.println("arrDate: " + arrDate);
+//        System.out.println("depDate: " + depDate);
+//        System.out.println("depTime: " + depTime);
+        flight = new FlightTO();
+        prepareFlight(getContext().getRequest().getLocale().getLanguage());
+        flight.setStewList(new ArrayList<StewardTO>());
+        System.out.println(flight.getArrivalTime());
+        System.out.println(flight.getDepartureTime());
         flightService.createFlight(flight);
         return new RedirectResolution(this.getClass(), "listflight");
     }
@@ -175,12 +181,15 @@ public class FligActionBean extends BaseActionBean {
     }
 
     @HandlesEvent("saveflight")
-    public Resolution updateFlight() {
+    public Resolution updateFlight() throws ParseException {
         System.out.println("save flight called");
-        System.out.println("arrTime: " + arrTime);
-        System.out.println("arrDate: " + arrDate);
-        System.out.println("depDate: " + depDate);
-        System.out.println("depTime: " + depTime);
+//        System.out.println("arrTime: " + arrTime);
+//        System.out.println("arrDate: " + arrDate);
+//        System.out.println("depDate: " + depDate);
+//        System.out.println("depTime: " + depTime);
+        prepareFlight(getContext().getRequest().getLocale().getLanguage());
+        System.out.println(flight.getArrivalTime());
+        System.out.println(flight.getDepartureTime());
         flightService.updateFlight(flight);
         return new RedirectResolution(this.getClass(), "listflight");
     }
@@ -196,10 +205,6 @@ public class FligActionBean extends BaseActionBean {
     @HandlesEvent("editflight")
     public Resolution edit() {
         System.out.println("edit flight called");
-//        System.out.println("loc: " + getContext().getRequest().getLocale().getCountry());
-//        System.out.println("loc: " + getContext().getRequest().getLocale().getDisplayCountry());
-//        System.out.println("lang: " + getContext().getRequest().getLocale().getLanguage());
-//        System.out.println("lang: " + getContext().getRequest().getLocale().getDisplayLanguage());
         String loc = getContext().getRequest().getLocale().getLanguage();
         arrDate = formatDateStamp(flight.getArrivalTime(), loc);
         arrTime = formatTimeStamp(flight.getArrivalTime(), loc);
@@ -249,10 +254,20 @@ public class FligActionBean extends BaseActionBean {
     
     public Timestamp stringToTimestampEN(String string) throws ParseException {
         
-        SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("MM/dd/yyy h:mm");
+        SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("MM/dd/yyyy h:mm a");
         
         Date lFromDate1 = datetimeFormatter1.parse(string);
         
         return new Timestamp(lFromDate1.getTime()) ;
+    }
+    
+    private void prepareFlight(String lang)throws ParseException{
+        if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
+            flight.setArrivalTime(stringToTimestampSK(arrDate + " " + arrTime));
+            flight.setDepartureTime(stringToTimestampSK(depDate + " " + depTime));
+        } else {
+            flight.setArrivalTime(stringToTimestampEN(arrDate + " " + arrTime));
+            flight.setDepartureTime(stringToTimestampEN(depDate + " " + depTime));
+        }
     }
 }
