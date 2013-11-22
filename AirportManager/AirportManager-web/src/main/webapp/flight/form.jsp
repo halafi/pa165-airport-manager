@@ -8,38 +8,38 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%--<s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" var="actionBean"/>--%>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.css" />
 <link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.date.css" />
 <link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.time.css" />
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
+<!--<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="../datetime/pickadate.js-3.3.0/lib/picker.js"></script>
 <script src="../datetime/pickadate.js-3.3.0/lib/picker.date.js"></script>
 <script src="../datetime/pickadate.js-3.3.0/lib/picker.time.js"></script>
-<s:errors/>
+
+<s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean" var="actionBean"/>
 <table>
     <tr>
         <th><s:label for="f1date" name="flight.departureTime"/></th>
-        <td><s:text id="f1date" name="flight.departureTime" /></td>
+        <td><s:text id="f1date" name="depDate" /></td>
     </tr>
     <tr>
         <th><s:label for="f1time" name="flight.time"/></th>
-        <td><s:text id="f1time" name="flight.departureTime"/></td>
+        <td><s:text id="f1time" name="depTime"/></td>
     </tr>
     <tr>
         <th><s:label for="f2date" name="flight.arrivalTime"/></th>
-        <td><s:text id="f2date" name="flight.arrivalTime"/></td>
+        <td><s:text id="f2date" name="arrDate"/></td>
     </tr>
     <tr>
         <th><s:label for="f2time" name="flight.time"/></th>
-        <td><s:text id="f2time" name="flight.arrivalTime"/></td>
+        <td><s:text id="f2time" name="arrTime"/></td>
     </tr>
     <tr>
         <th><s:label for="f3" name="flight.origin"/></th>
-        <td><s:select id="f3" name="flight.origin">
+        <td><s:select id="f3" name="flight.origin" value="${actionBean.flight.origin.city}">
                 <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="destination">
@@ -51,7 +51,7 @@
     </tr>
     <tr>
         <th><s:label for="f4" name="flight.target"/></th>
-        <td><s:select id="f4" name="flight.target">
+        <td><s:select id="f4" name="flight.target" value="${actionBean.flight.target.city}">
                 <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="destination">
@@ -64,7 +64,7 @@
     
     <tr>
         <th><s:label for="f5" name="flight.airplane"/></th>
-        <td><s:select id="f5" name="flight.airplane">
+        <td><s:select id="f5" name="flight.airplane" value="${actionBean.flight.airplaneTO.name}">
                 <s:option><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.airList}" var="airplane">
                     <s:option value="airplane">
@@ -99,7 +99,7 @@
                 today: 'dnes',
                 clear: 'vymazať',
                 firstDay: 1,
-                format: 'd. mmmm yyyy',
+                format: 'd. mm. yyyy',
                 formatSubmit: 'yyyy/mm/dd'
             });
         } else if(navigator.language === 'cs' || navigator.language === 'cz'){
@@ -111,11 +111,13 @@
                 today: 'dnes',
                 clear: 'vymazat',
                 firstDay: 1,
-                format: 'd. mmmm yyyy',
+                format: 'd. mm. yyyy',
                 formatSubmit: 'yyyy/mm/dd'
             });
         } else {
-            $("#f1date, #f2date").pickadate();
+            $("#f1date, #f2date").pickadate({
+                format: 'mm/d/yyyy',
+            });
         }
     });
 </script>

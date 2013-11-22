@@ -12,7 +12,6 @@ import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
-import static cz.muni.fi.pa165.airportmanager.web.beans.BaseActionBean.escapeHTML;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,6 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
-import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
@@ -58,7 +56,7 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
     private List<AirplaneTO> airList;
     private List<StewardTO> stewList;
 
-        @ValidateNestedProperties(value = {
+    @ValidateNestedProperties(value = {
             @Validate(on = {"add", "save"}, field = "departureTime", required = true),
             @Validate(on = {"add", "save"}, field = "arrivalTime", required = true),
             @Validate(on = {"add", "save"}, field = "origin", required = true),
@@ -66,9 +64,11 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
             @Validate(on = {"add", "save"}, field = "airplane", required = true)
     })
     private FlightTO flight;
-    
+
     @DefaultHandler
+    @HandlesEvent("list")
     public Resolution list() {
+        System.out.println("list called");
         log.debug("list()");
         try {
             flights =  flightService.getAllFlights();
@@ -91,8 +91,10 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
     //--- adding flight ----
     @HandlesEvent("add")
     public Resolution createFlight() {
+        System.out.println("add called");
         log.debug("add() flight={}", flight);
         try{
+//            System.out.println("added flight " + flight);
             flightService.createFlight(flight);
         } catch(DataAccessException ex) {
             LocalizableError err = new LocalizableError("flight.error.service", 
@@ -113,6 +115,7 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
     
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+        System.out.println("validation errors called");
         try {
             flights = flightService.getAllFlights();
         } catch(DataAccessException ex) {
@@ -142,6 +145,7 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
     
     @HandlesEvent("save")
     public Resolution updateFlight() {
+        System.out.println("save called");
         log.debug("save() flight={}", flight);
         try {
             flightService.updateFlight(flight);
@@ -158,21 +162,31 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
     }
     
     //Follows some redirect resolutions
+    @HandlesEvent("cancel")
     public Resolution cancel(){
+        System.out.println("cancel called");
         return new RedirectResolution(this.getClass());
     }
     
+    @HandlesEvent("edit")
     public Resolution edit() {
+        System.out.println("edit called");
         log.debug("edit() flight={}", flight);
-        return new ForwardResolution("/flights/edit.jsp");
+        return new RedirectResolution("/flights/edit.jsp");
     }
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"save", "edit", "delete"})
     public void loadFlightFromDb() {
+        System.out.println("load from db called");
         String ids = getContext().getRequest().getParameter("flight.id");
-        if (ids == null) return;
+        if (ids == null) {
+            System.out.println("load from db return null");
+            return;
+        }
         try {
+            System.out.println("load from db trying to load");
             flight = flightService.getFlight(Long.parseLong(ids));
+            System.out.println("load from db success");
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("flight.error.service", 
                     escapeHTML(ex.toString()));
@@ -186,6 +200,7 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
     
     @HandlesEvent("delete")
     public Resolution deleteFlight() {
+        System.out.println("delete called");
         log.debug("delete({})", flight.getId());
         //only id is filled by the form
         try{
@@ -228,12 +243,16 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
         this.flight = flight;
     }
     
+    @HandlesEvent("create")
     public Resolution create() {
+        System.out.println("create called");
         log.debug("create() flight={}", flight);
-        return new ForwardResolution("/flights/create.jsp");
+        return new RedirectResolution("/flights/create.jsp");
     }
  
+    @HandlesEvent("createtest")
     public Resolution createTest() {
+        System.out.println("create test called");
         flight = new FlightTO();
         AirplaneTO airplane = new AirplaneTO();
         airplane.setCapacity(10);
@@ -260,8 +279,9 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
         flights =  flightService.getAllFlights();
         return new ForwardResolution("/flights/list.jsp");
     }
-    
+    @HandlesEvent("updatetest")
     public Resolution updateTest(){
+        System.out.println("update test called");
         flight = new FlightTO();
         flight = flightService.getAllFlights().get(0);
         Timestamp ts = Timestamp.valueOf("2010-09-23 10:10:10.0");

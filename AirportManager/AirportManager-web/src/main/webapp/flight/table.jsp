@@ -11,6 +11,9 @@
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean" 
+                  var="actionBean"/>
+
 <table class="basic">
                 <tr>
                     <th><f:message key="id"/></th>
@@ -34,7 +37,7 @@
                         
                         
                         <td>
-                        <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">
+                        <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean">
                             <c:choose>
                                 <c:when test="${fn:length(flight.stewList) gt 0}">
                                     <s:select id="stews" name="flight.stewards">
@@ -54,22 +57,20 @@
                         </td>
                         
                         <td>
-                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="edit">
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean" 
+                                    event="editflight">
                                 <s:param name="flight.id" value="${flight.id}"/>
                                 <img src="../images/edit.png" width="24" height="24"/>
                             </s:link>
                         </td>
                         
                         <td>
-                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="delete">
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean" 
+                                    event="deleteflight">
                                 <s:param name="flight.id" value="${flight.id}"/>
                                 <img src="../images/delete.png" width="24" height="24"/>
                             </s:link>
                         </td>
-<!--                    </tr>-->
-<!--                    <tr>-->
-                        
-                        
                     </tr>
                 </c:forEach>
             </table>
