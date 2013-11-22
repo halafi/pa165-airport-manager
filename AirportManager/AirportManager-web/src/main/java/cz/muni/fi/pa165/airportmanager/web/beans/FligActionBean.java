@@ -12,7 +12,13 @@ import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -30,34 +36,28 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
  * @author Chorke
  */
 @UrlBinding("/flig/{$event}/{flight.id}")
-public class FligActionBean extends BaseActionBean{
-    
+public class FligActionBean extends BaseActionBean {
+
     @SpringBean
     private FlightService flightService;
-    
     @SpringBean
     private AirplaneService airService;
-    
     @SpringBean
     private StewardService stewService;
-    
     @SpringBean
     private DestinationService desService;
-    
     @ValidateNestedProperties(value = {
-//            @Validate(on = {"addflight", "saveflight"}, field = "departureTime", required = true),
-//            @Validate(on = {"addflight", "saveflight"}, field = "arrivalTime", required = true),
-            @Validate(on = {"addflight", "saveflight"}, field = "origin", required = true),
-            @Validate(on = {"addflight", "saveflight"}, field = "target", required = true),
-            @Validate(on = {"addflight", "saveflight"}, field = "airplane", required = true)
+        //            @Validate(on = {"addflight", "saveflight"}, field = "departureTime", required = true),
+        //            @Validate(on = {"addflight", "saveflight"}, field = "arrivalTime", required = true),
+        @Validate(on = {"addflight", "saveflight"}, field = "origin", required = true),
+        @Validate(on = {"addflight", "saveflight"}, field = "target", required = true),
+        @Validate(on = {"addflight", "saveflight"}, field = "airplane", required = true)
     })
     private FlightTO flight;
-    
     private List<FlightTO> flights;
     private List<DestinationTO> desList;
     private List<AirplaneTO> airList;
     private List<StewardTO> stewList;
-    
     private String arrTime;
     private String arrDate;
     private String depTime;
@@ -137,28 +137,28 @@ public class FligActionBean extends BaseActionBean{
     public void setFlights(List<FlightTO> flights) {
         this.flights = flights;
     }
-    
+
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"addflight",
-                "editflight", "deleteflight"})
-    public void loadFlight(){
+        "editflight", "deleteflight"})
+    public void loadFlight() {
         String id = getContext().getRequest().getParameter("flight.id");
-        if(id == null || id.isEmpty()){
+        if (id == null || id.isEmpty()) {
             System.out.println("flight id is null or epmty");
             return;
         }
         flight = flightService.getFlight(Long.parseLong(id));
     }
-    
+
     @DefaultHandler
     @HandlesEvent("listflight")
-    public Resolution listFlights(){
+    public Resolution listFlights() {
         System.out.println("list called");
         flights = flightService.getAllFlights();
         return new ForwardResolution("/flight/list.jsp");
     }
-    
+
     @HandlesEvent("addflight")
-    public Resolution addNewFlight(){
+    public Resolution addNewFlight() {
         System.out.println("add fligth called");
         System.out.println("arrTime: " + arrTime);
         System.out.println("arrDate: " + arrDate);
@@ -167,15 +167,15 @@ public class FligActionBean extends BaseActionBean{
         flightService.createFlight(flight);
         return new RedirectResolution(this.getClass(), "listflight");
     }
-    
+
     @HandlesEvent("createflight")
-    public Resolution createFlightFormular(){
+    public Resolution createFlightFormular() {
         System.out.println("create formular called");
         return new ForwardResolution("/flight/create.jsp");
     }
-    
+
     @HandlesEvent("saveflight")
-    public Resolution updateFlight(){
+    public Resolution updateFlight() {
         System.out.println("save flight called");
         System.out.println("arrTime: " + arrTime);
         System.out.println("arrDate: " + arrDate);
@@ -184,17 +184,17 @@ public class FligActionBean extends BaseActionBean{
         flightService.updateFlight(flight);
         return new RedirectResolution(this.getClass(), "listflight");
     }
-    
+
     @HandlesEvent("deleteflight")
-    public Resolution removeFlight(){
+    public Resolution removeFlight() {
         System.out.println("delete flight called");
 //        loadFlight();
         flightService.removeFlight(flight);
         return new RedirectResolution(this.getClass(), "listflight");
     }
-    
+
     @HandlesEvent("editflight")
-    public Resolution edit(){
+    public Resolution edit() {
         System.out.println("edit flight called");
         arrDate = "arrdate";
         arrTime = "arrtime";
@@ -207,10 +207,28 @@ public class FligActionBean extends BaseActionBean{
 //        loadFlight();
         return new ForwardResolution("/flight/edit.jsp");
     }
-    
+
     @HandlesEvent("cancelflight")
-    public Resolution doNothing(){
+    public Resolution doNothing() {
         System.out.println("cancel flight called");
         return new RedirectResolution(this.getClass());
+    }
+
+    public Timestamp stringToTimestampSK(String string) throws ParseException {
+        
+        SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("dd.MM.yyy hh:mm");
+        
+        Date lFromDate1 = datetimeFormatter1.parse(string);
+    
+        return new Timestamp(lFromDate1.getTime());
+    }
+    
+    public Timestamp stringToTimestampEN(String string) throws ParseException {
+        
+        SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("MM/dd/yyy h:mm");
+        
+        Date lFromDate1 = datetimeFormatter1.parse(string);
+        
+        return new Timestamp(lFromDate1.getTime()) ;
     }
 }
