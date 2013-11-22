@@ -23,24 +23,24 @@
 <table>
     <tr>
         <th><s:label for="f1date" name="flight.departureTime"/></th>
-        <td><s:text id="f1date" name="depDate" /></td>
+        <td><s:text id="f1date" name="depdate" /></td>
     </tr>
     <tr>
         <th><s:label for="f1time" name="flight.time"/></th>
-        <td><s:text id="f1time" name="depTime"/></td>
+        <td><s:text id="f1time" name="deptime"/></td>
     </tr>
     <tr>
         <th><s:label for="f2date" name="flight.arrivalTime"/></th>
-        <td><s:text id="f2date" name="arrDate"/></td>
+        <td><s:text id="f2date" name="arrdate"/></td>
     </tr>
     <tr>
         <th><s:label for="f2time" name="flight.time"/></th>
-        <td><s:text id="f2time" name="arrTime"/></td>
+        <td><s:text id="f2time" name="arrtime"/></td>
     </tr>
     <tr>
         <th><s:label for="f3" name="flight.origin"/></th>
         <td><s:select id="f3" name="origin" value="${actionBean.flight.origin.city}">
-                <s:option><f:message key="flight.chooseOne"/></s:option>
+                <s:option value=""><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="${destination.id}">
                         ${destination.city}
@@ -52,7 +52,7 @@
     <tr>
         <th><s:label for="f4" name="flight.target"/></th>
         <td><s:select id="f4" name="target" value="${actionBean.flight.target.city}">
-                <s:option><f:message key="flight.chooseOne"/></s:option>
+                <s:option value=""><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="${destination.id}">
                         ${destination.city}
@@ -65,7 +65,7 @@
     <tr>
         <th><s:label for="f5" name="flight.airplane"/></th>
         <td><s:select id="f5" name="airplane" value="${actionBean.flight.airplaneTO.name}">
-                <s:option ><f:message key="flight.chooseOne"/></s:option>
+                <s:option value=""><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.airList}" var="airplane">
                     <s:option value="${airplane.id}">
                         ${airplane.name}
@@ -88,7 +88,7 @@
     </tr>-->
 </table>
 
-<script>
+<!--<script>
     $(function() {
         if(navigator.language === 'sk'){
             $("#f1date, #f2date").pickadate({
@@ -139,4 +139,4 @@
             });
         }
     });
-</script>
+</script>-->

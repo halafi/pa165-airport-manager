@@ -22,9 +22,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -37,6 +34,8 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -44,7 +43,7 @@ import org.springframework.dao.DataAccessException;
  * @author Chorke
  */
 @UrlBinding("/flig/{$event}/{flight.id}")
-public class FligActionBean extends BaseActionBean {
+public class FligActionBean extends BaseActionBean implements ValidationErrorHandler{
 
     @SpringBean
     private FlightService flightService;
@@ -55,8 +54,10 @@ public class FligActionBean extends BaseActionBean {
     @SpringBean
     private DestinationService desService;
 //    @ValidateNestedProperties(value = {
-        //            @Validate(on = {"addflight", "saveflight"}, field = "departureTime", required = true),
-        //            @Validate(on = {"addflight", "saveflight"}, field = "arrivalTime", required = true),
+//                    @Validate(on = {"addflight", "saveflight"}, field = "depTime", required = true),
+//                    @Validate(on = {"addflight", "saveflight"}, field = "arrTime", required = true),
+//                    @Validate(on = {"addflight", "saveflight"}, field = "depDate", required = true),
+//                    @Validate(on = {"addflight", "saveflight"}, field = "arrTime", required = true),
 //        @Validate(on = {"addflight", "saveflight"}, field = "origin", required = true),
 //        @Validate(on = {"addflight", "saveflight"}, field = "target", required = true),
 //        @Validate(on = {"addflight", "saveflight"}, field = "airplane", required = true)
@@ -69,19 +70,26 @@ public class FligActionBean extends BaseActionBean {
     private List<StewardTO> stewList;
     //private static List<StewardTO> actualFlightStewList;
     
-    @Validate(on = {"addflight", "saveflight"}, required = true)
-    private String arrTime;
-    @Validate(on = {"addflight", "saveflight"}, required = true)
-    private String arrDate;
-    @Validate(on = {"addflight", "saveflight"}, required = true)
-    private String depTime;
-    @Validate(on = {"addflight", "saveflight"}, required = true)
-    private String depDate;
-    @Validate(on = {"addflight", "saveflight"}, required = true)
+//    @ValidateNestedProperties(value = {
+    @Validate(on = {"addflight", "saveflight"}, field="arrtime", required = true)//})
+    private String arrtime;
+//    @ValidateNestedProperties(value = {
+    @Validate(on = {"addflight", "saveflight"}, field="arrdate", required = true, minlength = 1)//})
+    private String arrdate;
+//    @ValidateNestedProperties(value = {
+    @Validate(on = {"addflight", "saveflight"}, field="deptime", required = true, minlength = 1)//})
+    private String deptime;
+//    @ValidateNestedProperties(value = {
+    @Validate(on = {"addflight", "saveflight"}, field="depdate", required = true, minlength = 1)//})
+    private String depdate;
+//    @ValidateNestedProperties(value = {
+    @Validate(on = {"addflight", "saveflight"}, field="target", required = true, minlength = 1)//})
     private String target;
-    @Validate(on = {"addflight", "saveflight"}, required = true)
+//    @ValidateNestedProperties(value = {
+    @Validate(on = {"addflight", "saveflight"}, field="origin", required = true, minlength = 1)//})
     private String origin;
-    @Validate(on = {"addflight", "saveflight"}, required = true)
+//    @ValidateNestedProperties(value = {
+    @Validate(on = {"addflight", "saveflight"}, field="airplane", required = true, minlength = 1)//})
     private String airplane;
 
     public List<DestinationTO> getDesList() {
@@ -135,36 +143,36 @@ public class FligActionBean extends BaseActionBean {
         this.stewList = stewList;
     }
 
-    public String getArrTime() {
-        return arrTime;
+    public String getArrtime() {
+        return arrtime;
     }
 
-    public void setArrTime(String arrTime) {
-        this.arrTime = arrTime;
+    public void setArrtime(String arrtime) {
+        this.arrtime = arrtime;
     }
 
-    public String getArrDate() {
-        return arrDate;
+    public String getArrdate() {
+        return arrdate;
     }
 
-    public void setArrDate(String arrDate) {
-        this.arrDate = arrDate;
+    public void setArrdate(String arrdate) {
+        this.arrdate = arrdate;
     }
 
-    public String getDepTime() {
-        return depTime;
+    public String getDeptime() {
+        return deptime;
     }
 
-    public void setDepTime(String depTime) {
-        this.depTime = depTime;
+    public void setDeptime(String deptime) {
+        this.deptime = deptime;
     }
 
-    public String getDepDate() {
-        return depDate;
+    public String getDepdate() {
+        return depdate;
     }
 
-    public void setDepDate(String depDate) {
-        this.depDate = depDate;
+    public void setDepdate(String depdate) {
+        this.depdate = depdate;
     }
 
     public FlightTO getFlight() {
@@ -183,6 +191,21 @@ public class FligActionBean extends BaseActionBean {
         this.flights = flights;
     }
 
+    
+    @Before(stages = LifecycleStage.EventHandling, on = {"saveflight", "addflight"})
+    public void valid(){
+        if(arrdate == null
+                || arrtime == null
+                || depdate == null
+                || deptime == null
+                || origin == null
+                || target == null
+                || airplane == null
+                ){
+            System.out.println("nuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul");
+        }
+    }
+    
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"saveflight",
         "editflight", "deleteflight"})
     public void loadFlight() {
@@ -225,10 +248,13 @@ public class FligActionBean extends BaseActionBean {
     @HandlesEvent("addflight")
     public Resolution addNewFlight() throws ParseException {
         System.out.println("add fligth called");
-//        System.out.println("arrTime: " + arrTime);
-//        System.out.println("arrDate: " + arrDate);
-//        System.out.println("depDate: " + depDate);
-//        System.out.println("depTime: " + depTime);
+        System.out.println("arrTime: " + arrtime);
+        System.out.println("arrDate: " + arrdate);
+        System.out.println("depDate: " + depdate);
+        System.out.println("depTime: " + deptime);
+        System.out.println("target: " + target);
+        System.out.println("origin: " + origin);
+        System.out.println("airplane: " + airplane);
         flight = new FlightTO();
         prepareFlight(getContext().getRequest().getLocale().getLanguage());
         flight.setStewList(new ArrayList<StewardTO>());
@@ -302,17 +328,17 @@ public class FligActionBean extends BaseActionBean {
     public Resolution edit() {
         System.out.println("edit flight called");
         String loc = getContext().getRequest().getLocale().getLanguage();
-        arrDate = formatDateStamp(flight.getArrivalTime(), loc);
-        arrTime = formatTimeStamp(flight.getArrivalTime(), loc);
-        depTime = formatTimeStamp(flight.getDepartureTime(), loc);
-        depDate = formatDateStamp(flight.getDepartureTime(), loc);
+        arrdate = formatDateStamp(flight.getArrivalTime(), loc);
+        arrtime = formatTimeStamp(flight.getArrivalTime(), loc);
+        deptime = formatTimeStamp(flight.getDepartureTime(), loc);
+        depdate = formatDateStamp(flight.getDepartureTime(), loc);
         //actualFlightStewList = flight.getStewList();
         //System.out.println("edit actual: " + actualFlightStewList);
 //        System.out.println("arrTime: " + arrTime);
 //        System.out.println("arrDate: " + arrDate);
 //        System.out.println("depDate: " + depDate);
 //        System.out.println("depTime: " + depTime);
-//        loadFlight();
+        loadFlight();
         return new ForwardResolution("/flight/edit.jsp");
     }
 
@@ -326,13 +352,30 @@ public class FligActionBean extends BaseActionBean {
         System.out.println(lang);
         Calendar cal = new GregorianCalendar();
         cal.setTimeInMillis(ts.getTime());
+        String s = "";
         if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
-            return cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
+            if(cal.get(Calendar.HOUR_OF_DAY) < 10){
+                s += "0";
+            }
+            s += cal.get(Calendar.HOUR_OF_DAY) + ":";
+            if(cal.get(Calendar.MINUTE) < 10){
+                s += "0";
+            }
+            s += cal.get(Calendar.MINUTE);
+            return s;
         }
+        if(cal.get(Calendar.HOUR) < 10){
+            s += "0";
+        }
+        s += cal.get(Calendar.HOUR) + ":";
+        if(cal.get(Calendar.MINUTE) < 10){
+            s += "0";
+        }
+        s += cal.get(Calendar.MINUTE);
         if(cal.get(Calendar.AM_PM) == cal.get(Calendar.AM)){
-            return cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + " AM";
+            return s + " AM";
         }
-        return cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + " PM";
+        return s + " PM";
     }
     
     private String formatDateStamp(Timestamp ts, String lang){
@@ -369,11 +412,11 @@ public class FligActionBean extends BaseActionBean {
     
     private void prepareFlight(String lang)throws ParseException{
         if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
-            flight.setArrivalTime(stringToTimestampSK(arrDate + " " + arrTime));
-            flight.setDepartureTime(stringToTimestampSK(depDate + " " + depTime));
+            flight.setArrivalTime(stringToTimestampSK(arrdate + " " + arrtime));
+            flight.setDepartureTime(stringToTimestampSK(depdate + " " + deptime));
         } else {
-            flight.setArrivalTime(stringToTimestampEN(arrDate + " " + arrTime));
-            flight.setDepartureTime(stringToTimestampEN(depDate + " " + depTime));
+            flight.setArrivalTime(stringToTimestampEN(arrdate + " " + arrtime));
+            flight.setDepartureTime(stringToTimestampEN(depdate + " " + deptime));
         }
 //        List<StewardTO> s = getStewList();
 //        List<DestinationTO> d = getDesList();
@@ -388,5 +431,11 @@ public class FligActionBean extends BaseActionBean {
         String[] s = toParse.split("[()]+");
         System.out.println(Arrays.toString(s));
         return Long.valueOf(s[s.length-1]);
+    }
+
+    @Override
+    public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+        System.out.println("valiiiiiiiiiiiiiiiiiiiiiid");
+        return null;
     }
 }
