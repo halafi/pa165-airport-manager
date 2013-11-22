@@ -8,6 +8,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 <s:layout-render name="/layout.jsp" titlekey="index.title">
     <s:layout-component name="body">
@@ -39,9 +41,23 @@
                         
                         
                         <td>
-                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" event="edit">
-                                <s:param name="flight.id" value="${flight.id}"/><f:message key="flight.stewards"/> <%--<f:message key="edit"/>--%>
-                            </s:link>
+                        <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">
+                            <c:choose>
+                                <c:when test="${fn:length(flight.stewList) gt 0}">
+                                    <s:select id="stews" name="flight.stewards">
+                                        <c:forEach items="${flight.stewList}" var="steward">
+                                            <s:option value="steward">
+                                                ${steward.firstName} ${steward.lastName}
+                                            </s:option>
+                                        </c:forEach>
+                                    </s:select>   
+                                </c:when>
+                                <c:otherwise>
+                                    <c:out value="No stewards"/>
+                                </c:otherwise>
+                            </c:choose>   
+                        </s:form>
+                            
                         </td>
                         
                         <td>
@@ -57,9 +73,10 @@
                                 <img src="../images/delete.png" width="24" height="24"/>
                             </s:link>
                         </td>
+<!--                    </tr>-->
+<!--                    <tr>-->
                         
                         
-
                     </tr>
                 </c:forEach>
             </table>

@@ -201,6 +201,13 @@ public class FlightsActionBean extends BaseActionBean implements ValidationError
         return stewList;
     }
     
+//    private List<StewardTO> stewardList;
+//    @HandlesEvent("stewards")
+//    public Resolution getStewardList(){
+//        stewardList = flight.getStewList();
+//        return new ForwardResolution("/flights/listStewards.jsp");
+//    }
+    
     public FlightTO getFlight() {
         return flight;
     }
