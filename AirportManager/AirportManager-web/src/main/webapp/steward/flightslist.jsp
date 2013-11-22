@@ -73,9 +73,7 @@
                 <f:message key="steward.flights.add"/>
             </s:submit>
         </c:if>
-        <s:submit name="cancelsteward">
-            <f:message key="steward.ok"/>
-        </s:submit>
+        <s:submit name="cancelsteward">Ok</s:submit>
     </s:form>
 
 </div>
