@@ -26,7 +26,7 @@
                 <div id="navigation">
                     <div class="user">
                         <ul id="navlist">
-                            <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">find steward</s:link></li>
+                            <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"><f:message key="steward.find"/></s:link></li>
                             <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean"><f:message key="airplane.find"/></s:link></li>
                             <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean"><f:message key="flight.find"/></s:link></a></li>
                             <li><s:link class="navlink" beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">find destinations</s:link></li>
@@ -34,7 +34,11 @@
                     </div>
                     <div class="admin">
                         <ul id="navlist">
-                            <li><s:link class="navlink" href="/steward/edit.jsp?formtitle=steward.create.new"><f:message key="steward.create.add"/></s:link></li>
+                            <li><s:link class="navlink" href="/steward/edit.jsp">
+                                    <f:message key="steward.create.add"/>
+                                    <s:param name="createnew" value="true"/>
+                                </s:link>
+                            </li>
                             <li><s:link class="navlink" href="/airplane/create.jsp"><f:message key="airplane.create"/></s:link></li>
                             <li><s:link class="navlink" href="/flights/create.jsp"><f:message key="flight.create"/></s:link></li>
                             <li><s:link class="navlink" href="/destination/create.jsp"><f:message key="destination.create"/></s:link></li>

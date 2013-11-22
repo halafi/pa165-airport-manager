@@ -29,6 +29,8 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -78,7 +80,7 @@ public class StewardsActionBean extends BaseActionBean{
     public void setSteward(StewardTO steward) {
         this.steward = steward;
     }
-
+    
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"editsteward", "savesteward", 
         "flights", "addflight", "deletesteward", "removeflight"})
     public void loadSteward(){
@@ -158,8 +160,17 @@ public class StewardsActionBean extends BaseActionBean{
     }
     
     @HandlesEvent("editsteward")
-    public Resolution editCreateFormular(){
-        return new ForwardResolution("/steward/edit.jsp");
+    public Resolution editFormular(){
+        ForwardResolution f = new ForwardResolution("/steward/edit.jsp?createnew=false");
+        f.addParameter("event", "edit");
+        return f;
+    }
+    
+    @HandlesEvent("createsteward")
+    public Resolution createFormular(){
+        ForwardResolution f = new ForwardResolution("/steward/edit.jsp?createnew=true");
+//        f.addParameter("createnew", "true");
+        return f;
     }
     
     @HandlesEvent("savesteward")
@@ -256,12 +267,11 @@ public class StewardsActionBean extends BaseActionBean{
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        if(getContext().getRequest().getParameter("event").equals("editsteward")){
-            ForwardResolution res = new ForwardResolution(this.getClass(), "editsteward");
-            res.addParameter("formtitle", "steward.edit.title");
+        if(getContext().getRequest().getParameter("event").equals("flights")){
+            ForwardResolution res = new ForwardResolution(this.getClass(), "flights");
             return res;
         } else {
-            return new ForwardResolution(this.getClass(), "flights");
+            return new ForwardResolution(this.getClass(), "editsteward");
         }
     }
     
