@@ -88,7 +88,7 @@
     </tr>-->
 </table>
 
-<!--<script>
+<script>
     $(function() {
         if(navigator.language === 'sk'){
             $("#f1date, #f2date").pickadate({
@@ -139,4 +139,4 @@
             });
         }
     });
-</script>-->
+</script>

@@ -286,12 +286,12 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
         if (notexecute) {
             return new ForwardResolution(this.getClass(), "createflight");
         }
-        flight = new FlightTO();
-        prepareFlight(getContext().getRequest().getLocale().getLanguage());
-        flight.setStewList(new ArrayList<StewardTO>());
+        try {
+            flight = new FlightTO();
+            prepareFlight(getContext().getRequest().getLocale().getLanguage());
+            flight.setStewList(new ArrayList<StewardTO>());
 //        System.out.println(flight.getArrivalTime());
 //        System.out.println(flight.getDepartureTime());
-        try {
             flightService.createFlight(flight);
         } catch (DataAccessException ex) {
             LocalizableError err = new LocalizableError("flight.error.service",
@@ -318,16 +318,16 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
         if (notexecute) {
             return new ForwardResolution(this.getClass(), "editflight");
         }
+        try {
 //        System.out.println("arrTime: " + arrTime);
 //        System.out.println("arrDate: " + arrDate);
 //        System.out.println("depDate: " + depDate);
 //        System.out.println("depTime: " + depTime);
-        prepareFlight(getContext().getRequest().getLocale().getLanguage());
+            prepareFlight(getContext().getRequest().getLocale().getLanguage());
         //System.out.println("actual list " + actualFlightStewList);
         //flight.setStewList(actualFlightStewList);
 //        System.out.println(flight.getArrivalTime());
 //        System.out.println(flight.getDepartureTime());
-        try {
             flightService.updateFlight(flight);
         } catch (DataAccessException ex) {
             LocalizableError err = new LocalizableError("flight.error.service",
