@@ -125,7 +125,7 @@ public class StewardsActionBean extends BaseActionBean{
     @HandlesEvent("list")
     public Resolution showStewardsList(){
         try{
-            prepareDB();
+//            prepareDB();
             stewards = stewService.findAllStewards();
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("steward.error.service", 

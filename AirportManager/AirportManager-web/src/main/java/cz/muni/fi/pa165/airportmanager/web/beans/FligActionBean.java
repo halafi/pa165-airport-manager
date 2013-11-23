@@ -24,16 +24,20 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.action.ValidationErrorReportResolution;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
+import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.ValidationError;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import org.springframework.dao.DataAccessException;
@@ -43,7 +47,7 @@ import org.springframework.dao.DataAccessException;
  * @author Chorke
  */
 @UrlBinding("/flig/{$event}/{flight.id}")
-public class FligActionBean extends BaseActionBean implements ValidationErrorHandler{
+public class FligActionBean extends BaseActionBean implements ValidationErrorHandler {
 
     @SpringBean
     private FlightService flightService;
@@ -68,28 +72,28 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
     private List<DestinationTO> desList;
     private List<AirplaneTO> airList;
     private List<StewardTO> stewList;
+    private boolean notexecute;
     //private static List<StewardTO> actualFlightStewList;
-    
 //    @ValidateNestedProperties(value = {
-    @Validate(on = {"addflight", "saveflight"}, field="arrtime", required = true)//})
+    @Validate(on = {"addflight", "saveflight"}, field = "arrtime", required = true)//})
     private String arrtime;
 //    @ValidateNestedProperties(value = {
-    @Validate(on = {"addflight", "saveflight"}, field="arrdate", required = true, minlength = 1)//})
+    @Validate(on = {"addflight", "saveflight"}, field = "arrdate", required = true, minlength = 1)//})
     private String arrdate;
 //    @ValidateNestedProperties(value = {
-    @Validate(on = {"addflight", "saveflight"}, field="deptime", required = true, minlength = 1)//})
+    @Validate(on = {"addflight", "saveflight"}, field = "deptime", required = true, minlength = 1)//})
     private String deptime;
 //    @ValidateNestedProperties(value = {
-    @Validate(on = {"addflight", "saveflight"}, field="depdate", required = true, minlength = 1)//})
+    @Validate(on = {"addflight", "saveflight"}, field = "depdate", required = true, minlength = 1)//})
     private String depdate;
 //    @ValidateNestedProperties(value = {
-    @Validate(on = {"addflight", "saveflight"}, field="target", required = true, minlength = 1)//})
+    @Validate(on = {"addflight", "saveflight"}, field = "target", required = true, minlength = 1)//})
     private String target;
 //    @ValidateNestedProperties(value = {
-    @Validate(on = {"addflight", "saveflight"}, field="origin", required = true, minlength = 1)//})
+    @Validate(on = {"addflight", "saveflight"}, field = "origin", required = true, minlength = 1)//})
     private String origin;
 //    @ValidateNestedProperties(value = {
-    @Validate(on = {"addflight", "saveflight"}, field="airplane", required = true, minlength = 1)//})
+    @Validate(on = {"addflight", "saveflight"}, field = "airplane", required = true, minlength = 1)//})
     private String airplane;
 
     public List<DestinationTO> getDesList() {
@@ -191,21 +195,45 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
         this.flights = flights;
     }
 
-    
     @Before(stages = LifecycleStage.EventHandling, on = {"saveflight", "addflight"})
-    public void valid(){
-        if(arrdate == null
-                || arrtime == null
-                || depdate == null
-                || deptime == null
-                || origin == null
-                || target == null
-                || airplane == null
-                ){
-            System.out.println("nuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul");
+    public void valid() throws Exception {
+        if (arrdate == null) {
+            getContext().getValidationErrors().add("arrdate", 
+                    new LocalizableError("validation.required.valueNotPresent", "arrdate"));
+            notexecute = true;
+        }
+        if (arrtime == null) {
+            getContext().getValidationErrors().add("arrtime", 
+                    new LocalizableError("validation.required.valueNotPresent", "arrtime"));
+            notexecute = true;
+        }
+        if (depdate == null) {
+            getContext().getValidationErrors().add("depdate", 
+                    new LocalizableError("validation.required.valueNotPresent", "depdate"));
+            notexecute = true;
+        }
+        if (deptime == null) {
+            getContext().getValidationErrors().add("arrdate", 
+                    new LocalizableError("validation.required.valueNotPresent", "deptime"));
+            notexecute = true;
+        }
+        if (origin == null) {
+            getContext().getValidationErrors().add("origin", 
+                    new LocalizableError("validation.required.valueNotPresent", "origin"));
+            notexecute = true;
+        }
+        if (target == null) {
+            getContext().getValidationErrors().add("target", 
+                    new LocalizableError("validation.required.valueNotPresent", "target"));
+            notexecute = true;
+        }
+        if (airplane == null) {
+            getContext().getValidationErrors().add("airplane", 
+                    new LocalizableError("validation.required.valueNotPresent", "airplane"));
+            notexecute = true;
         }
     }
-    
+
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"saveflight",
         "editflight", "deleteflight"})
     public void loadFlight() {
@@ -214,14 +242,14 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
             System.out.println("flight id is null or epmty");
             return;
         }
-        try{
+        try {
             flight = flightService.getFlight(Long.parseLong(id));
-        } catch (DataAccessException ex){
-            LocalizableError err = new LocalizableError("flight.error.service", 
+        } catch (DataAccessException ex) {
+            LocalizableError err = new LocalizableError("flight.error.service",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
-        } catch (Exception ex){
-            LocalizableError err = new LocalizableError("flight.error.uknown", 
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("flight.error.uknown",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
@@ -231,14 +259,14 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
     @HandlesEvent("listflight")
     public Resolution listFlights() {
         System.out.println("list called");
-        try{
+        try {
             flights = flightService.getAllFlights();
-        } catch (DataAccessException ex){
-            LocalizableError err = new LocalizableError("flight.error.service", 
+        } catch (DataAccessException ex) {
+            LocalizableError err = new LocalizableError("flight.error.service",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
-        } catch (Exception ex){
-            LocalizableError err = new LocalizableError("flight.error.uknown", 
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("flight.error.uknown",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
@@ -255,19 +283,22 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
         System.out.println("target: " + target);
         System.out.println("origin: " + origin);
         System.out.println("airplane: " + airplane);
+        if (notexecute) {
+            return new ForwardResolution(this.getClass(), "createflight");
+        }
         flight = new FlightTO();
         prepareFlight(getContext().getRequest().getLocale().getLanguage());
         flight.setStewList(new ArrayList<StewardTO>());
 //        System.out.println(flight.getArrivalTime());
 //        System.out.println(flight.getDepartureTime());
-        try{
+        try {
             flightService.createFlight(flight);
-        } catch (DataAccessException ex){
-            LocalizableError err = new LocalizableError("flight.error.service", 
+        } catch (DataAccessException ex) {
+            LocalizableError err = new LocalizableError("flight.error.service",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
-        } catch (Exception ex){
-            LocalizableError err = new LocalizableError("flight.error.uknown", 
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("flight.error.uknown",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
@@ -276,6 +307,7 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
 
     @HandlesEvent("createflight")
     public Resolution createFlightFormular() {
+        notexecute = false;
         System.out.println("create formular called");
         return new ForwardResolution("/flight/create.jsp");
     }
@@ -283,6 +315,9 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
     @HandlesEvent("saveflight")
     public Resolution updateFlight() throws ParseException {
         System.out.println("save flight called");
+        if (notexecute) {
+            return new ForwardResolution(this.getClass(), "editflight");
+        }
 //        System.out.println("arrTime: " + arrTime);
 //        System.out.println("arrDate: " + arrDate);
 //        System.out.println("depDate: " + depDate);
@@ -292,14 +327,14 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
         //flight.setStewList(actualFlightStewList);
 //        System.out.println(flight.getArrivalTime());
 //        System.out.println(flight.getDepartureTime());
-        try{
+        try {
             flightService.updateFlight(flight);
-        } catch (DataAccessException ex){
-            LocalizableError err = new LocalizableError("flight.error.service", 
+        } catch (DataAccessException ex) {
+            LocalizableError err = new LocalizableError("flight.error.service",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
-        } catch (Exception ex){
-            LocalizableError err = new LocalizableError("flight.error.uknown", 
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("flight.error.uknown",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
@@ -310,14 +345,14 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
     public Resolution removeFlight() {
         System.out.println("delete flight called");
 //        loadFlight();
-        try{
+        try {
             flightService.removeFlight(flight);
-        } catch (DataAccessException ex){
-            LocalizableError err = new LocalizableError("flight.error.service", 
+        } catch (DataAccessException ex) {
+            LocalizableError err = new LocalizableError("flight.error.service",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
-        } catch (Exception ex){
-            LocalizableError err = new LocalizableError("flight.error.uknown", 
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("flight.error.uknown",
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
@@ -326,6 +361,7 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
 
     @HandlesEvent("editflight")
     public Resolution edit() {
+        notexecute = false;
         System.out.println("edit flight called");
         String loc = getContext().getRequest().getLocale().getLanguage();
         arrdate = formatDateStamp(flight.getArrivalTime(), loc);
@@ -347,71 +383,71 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
         System.out.println("cancel flight called");
         return new RedirectResolution(this.getClass());
     }
-    
-    private String formatTimeStamp(Timestamp ts, String lang){
+
+    private String formatTimeStamp(Timestamp ts, String lang) {
         System.out.println(lang);
         Calendar cal = new GregorianCalendar();
         cal.setTimeInMillis(ts.getTime());
         String s = "";
-        if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
-            if(cal.get(Calendar.HOUR_OF_DAY) < 10){
+        if (lang.equals("sk") || lang.equals("cs") || lang.equals("cz")) {
+            if (cal.get(Calendar.HOUR_OF_DAY) < 10) {
                 s += "0";
             }
             s += cal.get(Calendar.HOUR_OF_DAY) + ":";
-            if(cal.get(Calendar.MINUTE) < 10){
+            if (cal.get(Calendar.MINUTE) < 10) {
                 s += "0";
             }
             s += cal.get(Calendar.MINUTE);
             return s;
         }
-        if(cal.get(Calendar.HOUR) < 10){
+        if (cal.get(Calendar.HOUR) < 10) {
             s += "0";
         }
         s += cal.get(Calendar.HOUR) + ":";
-        if(cal.get(Calendar.MINUTE) < 10){
+        if (cal.get(Calendar.MINUTE) < 10) {
             s += "0";
         }
         s += cal.get(Calendar.MINUTE);
-        if(cal.get(Calendar.AM_PM) == cal.get(Calendar.AM)){
+        if (cal.get(Calendar.AM_PM) == cal.get(Calendar.AM)) {
             return s + " AM";
         }
         return s + " PM";
     }
-    
-    private String formatDateStamp(Timestamp ts, String lang){
+
+    private String formatDateStamp(Timestamp ts, String lang) {
         System.out.println(lang);
         Calendar cal = new GregorianCalendar();
         cal.setTimeInMillis(ts.getTime());
-        if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
-            return cal.get(Calendar.DATE) + ". " + 
-                    (cal.get(Calendar.MONTH)+1) + ". " + 
-                    cal.get(Calendar.YEAR);
+        if (lang.equals("sk") || lang.equals("cs") || lang.equals("cz")) {
+            return cal.get(Calendar.DATE) + ". "
+                    + (cal.get(Calendar.MONTH) + 1) + ". "
+                    + cal.get(Calendar.YEAR);
         }
-        return (cal.get(Calendar.MONTH)+1) + "/" + 
-                    cal.get(Calendar.DATE) + "/" + 
-                    cal.get(Calendar.YEAR);
+        return (cal.get(Calendar.MONTH) + 1) + "/"
+                + cal.get(Calendar.DATE) + "/"
+                + cal.get(Calendar.YEAR);
     }
-    
+
     public Timestamp stringToTimestampSK(String string) throws ParseException {
-        
+
         SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("dd.MM.yyyy hh:mm");
-        
+
         Date lFromDate1 = datetimeFormatter1.parse(string);
-    
+
         return new Timestamp(lFromDate1.getTime());
     }
-    
+
     public Timestamp stringToTimestampEN(String string) throws ParseException {
-        
+
         SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("MM/dd/yyyy h:mm a");
-        
+
         Date lFromDate1 = datetimeFormatter1.parse(string);
-        
-        return new Timestamp(lFromDate1.getTime()) ;
+
+        return new Timestamp(lFromDate1.getTime());
     }
-    
-    private void prepareFlight(String lang)throws ParseException{
-        if(lang.equals("sk") || lang.equals("cs") || lang.equals("cz")){
+
+    private void prepareFlight(String lang) throws ParseException {
+        if (lang.equals("sk") || lang.equals("cs") || lang.equals("cz")) {
             flight.setArrivalTime(stringToTimestampSK(arrdate + " " + arrtime));
             flight.setDepartureTime(stringToTimestampSK(depdate + " " + deptime));
         } else {
@@ -425,12 +461,12 @@ public class FligActionBean extends BaseActionBean implements ValidationErrorHan
         flight.setTarget(desService.getDestination(Long.parseLong(target)));
         flight.setOrigin(desService.getDestination(Long.parseLong(origin)));
     }
-    
-    private Long getIdOfEntity(String toParse){
+
+    private Long getIdOfEntity(String toParse) {
         System.out.println("String: " + toParse);
         String[] s = toParse.split("[()]+");
         System.out.println(Arrays.toString(s));
-        return Long.valueOf(s[s.length-1]);
+        return Long.valueOf(s[s.length - 1]);
     }
 
     @Override
