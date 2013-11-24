@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/main/resources/testingApplicationContext.xml"})

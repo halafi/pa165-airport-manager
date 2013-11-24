@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.daos.impl;
 
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
@@ -14,7 +11,9 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 /**
- *
+ * Implementation of {@link StewardDAO} layer for manipulatig with {@code Steward}
+ * entity and database;
+ * 
  * @author Juraj Duráni
  */
 @Repository
@@ -24,7 +23,8 @@ public class StewardDAOImpl implements StewardDAO{
     private EntityManager manager;
 
     @Override
-    public void createSteward(Steward steward){
+    public void createSteward(Steward steward) 
+            throws JPAException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null.");
         }
@@ -45,7 +45,8 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public void updateSteward(Steward steward){
+    public void updateSteward(Steward steward) 
+            throws JPAException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null.");
         }
@@ -70,7 +71,8 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public void removeSteward(Steward steward){
+    public void removeSteward(Steward steward) 
+            throws JPAException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null");
         }
@@ -89,7 +91,8 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public Steward getSteward(Long id){
+    public Steward getSteward(Long id) 
+            throws JPAException, IllegalArgumentException{
         if(id == null){
             throw new IllegalArgumentException("Can not fing stewar (id = null)");
         }
@@ -105,7 +108,8 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public List<Steward> getAllStewards(){
+    public List<Steward> getAllStewards() 
+            throws JPAException{
         List<Steward> stewards;
         try{
             stewards = manager.createNamedQuery("Steward.findAllStewards", 
@@ -117,7 +121,8 @@ public class StewardDAOImpl implements StewardDAO{
     }
 
     @Override
-    public List<Flight> getAllStewardsFlights(Steward steward){
+    public List<Flight> getAllStewardsFlights(Steward steward) 
+            throws JPAException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null");
         }

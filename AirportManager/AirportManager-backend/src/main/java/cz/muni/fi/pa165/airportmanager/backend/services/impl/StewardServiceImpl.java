@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.services.impl;
 
 import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
@@ -9,7 +6,6 @@ import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
-import cz.muni.fi.pa165.airportmanager.services.FlightService;
 import cz.muni.fi.pa165.airportmanager.services.StewardService;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
@@ -21,7 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Implementation of steward service.
+ * 
  * @author Juraj Duráni
  */
 @Service
@@ -34,10 +31,19 @@ public class StewardServiceImpl implements StewardService{
     @Autowired
     private FlightDAO flightDao;
 
+    /**
+     * Sets {@link StewardDAO} for manipulating with DB.
+     * 
+     * @param stewardDao 
+     */
     public void setStewardDao(StewardDAO stewardDao) {
         this.stewardDao = stewardDao;
     }
     
+    /**
+     * Sets {@link FlightDAO} for manipulating with DB.
+     * @param flightDao 
+     */
     public void setFlightDao(FlightDAO flightDao) {
         this.flightDao = flightDao;
     }

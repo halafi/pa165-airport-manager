@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
-import cz.muni.fi.pa165.airportmanager.backend.AbstractServiceTest;
+import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
 import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
@@ -15,19 +15,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
 /**
  *
  * @author Filip
  */
-public class StewardServiceImplTest extends AbstractServiceTest {
+@RunWith(MockitoJUnitRunner.class)
+public class StewardServiceImplTest extends AbstractTest {
     
     @Mock
     private StewardDAO stewDAO;

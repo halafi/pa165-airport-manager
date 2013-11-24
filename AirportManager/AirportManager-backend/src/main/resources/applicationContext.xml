@@ -13,53 +13,17 @@
        http://www.springframework.org/schema/context/spring-context-3.0.xsd
        http://www.springframework.org/schema/aop 
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
-
     
     <context:component-scan base-package="cz.muni.fi.pa165"/>
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
-    <!--
-        Post-processor to perform exception translation on @Repository classes
-        (from native exceptions such as JPA PersistenceExceptions to
-        Spring's DataAccessException hierarchy).
-    -->
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
     
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
-    
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="AirportManager" />
-        
     </bean>
-     
-<!--    <bean id="flightDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.FlightDAOImpl" >
-    </bean>
-    
-    drobne pridanie juraj
-    <bean id="fligthService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.FlightServiceImpl"/>
-     
-     pridal MATUS - funguje to  
-    
-    <bean id="airplaneDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl" >
-        <property name="emf" ref="entityManagerFactory"/>
-    </bean>
-     
-    <bean id="airplaneService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl">
-        <property name="airplaneDao" ref="airplaneDAO"/>
-    </bean>    
-    
-     koniec 
-     begin Samo  
-    <bean id="destDAO" class="cz.muni.fi.pa165.airportmanager.backend.daos.impl.DestinationDAOImpl" >
-        <property name="factory" ref="entityManagerFactory"/>
-    </bean>
-     
-    <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl">
-        <property name="destinationDao" ref="destDAO"/>
-    </bean>    -->
-    <!-- end SAMO -->     
-    
 </beans>

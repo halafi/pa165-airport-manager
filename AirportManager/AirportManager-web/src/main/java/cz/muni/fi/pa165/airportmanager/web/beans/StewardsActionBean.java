@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.web.beans;
 
 import cz.muni.fi.pa165.airportmanager.services.AirplaneService;
@@ -29,8 +26,6 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -168,9 +163,10 @@ public class StewardsActionBean extends BaseActionBean{
     
     @HandlesEvent("createsteward")
     public Resolution createFormular(){
-        ForwardResolution f = new ForwardResolution("/steward/edit.jsp?createnew=true");
-//        f.addParameter("createnew", "true");
-        return f;
+//        ForwardResolution f = new ForwardResolution("/steward/edit.jsp?createnew=true");
+////        f.addParameter("createnew", "true");
+//        return f;
+        return new ForwardResolution("/steward/edit.jsp?createnew=true");
     }
     
     @HandlesEvent("savesteward")

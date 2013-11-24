@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
@@ -18,7 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *
+ * Entity, thath represents Aiplane object. Has its ID, name, type and nonnegative 
+ * capacity.
+ * 
  * @author Juraj Duráni
  */
 @Entity
@@ -44,37 +43,67 @@ public class Airplane implements Serializable {
     @Column(length = 50)
     private String type;
     
+    /**
+     * @return Airplanes ID
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets airplanes id
+     * @param id 
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * @return Capacity of ariplane
+     */
     public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    /**
+     * Sets capacity of airplane.
+     * 
+     * @param capacity 
+     * @throws IllegalArgumentException if capacity is negative.
+     */
+    public void setCapacity(int capacity) throws IllegalArgumentException{
         if(capacity < 0){
             throw new IllegalArgumentException("Capacity is negative.");
         }
         this.capacity = capacity;
     }
 
+    /**
+     * @return Name of airplane.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name of airplane.
+     * @param name 
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return Type of airplane.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Sets type of airplane.
+     * @param type 
+     */
     public void setType(String type) {
         this.type = type;
     }
@@ -82,7 +111,6 @@ public class Airplane implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-//        hash = 97 * hash + Objects.hashCode(this.flights);
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + this.capacity;
         hash = 97 * hash + Objects.hashCode(this.name);
@@ -99,9 +127,6 @@ public class Airplane implements Serializable {
             return false;
         }
         final Airplane other = (Airplane) obj;
-//        if (!Objects.equals(this.flights, other.flights)) {
-//            return false;
-//        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -116,15 +141,10 @@ public class Airplane implements Serializable {
         }
         return true;
     }
-
-
-
-    
     
     @Override
     public String toString() {
-        return "Airplane {" + id + "}"
+        return "Airplane {" + id + "} "
                 + "[name = " + name + ", type = " + type + ", capacity = " + capacity + "]";
     }
-    
 }

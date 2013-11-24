@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
-import cz.muni.fi.pa165.airportmanager.backend.AbstractServiceTest;
+import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
@@ -32,7 +32,7 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
  *
  * @author Matus Makovy
  */
-public class FlightServiceImplTest extends AbstractServiceTest {
+public class FlightServiceImplTest extends AbstractTest {
 
     @InjectMocks
     private FlightServiceImpl flightService;
