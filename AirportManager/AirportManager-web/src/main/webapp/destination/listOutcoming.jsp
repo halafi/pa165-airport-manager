@@ -11,9 +11,6 @@
         <div class="text-content">
             <h1><f:message key="destination.list.alldestinations"/></h1>
             <%@include file="destinationTable.jsp"%>
-        </div>
-        
-        <div class="text-content">
             <h1><f:message key="destination.leavingFlights"/> ${actionBean.destination.city}</h1>
             <%@include file="flightTable.jsp"%>
         </div>
