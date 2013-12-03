@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-            http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee              http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <!-- Spring -->
     <filter-mapping>
         <filter-name>EncFilter</filter-name>
@@ -66,4 +63,12 @@
         <filter-name>DynamicMappingFilter</filter-name>
         <filter-class>net.sourceforge.stripes.controller.DynamicMappingFilter</filter-class>
     </filter>
+    <servlet>
+        <servlet-name>DestinationServlet</servlet-name>
+        <servlet-class>cz.muni.fi.pa165.airportmanager.web.rest.server.DestinationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DestinationServlet</servlet-name>
+        <url-pattern>/DestinationServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
