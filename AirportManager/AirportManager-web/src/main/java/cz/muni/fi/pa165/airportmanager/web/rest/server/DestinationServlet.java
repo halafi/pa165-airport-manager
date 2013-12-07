@@ -23,7 +23,7 @@ import org.springframework.dao.DataAccessException;
  *
  * @author Juraj Duráni
  */
-@WebServlet(urlPatterns = "/rest-server/*")
+@WebServlet(urlPatterns = "/rest-server/destination/*")
 public class DestinationServlet extends HttpServlet {
 
     private static final ApplicationContext appConfig = 
