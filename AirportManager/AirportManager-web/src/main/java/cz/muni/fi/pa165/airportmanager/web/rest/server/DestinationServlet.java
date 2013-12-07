@@ -1,87 +1,152 @@
 
 package cz.muni.fi.pa165.airportmanager.web.rest.server;
 
+import cz.muni.fi.pa165.airportmanager.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Path;
+import net.sourceforge.stripes.action.UrlBinding;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
  * @author Juraj Duráni
  */
+@WebServlet(urlPatterns = "/rest-server/*")
 public class DestinationServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DestinationServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DestinationServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }
-    }
+    private static final ApplicationContext appConfig = 
+            new ClassPathXmlApplicationContext("applicationContext.xml");
+    
+    private static int num = 0;
+    
+    private DestinationService destService;
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP
-     * <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private DestinationTO destination;
+    
+    public DestinationServlet() {
+        destService = appConfig.getBean(DestinationService.class);
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("///////////////////////////////get called [" + ++num + "]//////////////////////");
+        response.setContentType("text/html; charset=utf-8");
+        PrintWriter pw = response.getWriter();
+        List<DestinationTO> destinations;
+        try{
+            destinations = destService.getAllDestinations();
+        } catch (DataAccessException ex){
+            pw.println("Problem by finding destinations.");
+            return;
+        }
+        pw.println("<div id=tablediv>");
+        pw.println("<table border=\"1\">");
+        pw.println("<tr>");
+        pw.println("<th>id</th>");
+        pw.println("<th>Country</th>");
+        pw.println("<th>Code</th>");
+        pw.println("<th>City</th>");
+        pw.println("<th>Delete</th>");
+        pw.println("</tr>");
+        for(DestinationTO des : destinations){
+            pw.println("<tr>");
+            pw.append("<th>")
+                    .append(Long.toString(des.getId()))
+                    .println("</th>");
+            pw.append("<th>")
+                    .append(des.getCountry())
+                    .println("</th>");
+            pw.append("<th>")
+                    .append(des.getCode())
+                    .println("</th>");
+            pw.append("<th>")
+                    .append(des.getCity())
+                    .println("</th>");
+            pw.append("<th>")
+                    .append("<button onclick=\"deleteDest(" + des.getId() + ");\">")
+                    .append("delete")
+                    .append("</button>")
+                    .println("</th>");
+            pw.println("</tr>");
+        }
+        pw.println("</table>");
+        pw.println("</div>");
+        pw.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js\"></script>");
+        pw.println("<script>");
+        pw.println("function deleteDest(id) {");
+        pw.println("    $.ajax({");
+        pw.println("        type: 'POST',");
+        pw.println("        url: '" + request.getContextPath() + request.getServletPath() + "',");
+        pw.println("        data: {id:id,method:'delete'},");
+        pw.println("    });");
+        pw.println("}");
+        pw.println("</script>");
     }
 
-    /**
-     * Handles the HTTP
-     * <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("post called " + request.getParameter("id") + " "
+                + request.getParameter("method"));
+        if(request.getParameter("method") == null){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "missing method");
+        }
+        switch(request.getParameter("method")){
+            case ("delete"):
+                if(request.getParameter("id") == null){
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "missing id");
+                    return;
+                }
+                try{
+                    destination = destService.getDestination(
+                            Long.valueOf(request.getParameter("id")));
+                    doDelete(request, response);
+                } catch (DataAccessException ex){
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND,
+                            "Problem by finding destination.");
+                }
+                break;
+            case ("put"):
+                doPut(request, response);
+                break;
+            default :
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "unsupported method");
+        }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        System.out.println("-----------------------------------delete called " + destination);
+        try{
+            destService.removeDestination(destination);
+        } catch (DataAccessException ex){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND,
+                    "Problem by deleting destination.");
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) 
+            throws ServletException, IOException {
+        //TODO
+    }
+    
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 }

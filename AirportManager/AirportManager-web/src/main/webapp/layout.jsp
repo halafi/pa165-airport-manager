@@ -15,15 +15,15 @@
             <div id="header">
                 <div id="logo">
                     <s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" height="70" width="600"/></s:link>
+                    </div>
+                    <div id="logout">
+                        <a href="#">logout</a><br/>
+                        logged in as Admin
+                    </div>
                 </div>
-                <div id="logout">
-                    <a href="#">logout</a><br/>
-                    logged in as Admin
-                </div>
-            </div>
                 <!--left navigation panel-->
-            <div id="main">
-                <div id="navigation">
+                <div id="main">
+                    <div id="navigation">
                         <ul id="menu">
                             <li class="navlink"><f:message key="airplane"/>
                             <ul class="submenu">
@@ -45,21 +45,21 @@
                             </li>
                             <li class="navlink"><f:message key="steward"/>
                             <ul class="submenu">
-                                
-                                    <s:link href="/steward/edit.jsp">
-                                        <li class="navlink">
+
+                                <s:link href="/steward/edit.jsp">
+                                    <li class="navlink">
                                         <f:message key="create"/>
                                         <s:param name="createnew" value="true"/>
-                                        </li>
-                                    </s:link>
-                                
-                                
-                                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
-                                        <li class="navlink">
+                                    </li>
+                                </s:link>
+
+
+                                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
+                                    <li class="navlink">
                                         <f:message key="list"/>
-                                        </li>
-                                    </s:link>
-                                
+                                    </li>
+                                </s:link>
+
                             </ul>
                         </li>
                     </ul>

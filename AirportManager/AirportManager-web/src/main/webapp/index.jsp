@@ -12,5 +12,5 @@
         </div>
         
     </s:layout-component>
-</s:layout-render>    
+</s:layout-render>
 
