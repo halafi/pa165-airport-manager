@@ -81,6 +81,19 @@ public class AirplaneRestApi {
         }
     }
     
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}/flights")
+    public String getAirplanesFlights(@PathParam("id") Long id){
+        try{
+            AirplaneTO airplane = airService.getAirplane(id);
+            List<FlightTO> flightsList = airService.getAllAirplanesFlights(airplane);
+            return mapper.writerWithType(new TypeReference<List<FlightTO>>() {}).writeValueAsString(flightsList);
+        } catch (Exception ex){
+            return null;
+        }
+    }
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/post")
