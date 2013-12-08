@@ -31,7 +31,7 @@
             <artifactId>AirportManager-backend</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!-- stripes -->
+         <!--stripes--> 
         <dependency>
             <groupId>net.sourceforge.stripes</groupId>
             <artifactId>stripes</artifactId>
@@ -43,16 +43,22 @@
             <version>05Nov2002</version>
         </dependency>
         <!-- servlet, JSP, JSTL -->
-        <dependency>
+        <!-- replace by javax.servlet-api -->
+<!--        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>taglibs</groupId>
@@ -86,11 +92,49 @@
             <artifactId>spring-web</artifactId>
             <version>3.2.5.RELEASE</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>1.17.1</version>
+        </dependency>
+        <!--        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-moxy</artifactId>
+            <version>2.4.1</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-spring</artifactId>
+            <version>1.17.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <build>
         <!-- war name-->
-<!--        <finalName>airportmanager</finalName>-->
+        <!--        <finalName>airportmanager</finalName>-->
         
         <plugins>
             <plugin>

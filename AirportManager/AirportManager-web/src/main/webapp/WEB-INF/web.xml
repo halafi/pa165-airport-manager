@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee              http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<web-app version="3.0" 
+         xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <!-- Spring -->
     <filter-mapping>
         <filter-name>EncFilter</filter-name>
@@ -63,12 +68,26 @@
         <filter-name>DynamicMappingFilter</filter-name>
         <filter-class>net.sourceforge.stripes.controller.DynamicMappingFilter</filter-class>
     </filter>
+    <context-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
     <servlet>
-        <servlet-name>DestinationServlet</servlet-name>
-        <servlet-class>cz.muni.fi.pa165.airportmanager.web.rest.server.DestinationServlet</servlet-class>
+        <servlet-name>jersey-serlvet</servlet-name>
+        <servlet-class>
+            com.sun.jersey.spi.spring.container.servlet.SpringServlet
+        </servlet-class>
+        <init-param>
+            <param-name>
+                com.sun.jersey.config.property.packages
+            </param-name>
+            <param-value>cz.muni.fi.pa165</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
+ 
     <servlet-mapping>
-        <servlet-name>DestinationServlet</servlet-name>
-        <url-pattern>/DestinationServlet</url-pattern>
+        <servlet-name>jersey-serlvet</servlet-name>
+        <url-pattern>/rest-jersey-server/*</url-pattern>
     </servlet-mapping>
 </web-app>

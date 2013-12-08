@@ -6,15 +6,11 @@ import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Path;
-import net.sourceforge.stripes.action.UrlBinding;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
@@ -88,9 +84,9 @@ public class DestinationServlet extends HttpServlet {
         pw.println("<script>");
         pw.println("function deleteDest(id) {");
         pw.println("    $.ajax({");
-        pw.println("        type: 'POST',");
-        pw.println("        url: '" + request.getContextPath() + request.getServletPath() + "',");
-        pw.println("        data: {id:id,method:'delete'},");
+        pw.println("        type: 'DELETE',");
+        pw.println("        url: '" + request.getContextPath() + request.getServletPath() + ""
+                + "?id=' + id,");
         pw.println("    });");
         pw.println("}");
         pw.println("</script>");
@@ -99,39 +95,41 @@ public class DestinationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("post called " + request.getParameter("id") + " "
-                + request.getParameter("method"));
-        if(request.getParameter("method") == null){
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "missing method");
-        }
-        switch(request.getParameter("method")){
-            case ("delete"):
-                if(request.getParameter("id") == null){
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "missing id");
-                    return;
-                }
-                try{
-                    destination = destService.getDestination(
-                            Long.valueOf(request.getParameter("id")));
-                    doDelete(request, response);
-                } catch (DataAccessException ex){
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND,
-                            "Problem by finding destination.");
-                }
-                break;
-            case ("put"):
-                doPut(request, response);
-                break;
-            default :
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "unsupported method");
-        }
+//        System.out.println("post called " + request.getParameter("id") + " "
+//                + request.getParameter("method"));
+//        if(request.getParameter("method") == null){
+//            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "missing method");
+//        }
+//        switch(request.getParameter("method")){
+//            case ("delete"):
+//                if(request.getParameter("id") == null){
+//                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "missing id");
+//                    return;
+//                }
+//                try{
+//                    destination = destService.getDestination(
+//                            Long.valueOf(request.getParameter("id")));
+//                    doDelete(request, response);
+//                } catch (DataAccessException ex){
+//                    response.sendError(HttpServletResponse.SC_NOT_FOUND,
+//                            "Problem by finding destination.");
+//                }
+//                break;
+//            case ("put"):
+//                doPut(request, response);
+//                break;
+//            default :
+//                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "unsupported method");
+//        }
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         System.out.println("-----------------------------------delete called " + destination);
+        System.out.println(request.getParameter("id"));
         try{
+            destination = destService.getDestination(Long.valueOf(request.getParameter("id")));
             destService.removeDestination(destination);
         } catch (DataAccessException ex){
             response.sendError(HttpServletResponse.SC_NOT_FOUND,
