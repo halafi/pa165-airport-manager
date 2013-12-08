@@ -33,6 +33,7 @@
                             <li class="navlink"><f:message key="destination"/>
                             <ul class="submenu">
                                 <s:link href="/destination/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
+                                <s:link beanclass="cz.muni.fi.pa165.airportmanager.rest.client.DestinationsClientActionBean"><li class="navlink"><f:message key="list"/></li></s:link>
                             </ul>
                             </li>
                         </ul>

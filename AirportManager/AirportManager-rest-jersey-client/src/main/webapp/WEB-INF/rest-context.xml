@@ -13,10 +13,11 @@
        http://www.springframework.org/schema/context/spring-context-3.0.xsd
        http://www.springframework.org/schema/aop 
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
-
+    
     <!--<import resource="classpath:applicationContext.xml" />-->
     <context:annotation-config/>
     <context:component-scan base-package="cz.muni.fi.pa165.airportmanager.rest"/>
     <context:property-placeholder location="classpath:RESTServer.properties"/>  
+    
 
 </beans>
