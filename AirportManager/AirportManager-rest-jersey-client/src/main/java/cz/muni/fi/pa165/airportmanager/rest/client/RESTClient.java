@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.airportmanager.rest.jersey.client;
+package cz.muni.fi.pa165.airportmanager.rest.client;
 
 /**
  *

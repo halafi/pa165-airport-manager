@@ -5,10 +5,10 @@
 <s:layout-render name="/layout.jsp" titlekey="index.title">
     <s:layout-component name="body">
         
-        <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.rest.jersey.client.DestinationsClientActionBean" var="actionBean"/>
+        <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.rest.client.DestinationsClientActionBean" var="actionBean"/>
         
         <div class="text-content">
-            <s:form beanclass="cz.muni.fi.pa165.airportmanager.rest.jersey.client.DestinationsClientActionBean">
+            <s:form beanclass="cz.muni.fi.pa165.airportmanager.rest.client.DestinationsClientActionBean">
                 <s:hidden name="destination.id"/>
                 <fieldset>
                     <legend><f:message key="create"/></legend>
