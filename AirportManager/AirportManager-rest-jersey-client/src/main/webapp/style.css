@@ -1,0 +1,214 @@
+input.error, textarea.error {
+    background-color: orangered;
+    color: black;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+}
+
+html {
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 2em;
+    padding-top: 0.5em;
+    background-color: white;
+}
+
+body {
+    font-size: 1em;
+    font-family: tahoma;
+    background-color: rgb(221,221,221);
+    margin: 0 auto;
+
+    max-width: 3000px;
+}
+
+p {
+    padding: 0.4em;
+    font-size: 100%;
+}
+/*header*/
+#header {
+    float: bottom;
+    display: inline-block;
+    width: 100%;
+}
+
+#logo {
+    float:left;
+    padding: 1em;
+}
+
+#logout {
+    float: right;
+    padding: 1em;
+}
+/*header*/
+
+h1 {
+    text-align: left; 
+    text-decoration: none; 
+    padding: 0.2em;
+    font-size: 200%;
+}
+
+.text-content {
+    margin-top: 0;
+    margin-left: 0.9em;
+    margin-right: 0.9em;
+    margin-bottom: 0.9em;
+    padding: 1em;
+    background-color: rgb(221,221,221);
+    min-height: 20em;
+}
+
+#main {
+    padding: 1em;
+}
+
+#wrapper {
+    width: 75%;
+    display: inline-block;
+    vertical-align: top;
+}
+/* navigation menu */  
+#navigation {
+    float: left;
+    display: inline-block;
+    height: 29px;
+    line-height: 100%;
+    text-align: center;
+    font-size: 110%;
+}
+
+#footer {
+    background-color: black;
+    font-size: 70%;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    margin-top: 12em;
+}
+
+#menu > li {
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
+    text-align: center;
+    min-width: 101px;
+    border: black;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    background-color:  gray;
+}
+
+#menu > li:hover{
+    background: chartreuse;
+}
+
+.navlink {
+    color: black;
+    text-decoration: none;
+}
+
+.navlink:hover {
+    color: white;
+}
+
+#menu {
+    list-style-type: none;
+    padding:0;
+    margin: 0;
+    color: white;
+}
+
+.submenu {
+    list-style-type: none;
+    display: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width:100px;
+    top: 160px;
+    background:white;
+    border: 1px solid black;
+}
+
+.submenu li {
+    padding: 0.25em 1em;   
+}
+
+#menu li:hover > ul {
+    display: block;
+}
+
+.submenu a {
+    text-decoration: none;
+}
+.submenu li:hover {
+    background-color: chartreuse;
+}
+/* navigation menu */  
+
+a {color: black;}
+a:link {}
+a:visited {}
+a:hover {}
+a:active {}
+
+table {
+    text-align: left;
+    margin: 5px;
+
+}
+
+table th {
+    font-weight: normal;
+    padding: 0.8em;
+}
+
+input {
+    border : black solid 0.09em;
+    padding-left : 0.5em;
+    padding-right : 0.5em;
+    padding-top : 0.2em;
+    padding-bottom : 0.2em;
+    color: black;
+    background-color: white;
+    font-size: 100%;
+}
+
+input:hover {
+    background-color: chartreuse;
+}
+
+legend {
+    font-size: 120%;
+}
+
+thead th {
+    padding-bottom: 2em;
+}
+
+table.basic { 
+    color: black;
+    border-collapse: collapse; 
+    width: 85%;
+    margin: 5px;
+    font-size: 100%;
+}
+
+table.basic tr:nth-child(odd) {
+    background-color: rgb(225,225,225);
+}
+
+table.basic tr:nth-child(even) {
+    background-color: rgb(250,250,250);
+}
+
+table.basic th, table.basic td {  
+    border: solid 1px black;
+    padding: 3px;
+}
