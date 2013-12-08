@@ -27,12 +27,12 @@
                         <ul id="menu">
                             <li class="navlink"><f:message key="airplane"/>
                             <ul class="submenu">
-                                destination
+                                <s:link href="/airplane/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
                             </ul>
                             </li>
                             <li class="navlink"><f:message key="destination"/>
                             <ul class="submenu">
-                                steward
+                                <s:link href="/destination/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
                             </ul>
                             </li>
                         </ul>
