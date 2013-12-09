@@ -63,6 +63,7 @@ public class AirplaneRestApi {
             airList = airService.getAllAirplanes();
             return mapper.writerWithType(new TypeReference<List<AirplaneTO>>() {}).writeValueAsString(airList);
         } catch (DataException ex){
+//            return Response.status(401).build();
             return null;
         } catch (Exception ex){
             return null;
