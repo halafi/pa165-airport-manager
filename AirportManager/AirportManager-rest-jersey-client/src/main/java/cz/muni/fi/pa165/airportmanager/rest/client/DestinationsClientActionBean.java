@@ -20,6 +20,7 @@ import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -81,7 +82,7 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     */
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
-        DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/rest-jersey-server/destination", DestinationTO[].class);
+        DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/webresources/destination", DestinationTO[].class);
         destinations = Arrays.asList(dsts);
         return null;
     }
@@ -90,14 +91,14 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     public void loadDestinationFromDatabase() {
         String ids = getContext().getRequest().getParameter("destination.id");
         if (ids == null) return;
-        destination = restTemplate.getForObject("http://localhost:8080/pa165/rest-jersey-server/destination" + "/{id}", DestinationTO.class, Long.parseLong(ids));
+        destination = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/webresources/destination" + "/{id}", DestinationTO.class, Long.parseLong(ids));
     }
     
     
     @HandlesEvent("add")
     public Resolution createDestination() {
         log.debug("add() destination={}", destination);
-        restTemplate.postForObject("http://localhost:8080/pa165/rest-jersey-server/destination" + "/", destination, DestinationTO.class);
+        restTemplate.postForObject("http://localhost:8080/pa165/airport-manager-web/webresources/destination" + "/", destination, DestinationTO.class);
         getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
@@ -105,7 +106,7 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     @HandlesEvent("save")
     public Resolution updateDestination() {
         log.debug("save() destination={}", destination);
-        restTemplate.put("http://localhost:8080/pa165/rest-jersey-server/destination" + "/{id}", destination, destination.getId());
+        restTemplate.put("http://localhost:8080/pa165/airport-manager-web/webresources/destination" + "/{id}", destination, destination.getId());
         getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
@@ -113,7 +114,7 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     @HandlesEvent("delete")
     public Resolution deleteDestination() {
         log.debug("delete({})", destination.getId());
-        restTemplate.delete("http://localhost:8080/pa165/rest-jersey-server/destination" + "/{id}", destination.getId());
+        restTemplate.delete("http://localhost:8080/pa165/airport-manager-web/webresources/destination" + "/{id}", destination.getId());
         getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
