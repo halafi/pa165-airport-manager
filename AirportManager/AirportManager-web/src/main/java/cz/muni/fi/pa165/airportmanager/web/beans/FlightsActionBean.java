@@ -34,7 +34,7 @@ import org.springframework.dao.DataAccessException;
  *
  * @author Juraj Duráni
  */
-@UrlBinding("/flig/{$event}/{flight.id}")
+@UrlBinding("/flights/{$event}/{flight.id}")
 public class FlightsActionBean extends BaseActionBean {// implements ValidationErrorHandler {
 
     @SpringBean
