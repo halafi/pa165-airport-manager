@@ -14,10 +14,17 @@
        http://www.springframework.org/schema/aop 
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
     
-    <!--<import resource="classpath:applicationContext.xml" />-->
-    <context:annotation-config/>
-    <context:component-scan base-package="cz.muni.fi.pa165.airportmanager.rest"/>
-    <context:property-placeholder location="classpath:RESTServer.properties"/>  
+    <!--<context:property-placeholder location="classpath:RESTServer.properties"/>-->  
     
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg ref="httpClientFactory"/>                
+    </bean>
+    
+    
+    <bean id="httpClientFactory" class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+        <constructor-arg ref="httpClient"/>
+    </bean>
+    
+    <bean id="httpClient" class="org.apache.commons.httpclient.HttpClient"/>
 
 </beans>
