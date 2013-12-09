@@ -14,6 +14,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
@@ -64,8 +65,138 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
+        try {
+            DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination", DestinationTO[].class);
+            destinations = Arrays.asList(dsts);
+        } catch (RestClientException ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         return new ForwardResolution("/destination/list.jsp");
     }
+    
+    @Override
+    public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+        try {
+            DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination", DestinationTO[].class);
+            destinations = Arrays.asList(dsts);
+        } catch (RestClientException ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        return null;
+    }
+
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"save", "edit", "delete"})
+    public void loadDestinationFromDatabase() {
+        String ids = getContext().getRequest().getParameter("destination.id");
+        if (ids == null) return;
+        try {
+            destination = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", DestinationTO.class, Long.parseLong(ids));
+        } catch (RestClientException ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+    }
+    
+    
+    @HandlesEvent("add")
+    public Resolution createDestination() {
+        log.debug("add() destination={}", destination);
+        try {
+            restTemplate.postForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/", destination, DestinationTO.class);
+        } catch (RestClientException ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
+        return new RedirectResolution(this.getClass(), "list");
+    }
+    
+    @HandlesEvent("save")
+    public Resolution updateDestination() {
+        log.debug("save() destination={}", destination);
+        try {
+            restTemplate.put("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", destination, destination.getId());
+        } catch (RestClientException ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
+        return new RedirectResolution(this.getClass(), "list");
+    }
+    
+    @HandlesEvent("delete")
+    public Resolution deleteDestination() {
+        log.debug("delete({})", destination.getId());
+        try {
+            restTemplate.delete("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", destination.getId());
+        } catch (RestClientException ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
+        return new RedirectResolution(this.getClass(), "list");
+    }
+    
+    @HandlesEvent("outcoming")
+    public Resolution getAllOutcomingFlights() { 
+        try {
+            String ids = getContext().getRequest().getParameter("destination.id");
+            DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination", DestinationTO[].class);
+            destinations = Arrays.asList(dsts);
+            destination = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", DestinationTO.class, Long.parseLong(ids));
+            FlightTO[] fligs = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}/outcoming", FlightTO[].class, Long.parseLong(ids));
+            flights = Arrays.asList(fligs); 
+        } catch (RestClientException ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        getContext().getMessages().add(new LocalizableMessage("destination.list.outcoming", escapeHTML(destination.getId().toString())));
+        return new ForwardResolution("/destination/listOutcoming.jsp");
+    }
+    
+    @HandlesEvent("incoming")
+    public Resolution getAllIncomingFlights() {      
+        try {
+            String ids = getContext().getRequest().getParameter("destination.id");
+            DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination", DestinationTO[].class);
+            destinations = Arrays.asList(dsts);
+            destination = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", DestinationTO.class, Long.parseLong(ids));
+            FlightTO[] fligs = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}/incoming", FlightTO[].class, Long.parseLong(ids));
+            flights = Arrays.asList(fligs); 
+        } catch (RestClientException ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+        getContext().getMessages().add(new LocalizableMessage("destination.list.incoming", escapeHTML(destination.getId().toString())));
+        return new ForwardResolution("/destination/listIncoming.jsp");
+    }
+    
     /*
     - funguje na adrese {context}/rest-jersey-server/destination
     - pôvodná adresa vráti všetky destinácie
@@ -80,44 +211,6 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     - v prípade výnimky je vyhodená WebApplicationException s príslušným kódom [na klientskej strane vráti Resposne s príslušným kódom]
     
     */
-    @Override
-    public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
-        DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/webresources/destination", DestinationTO[].class);
-        destinations = Arrays.asList(dsts);
-        return null;
-    }
-
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"save", "edit", "delete"})
-    public void loadDestinationFromDatabase() {
-        String ids = getContext().getRequest().getParameter("destination.id");
-        if (ids == null) return;
-        destination = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/webresources/destination" + "/{id}", DestinationTO.class, Long.parseLong(ids));
-    }
-    
-    
-    @HandlesEvent("add")
-    public Resolution createDestination() {
-        log.debug("add() destination={}", destination);
-        restTemplate.postForObject("http://localhost:8080/pa165/airport-manager-web/webresources/destination" + "/", destination, DestinationTO.class);
-        getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
-        return new RedirectResolution(this.getClass(), "list");
-    }
-    
-    @HandlesEvent("save")
-    public Resolution updateDestination() {
-        log.debug("save() destination={}", destination);
-        restTemplate.put("http://localhost:8080/pa165/airport-manager-web/webresources/destination" + "/{id}", destination, destination.getId());
-        getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
-        return new RedirectResolution(this.getClass(), "list");
-    }
-    
-    @HandlesEvent("delete")
-    public Resolution deleteDestination() {
-        log.debug("delete({})", destination.getId());
-        restTemplate.delete("http://localhost:8080/pa165/airport-manager-web/webresources/destination" + "/{id}", destination.getId());
-        getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
-        return new RedirectResolution(this.getClass(), "list");
-    }
     
     //Follows some redirect resolutions
     public Resolution cancel(){
