@@ -16,15 +16,25 @@
     
     <!--<context:property-placeholder location="classpath:RESTServer.properties"/>-->  
     
+    <!--<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">-->
+        <!--<constructor-arg ref="httpClientFactory"/>-->                
+    <!--</bean>-->
+    
+
+    
+    <!--<bean id="httpClientFactory" class="org.springframework.http.client.CommonsClientHttpRequestFactory">-->
+        <!--<constructor-arg ref="httpClient"/>-->
+    <!--</bean>-->
+    
+    <!--<bean id="httpClient" class="org.apache.commons.httpclient.HttpClient"/>-->
+    
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
-        <constructor-arg ref="httpClientFactory"/>                
+<!--        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="com.springsource.samples.resttemplate.BufferedImageHttpMessageConverter"/>
+            </list>
+        </property>-->
     </bean>
-    
-    
-    <bean id="httpClientFactory" class="org.springframework.http.client.CommonsClientHttpRequestFactory">
-        <constructor-arg ref="httpClient"/>
-    </bean>
-    
-    <bean id="httpClient" class="org.apache.commons.httpclient.HttpClient"/>
 
 </beans>
