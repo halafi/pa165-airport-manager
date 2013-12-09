@@ -11,7 +11,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean" var="actionBean"/>
+<s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" 
+                 var="actionBean"/>
 
 <table class="basic">
     <tr>
@@ -34,7 +35,7 @@
             <td><c:out value="${flight.target.city}"/></td>
             <td><c:out value="${flight.airplaneTO.name}"/></td>
             <td>
-                <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean">
+                <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">
                     <c:choose>
                         <c:when test="${fn:length(flight.stewList) gt 0}">
                             <s:select id="stews" name="flight.stewards">
@@ -53,14 +54,14 @@
             </td>
             
             <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean" 
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" 
                         event="editflight">
                     <s:param name="flight.id" value="${flight.id}"/>
                     <img src="${pageContext.request.contextPath}/images/edit.png" class="icon"/>
                 </s:link>
             </td>
             <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean" 
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" 
                         event="deleteflight">
                     <s:param name="flight.id" value="${flight.id}"/>
                     <img src="${pageContext.request.contextPath}/images/delete.png" class="icon"/>

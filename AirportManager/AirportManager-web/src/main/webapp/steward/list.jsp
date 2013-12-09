@@ -20,22 +20,13 @@
                     <th><f:message key="steward.firstname"/></th>
                     <th><f:message key="steward.lastname"/></th>
                     <th colspan="3"><f:message key="operations"/></th>
-                    <%--<th><f:message key="steward.flights"/></th>
-                    <th><f:message key="steward.edit"/></th>
-                    <th><f:message key="steward.delete"/></th>--%>
                 </tr>
                 <c:forEach items="${actionBean.stewards}" var="steward">
                     <tr>
                         <th><c:out value="${steward.id}"/></th>
                         <th><c:out value="${steward.firstName}"/></th>
                         <th><c:out value="${steward.lastName}"/></th>
-                        <th><%--<s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
-                                <s:submit name="flights">
-                                    <s:param name="steward.id" value="${steward.id}"/>
-                                    <s:param name="event" value="flights"/>
-                                    <f:message key="steward.flights"/>
-                                </s:submit>
-                            </s:form>--%>
+                        <th>
                             <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean" event="flights">
                                 <s:param name="steward.id" value="${steward.id}"/>
                                 <f:message key="steward.flights"/>
@@ -57,15 +48,6 @@
                     </tr>
                 </c:forEach>
             </table>
-            <%--<s:link href="/steward/edit.jsp">
-                <s:param name="formtitle" value="steward.create.title" />
-                <f:message key="steward.create.new"/>
-            </s:link> --%>
-            <%--<s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
-                <s:submit name="createsteward">
-                    <f:message key="steward.create.new"/>
-                </s:submit>
-            </s:form>--%>
         </div>
     </s:layout-component>
 </s:layout-render>

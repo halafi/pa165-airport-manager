@@ -20,7 +20,7 @@
                         <th><c:out value="${steward.id}"/></th>
                         <th><c:out value="${steward.firstName}"/></th>
                         <th><c:out value="${steward.lastName}"/></th>
-                        <th><s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean">
+                        <th><s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">
                                 <s:submit name="flights">
                                     <s:param name="steward.id" value="${steward.id}"/>
                                     <s:param name="event" value="removeSteward"/>

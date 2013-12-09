@@ -14,7 +14,7 @@
         
         <div class="text-content">
             <fieldset><legend><f:message key="edit"/></legend>
-                <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean">
+                <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">
                     <s:hidden name="flight.id"/>
                     <%@include file="form.jsp"%>
                     <s:submit name="saveflight">

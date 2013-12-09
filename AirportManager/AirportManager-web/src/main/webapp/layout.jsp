@@ -40,7 +40,7 @@
                             <li class="navlink"><f:message key="flight"/>
                             <ul class="submenu">
                                 <li class="navlink"><s:link href="/flight/create.jsp"><f:message key="create"/></s:link></li>
-                                <li class="navlink"><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean"><f:message key="list"/></s:link></li>             
+                                <li class="navlink"><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean"><f:message key="list"/></s:link></li>             
                                 </ul>
                             </li>
                             <li class="navlink"><f:message key="steward"/>

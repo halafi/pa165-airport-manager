@@ -19,7 +19,8 @@
 <script src="../datetime/pickadate.js-3.3.0/lib/picker.date.js"></script>
 <script src="../datetime/pickadate.js-3.3.0/lib/picker.time.js"></script>
 
-<s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FligActionBean" var="actionBean"/>
+<s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" 
+                 var="actionBean"/>
 <table>
     <tr>
         <th><s:label for="f1date" name="flight.departureTime"/></th>
