@@ -14,11 +14,6 @@
        http://www.springframework.org/schema/aop 
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
     
-    
-    <!-- not needed for component-scan --> 
-    <context:annotation-config/>
-    <context:component-scan base-package="cz.muni.fi.pa165.airportmanager.rest.client"/>
-    <!-- Rest template for Spring 3.1. Used HttpClientFactory to make request -->
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>   
 
 </beans>

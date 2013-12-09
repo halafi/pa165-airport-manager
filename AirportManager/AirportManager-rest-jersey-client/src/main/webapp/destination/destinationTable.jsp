@@ -36,25 +36,25 @@
                 <%--</s:form>--%>
             </td>-->
                 <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="incoming">
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.rest.client.DestinationsClientActionBean" event="incoming">
                     <s:param name="destination.id" value="${destination.id}"/>
                     <f:message key="destination.incoming"/>
                 </s:link>
             </td>
             <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="outcoming">
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.rest.client.DestinationsClientActionBean" event="outcoming">
                     <s:param name="destination.id" value="${destination.id}"/>
                     <f:message key="destination.outcoming"/>
                 </s:link>
             </td>
             <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="edit">
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.rest.client.DestinationsClientActionBean" event="edit">
                     <s:param name="destination.id" value="${destination.id}"/>
                     <img class="icon" src="${pageContext.request.contextPath}/images/edit.png"/>
                 </s:link>
             </td>
             <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="delete">
+                <s:link beanclass="cz.muni.fi.pa165.airportmanager.rest.client.DestinationsClientActionBean" event="delete">
                     <s:param name="destination.id" value="${destination.id}"/>
                     <img class="icon" src="${pageContext.request.contextPath}/images/delete.png"/>
                 </s:link>
