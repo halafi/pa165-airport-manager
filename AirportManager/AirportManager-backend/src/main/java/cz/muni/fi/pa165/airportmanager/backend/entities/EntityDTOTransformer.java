@@ -1,9 +1,5 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities;
 
-import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
-import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
-import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
-import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
@@ -40,10 +36,6 @@ public class EntityDTOTransformer {
             toReturn.setOrigin(destinationConvert(flight.getOrigin()));
             toReturn.setTarget(destinationConvert(flight.getTarget()));
             List<StewardTO> stewTOs = stewardListConvert(flight.getStewardList());
-//            List<StewardTO> stewTOs = new ArrayList<>(flight.getStewardList().size());
-//            for(Steward s : flight.getStewardList()){
-//                stewTOs.add(EntityDTOTransformer.stewardConvert(s));
-//            }
             toReturn.setStewList(stewTOs);
             toReturn.setAirplaneTO(airplaneConvert(flight.getAirplane()));
             return toReturn;
@@ -62,44 +54,32 @@ public class EntityDTOTransformer {
         toReturn.setOrigin(destinationTOConvert(flightTO.getOrigin()));
         toReturn.setTarget(destinationTOConvert(flightTO.getTarget()));
         List<Steward> stews = stewardTOListConvert(flightTO.getStewList());
-//        List<Steward> stews = new ArrayList<>(flightTO.getStewList().size());
-//            for(StewardTO s : flightTO.getStewList()){
-//                stews.add(EntityDTOTransformer.stewardTOConvert(s));
-//            }
         toReturn.setStewardList(stews);
         return toReturn;
         
     }
 
     public static Airplane airplaneTOConvert(AirplaneTO airplaneTO) {
-        
         if (airplaneTO == null) {
             return null;
         }
-
         Airplane airplane = new Airplane();
-
         airplane.setCapacity(airplaneTO.getCapacity());
         airplane.setId(airplaneTO.getId());
         airplane.setName(airplaneTO.getName());
         airplane.setType(airplaneTO.getType());
-
         return airplane;
     }
 
     public static AirplaneTO airplaneConvert(Airplane airplane) {
-        
         if (airplane == null) {
             return null;
         }
-
         AirplaneTO airplaneTO = new AirplaneTO();
-
         airplaneTO.setCapacity(airplane.getCapacity());
         airplaneTO.setId(airplane.getId());
         airplaneTO.setName(airplane.getName());
         airplaneTO.setType(airplane.getType());
-
         return airplaneTO;
     }
     

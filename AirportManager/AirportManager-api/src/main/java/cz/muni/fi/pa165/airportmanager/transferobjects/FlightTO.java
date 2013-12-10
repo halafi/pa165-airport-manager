@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * A data transfer object is a simple POJO that only contains the properties
- * required for the client-side representation. The DTO only contains the data
- * that we want to persist and none of the lazy loading or persistence logic
- * added by the JPA instrumentation.
  * 
  * @author Filip
  */
@@ -34,8 +30,6 @@ public class FlightTO {
         return "FlightTO{" + "id=" + id + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", origin=" + origin + ", target=" + target + ", stewList=" + stewList + ", airplaneTO=" + airplaneTO + '}';
     }
 
-
-
     public List<StewardTO> getStewList() {
         return stewList;
     }
@@ -43,8 +37,6 @@ public class FlightTO {
     public void setStewList(List<StewardTO> stewList) {
         this.stewList = stewList;
     }
-
-
 
     public Long getId() {
         return id;
@@ -94,7 +86,6 @@ public class FlightTO {
         hash = 67 * hash + Objects.hashCode(this.arrivalTime);
         hash = 67 * hash + Objects.hashCode(this.origin);
         hash = 67 * hash + Objects.hashCode(this.target);
-//        hash = 67 * hash + Objects.hashCode(this.stewList);
         hash = 67 * hash + Objects.hashCode(this.airplaneTO);
         return hash;
     }
@@ -123,18 +114,9 @@ public class FlightTO {
         if (!Objects.equals(this.target, other.target)) {
             return false;
         }
-//        if (!Objects.equals(this.stewList, other.stewList)) {
-//            return false;
-//        }
         if (!Objects.equals(this.airplaneTO, other.airplaneTO)) {
             return false;
         }
         return true;
     }
-
-
-
-   
-
-    
 }

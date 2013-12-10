@@ -85,19 +85,19 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    @Transactional//
+    @Transactional
     public void removeFlight(FlightTO flightTO) throws DataAccessException {
         flightDAO.removeFlight(EntityDTOTransformer.flightTOConvert(flightTO));
     }
 
     @Override
-    @Transactional//
+    @Transactional
     public FlightTO getFlight(Long id) throws DataAccessException {
         return EntityDTOTransformer.flightConvert(flightDAO.getFlight(id));
     }
 
     @Override
-    @Transactional//
+    @Transactional
     public List<FlightTO> getAllFlights() throws DataAccessException {
         List<Flight> flights = flightDAO.getAllFlight();
         return flightListConvert(flights);

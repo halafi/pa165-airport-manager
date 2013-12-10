@@ -1,8 +1,6 @@
-
 package cz.muni.fi.pa165.airportmanager.transferobjects;
 
 import java.util.Objects;
-
 
 /**
  * Simple transfer object, that represents Steward object.

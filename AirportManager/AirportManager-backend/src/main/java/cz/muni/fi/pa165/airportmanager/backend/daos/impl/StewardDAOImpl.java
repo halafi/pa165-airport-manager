@@ -1,4 +1,3 @@
-
 package cz.muni.fi.pa165.airportmanager.backend.daos.impl;
 
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;

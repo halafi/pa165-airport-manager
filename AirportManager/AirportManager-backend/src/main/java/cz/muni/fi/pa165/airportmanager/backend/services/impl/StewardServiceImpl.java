@@ -1,4 +1,3 @@
-
 package cz.muni.fi.pa165.airportmanager.backend.services.impl;
 
 import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
