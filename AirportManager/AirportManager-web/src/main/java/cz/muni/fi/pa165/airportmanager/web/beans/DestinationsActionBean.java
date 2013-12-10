@@ -16,7 +16,6 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
-import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
@@ -189,7 +188,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new RedirectResolution(this.getClass(), "list");
     }
     
-    //Follows some redirect resolutions
     public Resolution cancel(){
         return new RedirectResolution(this.getClass());
     }
