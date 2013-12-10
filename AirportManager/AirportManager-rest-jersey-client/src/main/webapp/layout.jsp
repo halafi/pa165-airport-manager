@@ -26,20 +26,20 @@
                     <div id="navigation">
                         <ul id="menu">
                             <li class="navlink"><f:message key="airplane"/>
-                            <ul class="submenu">
-                                <s:link href="/airplane/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
-                            </ul>
+                                <ul class="submenu">
+                                    <s:link href="/airplane/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
+                                </ul>
                             </li>
                             <li class="navlink"><f:message key="destination"/>
-                            <ul class="submenu">
-                                <s:link href="/destination/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
-                                <s:link beanclass="cz.muni.fi.pa165.airportmanager.rest.client.DestinationsClientActionBean"><li class="navlink"><f:message key="list"/></li></s:link>
-                            </ul>
+                                <ul class="submenu">
+                                    <s:link href="/destination/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
+                                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.rest.client.DestinationsClientActionBean"><li class="navlink"><f:message key="list"/></li></s:link>
+                                </ul>
                             </li>
                         </ul>
                     </div>
                     
-                <div id="wrapper">
+                 <div id="wrapper">
                     <s:messages/>
                     <s:errors/>
                     <s:layout-component name="body"/>
