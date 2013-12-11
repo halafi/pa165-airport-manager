@@ -31,7 +31,7 @@ import org.springframework.dao.DataAccessException;
 @Path("/destination")
 public class DestinationRestApi {
     
-    private static final ApplicationContext appConfig = 
+    private static final ApplicationContext APP_CONFIG = 
             new ClassPathXmlApplicationContext("applicationContext.xml");
     
     @Autowired
@@ -40,7 +40,7 @@ public class DestinationRestApi {
     private ObjectMapper mapper = new ObjectMapper();
 
     public DestinationRestApi() {
-        destService = appConfig.getBean(DestinationService.class);
+        destService = APP_CONFIG.getBean(DestinationService.class);
         System.out.println(destService);
     }
     

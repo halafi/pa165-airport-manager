@@ -12,8 +12,6 @@
 <link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.css" />
 <link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.date.css" />
 <link rel="stylesheet" href="../datetime/pickadate.js-3.3.0/lib/themes/classic.time.css" />
-<!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
-<!--<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="../datetime/pickadate.js-3.3.0/lib/picker.js"></script>
 <script src="../datetime/pickadate.js-3.3.0/lib/picker.date.js"></script>
@@ -40,7 +38,7 @@
     </tr>
     <tr>
         <th><s:label for="f3" name="flight.origin"/></th>
-        <td><s:select id="f3" name="origin" value="${actionBean.flight.origin.city}">
+        <td><s:select id="f3" name="origin" value="${actionBean.flight.origin.id}">
                 <s:option value=""><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="${destination.id}">
@@ -52,7 +50,7 @@
     </tr>
     <tr>
         <th><s:label for="f4" name="flight.target"/></th>
-        <td><s:select id="f4" name="target" value="${actionBean.flight.target.city}">
+        <td><s:select id="f4" name="target" value="${actionBean.flight.target.id}">
                 <s:option value=""><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.desList}" var="destination">
                     <s:option value="${destination.id}">
@@ -65,7 +63,7 @@
     
     <tr>
         <th><s:label for="f5" name="flight.airplane"/></th>
-        <td><s:select id="f5" name="airplane" value="${actionBean.flight.airplaneTO.name}">
+        <td><s:select id="f5" name="airplane" value="${actionBean.flight.airplaneTO.id}">
                 <s:option value=""><f:message key="flight.chooseOne"/></s:option>
                 <c:forEach items="${actionBean.airList}" var="airplane">
                     <s:option value="${airplane.id}">
@@ -75,18 +73,6 @@
              </s:select>    
         </td>
     </tr>
-<!--    <tr>
-        <th><s:label for="f6" name="flight.stewards"/></th>
-        <td><s:select multiple="true" size="3" id="f6" name="flight.stewards">
-                <s:option><f:message key="flight.chooseOne"/></s:option>
-                <c:forEach items="${actionBean.stewList}" var="steward">
-                    <s:option value="${steward}">
-                        ${steward.firstName} ${steward.lastName}
-                    </s:option>
-                </c:forEach>
-             </s:select>    
-        </td>
-    </tr>-->
 </table>
 
 <script>
@@ -117,7 +103,7 @@
             });
         } else {
             $("#f1date, #f2date").pickadate({
-                format: 'mm/d/yyyy',
+                format: 'mm/d/yyyy'
             });
         }
     });
@@ -134,9 +120,6 @@
             });
         } else {
             $("#f1time, #f2time").pickatime({
-//                format: 'H:i',
-//                formatLabel: 'H:i',
-//                formatSubmit: 'H:i'
             });
         }
     });
