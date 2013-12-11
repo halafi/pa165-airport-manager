@@ -10,20 +10,20 @@ import javax.persistence.PersistenceException;
  *
  * @author matus
  */
-public class JPAException extends PersistenceException {
+public class AirplaneDaoException extends PersistenceException {
     
-    public JPAException() {
+    public AirplaneDaoException() {
     }
 
-    public JPAException(String msg) {
+    public AirplaneDaoException(String msg) {
         super(msg);
     }
     
-    public JPAException(Throwable cause) {
+    public AirplaneDaoException(Throwable cause) {
         super(cause);
     }
     
-    public JPAException(String msg, Throwable cause) {
+    public AirplaneDaoException(String msg, Throwable cause) {
         super(msg, cause);
     }
     

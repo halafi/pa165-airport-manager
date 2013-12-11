@@ -1,13 +1,11 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -32,8 +30,6 @@ public class Steward implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
-//    @ManyToMany(mappedBy = "stewardList")
-//    private List<Flight> flights;
 
     public Steward() {
     }
@@ -96,9 +92,4 @@ public class Steward implements Serializable {
         }
         return true;
     }
-
-  
-    
-    
-    
 }

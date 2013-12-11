@@ -43,13 +43,6 @@
             <version>05Nov2002</version>
         </dependency>
         <!-- servlet, JSP, JSTL -->
-        <!-- replace by javax.servlet-api -->
-<!--        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
-        </dependency>-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -59,6 +52,11 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
         </dependency>
         <dependency>
             <groupId>taglibs</groupId>
@@ -98,17 +96,6 @@
             <artifactId>jersey-server</artifactId>
             <version>1.17.1</version>
         </dependency>
-<!--        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-moxy</artifactId>
-            <version>2.4.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.ws.rs</groupId>
-                    <artifactId>javax.ws.rs-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
         <dependency>
             <groupId>com.sun.jersey.contribs</groupId>
             <artifactId>jersey-spring</artifactId>
@@ -139,9 +126,6 @@
     </dependencies>
 
     <build>
-        <!-- war name-->
-        <!--        <finalName>airportmanager</finalName>-->
-        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -193,5 +177,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

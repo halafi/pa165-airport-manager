@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
@@ -84,7 +83,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
 
     @Before
-    public void init() throws JPAException {
+    public void init() {
         MockitoAnnotations.initMocks(this);  
         
         idNotInDB = new Long(3);
@@ -163,7 +162,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
     
     @Test
-    public void updateFlightTest() throws JPAException{
+    public void updateFlightTest() {
         try{
             flightService.updateFlight(flightTOWithID);
         } catch(Exception ex){
@@ -174,7 +173,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
     
     @Test
-    public void updateFlightWithNullID() throws JPAException{
+    public void updateFlightWithNullID(){
         try{
             flightService.updateFlight(flightTOWithoutID);
             fail("No exception thrown");
@@ -188,7 +187,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
     
     @Test
-    public void updateFlightNotinDB() throws JPAException{
+    public void updateFlightNotinDB() {
         try{
             flightService.updateFlight(flightTONotInDB);
             fail("No exception thrown");
@@ -214,7 +213,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
     
     @Test
-    public void removeFlightTest() throws JPAException{
+    public void removeFlightTest() {
         try{
             flightService.removeFlight(flightTOWithID);
         } catch(Exception ex){
@@ -225,7 +224,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
     
     @Test
-    public void removeFlightWithNullID() throws JPAException {
+    public void removeFlightWithNullID()  {
         try{
             flightService.removeFlight(flightTOWithoutID);
             fail("No exception thrown");
@@ -239,7 +238,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
     
     @Test
-    public void removeFlightNotInDB() throws JPAException{
+    public void removeFlightNotInDB() {
         try{
             flightService.removeFlight(flightTONotInDB);
         } catch(DataAccessException ex){
@@ -264,7 +263,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
     
     @Test
-    public void getFlightIdNotInDB() throws JPAException{
+    public void getFlightIdNotInDB() {
         try{
             flightService.getFlight(idNotInDB);
             fail("No exception thrown");
@@ -278,7 +277,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
     
     @Test
-    public void getFlightTest() throws JPAException{
+    public void getFlightTest() {
         
         try{
             obtained = flightService.getFlight(flightTOWithID.getId());
@@ -293,7 +292,7 @@ public class FlightServiceImplTest extends AbstractTest {
     }
     
     @Test
-    public void getAllFlightsTest() throws JPAException{
+    public void getAllFlightsTest() {
         
         List<FlightTO> obtainedList = null;
         

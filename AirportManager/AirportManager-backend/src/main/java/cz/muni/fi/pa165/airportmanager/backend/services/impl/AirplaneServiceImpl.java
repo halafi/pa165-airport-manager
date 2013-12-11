@@ -82,21 +82,6 @@ public class AirplaneServiceImpl implements AirplaneService {
             return flightsTO;
         } else {
             for (Flight f : flights) {
-//                FlightTO flightTO = new FlightTO();
-//                flightTO.setAirplaneTO(EntityDTOTransformer.airplaneConvert(f.getAirplane()));
-//                flightTO.setArrivalTime(f.getArrivalTime());
-//                flightTO.setDepartureTime(f.getDepartureTime());
-//                flightTO.setId(f.getId());
-//                flightTO.setOrigin(EntityDTOTransformer.destinationConvert(f.getOrigin()));
-//                flightTO.setTarget(EntityDTOTransformer.destinationConvert(f.getTarget()));
-//                List<StewardTO> stewardTOList = new ArrayList<>();
-//                for (Steward s : f.getStewardList()) {
-//                    StewardTO stewardTO = EntityDTOTransformer.stewardConvert(s);
-//                    stewardTOList.add(stewardTO);
-//                }
-//
-//                flightTO.setStewList(stewardTOList);
-//                flightsTO.add(flightTO);
                 flightsTO.add(EntityDTOTransformer.flightConvert(f));
             }
             return flightsTO;

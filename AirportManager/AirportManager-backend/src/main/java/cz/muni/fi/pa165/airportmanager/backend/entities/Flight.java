@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.airportmanager.backend.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -144,6 +145,6 @@ public class Flight implements Serializable {
         return "Flight{" + "id=" + id + ", departureTime=" + departureTime + 
                 ", arrivalTime=" + arrivalTime + ", origin=" + origin + 
                 ", target=" + target + ", airplane=" + airplane + 
-                ", stewardList=" + stewardList + '}';
+                ", stewardList=" + Arrays.toString(stewardList.toArray()) + '}';
     }
 }

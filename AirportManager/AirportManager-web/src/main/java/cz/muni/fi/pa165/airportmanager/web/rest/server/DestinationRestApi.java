@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.web.rest.server;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -29,7 +26,7 @@ import org.springframework.dao.DataAccessException;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 @Path("/destination")
 public class DestinationRestApi {
@@ -125,7 +122,7 @@ public class DestinationRestApi {
             DestinationTO des = mapper
                     .readValue(destination, new TypeReference<DestinationTO>() {});
             destService.createDestination(des);
-            return Response.status(Status.CREATED).build();
+            return Response.status(Status.CREATED).entity(des.getId().toString()).build();
         } catch (DataAccessException ex){
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Throwable ex){

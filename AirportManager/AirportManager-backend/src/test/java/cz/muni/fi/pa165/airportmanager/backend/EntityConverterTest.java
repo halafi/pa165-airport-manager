@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend;
 
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
@@ -25,7 +22,7 @@ import org.junit.BeforeClass;
  *
  * @author Chorke
  */
-public class EntityConverterTest {
+public class EntityConverterTest extends AbstractTest{
     
     private static Flight flight;
     private static FlightTO flightTO;
@@ -248,10 +245,7 @@ public class EntityConverterTest {
     }
     
     private void assertDeepEqualsListStewTO(List<StewardTO> stew1, List<StewardTO> stew2){
-        if(stew1 == null && stew2 == null){ return; }
-        if(stew1 == null && stew2 != null){ fail(); }
-        if(stew1 != null && stew2 == null){ fail(); }
-        if(stew1.size() != stew2.size()){ fail(); }
+        if(!checkListsOnNull(stew1, stew2)){fail(); }
         Iterator i1 = stew1.iterator();
         Iterator i2 = stew2.iterator();
         while(i1.hasNext() && i2.hasNext()){
@@ -262,10 +256,7 @@ public class EntityConverterTest {
     }
     
     private void assertDeepEqualsListStew(List<Steward> stew1, List<Steward> stew2){
-        if(stew1 == null && stew2 == null){ return; }
-        if(stew1 == null && stew2 != null){ fail(); }
-        if(stew1 != null && stew2 == null){ fail(); }
-        if(stew1.size() != stew2.size()){ fail(); }
+        if(!checkListsOnNull(stew1, stew2)){fail(); }
         Iterator i1 = stew1.iterator();
         Iterator i2 = stew2.iterator();
         while(i1.hasNext() && i2.hasNext()){
@@ -276,10 +267,7 @@ public class EntityConverterTest {
     }
     
     private void assertDeepEqualsListStewMixed(List<Steward> stew1, List<StewardTO> stew2){
-        if(stew1 == null && stew2 == null){ return; }
-        if(stew1 == null && stew2 != null){ fail(); }
-        if(stew1 != null && stew2 == null){ fail(); }
-        if(stew1.size() != stew2.size()){ fail(); }
+        if(!checkListsOnNull(stew1, stew2)){fail(); }
         Iterator i1 = stew1.iterator();
         Iterator i2 = stew2.iterator();
         while(i1.hasNext() && i2.hasNext()){
@@ -290,10 +278,7 @@ public class EntityConverterTest {
     }
     
     private void assertDeepEqualsListFlight(List<FlightTO> flight1, List<FlightTO> flight2){
-        if(flight1 == null && flight2 == null){ return; }
-        if(flight1 == null && flight2 != null){ fail(); }
-        if(flight1 != null && flight2 == null){ fail(); }
-        if(flight1.size() != flight2.size()){ fail(); }
+        if(!checkListsOnNull(flight1, flight2)){fail(); }
         Iterator i1 = flight1.iterator();
         Iterator i2 = flight2.iterator();
         while(i1.hasNext() && i2.hasNext()){

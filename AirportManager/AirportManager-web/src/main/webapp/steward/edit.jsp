@@ -1,7 +1,7 @@
 <%-- 
     Document   : edit
     Created on : 20.11.2013, 12:21:04
-    Author     : Chorke
+    Author     : Juraj Duráni
 --%>
 
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>

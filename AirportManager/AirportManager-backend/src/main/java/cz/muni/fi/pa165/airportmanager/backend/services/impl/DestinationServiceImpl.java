@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.services.impl;
 
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
@@ -57,7 +54,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
     
     @Override
-    @Transactional//
+    @Transactional
     public DestinationTO getDestination(Long id) throws DataAccessException {
         Destination destination = destinationDao.getDestination(id);
         return EntityDTOTransformer.destinationConvert(destination);

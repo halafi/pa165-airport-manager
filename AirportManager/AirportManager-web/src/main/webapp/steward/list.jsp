@@ -1,7 +1,7 @@
 <%-- 
     Document   : list
     Created on : 20.11.2013, 12:21:21
-    Author     : Chorke
+    Author     : Juraj Duráni
 --%>
 
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -27,19 +27,21 @@
                         <th><c:out value="${steward.firstName}"/></th>
                         <th><c:out value="${steward.lastName}"/></th>
                         <th>
-                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean" event="flights">
+                            <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean" 
+                                    event="flights">
                                 <s:param name="steward.id" value="${steward.id}"/>
+                                <s:param name="event" value="flights"/>
                                 <f:message key="steward.flights"/>
                             </s:link>
                         </th>
                         <th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
-                                event="editsteward">
+                                    event="editsteward">
                                     <s:param name="steward.id" value="${steward.id}"/>
                                     <img class="icon" src="${pageContext.request.contextPath}/images/edit.png"/>
                                 
                             </s:link></th> 
                         <th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
-                                event="deletesteward">
+                                    event="deletesteward">
                                     <s:param name="steward.id" value="${steward.id}"/>
                                     <img class="icon" src="${pageContext.request.contextPath}/images/delete.png"/>
                                 
@@ -51,4 +53,3 @@
         </div>
     </s:layout-component>
 </s:layout-render>
-

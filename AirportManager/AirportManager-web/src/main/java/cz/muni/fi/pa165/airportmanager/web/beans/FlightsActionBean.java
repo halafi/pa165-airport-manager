@@ -22,6 +22,7 @@ import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.HandlesEvent;
+import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -35,7 +36,7 @@ import org.springframework.dao.DataAccessException;
  * @author Juraj Duráni
  */
 @UrlBinding("/flights/{$event}/{flight.id}")
-public class FlightsActionBean extends BaseActionBean {// implements ValidationErrorHandler {
+public class FlightsActionBean extends BaseActionBean {
 
     @SpringBean
     private FlightService flightService;
@@ -203,7 +204,6 @@ public class FlightsActionBean extends BaseActionBean {// implements ValidationE
     public void loadFlight() {
         String id = getContext().getRequest().getParameter("flight.id");
         if (id == null || id.isEmpty()) {
-//            System.out.println("flight id is null or epmty");
             return;
         }
         try {
@@ -222,7 +222,6 @@ public class FlightsActionBean extends BaseActionBean {// implements ValidationE
     @DefaultHandler
     @HandlesEvent("listflight")
     public Resolution listFlights() {
-//        System.out.println("list called");
         try {
             flights = flightService.getAllFlights();
         } catch (DataAccessException ex) {
@@ -239,14 +238,6 @@ public class FlightsActionBean extends BaseActionBean {// implements ValidationE
 
     @HandlesEvent("addflight")
     public Resolution addNewFlight() throws ParseException {
-//        System.out.println("add fligth called");
-//        System.out.println("arrTime: " + arrtime);
-//        System.out.println("arrDate: " + arrdate);
-//        System.out.println("depDate: " + depdate);
-//        System.out.println("depTime: " + deptime);
-//        System.out.println("target: " + target);
-//        System.out.println("origin: " + origin);
-//        System.out.println("airplane: " + airplane);
         if (notexecute) {
             return new ForwardResolution(this.getClass(), "createflight");
         }
@@ -254,9 +245,10 @@ public class FlightsActionBean extends BaseActionBean {// implements ValidationE
             flight = new FlightTO();
             prepareFlight(getContext().getRequest().getLocale().getLanguage());
             flight.setStewList(new ArrayList<StewardTO>());
-//        System.out.println(flight.getArrivalTime());
-//        System.out.println(flight.getDepartureTime());
             flightService.createFlight(flight);
+            getContext().getMessages().add(new LocalizableMessage("flight.added", 
+                    escapeHTML(flight.getOrigin().getCity()), 
+                    escapeHTML(flight.getTarget().getCity())));
         } catch (DataAccessException ex) {
             LocalizableError err = new LocalizableError("flight.error.service",
                     escapeHTML(ex.toString()));
@@ -272,27 +264,20 @@ public class FlightsActionBean extends BaseActionBean {// implements ValidationE
     @HandlesEvent("createflight")
     public Resolution createFlightFormular() {
         notexecute = false;
-//        System.out.println("create formular called");
         return new ForwardResolution("/flight/create.jsp");
     }
 
     @HandlesEvent("saveflight")
     public Resolution updateFlight() throws ParseException {
-//        System.out.println("save flight called");
         if (notexecute) {
             return new ForwardResolution(this.getClass(), "editflight");
         }
         try {
-//        System.out.println("arrTime: " + arrTime);
-//        System.out.println("arrDate: " + arrDate);
-//        System.out.println("depDate: " + depDate);
-//        System.out.println("depTime: " + depTime);
             prepareFlight(getContext().getRequest().getLocale().getLanguage());
-        //System.out.println("actual list " + actualFlightStewList);
-        //flight.setStewList(actualFlightStewList);
-//        System.out.println(flight.getArrivalTime());
-//        System.out.println(flight.getDepartureTime());
             flightService.updateFlight(flight);
+            getContext().getMessages().add(new LocalizableMessage("flight.saved", 
+                    escapeHTML(flight.getOrigin().getCity()), 
+                    escapeHTML(flight.getTarget().getCity())));
         } catch (DataAccessException ex) {
             LocalizableError err = new LocalizableError("flight.error.service",
                     escapeHTML(ex.toString()));
@@ -307,10 +292,11 @@ public class FlightsActionBean extends BaseActionBean {// implements ValidationE
 
     @HandlesEvent("deleteflight")
     public Resolution removeFlight() {
-//        System.out.println("delete flight called");
-//        loadFlight();
         try {
             flightService.removeFlight(flight);
+            getContext().getMessages().add(new LocalizableMessage("flight.removed", 
+                    escapeHTML(flight.getOrigin().getCity()), 
+                    escapeHTML(flight.getTarget().getCity())));
         } catch (DataAccessException ex) {
             LocalizableError err = new LocalizableError("flight.error.service",
                     escapeHTML(ex.toString()));
@@ -326,30 +312,21 @@ public class FlightsActionBean extends BaseActionBean {// implements ValidationE
     @HandlesEvent("editflight")
     public Resolution edit() {
         notexecute = false;
-//        System.out.println("edit flight called");
         String loc = getContext().getRequest().getLocale().getLanguage();
         arrdate = formatDateStamp(flight.getArrivalTime(), loc);
         arrtime = formatTimeStamp(flight.getArrivalTime(), loc);
         deptime = formatTimeStamp(flight.getDepartureTime(), loc);
         depdate = formatDateStamp(flight.getDepartureTime(), loc);
-        //actualFlightStewList = flight.getStewList();
-        //System.out.println("edit actual: " + actualFlightStewList);
-//        System.out.println("arrTime: " + arrTime);
-//        System.out.println("arrDate: " + arrDate);
-//        System.out.println("depDate: " + depDate);
-//        System.out.println("depTime: " + depTime);
         loadFlight();
         return new ForwardResolution("/flight/edit.jsp");
     }
 
     @HandlesEvent("cancelflight")
     public Resolution doNothing() {
-//        System.out.println("cancel flight called");
         return new RedirectResolution(this.getClass());
     }
 
     private String formatTimeStamp(Timestamp ts, String lang) {
-//        System.out.println(lang);
         Calendar cal = new GregorianCalendar();
         cal.setTimeInMillis(ts.getTime());
         String s = "";
@@ -379,7 +356,6 @@ public class FlightsActionBean extends BaseActionBean {// implements ValidationE
     }
 
     private String formatDateStamp(Timestamp ts, String lang) {
-//        System.out.println(lang);
         Calendar cal = new GregorianCalendar();
         cal.setTimeInMillis(ts.getTime());
         if (lang.equals("sk") || lang.equals("cs") || lang.equals("cz")) {
@@ -412,24 +388,13 @@ public class FlightsActionBean extends BaseActionBean {// implements ValidationE
             flight.setArrivalTime(stringToTimestampEN(arrdate + " " + arrtime));
             flight.setDepartureTime(stringToTimestampEN(depdate + " " + deptime));
         }
-//        List<StewardTO> s = getStewList();
-//        List<DestinationTO> d = getDesList();
-//        List<AirplaneTO> a = getAirList();
         flight.setAirplaneTO(airService.getAirplane(getIdOfEntity(airplane)));
         flight.setTarget(desService.getDestination(Long.parseLong(target)));
         flight.setOrigin(desService.getDestination(Long.parseLong(origin)));
     }
 
     private Long getIdOfEntity(String toParse) {
-//        System.out.println("String: " + toParse);
         String[] s = toParse.split("[()]+");
-//        System.out.println(Arrays.toString(s));
         return Long.valueOf(s[s.length - 1]);
     }
-
-//    @Override
-//    public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
-//        System.out.println("valiiiiiiiiiiiiiiiiiiiiiid");
-//        return null;
-//    }
 }

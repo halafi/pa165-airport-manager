@@ -45,21 +45,17 @@
                             </li>
                             <li class="navlink"><f:message key="steward"/>
                             <ul class="submenu">
-
                                 <s:link href="/steward/edit.jsp">
                                     <li class="navlink">
                                         <f:message key="create"/>
                                         <s:param name="createnew" value="true"/>
                                     </li>
                                 </s:link>
-
-
                                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
                                     <li class="navlink">
                                         <f:message key="list"/>
                                     </li>
                                 </s:link>
-
                             </ul>
                         </li>
                     </ul>

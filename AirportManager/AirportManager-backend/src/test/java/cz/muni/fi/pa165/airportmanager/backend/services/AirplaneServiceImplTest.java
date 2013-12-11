@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
@@ -45,7 +42,6 @@ public class AirplaneServiceImplTest extends AbstractTest{
     private AirplaneTO airplane1 = new AirplaneTO();
     private AirplaneTO airplane2 = new AirplaneTO();
     
-    private AirplaneTO airplaneNull = new AirplaneTO();
     private AirplaneTO airplaneNullId = new AirplaneTO();
     private AirplaneTO airplaneNullArgs = new AirplaneTO();
     private AirplaneTO airplaneEmptyArgs = new AirplaneTO();
@@ -55,7 +51,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
     private FlightTO flight2 = new FlightTO();
     
     @Before
-    public void setup() throws JPAException{
+    public void setup() throws AirplaneDaoException{
         MockitoAnnotations.initMocks(this);
         airplaneService.setAirplaneDao(airplaneDAO);
         
@@ -63,7 +59,6 @@ public class AirplaneServiceImplTest extends AbstractTest{
         airplane1.setId(new Long(1));
         airplane2 = createAirplane(10, "RYAN-A", "Airbus a360");
         airplane2.setId(new Long(2));
-        airplaneNull = null;
         airplaneNullId = createAirplane(10, "GERT-Y", "Boeing 747-800");
         airplaneNullArgs = createAirplane(10, null, null);
         airplaneNullArgs.setId(new Long(3));
@@ -77,7 +72,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
         mockReactions();
     }
     
-    private void mockReactions() throws JPAException{
+    private void mockReactions() throws AirplaneDaoException{
         //create
         doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).createAirplane(null);
         doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).createAirplane(
@@ -109,14 +104,8 @@ public class AirplaneServiceImplTest extends AbstractTest{
         doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAirplane(airplaneNotInDb.getId());
         //getAll
         when(airplaneDAO.getAllAirplanes()).thenReturn(Arrays.asList(
-                EntityDTOTransformer.airplaneTOConvert(
-                airplane1
-                )
-                ,
-                EntityDTOTransformer.airplaneTOConvert(
-                airplane2
-                )
-                ));
+                EntityDTOTransformer.airplaneTOConvert(airplane1),
+                EntityDTOTransformer.airplaneTOConvert(airplane2)));
         //getAllFlights
         doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAllAirplanesFlights(null);
         doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).getAllAirplanesFlights(
@@ -241,8 +230,6 @@ public class AirplaneServiceImplTest extends AbstractTest{
         } catch (Exception ex) {
             fail("Removing airplane - exception thrown" + ex);
         }
-        
-        //verify(airplaneDAO).removeAirplane(EntityDTOTransformer.airplaneTOConvert(airplaneNullId));
     }
     
     @Test
@@ -372,5 +359,4 @@ public class AirplaneServiceImplTest extends AbstractTest{
         assertEquals(des1.getCode(), des2.getCode());
         assertEquals(des1.getCountry(), des2.getCountry());
     }
-
 }

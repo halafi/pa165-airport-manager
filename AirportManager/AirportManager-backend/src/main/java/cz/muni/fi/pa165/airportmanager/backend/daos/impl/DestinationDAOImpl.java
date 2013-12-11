@@ -63,7 +63,7 @@ public class DestinationDAOImpl implements DestinationDAO {
 
         Destination destinationFromDB = em.find(Destination.class, destination.getId());
         if (destinationFromDB == null) {
-            throw new JPAException("destination not in database");
+            throw new AirplaneDaoException("destination not in database");
         } else {
             em.merge(destination);
         }
@@ -89,7 +89,7 @@ public class DestinationDAOImpl implements DestinationDAO {
 
         Destination destinationFromDB = em.find(Destination.class, destination.getId());
         if (destinationFromDB == null) {
-            throw new JPAException("destination not in database");
+            throw new AirplaneDaoException("destination not in database");
         } else {
             em.remove(destinationFromDB);
         }
@@ -104,19 +104,19 @@ public class DestinationDAOImpl implements DestinationDAO {
         Destination destination = em.find(Destination.class, id);
         
         if (destination == null) {
-            throw new JPAException("destination not in database");
+            throw new AirplaneDaoException("destination not in database");
         }
         return destination;
     }
 
     @Override
-    public List<Destination> getAllDestinations() throws JPAException {
+    public List<Destination> getAllDestinations() throws AirplaneDaoException {
         TypedQuery<Destination> query = em.createQuery(
                 "SELECT d FROM Destination d", Destination.class);
         List<Destination> destinationsList = query.getResultList();
 
         if (destinationsList == null) {
-            throw new JPAException("no destinations in database");
+            throw new AirplaneDaoException("no destinations in database");
         }
         return destinationsList;
     }
@@ -142,7 +142,7 @@ public class DestinationDAOImpl implements DestinationDAO {
         Destination destinationFromDB = em.find(Destination.class, destination.getId());
         
         if (destinationFromDB == null) {
-            throw new JPAException("destination not in DB");
+            throw new AirplaneDaoException("destination not in DB");
         }
 
         TypedQuery<Flight> query = em.createNamedQuery(
@@ -151,7 +151,7 @@ public class DestinationDAOImpl implements DestinationDAO {
         List<Flight> flightsList = query.getResultList();
 
         if (flightsList == null) {
-            throw new JPAException("no flights found");
+            throw new AirplaneDaoException("no flights found");
         }
         return flightsList;
     }
@@ -177,7 +177,7 @@ public class DestinationDAOImpl implements DestinationDAO {
         Destination destinationFromDB = em.find(Destination.class, destination.getId());
         
         if (destinationFromDB == null) {
-            throw new JPAException("destination not in DB");
+            throw new AirplaneDaoException("destination not in DB");
         }
 
         TypedQuery<Flight> query = em.createNamedQuery(
@@ -186,7 +186,7 @@ public class DestinationDAOImpl implements DestinationDAO {
         List<Flight> flightsList = query.getResultList();
 
         if (flightsList == null) {
-            throw new JPAException("no flights found");
+            throw new AirplaneDaoException("no flights found");
         }
         return flightsList;
     }

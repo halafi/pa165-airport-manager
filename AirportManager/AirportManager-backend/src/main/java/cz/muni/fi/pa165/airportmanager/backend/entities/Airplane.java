@@ -59,7 +59,7 @@ public class Airplane implements Serializable {
     }
 
     /**
-     * @return Capacity of ariplane
+     * @return Capacity of airplane
      */
     public int getCapacity() {
         return capacity;
@@ -106,6 +106,23 @@ public class Airplane implements Serializable {
      */
     public void setType(String type) {
         this.type = type;
+    }
+
+    /**
+     * Returns airplanes flights.
+     * 
+     * @return list of airplanes flights
+     */
+    public List<Flight> getFlights() {
+        return flights;
+    }
+
+    /**
+     * Sets airplanes flights.
+     * @param flights 
+     */
+    public void setFlights(List<Flight> flights) {
+        this.flights = flights;
     }
 
     @Override

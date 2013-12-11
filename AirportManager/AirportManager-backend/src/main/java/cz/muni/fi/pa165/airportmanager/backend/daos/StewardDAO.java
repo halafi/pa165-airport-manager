@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.daos;
 
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import java.util.List;
@@ -15,14 +11,14 @@ import java.util.List;
  */
 public interface StewardDAO {
     
-     /**
+    /**
      * Creates new steward.
      * 
      * @param steward specifies the steward to be created
      */
     public void createSteward(Steward steward);
     
-     /**
+    /**
      * Updates steward.
      * 
      * @param steward specifies the steward to be created

@@ -6,7 +6,6 @@ import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
-import static cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer.*;
 import cz.muni.fi.pa165.airportmanager.services.FlightService;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import java.util.List;
@@ -49,7 +48,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    @Transactional//
+    @Transactional
     public void createFlight(FlightTO flightTO) throws DataAccessException {
         Flight flight = EntityDTOTransformer.flightTOConvert(flightTO);
         if (flight != null) {
@@ -85,21 +84,21 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    @Transactional//
+    @Transactional
     public void removeFlight(FlightTO flightTO) throws DataAccessException {
         flightDAO.removeFlight(EntityDTOTransformer.flightTOConvert(flightTO));
     }
 
     @Override
-    @Transactional//
+    @Transactional
     public FlightTO getFlight(Long id) throws DataAccessException {
         return EntityDTOTransformer.flightConvert(flightDAO.getFlight(id));
     }
 
     @Override
-    @Transactional//
+    @Transactional
     public List<FlightTO> getAllFlights() throws DataAccessException {
         List<Flight> flights = flightDAO.getAllFlight();
-        return flightListConvert(flights);
+        return EntityDTOTransformer.flightListConvert(flights);
     }
 }

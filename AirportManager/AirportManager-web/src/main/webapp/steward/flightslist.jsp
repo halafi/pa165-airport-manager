@@ -64,7 +64,6 @@
             </tr>
         </c:forEach>
     </table>
-
     <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
         <c:if test="${add != true}">
             <s:submit name="addflight">
@@ -75,5 +74,4 @@
         </c:if>
         <s:submit name="cancelsteward">Ok</s:submit>
     </s:form>
-
 </div>

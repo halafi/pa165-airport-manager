@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.web.filters;
 
 import java.io.IOException;
@@ -14,14 +11,14 @@ import javax.servlet.ServletResponse;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 public class EncFilter implements Filter {
 
-    private static final boolean debug = true;
     private FilterConfig filterConfig = null;
     
     public EncFilter() {}
+    
     /**
      *
      * @param request The servlet request we are processing
@@ -61,6 +58,7 @@ public class EncFilter implements Filter {
      */
     @Override
     public void destroy() {
+        filterConfig = null;
     }
 
     /**

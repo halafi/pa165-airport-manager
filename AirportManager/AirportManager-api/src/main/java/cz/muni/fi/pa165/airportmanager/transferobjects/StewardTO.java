@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Simple transfer object, that represents Steward object.
  * 
- * @author Chorke
+ * @author Juraj Duráni
  */
 public class StewardTO {
     private Long id;

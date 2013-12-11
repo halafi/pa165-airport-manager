@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.DestinationServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -58,10 +55,9 @@ public class DestinationServiceImplTest extends AbstractTest{
     private FlightTO flight4;
     
     @Before
-    public void setUp() throws JPAException{
+    public void setUp() throws AirplaneDaoException{
         MockitoAnnotations.initMocks(this);
         System.out.println(destService);
-//        destService.setDestinationDao(destDao);
         
         destInDB1 = getDestination();
         destInDB1.setId(1L);
@@ -98,7 +94,7 @@ public class DestinationServiceImplTest extends AbstractTest{
         setUpMock();
     }
     
-    private void setUpMock() throws JPAException{
+    private void setUpMock() throws AirplaneDaoException{
         /* doThrow */
         /* create */
         doThrow(InvalidDataAccessResourceUsageException.class).when(destDao).createDestination(null);
@@ -174,11 +170,10 @@ public class DestinationServiceImplTest extends AbstractTest{
     }
     
     /**
-     * testuje sa aj getDestination(...) čiastočne
+     * getDestination(...) too
      */
     @Test
     public void createTest(){
-//        destService.createDestination(destWithNullID);
         try{
             destService.createDestination(null);
             fail("Create test - null argument");
@@ -219,7 +214,7 @@ public class DestinationServiceImplTest extends AbstractTest{
             when(destDao.getDestination(-1L)).thenReturn(des);
             DestinationTO desTO = destService.getDestination(-1L);
             assertDeepEquals(desTO, EntityDTOTransformer.destinationConvert(des));
-            // pôvodné chovanie
+            // init behavior
             when(destDao.getDestination(-1L)).thenReturn(null);
         } catch (DataAccessException ex){
             fail("Create test - OK argument - exception thrown " + ex);
@@ -229,7 +224,7 @@ public class DestinationServiceImplTest extends AbstractTest{
     }
     
     /**
-     * čiastočne aj getDestination(...)
+     * getDestination(...) too
      */
     @Test
     public void removeTest(){
@@ -277,7 +272,6 @@ public class DestinationServiceImplTest extends AbstractTest{
             fail("Remove test - removed - bad exception " + ex);
         }
 
-        // navrátenie do pôvodného stavu
         try{
             when(destDao.getDestination(destInDB1.getId()))
                 .thenReturn(EntityDTOTransformer.destinationTOConvert(destInDB1));
@@ -286,7 +280,7 @@ public class DestinationServiceImplTest extends AbstractTest{
     }
     
     /** 
-     * čiastočne aj getDestination(...)
+     * getDestination(...) too
      */
     @Test
     public void updateTest(){
@@ -336,7 +330,7 @@ public class DestinationServiceImplTest extends AbstractTest{
             DestinationTO demand = EntityDTOTransformer.destinationConvert(
                     destDao.getDestination(destInDB1.getId()));
             assertDeepEquals(result, demand);
-            //pôvodné chovanie
+            // init behavior
             when(destDao.getDestination(destInDB1.getId()))
                     .thenReturn(EntityDTOTransformer.destinationTOConvert(destInDB1));
         } catch (DataAccessException ex){
@@ -533,10 +527,7 @@ public class DestinationServiceImplTest extends AbstractTest{
     }
     
     private void assertDeepEqualsListFlight(List<FlightTO> flight1, List<FlightTO> flight2){
-        if(flight1 == null && flight2 == null){ return; }
-        if(flight1 == null && flight2 != null){ fail(); }
-        if(flight1 != null && flight2 == null){ fail(); }
-        if(flight1.size() != flight2.size()){ fail(); }
+        if(!checkListsOnNull(flight1, flight2)){fail(); }
         Iterator i1 = flight1.iterator();
         Iterator i2 = flight2.iterator();
         while(i1.hasNext() && i2.hasNext()){
@@ -547,10 +538,7 @@ public class DestinationServiceImplTest extends AbstractTest{
     }
     
     private void assertDeepEqualsListStew(List<StewardTO> stew1, List<StewardTO> stew2){
-        if(stew1 == null && stew2 == null){ return; }
-        if(stew1 == null && stew2 != null){ fail(); }
-        if(stew1 != null && stew2 == null){ fail(); }
-        if(stew1.size() != stew2.size()){ fail(); }
+        if(!checkListsOnNull(stew1, stew2)){fail(); }
         Iterator i1 = stew1.iterator();
         Iterator i2 = stew2.iterator();
         while(i1.hasNext() && i2.hasNext()){
@@ -561,10 +549,7 @@ public class DestinationServiceImplTest extends AbstractTest{
     }
     
     private void assertDeepEqualsListDest(List<DestinationTO> des1, List<DestinationTO> des2){
-        if(des1 == null && des2 == null){ return; }
-        if(des1 == null && des2 != null){ fail(); }
-        if(des1 != null && des2 == null){ fail(); }
-        if(des1.size() != des2.size()){ fail(); }
+        if(!checkListsOnNull(des1, des2)){fail(); }
         Iterator i1 = des1.iterator();
         Iterator i2 = des2.iterator();
         while(i1.hasNext() && i2.hasNext()){

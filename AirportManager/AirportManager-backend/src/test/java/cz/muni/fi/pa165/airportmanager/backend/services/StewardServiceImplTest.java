@@ -1,14 +1,12 @@
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.StewardServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Steward;
 import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -25,6 +23,7 @@ import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
+
 /**
  *
  * @author Filip
@@ -54,7 +53,6 @@ public class StewardServiceImplTest extends AbstractTest {
     
     /**
      * Attempts to create Null Steward. Good luck with that!
-     * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
      */
     @Test (expected=DataAccessException.class)
     public void testCreateNull() {
@@ -63,7 +61,6 @@ public class StewardServiceImplTest extends AbstractTest {
     
     /**
      * Test for steward creation.
-     * @throws JPAException 
      */
     @Test
     public void testCreateSteward() {
@@ -77,7 +74,6 @@ public class StewardServiceImplTest extends AbstractTest {
     
     /**
      * Attempts to update Null Steward. Good luck with that!
-     * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
      */
     @Test (expected=DataAccessException.class)
     public void testUpdateNull() {
@@ -86,7 +82,6 @@ public class StewardServiceImplTest extends AbstractTest {
     
     /**
      * Test for steward updating.
-     * @throws JPAException 
      */
     @Test
     public void testUpdateSteward() {
@@ -103,7 +98,6 @@ public class StewardServiceImplTest extends AbstractTest {
     
     /**
      * Attempts to remove Null Steward.
-     * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
      */
     @Test (expected=DataAccessException.class)
     public void testRemoveNull() {
@@ -112,7 +106,6 @@ public class StewardServiceImplTest extends AbstractTest {
     
     /**
      * Test for removing steward.
-     * @throws JPAException
      */
     @Test (expected=DataAccessException.class)
     public void testRemoveSteward() {
@@ -122,23 +115,21 @@ public class StewardServiceImplTest extends AbstractTest {
         when(stewDAO.getSteward(-1L)).thenReturn(EntityDTOTransformer.stewardTOConvert(stewTo));
         service.removeSteward(stewTo);
         verify(stewDAO).removeSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
-        //Steward stew = EntityDTOTransformer.stewardTOConvert(stewTo);
         when(stewDAO.getSteward(-1L)).thenThrow(DataRetrievalFailureException .class);
-        StewardTO actual = service.findSteward(-1L);
+        service.findSteward(-1L);
     }
     
     /**
      * Attempts to find Null Steward.
-     * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
      */
     @Test (expected=DataAccessException.class)
-    public void testFindNull() throws JPAException {
+    public void testFindNull(){
         service.findSteward(null);
     }
     
     /**!!!
      * Test for finding steward.
-     * @throws JPAException 
+     * @throws AirplaneDaoException 
      */
     @Test
     public void testFindSteward() {
@@ -157,7 +148,6 @@ public class StewardServiceImplTest extends AbstractTest {
     
     /**!!!
      * Test for fining all stewards.
-     * @throws JPAException 
      */
     @Test
     public void testFindAllStewards() {
@@ -182,7 +172,6 @@ public class StewardServiceImplTest extends AbstractTest {
     
     /**
      * Attempts to retrieve all Null Steward flights.
-     * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException
      */
     @Test (expected=DataAccessException.class)
     public void testGetAllNullFlights() {
@@ -191,7 +180,6 @@ public class StewardServiceImplTest extends AbstractTest {
     
     /**
      * Test for getting all stewards flights.
-     * @throws JPAException 
      */
     @Test
     public void testGetAllStewardsFlights() {
@@ -228,14 +216,4 @@ public class StewardServiceImplTest extends AbstractTest {
             assertDeepEquals(expected, actual);
         }
     }
-    
-    /**
-     * Comparator by id.
-     */
-    private static final Comparator<StewardTO> idComparator = new Comparator<StewardTO>() {
-        @Override
-        public int compare(StewardTO s1, StewardTO s2) {
-            return s1.getId().compareTo(s2.getId());
-        }
-    };
 }

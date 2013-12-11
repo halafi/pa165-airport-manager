@@ -1,16 +1,10 @@
 
 package cz.muni.fi.pa165.airportmanager.web.beans;
 
-import cz.muni.fi.pa165.airportmanager.services.AirplaneService;
-import cz.muni.fi.pa165.airportmanager.services.DestinationService;
 import cz.muni.fi.pa165.airportmanager.services.FlightService;
 import cz.muni.fi.pa165.airportmanager.services.StewardService;
-import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
-import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.StewardTO;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import net.sourceforge.stripes.action.Before;
@@ -35,19 +29,11 @@ import org.springframework.dao.DataAccessException;
 @UrlBinding("/stewards/{$event}/{steward.id}")
 public class StewardsActionBean extends BaseActionBean{
     
-    private static boolean dbFilled = false;
-    
     @SpringBean
     private StewardService stewService;
     
     @SpringBean
     private FlightService flightService;
-    
-    @SpringBean
-    private DestinationService desService;
-    
-    @SpringBean
-    private AirplaneService airService;
     
     private List<StewardTO> stewards;
     private List<FlightTO> flights;
@@ -120,7 +106,6 @@ public class StewardsActionBean extends BaseActionBean{
     @HandlesEvent("list")
     public Resolution showStewardsList(){
         try{
-//            prepareDB();
             stewards = stewService.findAllStewards();
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("steward.error.service", 
@@ -163,9 +148,6 @@ public class StewardsActionBean extends BaseActionBean{
     
     @HandlesEvent("createsteward")
     public Resolution createFormular(){
-//        ForwardResolution f = new ForwardResolution("/steward/edit.jsp?createnew=true");
-////        f.addParameter("createnew", "true");
-//        return f;
         return new ForwardResolution("/steward/edit.jsp?createnew=true");
     }
     
@@ -254,6 +236,9 @@ public class StewardsActionBean extends BaseActionBean{
             flightService.updateFlight(flight);
             flights = stewService.getAllStewardsFlights(steward);
             stewService.updateSteward(steward);
+            getContext().getMessages().add(new LocalizableMessage("steward.flight.taken", 
+                    escapeHTML(flight.getOrigin().getCity()),
+                    escapeHTML(flight.getTarget().getCity())));
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("steward.error.service", 
                     escapeHTML(ex.toString()));
@@ -280,6 +265,9 @@ public class StewardsActionBean extends BaseActionBean{
             }
             flight.getStewList().add(steward);
             flightService.updateFlight(flight);
+            getContext().getMessages().add(new LocalizableMessage("steward.flight.added", 
+                    escapeHTML(flight.getOrigin().getCity()),
+                    escapeHTML(flight.getTarget().getCity())));
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("steward.error.service", 
                     escapeHTML(ex.toString()));
@@ -305,87 +293,5 @@ public class StewardsActionBean extends BaseActionBean{
             }
         }
         return out;
-    }
-    
-    private void prepareDB(){
-        System.out.println("prepareDB " + dbFilled);
-        if(dbFilled){
-            dbFilled = true;
-            return;
-        }
-        dbFilled = true;
-        DestinationTO d1 = new DestinationTO();
-        DestinationTO d2 = new DestinationTO();
-        d1.setCity("pp1");
-        d1.setCountry("sk1");
-        d1.setCode("bla1");
-        d2.setCity("pp2");
-        d2.setCountry("sk2");
-        d2.setCode("bla2");
-        
-        AirplaneTO a = new AirplaneTO();
-        a.setCapacity(100);
-        a.setName("moje");
-        a.setType("747");
-        
-        long time = System.currentTimeMillis();
-        
-        FlightTO f1 = new FlightTO();
-        FlightTO f2 = new FlightTO();
-        FlightTO f3 = new FlightTO();
-        FlightTO f4 = new FlightTO();
-        FlightTO f5 = new FlightTO();
-        f1.setAirplaneTO(a);
-        f1.setOrigin(d1);
-        f1.setTarget(d2);
-        f1.setArrivalTime(new Timestamp(time + 100000));
-        f1.setDepartureTime(new Timestamp(time));
-        f2.setAirplaneTO(a);
-        f2.setOrigin(d1);
-        f2.setTarget(d2);
-        f2.setArrivalTime(new Timestamp(time + 300000));
-        f2.setDepartureTime(new Timestamp(time + 200000));
-        f3.setAirplaneTO(a);
-        f3.setOrigin(d1);
-        f3.setTarget(d2);
-        f3.setArrivalTime(new Timestamp(time + 500000));
-        f3.setDepartureTime(new Timestamp(time + 400000));
-        f4.setAirplaneTO(a);
-        f4.setOrigin(d1);
-        f4.setTarget(d2);
-        f4.setArrivalTime(new Timestamp(time + 700000));
-        f4.setDepartureTime(new Timestamp(time + 600000));
-        f5.setAirplaneTO(a);
-        f5.setOrigin(d1);
-        f5.setTarget(d2);
-        f5.setArrivalTime(new Timestamp(time + 900000));
-        f5.setDepartureTime(new Timestamp(time + 800000));
-        
-        StewardTO s = new StewardTO();
-        s.setFirstName("firsť");
-        s.setLastName("last");
-        
-        List<StewardTO> ls = new ArrayList<>();
-        List<StewardTO> empty = new ArrayList<>();
-        ls.add(s);
-        
-        f1.setStewList(ls);
-        f3.setStewList(ls);
-        f2.setStewList(empty);
-        f4.setStewList(empty);
-        f5.setStewList(empty);
-        
-        desService.createDestination(d1);
-        desService.createDestination(d2);
-        
-        airService.createAirplane(a);
-        
-        stewService.createSteward(s);
-        
-        flightService.createFlight(f1);
-        flightService.createFlight(f2);
-        flightService.createFlight(f3);
-        flightService.createFlight(f4);
-        flightService.createFlight(f5);
     }
 }

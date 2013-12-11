@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -85,7 +82,7 @@ public class DestinationDAOImplTest extends AbstractTest{
         try{
             destDAO.createDestination(des);
         } catch(Exception e){
-            if(!(e instanceof JPAException)){
+            if(!(e instanceof AirplaneDaoException)){
                 fail("Destinations atributes OK - exception thrown " + e);
             }
         }
@@ -112,7 +109,7 @@ public class DestinationDAOImplTest extends AbstractTest{
         try{
             destDAO.updateDestination(des1);
         } catch (Exception ex){
-            fail("samo wrote this"+ex);//SAMO
+            fail("samo wrote this " + ex);
         }
         
         manager.getTransaction().begin();
@@ -125,7 +122,7 @@ public class DestinationDAOImplTest extends AbstractTest{
             destDAO.updateDestination(des2);
             fail("Updated absent destination");
         } catch (Exception ex){
-            if(!(ex instanceof JPAException)){
+            if(!(ex instanceof AirplaneDaoException)){
                 fail("Update destination absent destination - bad exception " + ex);
             }
         }
@@ -230,7 +227,7 @@ public class DestinationDAOImplTest extends AbstractTest{
                 fail("Get destination absent destination found");
             }
         } catch (Exception ex){
-            if(!(ex instanceof JPAException)){
+            if(!(ex instanceof AirplaneDaoException)){
                 fail("Get destination absent destination - bad exception " + ex);
             }
         }
@@ -255,7 +252,7 @@ public class DestinationDAOImplTest extends AbstractTest{
             if(!resultDAO.isEmpty()){
                 fail("Get all destinations empty DB - some destinations found");
             }
-        } catch (JPAException e){
+        } catch (AirplaneDaoException e){
             fail("Get all destinations empty DB - exception thrown");
         } catch (Exception ex){
             fail("Get all destinations empty DB - bad exception thrown " + ex);
@@ -293,7 +290,7 @@ public class DestinationDAOImplTest extends AbstractTest{
         try{
             resultDAO = destDAO.getAllDestinations();
             assertDeepEqualsDest(result, resultDAO);
-        } catch (JPAException e){
+        } catch (AirplaneDaoException e){
             fail(message + " - exception thrown");
         } catch (Exception ex){
             fail(message + " - bad exception thrown " + ex);
@@ -325,7 +322,7 @@ public class DestinationDAOImplTest extends AbstractTest{
         try{
             destDAO.getAllIncomingFlights(des2);
             fail("Get all incoming flights absent (removed) argument - no exception");
-        } catch (JPAException e){
+        } catch (AirplaneDaoException e){
         } catch (Exception ex){
             fail("Get all incoming flights absent (removed) argument - bad ecxeption " + ex);
         }
@@ -343,7 +340,7 @@ public class DestinationDAOImplTest extends AbstractTest{
             if(!result.isEmpty()){
                 fail("Get all incoming flights no incomming flights");
             }
-        } catch (JPAException ex){
+        } catch (AirplaneDaoException ex){
             fail("Get all incoming flights no incoming flight - exception thrown");
         } catch (Exception ex){
             fail("Get all incoming flights no incoming flight - bad exception " + ex);
@@ -404,7 +401,6 @@ public class DestinationDAOImplTest extends AbstractTest{
         }
         query.setParameter("desID", des.getId());
         List<Flight> result = query.getResultList();
-//        System.out.println(result);
         man.getTransaction().commit();
         
         try{
@@ -415,7 +411,7 @@ public class DestinationDAOImplTest extends AbstractTest{
                 resultDAO = destDAO.getAllOutcomingFlights(des);
             }
             assertDeepEqualsFlig(result, resultDAO);
-        } catch (JPAException e){
+        } catch (AirplaneDaoException e){
             fail(message + " - exception thrown");
         } catch (Exception ex){
             fail(message + " - bad exception " + ex);
@@ -447,7 +443,7 @@ public class DestinationDAOImplTest extends AbstractTest{
         try{
             destDAO.getAllOutcomingFlights(des2);
             fail("Get all outcoming flights absent (removed) argument - no exception");
-        } catch (JPAException e){
+        } catch (AirplaneDaoException e){
         } catch (Exception ex){
             fail("Get all outcoming flights absent (removed) argument - bad ecxeption " + ex);
         }
@@ -465,7 +461,7 @@ public class DestinationDAOImplTest extends AbstractTest{
             if(!result.isEmpty()){
                 fail("Get all outcoming flights no incomming flights");
             }
-        } catch (JPAException ex){
+        } catch (AirplaneDaoException ex){
             fail("Get all outcoming flights no incoming flight - exception thrown");
         } catch (Exception ex){
             fail("Get all outcoming flights no incoming flight - bad exception " + ex);
@@ -473,8 +469,6 @@ public class DestinationDAOImplTest extends AbstractTest{
         
         Destination start = createDestiantion("SVK", "Slovakia", "Presov");
         Destination end = createDestiantion("SVK", "Slovakia", "Nitra");
-        
-        
         
         Flight f1 = createFlight(start, des1);
         Flight f2 = createFlight(des1, end);
@@ -510,10 +504,7 @@ public class DestinationDAOImplTest extends AbstractTest{
     }
     
     private void assertDeepEqualsDest(List<Destination> des1, List<Destination> des2){
-        if(des1 == null && des2 == null){ return; }
-        if(des1 == null && des2 != null){ fail(); }
-        if(des1 != null && des2 == null){ fail(); }
-        if(des1.size() != des2.size()){ fail(); }
+        if(!checkListsOnNull(des1, des2)){fail(); }
         Iterator i1 = des1.iterator();
         Iterator i2 = des2.iterator();
         while(i1.hasNext() && i2.hasNext()){
@@ -524,10 +515,7 @@ public class DestinationDAOImplTest extends AbstractTest{
     }
     
     private void assertDeepEqualsStew(List<Steward> stew1, List<Steward> stew2){
-        if(stew1 == null && stew2 == null){ return; }
-        if(stew1 == null && stew2 != null){ fail(); }
-        if(stew1 != null && stew2 == null){ fail(); }
-        if(stew1.size() != stew2.size()){ fail(); }
+        if(!checkListsOnNull(stew1, stew2)){fail(); }
         Iterator i1 = stew1.iterator();
         Iterator i2 = stew2.iterator();
         while(i1.hasNext() && i2.hasNext()){
@@ -538,10 +526,7 @@ public class DestinationDAOImplTest extends AbstractTest{
     }
     
     private void assertDeepEqualsFlig(List<Flight> flig1, List<Flight> flig2){
-        if(flig1 == null && flig2 == null){ return; }
-        if(flig1 == null && flig2 != null){ fail(); }
-        if(flig1 != null && flig2 == null){ fail(); }
-        if(flig1.size() != flig2.size()){ fail(); }
+        if(!checkListsOnNull(flig1, flig2)){fail(); }
         Iterator i1 = flig1.iterator();
         Iterator i2 = flig2.iterator();
         while(i1.hasNext() && i2.hasNext()){

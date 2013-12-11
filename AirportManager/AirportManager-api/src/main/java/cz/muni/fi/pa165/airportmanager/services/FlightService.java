@@ -15,7 +15,6 @@ public interface FlightService {
      * Creates Flight in DB.
      * 
      * @param flightTO flightTO to be created
-     * @throws ServiceDataAccessException
      */
     void createFlight(FlightTO flightTO);
     
@@ -23,7 +22,6 @@ public interface FlightService {
      * Updates Flight in DB.
      * 
      * @param flightTO flightTO to be removed
-     * @throws ServiceDataAccessException
      */
     void updateFlight(FlightTO flightTO);
     
@@ -31,7 +29,6 @@ public interface FlightService {
      * Removes Flight from DB
      * 
      * @param flightTO flightTO to be removed
-     * @throws ServiceDataAccessException
      */
     void removeFlight(FlightTO flightTO);
     
@@ -40,7 +37,6 @@ public interface FlightService {
      * 
      * @param id id of flightTO
      * @return found flight
-     * @throws ServiceDataAccessException
      */
     FlightTO getFlight(Long id);
     
@@ -48,7 +44,6 @@ public interface FlightService {
      * Finds all flights in DB
      * 
      * @return List of FlightTOs in DB
-     * @throws ServiceDataAccessException
      */
     List<FlightTO> getAllFlights();
     

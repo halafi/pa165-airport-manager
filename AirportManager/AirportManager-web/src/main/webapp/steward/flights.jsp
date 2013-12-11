@@ -1,7 +1,7 @@
 <%-- 
     Document   : flights
     Created on : 21.11.2013, 11:20:00
-    Author     : Chorke
+    Author     : Juraj Duráni
 --%>
 
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>

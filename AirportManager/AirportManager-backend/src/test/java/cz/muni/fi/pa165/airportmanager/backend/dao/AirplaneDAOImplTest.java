@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDAOImpl;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.JPAException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -17,17 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -189,7 +181,7 @@ public class AirplaneDAOImplTest extends AbstractTest{
         try{
             airplaneDAO.removeAirplane(airplane2);
             fail("No exception thrown");
-        }catch(JPAException ex){
+        }catch(AirplaneDaoException ex){
         }catch(Exception ex){
             fail("Bad Exception " + ex.getMessage());
         }
@@ -233,7 +225,7 @@ public class AirplaneDAOImplTest extends AbstractTest{
         try{
             airplaneDAO.getAirplane(airplane3.getId());
             fail("No exception thrown");
-        }catch(JPAException ex){
+        }catch(AirplaneDaoException ex){
         }catch(Exception ex){
             fail("Bad exception" + ex.getMessage());
         }
@@ -251,14 +243,14 @@ public class AirplaneDAOImplTest extends AbstractTest{
         em.persist(airplane3);
         em.getTransaction().commit();
         //ok
-        List<Airplane> airplaneList1 = new ArrayList<Airplane>();
+        List<Airplane> airplaneList1 = new ArrayList<>();
         try{
             airplaneList1 = airplaneDAO.getAllAirplanes();
         }catch(Exception ex){
             fail("Exception thrown" + ex.getMessage());
         }
         
-        List<Airplane> airplaneList2 = new ArrayList<Airplane>();
+        List<Airplane> airplaneList2 = new ArrayList<>();
         TypedQuery<Airplane> query1 = em.createNamedQuery(
             "Airplane.findAllAirplanes", Airplane.class);
         for (Airplane a : query1.getResultList()) {
@@ -273,8 +265,8 @@ public class AirplaneDAOImplTest extends AbstractTest{
         em.getTransaction().commit();
         
         //null OK
-        List<Airplane> airplaneList3 = new ArrayList<Airplane>();
-        List<Airplane> airplaneList4 = new ArrayList<Airplane>();
+        List<Airplane> airplaneList3 = new ArrayList<>();
+        List<Airplane> airplaneList4 = new ArrayList<>();
         try{
             airplaneList3 = airplaneDAO.getAllAirplanes();
         }catch(Exception ex){
@@ -302,7 +294,7 @@ public class AirplaneDAOImplTest extends AbstractTest{
         em.persist(flight2);
         em.getTransaction().commit();
         
-        List<Flight> flightList = new ArrayList<Flight>();
+        List<Flight> flightList = new ArrayList<>();
         //null
         try{
             airplaneDAO.getAllAirplanesFlights(null);
@@ -317,7 +309,7 @@ public class AirplaneDAOImplTest extends AbstractTest{
         }catch(Exception ex){
             fail("Exception thrown");
         }
-        List<Flight> flightList2 = new ArrayList<Flight>();
+        List<Flight> flightList2 = new ArrayList<>();
         TypedQuery<Flight> query1 = em.createNamedQuery(
             "Flight.findByAirplane", Flight.class);
         query1.setParameter("airplane", airplane.getId());
@@ -327,11 +319,8 @@ public class AirplaneDAOImplTest extends AbstractTest{
         assertDeepEqualsFlightsLists(flightList, flightList2);
     }
     
-    
-    
-    
     private void assertDeepEqualsAirplanesLists(List<Airplane> l1, List<Airplane> l2){
-        if (l1.size() != 0 && l2.size() != 0){
+        if (!l1.isEmpty() && !l2.isEmpty()){
             for (int i = 0; i < l1.size(); i++) {
                 Airplane a1 = l1.get(i);
                 Airplane a2 = l2.get(i);
@@ -341,7 +330,7 @@ public class AirplaneDAOImplTest extends AbstractTest{
     }
     
     private void assertDeepEqualsFlightsLists(List<Flight> l1, List<Flight> l2){
-        if (l1.size() != 0 && l2.size() != 0){
+        if (!l1.isEmpty() && !l2.isEmpty()){
             for (int i = 0; i < l1.size(); i++) {
                 Flight f1 = l1.get(i);
                 Flight f2 = l2.get(i);
@@ -404,7 +393,7 @@ public class AirplaneDAOImplTest extends AbstractTest{
         f.setDepartureTime(new Timestamp(10000L));
         f.setOrigin(from);
         f.setTarget(to);
-        List<Steward> stewardList = new ArrayList<Steward>();
+        List<Steward> stewardList = new ArrayList<>();
         stewardList.add(s);
         f.setStewardList(stewardList);
         return f;
