@@ -29,6 +29,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -64,9 +65,12 @@ public class AirplaneRestApi {
             return mapper.writerWithType(new TypeReference<List<AirplaneTO>>() {}).writeValueAsString(airList);
         } catch (DataException ex){
 //            return Response.status(401).build();
-            return null;
-        } catch (Exception ex){
-            return null;
+            throw new WebApplicationException(ex, Response.Status.SERVICE_UNAVAILABLE);
+
+        } catch (JsonProcessingException ex) {
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
+        }catch (Exception ex){
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
     
@@ -74,11 +78,13 @@ public class AirplaneRestApi {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public String getAirplane(@PathParam("id") Long id){
-        AirplaneTO airplane = airService.getAirplane(id);
         try {
+            AirplaneTO airplane = airService.getAirplane(id);
             return mapper.writeValueAsString(airplane);
-        } catch (JsonProcessingException ex) {
-            return null;
+        } catch (DataException ex){
+            throw new WebApplicationException(ex, Response.Status.SERVICE_UNAVAILABLE);
+        } catch (Exception ex) {
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
     
@@ -90,26 +96,34 @@ public class AirplaneRestApi {
             AirplaneTO airplane = airService.getAirplane(id);
             List<FlightTO> flightsList = airService.getAllAirplanesFlights(airplane);
             return mapper.writerWithType(new TypeReference<List<FlightTO>>() {}).writeValueAsString(flightsList);
+        } catch (DataException ex){
+            throw new WebApplicationException(ex, Response.Status.SERVICE_UNAVAILABLE);
         } catch (Exception ex){
-            return null;
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/post")
     public String postPlane(String json){
         try {
             AirplaneTO airplane = mapper.readValue(json, new TypeReference<AirplaneTO>(){});
             airService.createAirplane(airplane);
-            return airplane.toString();
-        } catch (Exception ex) {
-            return null;
+            return mapper.writeValueAsString(airplane);
+        } catch (DataException ex){
+            throw new WebApplicationException(ex, Response.Status.SERVICE_UNAVAILABLE);
+        } catch (JsonMappingException ex){
+            throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+        } catch (Exception ex){
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/put/{id}")
     public String putPlane(String json, @PathParam("id") Long id){
         try {
@@ -117,21 +131,30 @@ public class AirplaneRestApi {
             airplane = mapper.readValue(json, new TypeReference<AirplaneTO>(){});
             airplane.setId(id);
             airService.updateAirplane(airplane);
-            return airplane.toString();
-        } catch (Exception ex) {
-            return null;
+            return mapper.writeValueAsString(airplane);
+        } catch (DataException ex){
+            throw new WebApplicationException(ex, Response.Status.SERVICE_UNAVAILABLE);
+        } catch (JsonMappingException ex){
+            throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+        } catch (Exception ex){
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
     
     @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/delete/{id}")
     public String deletePlane(@PathParam("id") Long id){
         try{
             AirplaneTO airplane = airService.getAirplane(id);
             airService.removeAirplane(airplane);
-            return airplane.toString();
-        } catch(Exception ex) {
-            return null;
+            return mapper.writeValueAsString(airplane);
+        } catch (DataException ex){
+            throw new WebApplicationException(ex, Response.Status.SERVICE_UNAVAILABLE);
+        } catch (JsonMappingException ex){
+            throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+        } catch (Exception ex){
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
 }
