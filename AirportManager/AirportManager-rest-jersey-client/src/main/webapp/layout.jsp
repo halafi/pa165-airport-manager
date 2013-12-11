@@ -28,6 +28,7 @@
                             <li class="navlink"><f:message key="airplane"/>
                                 <ul class="submenu">
                                     <s:link href="/airplane/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
+                                    <s:link href="/airplanes"><li class="navlink"><f:message key="list"/></li></s:link>
                                 </ul>
                             </li>
                             <li class="navlink"><f:message key="destination"/>
