@@ -17,25 +17,7 @@
             <td><c:out value="${destination.country}"/></td>
             <td><c:out value="${destination.city}"/></td>
             <td><c:out value="${destination.code}"/></td>
-<!--            <td>
-                <%--<s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">--%>
-                    <%--<s:submit name="incoming">--%>
-                        <%--<s:param name="destination.id" value="${destination.id}"/>--%>
-                        <%--<s:param name="event" value="incoming"/>--%>
-                        <%--<f:message key="destination.incoming"/>--%>
-                    <%--</s:submit>--%>
-                <%--</s:form>--%>
-             </td>
-             <td>
-                <%--<s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">--%>
-                    <%--<s:submit name="outcoming">--%>
-                        <%--<s:param name="destination.id" value="${destination.id}"/>--%>
-                        <%--<s:param name="event" value="outcoming"/>--%>
-                        <%--<f:message key="destination.outcoming"/>--%>
-                    <%--</s:submit>--%>
-                <%--</s:form>--%>
-            </td>-->
-                <td>
+            <td>
                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="incoming">
                     <s:param name="destination.id" value="${destination.id}"/>
                     <f:message key="destination.incoming"/>

@@ -1,10 +1,5 @@
 package cz.muni.fi.pa165.airportmanager.web.beans;
 
-
-
-import java.io.UnsupportedEncodingException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import org.apache.taglibs.standard.functions.Functions;

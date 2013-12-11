@@ -38,6 +38,12 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     
     private List<DestinationTO> destinations;
     private List<FlightTO> flights;
+    
+    private static String serverUrl = "http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination";
+
+    public static String getUrl() {
+        return serverUrl;
+    }
 
     @ValidateNestedProperties(value = {
             @Validate(on = {"add", "save"}, field = "country", required = true),
@@ -66,13 +72,13 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     public Resolution list() {
         log.debug("list()");
         try {
-            DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination", DestinationTO[].class);
+            DestinationTO[] dsts = restTemplate.getForObject(getUrl(), DestinationTO[].class);
             destinations = Arrays.asList(dsts);
         } catch (RestClientException ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new ForwardResolution("/destination/list.jsp");
@@ -81,13 +87,13 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
         try {
-            DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination", DestinationTO[].class);
+            DestinationTO[] dsts = restTemplate.getForObject(getUrl(), DestinationTO[].class);
             destinations = Arrays.asList(dsts);
         } catch (RestClientException ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return null;
@@ -98,12 +104,12 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         String ids = getContext().getRequest().getParameter("destination.id");
         if (ids == null) return;
         try {
-            destination = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", DestinationTO.class, Long.parseLong(ids));
+            destination = restTemplate.getForObject(getUrl() + "/{id}", DestinationTO.class, Long.parseLong(ids));
         } catch (RestClientException ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
     }
@@ -113,12 +119,12 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     public Resolution createDestination() {
         log.debug("add() destination={}", destination);
         try {
-            restTemplate.postForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/", destination, DestinationTO.class);
+            restTemplate.postForObject(getUrl() + "/", destination, DestinationTO.class);
         } catch (RestClientException ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
@@ -129,12 +135,12 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     public Resolution updateDestination() {
         log.debug("save() destination={}", destination);
         try {
-            restTemplate.put("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", destination, destination.getId());
+            restTemplate.put(getUrl() + "/{id}", destination, destination.getId());
         } catch (RestClientException ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
@@ -145,12 +151,12 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     public Resolution deleteDestination() {
         log.debug("delete({})", destination.getId());
         try {
-            restTemplate.delete("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", destination.getId());
+            restTemplate.delete(getUrl() + "/{id}", destination.getId());
         } catch (RestClientException ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
@@ -161,16 +167,16 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     public Resolution getAllOutcomingFlights() { 
         try {
             String ids = getContext().getRequest().getParameter("destination.id");
-            DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination", DestinationTO[].class);
+            DestinationTO[] dsts = restTemplate.getForObject(getUrl(), DestinationTO[].class);
             destinations = Arrays.asList(dsts);
-            destination = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", DestinationTO.class, Long.parseLong(ids));
-            FlightTO[] fligs = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}/outcoming", FlightTO[].class, Long.parseLong(ids));
+            destination = restTemplate.getForObject(getUrl() + "/{id}", DestinationTO.class, Long.parseLong(ids));
+            FlightTO[] fligs = restTemplate.getForObject(getUrl() + "/{id}/outcoming", FlightTO[].class, Long.parseLong(ids));
             flights = Arrays.asList(fligs); 
         } catch (RestClientException ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.list.outcoming", escapeHTML(destination.getId().toString())));
@@ -181,38 +187,22 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     public Resolution getAllIncomingFlights() {      
         try {
             String ids = getContext().getRequest().getParameter("destination.id");
-            DestinationTO[] dsts = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination", DestinationTO[].class);
+            DestinationTO[] dsts = restTemplate.getForObject(getUrl(), DestinationTO[].class);
             destinations = Arrays.asList(dsts);
-            destination = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}", DestinationTO.class, Long.parseLong(ids));
-            FlightTO[] fligs = restTemplate.getForObject("http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination" + "/{id}/incoming", FlightTO[].class, Long.parseLong(ids));
+            destination = restTemplate.getForObject(getUrl() + "/{id}", DestinationTO.class, Long.parseLong(ids));
+            FlightTO[] fligs = restTemplate.getForObject(getUrl() + "/{id}/incoming", FlightTO[].class, Long.parseLong(ids));
             flights = Arrays.asList(fligs); 
         } catch (RestClientException ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.list.incoming", escapeHTML(destination.getId().toString())));
         return new ForwardResolution("/destination/listIncoming.jsp");
     }
     
-    /*
-    - funguje na adrese {context}/rest-jersey-server/destination
-    - pôvodná adresa vráti všetky destinácie
-    - na adrese /{id} je konkrétna destinácia
-    - na adrese /{id}/outcoming sú odlety destinácie
-    - na adrese /{id}/incoming sú prílety destinácie
-    - mazanie: na adrese /{id} spolu s http metódou DELETE [otestované]
-    - vkladanie: na pôvodnej adrese spolu s http metódou POST, berie stringový zápis objektu v JSON [netestované]
-    - editácia: na adrese /{id} spolu s metódou PUT, berie stringový zápis objektu v JSON [netestované]
-    - GET metódy vracajú stringy objektov v JSON
-    - PUT, POST, DELETE vracajú Response s príslušným kódom
-    - v prípade výnimky je vyhodená WebApplicationException s príslušným kódom [na klientskej strane vráti Resposne s príslušným kódom]
-    
-    */
-    
-    //Follows some redirect resolutions
     public Resolution cancel(){
         return new RedirectResolution(this.getClass());
     }

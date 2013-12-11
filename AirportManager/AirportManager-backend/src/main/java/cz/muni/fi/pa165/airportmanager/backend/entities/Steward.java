@@ -1,5 +1,4 @@
 package cz.muni.fi.pa165.airportmanager.backend.entities;
-
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;

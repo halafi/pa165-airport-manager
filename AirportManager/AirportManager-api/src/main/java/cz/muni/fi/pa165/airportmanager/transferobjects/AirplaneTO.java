@@ -58,7 +58,6 @@ public class AirplaneTO {
     @Override
     public int hashCode() {
         int hash = 5;
-//        hash = 29 * hash + Objects.hashCode(this.flights);
         hash = 29 * hash + Objects.hashCode(this.id);
         hash = 29 * hash + this.capacity;
         hash = 29 * hash + Objects.hashCode(this.name);
@@ -75,9 +74,6 @@ public class AirplaneTO {
             return false;
         }
         final AirplaneTO other = (AirplaneTO) obj;
-//        if (!Objects.equals(this.flights, other.flights)) {
-//            return false;
-//        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -93,14 +89,8 @@ public class AirplaneTO {
         return true;
     }
 
-
-
     @Override
     public String toString() {
         return "AirplaneTO{" + "flights=" + flights + ", id=" + id + ", capacity=" + capacity + ", name=" + name + ", type=" + type + '}';
     }
-    
-    
-    
-    
 }

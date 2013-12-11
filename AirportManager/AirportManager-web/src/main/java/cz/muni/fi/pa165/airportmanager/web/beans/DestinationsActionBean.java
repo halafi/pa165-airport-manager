@@ -16,7 +16,6 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
-import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
@@ -67,10 +66,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinations = destinationService.getAllDestinations();
         } catch(DataAccessException ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new ForwardResolution("/destination/list.jsp");
@@ -81,10 +80,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinations = destinationService.getAllDestinations();
         } catch(DataAccessException ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return null;
@@ -97,10 +96,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destination = destinationService.getDestination(Long.parseLong(ids));
         } catch (DataAccessException ex){
-            LocalizableError err = new LocalizableError("steward.error.service",ex);
+            LocalizableError err = new LocalizableError("destination.error.service",ex);
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            LocalizableError err = new LocalizableError("steward.error.uknown", ex);
+            LocalizableError err = new LocalizableError("destination.error.unknown", ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
     }
@@ -113,10 +112,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             destinations = destinationService.getAllDestinations();
             flights = destinationService.getAllOutcomingFlights(destination);
         } catch (DataAccessException ex){
-            LocalizableError err = new LocalizableError("steward.error.service", ex);
+            LocalizableError err = new LocalizableError("destination.error.service", ex);
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            LocalizableError err = new LocalizableError("steward.error.uknown", ex);
+            LocalizableError err = new LocalizableError("destination.error.unknown", ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.list.outcoming", escapeHTML(destination.getId().toString())));
@@ -131,10 +130,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             destinations = destinationService.getAllDestinations();
             flights = destinationService.getAllIncomingFlights(destination);
         } catch (DataAccessException ex){
-            LocalizableError err = new LocalizableError("steward.error.service", ex);
+            LocalizableError err = new LocalizableError("destination.error.service", ex);
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            LocalizableError err = new LocalizableError("steward.error.uknown", ex);
+            LocalizableError err = new LocalizableError("destination.error.unknown", ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.list.incoming", escapeHTML(destination.getId().toString())));
@@ -147,10 +146,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinationService.createDestination(destination);
         } catch(DataAccessException ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
@@ -163,10 +162,10 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinationService.updateDestination(destination);
         } catch(DataAccessException ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
@@ -179,17 +178,16 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         try {
             destinationService.removeDestination(destination);
         } catch(DataAccessException ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            LocalizableError err = new LocalizableError("steward.error.service", escapeHTML(ex.toString()));
+            LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
-    //Follows some redirect resolutions
     public Resolution cancel(){
         return new RedirectResolution(this.getClass());
     }

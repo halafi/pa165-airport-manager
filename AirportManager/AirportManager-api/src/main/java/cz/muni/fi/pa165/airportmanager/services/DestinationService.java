@@ -1,4 +1,3 @@
-
 package cz.muni.fi.pa165.airportmanager.services;
 
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
