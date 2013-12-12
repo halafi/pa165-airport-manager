@@ -2,13 +2,17 @@ PA165 Airport Manager
 =====================
 For more info about the project please visit: <a href="https://github.com/halafi/pa165-airport-manager/wiki">our project wiki page</a>.
 
-start
+Developed in  <a href="https://netbeans.org/">NetBeans IDE 7.3+</a>.
+
+configuration
 ---------------------
-Checkout this repo and do the following
+Checkout this repository and do the following in your favourite IDE
  1. Set up a java DB server at <code>jdbc:derby://localhost:1527/pa165</code>
   * <b>username</b> = pa165
   * <b>password</b> = pa165
- 2. Execute command <code>mvn tomcat7:run</code> in the project folder location.
+ 2. Have Apache Tomcat 7 configured and running at server port 8080
+ 3. Build the whole project with dependencies
+ 4. Deploy either <b>AirportManager-web</b> or <b>AirportManager-rest-client</b> or both
 
 project usage
 ---------------------
