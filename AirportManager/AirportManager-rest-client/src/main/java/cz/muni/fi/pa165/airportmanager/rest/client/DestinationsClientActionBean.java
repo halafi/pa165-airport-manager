@@ -39,7 +39,7 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     private List<DestinationTO> destinations;
     private List<FlightTO> flights;
     
-    private static String serverUrl = "http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination";
+    private static final String serverUrl = "http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/destination";
 
     public static String getUrl() {
         return serverUrl;

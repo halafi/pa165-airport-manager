@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * Entity representing destination.
  *
  * @author Filip
  */
@@ -30,38 +31,74 @@ public class Destination implements Serializable {
     private String country;
     private String city;
     
+    /**
+     * Get method for id.
+     * @return id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Set method for id.
+     * @param id id to be set
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Get method for code.
+     * @return code
+     */
     public String getCode() {
         return code;
     }
 
+    /**
+     * Set method for code.
+     * @param code code to be set
+     */
     public void setCode(String code) {
         this.code = code;
     }
 
+
+    /**
+     * Get method for country.
+     * @return country
+     */
     public String getCountry() {
         return country;
     }
 
+    /**
+     * Set method for country.
+     * @param country country to be set
+     */
     public void setCountry(String country) {
         this.country = country;
     }
 
+    /**
+     * Get method for city.
+     * @return city
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * Set method for city.
+     * @param city city to be set
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /**
+     * @return hash code value for the object.
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -72,6 +109,12 @@ public class Destination implements Serializable {
         return hash;
     }
 
+    /**
+     * Check whether two instances of this class equals or not.
+     * 
+     * @param obj object to check equality for
+     * @return true if equals, else otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -96,6 +139,10 @@ public class Destination implements Serializable {
         return true;
     }
 
+    /**
+     * Returns a string describing instance of this class.
+     * @return string describing instance of this class.
+     */
     @Override
     public String toString() {
         return "Destination{" + "id=" + id + ", code=" + code + ", country=" + country + ", city=" + city + '}';

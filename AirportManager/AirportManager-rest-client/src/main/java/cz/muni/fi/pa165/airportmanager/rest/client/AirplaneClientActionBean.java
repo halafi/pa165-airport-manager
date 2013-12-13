@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.airportmanager.rest.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import static cz.muni.fi.pa165.airportmanager.rest.client.BaseActionBean.escapeHTML;
 import cz.muni.fi.pa165.airportmanager.transferobjects.AirplaneTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
 import java.util.Arrays;
@@ -32,10 +33,8 @@ import org.springframework.web.client.RestTemplate;
 public class AirplaneClientActionBean extends BaseActionBean implements ValidationErrorHandler {
 
     final static Logger log = LoggerFactory.getLogger(AirplaneClientActionBean.class);
-    
     @SpringBean
     private RestTemplate restTemplate;
-    
     private List<AirplaneTO> airplanes;
     private List<FlightTO> flights;
     @ValidateNestedProperties(value = {
@@ -46,8 +45,7 @@ public class AirplaneClientActionBean extends BaseActionBean implements Validati
     private AirplaneTO airplane;
     private LocalizableError err;
     ObjectMapper mapper = new ObjectMapper();
-    
-    private static final String URL="http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/airplane";
+    private static final String URL = "http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/airplane";
 
     public List<FlightTO> getFlights() {
         return flights;
@@ -72,58 +70,93 @@ public class AirplaneClientActionBean extends BaseActionBean implements Validati
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
-        
-        AirplaneTO[] airplanesArray = restTemplate.getForObject(URL, AirplaneTO[].class);
-        airplanes = Arrays.asList(airplanesArray);
+
+        try {
+            AirplaneTO[] airplanesArray = restTemplate.getForObject(URL, AirplaneTO[].class);
+            airplanes = Arrays.asList(airplanesArray);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("airplane.error", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
 
         return new ForwardResolution("/airplane/list.jsp");
     }
 
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
-        
-        AirplaneTO[] airplns = restTemplate.getForObject(URL, AirplaneTO[].class);
-        airplanes = Arrays.asList(airplns);
 
+        try {
+            AirplaneTO[] airplns = restTemplate.getForObject(URL, AirplaneTO[].class);
+            airplanes = Arrays.asList(airplns);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("airplane.error", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
         return null;
     }
 
     public Resolution delete() {
 
-        restTemplate.delete(URL + "/delete/{id}", airplane.getId());
-       
+        try {
+            restTemplate.delete(URL + "/delete/{id}", airplane.getId());
+            getContext().getMessages().add(new LocalizableMessage("airplane.deleted"));
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("airplane.error", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
+
         return new RedirectResolution(this.getClass(), "list");
     }
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save"})
     public void loadAirplaneFromDatabase() {
+
         String ids = getContext().getRequest().getParameter("airplane.id");
+
         if (ids == null) {
             return;
         }
-           airplane = restTemplate.getForObject(URL + "/{id}", AirplaneTO.class, Long.parseLong(ids));
 
+        try {
+            airplane = restTemplate.getForObject(URL + "/{id}", AirplaneTO.class, Long.parseLong(ids));
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("airplane.error", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
     }
 
     public Resolution add() {
 
         log.debug("add() airplane", airplane);
-        restTemplate.postForObject(URL + "/post", airplane, String.class);
-        getContext().getMessages().add(new LocalizableMessage("airplane.created", airplane.getCapacity(), escapeHTML(airplane.getName()), escapeHTML(airplane.getType())));
+
+        try {
+            restTemplate.postForObject(URL + "/post", airplane, String.class);
+            getContext().getMessages().add(new LocalizableMessage("airplane.created"));
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("airplane.error", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
 
         return new RedirectResolution(this.getClass(), "list.jsp");
     }
 
     public Resolution edit() {
         log.debug("edit() airplane={}", airplane);
+
         return new ForwardResolution("/airplane/edit.jsp");
     }
 
     public Resolution save() {
 
         log.debug("save() airplane={}", airplane);
-        
-        restTemplate.put(URL + "/put/{id}", airplane, airplane.getId());
+
+        try {
+            restTemplate.put(URL + "/put/{id}", airplane, airplane.getId());
+            getContext().getMessages().add(new LocalizableMessage("airplane.updated"));
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("airplane.error", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
 
         return new RedirectResolution(this.getClass(), "list");
     }
@@ -131,11 +164,16 @@ public class AirplaneClientActionBean extends BaseActionBean implements Validati
     @HandlesEvent("flightsOfPlane")
     public Resolution listFlights() {
 
-        AirplaneTO[] airplns = restTemplate.getForObject(URL, AirplaneTO[].class);
-        airplanes = Arrays.asList(airplns);
-        
-        FlightTO[] flightsArray = restTemplate.getForObject(URL + "/" + airplane.getId() + "/flights", FlightTO[].class); 
-        flights = Arrays.asList(flightsArray);
+        try {
+            AirplaneTO[] airplns = restTemplate.getForObject(URL, AirplaneTO[].class);
+            airplanes = Arrays.asList(airplns);
+
+            FlightTO[] flightsArray = restTemplate.getForObject(URL + "/" + airplane.getId() + "/flights", FlightTO[].class);
+            flights = Arrays.asList(flightsArray);
+        } catch (Exception ex) {
+            LocalizableError err = new LocalizableError("airplane.error", escapeHTML(ex.toString()));
+            getContext().getValidationErrors().addGlobalError(err);
+        }
 
         return new ForwardResolution("/airplane/listFlights.jsp");
     }
