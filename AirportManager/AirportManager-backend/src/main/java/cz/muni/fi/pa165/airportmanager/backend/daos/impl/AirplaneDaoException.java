@@ -4,7 +4,7 @@ import javax.persistence.PersistenceException;
 
 /**
  *
- * @author matus
+ * @author Matus Makovy
  */
 public class AirplaneDaoException extends PersistenceException {
     
