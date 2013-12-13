@@ -2,7 +2,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirportDaoException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -181,7 +181,7 @@ public class AirplaneDAOImplTest extends AbstractTest{
         try{
             airplaneDAO.removeAirplane(airplane2);
             fail("No exception thrown");
-        }catch(AirplaneDaoException ex){
+        }catch(AirportDaoException ex){
         }catch(Exception ex){
             fail("Bad Exception " + ex.getMessage());
         }
@@ -225,7 +225,7 @@ public class AirplaneDAOImplTest extends AbstractTest{
         try{
             airplaneDAO.getAirplane(airplane3.getId());
             fail("No exception thrown");
-        }catch(AirplaneDaoException ex){
+        }catch(AirportDaoException ex){
         }catch(Exception ex){
             fail("Bad exception" + ex.getMessage());
         }

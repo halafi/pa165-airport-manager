@@ -70,7 +70,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         Airplane airplaneFromDB = em.find(Airplane.class, airplane.getId());
         
         if (airplaneFromDB == null) {
-            throw new AirplaneDaoException("Airplane isn't in database");
+            throw new AirportDaoException("Airplane isn't in database");
         }
         
         em.remove(airplaneFromDB);
@@ -87,7 +87,7 @@ public class AirplaneDAOImpl implements AirplaneDAO {
         Airplane airplane = em.find(Airplane.class, id);
         
         if (airplane == null){
-            throw new AirplaneDaoException("Airplane with given id isn't in database");
+            throw new AirportDaoException("Airplane with given id isn't in database");
         } else {
             return airplane;
         }

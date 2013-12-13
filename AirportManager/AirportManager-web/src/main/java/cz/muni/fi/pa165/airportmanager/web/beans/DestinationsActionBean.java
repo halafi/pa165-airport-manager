@@ -25,12 +25,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 
 /**
+ * Action bean for Destination entity using DestinationService.
  *
  * @author Filip
  */
 @UrlBinding("/destinations/{$event}/{destination.id}")
 public class DestinationsActionBean extends BaseActionBean implements ValidationErrorHandler {
+    
     final static Logger log = LoggerFactory.getLogger(DestinationsActionBean.class);
+    
     @SpringBean
     protected DestinationService destinationService;
     
@@ -44,22 +47,47 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
     })
     private DestinationTO destination;
 
+   /**
+     * Get method for list of destinations DTO
+     * 
+     * @return List of DestinationTO objects
+     */
     public List<DestinationTO> getDestinations() {
         return destinations;
     }
     
+    /**
+     * Get method for list of flights DTO
+     * 
+     * @return List of FlightTO objects
+     */
      public List<FlightTO> getFlights() {
         return flights;
     }
     
+    /**
+     * Get method for single DestinationTO.
+     * 
+     * @return destination DestinationTO
+     */
     public DestinationTO getDestination() {
         return destination;
     }
 
+    /**
+     * Setter for destination DTO.
+     * 
+     * @param destination DestiinationTO to be set 
+     */
     public void setDestination(DestinationTO destination) {
         this.destination = destination;
     }
-    
+   
+    /**
+     * Default handler that returns all DestinationTO's and redirects to /destination/list.jsp.
+     * 
+     * @return redirect to /destination/list.jsp
+     */
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
@@ -75,8 +103,14 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new ForwardResolution("/destination/list.jsp");
     }
 
+    /**
+     * Resolution that handles validation errors.
+     * 
+     * @param errors ValidationErrors to be handled
+     * @return null
+     */
     @Override
-    public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+    public Resolution handleValidationErrors(ValidationErrors errors) {
         try {
             destinations = destinationService.getAllDestinations();
         } catch(DataAccessException ex) {
@@ -89,6 +123,9 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return null;
     }
 
+    /**
+     * Method that pre-loads one destination in to form.
+     */
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"save", "edit", "delete"})
     public void loadDestinationFromDatabase() {
         String ids = getContext().getRequest().getParameter("destination.id");
@@ -104,8 +141,13 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         }
     }
 
+    /**
+     * Resolution that shows all the outcoming flights for the selected destination.
+     * 
+     * @return redirect to /destination/listOutcoming.jsp
+     */
     @HandlesEvent("outcoming")
-    public Resolution getAllIncomingFlights() {
+    public Resolution getAllOutcomingFlights() {
         String ids = getContext().getRequest().getParameter("destination.id");
         try {
             destination = destinationService.getDestination(Long.parseLong(ids));
@@ -122,8 +164,13 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new ForwardResolution("/destination/listOutcoming.jsp");
     }
     
+    /**
+     * Resolution that shows all the incoming flights for the selected destination.
+     * 
+     * @return redirect to /destination/listIncoming.jsp
+     */
     @HandlesEvent("incoming")
-    public Resolution getAllOutcomingFlights() {
+    public Resolution getAllIncomingFlights() {
         String ids = getContext().getRequest().getParameter("destination.id");
         try {
             destination = destinationService.getDestination(Long.parseLong(ids));
@@ -140,6 +187,11 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new ForwardResolution("/destination/listIncoming.jsp");
     }
     
+    /**
+     * Resolution that creates destination.
+     * 
+     * @return redirect to /destination/list.jsp
+     */
     @HandlesEvent("add")
     public Resolution createDestination() {
         log.debug("add() destination={}", destination);
@@ -156,6 +208,11 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    /**
+     * Resolution that updates the selected/modified destination.
+     * 
+     * @return redirect to /destination/list.jsp 
+     */
     @HandlesEvent("save")
     public Resolution updateDestination() {
         log.debug("save() destination={}", destination);
@@ -172,6 +229,11 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    /**
+     * Resolution that deletes the selected destination.
+     * 
+     * @return redirect to /destination/list.jsp
+     */
     @HandlesEvent("delete")
     public Resolution deleteDestination() {
         log.debug("delete({})", destination.getId());
@@ -188,10 +250,20 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    /**
+     * Simple resolution that redirects jsp page.
+     * 
+     * @return redirect to /destination/list.jsp
+     */
     public Resolution cancel(){
         return new RedirectResolution(this.getClass());
     }
     
+    /**
+     * Simple resolution that redirects jsp page.
+     * 
+     * @return redirect to /destination/edit.jsp
+     */
     public Resolution edit() {
         log.debug("edit() destination={}", destination);
         return new ForwardResolution("/destination/edit.jsp");

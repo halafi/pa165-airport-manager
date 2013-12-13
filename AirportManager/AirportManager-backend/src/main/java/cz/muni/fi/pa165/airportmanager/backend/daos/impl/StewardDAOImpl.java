@@ -23,7 +23,7 @@ public class StewardDAOImpl implements StewardDAO{
 
     @Override
     public void createSteward(Steward steward) 
-            throws AirplaneDaoException, IllegalArgumentException{
+            throws AirportDaoException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null.");
         }
@@ -39,13 +39,13 @@ public class StewardDAOImpl implements StewardDAO{
         try{
             manager.persist(steward);
         } catch (Exception ex){
-            throw new AirplaneDaoException("Error by creating steward " + steward, ex);
+            throw new AirportDaoException("Error by creating steward " + steward, ex);
         }
     }
 
     @Override
     public void updateSteward(Steward steward) 
-            throws AirplaneDaoException, IllegalArgumentException{
+            throws AirportDaoException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null.");
         }
@@ -61,17 +61,17 @@ public class StewardDAOImpl implements StewardDAO{
         try{
             Steward finded = manager.find(Steward.class, steward.getId());
             if(finded == null){
-                throw new AirplaneDaoException("Steward does not exist (" + steward + ")");
+                throw new AirportDaoException("Steward does not exist (" + steward + ")");
             }
             manager.merge(steward);
         } catch (Exception ex){
-            throw new AirplaneDaoException("Error by updating steward " + steward, ex);
+            throw new AirportDaoException("Error by updating steward " + steward, ex);
         }
     }
 
     @Override
     public void removeSteward(Steward steward) 
-            throws AirplaneDaoException, IllegalArgumentException{
+            throws AirportDaoException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null");
         }
@@ -81,47 +81,47 @@ public class StewardDAOImpl implements StewardDAO{
         try{
             Steward stew = manager.find(Steward.class, steward.getId());
             if(stew == null){
-                throw new AirplaneDaoException("Steward does not exist (" + steward + ")");
+                throw new AirportDaoException("Steward does not exist (" + steward + ")");
             }
             manager.remove(stew);
         } catch (Exception ex){
-            throw new AirplaneDaoException("Error by removing steward " + steward, ex);
+            throw new AirportDaoException("Error by removing steward " + steward, ex);
         }
     }
 
     @Override
     public Steward getSteward(Long id) 
-            throws AirplaneDaoException, IllegalArgumentException{
+            throws AirportDaoException, IllegalArgumentException{
         if(id == null){
             throw new IllegalArgumentException("Can not fing stewar (id = null)");
         }
         try{
             Steward stew = manager.find(Steward.class, id);
             if(stew == null){
-                throw new AirplaneDaoException("Steward does not exist (" + id + ")");
+                throw new AirportDaoException("Steward does not exist (" + id + ")");
             }
             return stew;
         } catch(Exception ex){
-            throw new AirplaneDaoException("Error by finding steward (" + id + ")", ex);
+            throw new AirportDaoException("Error by finding steward (" + id + ")", ex);
         }
     }
 
     @Override
     public List<Steward> getAllStewards() 
-            throws AirplaneDaoException{
+            throws AirportDaoException{
         List<Steward> stewards;
         try{
             stewards = manager.createNamedQuery("Steward.findAllStewards", 
                     Steward.class).getResultList();
             return stewards;
         } catch(Exception ex){
-            throw new AirplaneDaoException("Error by finding all stewards.",ex);
+            throw new AirportDaoException("Error by finding all stewards.",ex);
         }
     }
 
     @Override
     public List<Flight> getAllStewardsFlights(Steward steward) 
-            throws AirplaneDaoException, IllegalArgumentException{
+            throws AirportDaoException, IllegalArgumentException{
         if(steward == null){
             throw new IllegalArgumentException("Stewards is null");
         }
@@ -136,7 +136,7 @@ public class StewardDAOImpl implements StewardDAO{
             flights = q.getResultList();
             return flights;
         } catch (Exception ex){
-            throw new AirplaneDaoException("Error by finding all stewards flights (" + steward + ")", ex);
+            throw new AirportDaoException("Error by finding all stewards flights (" + steward + ")", ex);
         }
     }
 }
