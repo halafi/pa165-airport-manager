@@ -25,6 +25,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
+ * Action bean for Destination entity using REST server.
  *
  * @author Filip
  */
@@ -52,22 +53,47 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
     })
     private DestinationTO destination;
 
+    /**
+     * Get method for list of destinations DTO
+     * 
+     * @return List of DestinationTO objects
+     */
     public List<DestinationTO> getDestinations() {
         return destinations;
     }
     
+    /**
+     * Get method for list of flights DTO
+     * 
+     * @return List of FlightTO objects
+     */
      public List<FlightTO> getFlights() {
         return flights;
     }
     
+    /**
+     * Get method for single DestinationTO.
+     * 
+     * @return destination DestinationTO
+     */
     public DestinationTO getDestination() {
         return destination;
     }
 
+    /**
+     * Setter for destination DTO.
+     * 
+     * @param destination DestiinationTO to be set 
+     */
     public void setDestination(DestinationTO destination) {
         this.destination = destination;
     }
     
+    /**
+     * Default handler that returns all DestinationTO's and redirects to /destination/list.jsp.
+     * 
+     * @return redirect to /destination/list.jsp
+     */
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
@@ -84,8 +110,14 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         return new ForwardResolution("/destination/list.jsp");
     }
     
+    /**
+     * Resolution that handles validation errors.
+     * 
+     * @param errors ValidationErrors to be handled
+     * @return null
+     */
     @Override
-    public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+    public Resolution handleValidationErrors(ValidationErrors errors) {
         try {
             DestinationTO[] dsts = restTemplate.getForObject(getUrl(), DestinationTO[].class);
             destinations = Arrays.asList(dsts);
@@ -99,6 +131,9 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         return null;
     }
 
+    /**
+     * Method that pre-loads one destination in to form.
+     */
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"save", "edit", "delete"})
     public void loadDestinationFromDatabase() {
         String ids = getContext().getRequest().getParameter("destination.id");
@@ -114,7 +149,11 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         }
     }
     
-    
+    /**
+     * Resolution that creates destination.
+     * 
+     * @return redirect to /destination/list.jsp
+     */
     @HandlesEvent("add")
     public Resolution createDestination() {
         log.debug("add() destination={}", destination);
@@ -131,6 +170,11 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    /**
+     * Resolution that updates the selected/modified destination.
+     * 
+     * @return redirect to /destination/list.jsp 
+     */
     @HandlesEvent("save")
     public Resolution updateDestination() {
         log.debug("save() destination={}", destination);
@@ -147,6 +191,11 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    /**
+     * Resolution that deletes the selected destination.
+     * 
+     * @return redirect to /destination/list.jsp
+     */
     @HandlesEvent("delete")
     public Resolution deleteDestination() {
         log.debug("delete({})", destination.getId());
@@ -163,6 +212,11 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    /**
+     * Resolution that shows all the outcoming flights for the selected destination.
+     * 
+     * @return redirect to /destination/listOutcoming.jsp
+     */
     @HandlesEvent("outcoming")
     public Resolution getAllOutcomingFlights() { 
         try {
@@ -183,6 +237,11 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         return new ForwardResolution("/destination/listOutcoming.jsp");
     }
     
+    /**
+     * Resolution that shows all the incoming flights for the selected destination.
+     * 
+     * @return redirect to /destination/listIncoming.jsp
+     */
     @HandlesEvent("incoming")
     public Resolution getAllIncomingFlights() {      
         try {
@@ -203,10 +262,20 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         return new ForwardResolution("/destination/listIncoming.jsp");
     }
     
+    /**
+     * Simple resolution that redirects jsp page.
+     * 
+     * @return redirect to /destination/list.jsp
+     */
     public Resolution cancel(){
         return new RedirectResolution(this.getClass());
     }
     
+    /**
+     * Simple resolution that redirects jsp page.
+     * 
+     * @return redirect to /destination/edit.jsp
+     */
     public Resolution edit() {
         log.debug("edit() destination={}", destination);
         return new ForwardResolution("/destination/edit.jsp");
