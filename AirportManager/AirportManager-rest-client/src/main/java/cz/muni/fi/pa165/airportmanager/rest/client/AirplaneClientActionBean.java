@@ -43,7 +43,6 @@ public class AirplaneClientActionBean extends BaseActionBean implements Validati
         @Validate(on = {"add", "save"}, field = "capacity", required = true)
     })
     private AirplaneTO airplane;
-    private LocalizableError err;
     ObjectMapper mapper = new ObjectMapper();
     private static final String URL = "http://localhost:8080/pa165/airport-manager-web/rest-jersey-server/airplane";
 

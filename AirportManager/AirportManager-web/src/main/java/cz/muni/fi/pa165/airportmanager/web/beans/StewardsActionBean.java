@@ -24,7 +24,7 @@ import org.springframework.dao.DataAccessException;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 @UrlBinding("/stewards/{$event}/{steward.id}")
 public class StewardsActionBean extends BaseActionBean{
@@ -46,22 +46,38 @@ public class StewardsActionBean extends BaseActionBean{
             })
     private StewardTO steward;
     
+    /**
+     * @return flights list
+     */
     public List<FlightTO> getFlights() {
         return flights;
     }
 
+    /**
+     * @return steward
+     */
     public StewardTO getSteward() {
         return steward;
     }
 
+    /**
+     * @return stewards list
+     */
     public List<StewardTO> getStewards() {
         return stewards;
     }
 
+    /**
+     * Sets steward
+     * @param steward 
+     */
     public void setSteward(StewardTO steward) {
         this.steward = steward;
     }
     
+    /**
+     * Loads steward from DB.
+     */
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"editsteward", "savesteward", 
         "flights", "addflight", "deletesteward", "removeflight"})
     public void loadSteward(){
@@ -83,6 +99,10 @@ public class StewardsActionBean extends BaseActionBean{
         }
     }
     
+    /**
+     * Load flight from DB.
+     * @return flight
+     */
     public FlightTO loadFlight(){
         String id = getContext().getRequest().getParameter("flight.id");
         if(id == null){
@@ -102,6 +122,10 @@ public class StewardsActionBean extends BaseActionBean{
         return null;
     }
     
+    /**
+     * Method for showing all stewards.
+     * @return 
+     */
     @DefaultHandler
     @HandlesEvent("list")
     public Resolution showStewardsList(){
@@ -119,6 +143,10 @@ public class StewardsActionBean extends BaseActionBean{
         return new ForwardResolution("/steward/list.jsp");
     }
     
+    /**
+     * Method for creating new steward
+     * @return 
+     */
     @HandlesEvent("addsteward")
     public Resolution addNewSteward(){
         try{
@@ -139,6 +167,10 @@ public class StewardsActionBean extends BaseActionBean{
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    /**
+     * Method for edit formular.
+     * @return 
+     */
     @HandlesEvent("editsteward")
     public Resolution editFormular(){
         ForwardResolution f = new ForwardResolution("/steward/edit.jsp?createnew=false");
@@ -146,11 +178,19 @@ public class StewardsActionBean extends BaseActionBean{
         return f;
     }
     
+    /**
+     * Method for create formular.
+     * @return 
+     */
     @HandlesEvent("createsteward")
     public Resolution createFormular(){
         return new ForwardResolution("/steward/edit.jsp?createnew=true");
     }
     
+    /**
+     * Method for updating steward.
+     * @return 
+     */
     @HandlesEvent("savesteward")
     public Resolution saveStewardsEdit(){
         try{
@@ -170,6 +210,10 @@ public class StewardsActionBean extends BaseActionBean{
         return new RedirectResolution(this.getClass(), "list");
     }
     
+    /**
+     * Method for deleting steward.
+     * @return 
+     */
     @HandlesEvent("deletesteward")
     public Resolution removeSteward(){
         try{
@@ -190,6 +234,10 @@ public class StewardsActionBean extends BaseActionBean{
         return new RedirectResolution(this.getClass(),"list");
     }
     
+    /**
+     * Method for showing all stewards flights.
+     * @return 
+     */
     @HandlesEvent("flights")
     public Resolution showAllStewardsFlights(){
         try{
@@ -206,6 +254,10 @@ public class StewardsActionBean extends BaseActionBean{
         return new ForwardResolution("/steward/flights.jsp?add=false");
     }
     
+    /**
+     * Method for showing possible flights to add for this {@code steward}.
+     * @return 
+     */
     @HandlesEvent("addflight")
     public Resolution showStewardsFlightToAdd(){
         try{
@@ -224,6 +276,10 @@ public class StewardsActionBean extends BaseActionBean{
         return new ForwardResolution("/steward/flights.jsp?add=true");
     }
     
+    /**
+     * Method for removing stewards flight.
+     * @return 
+     */
     @HandlesEvent("removeflight")
     public Resolution removeStewardsFlight(){
        try{
@@ -256,6 +312,10 @@ public class StewardsActionBean extends BaseActionBean{
         }
     }
     
+    /**
+     * Method for adding steards flights.
+     * @return 
+     */
     @HandlesEvent("addflighttolist")
     public Resolution addStewardsFlight(){
         try{
@@ -280,11 +340,22 @@ public class StewardsActionBean extends BaseActionBean{
         return new ForwardResolution(this.getClass(), "addflight");
     }
     
+    /**
+     * Method for cancel button.
+     * @return 
+     */
     @HandlesEvent("cancelsteward")
     public Resolution doNothing(){
         return new RedirectResolution(this.getClass());
     }
 
+    /**
+     * Returns complement of {@code stewFlights} in {@code allFlights}
+     * 
+     * @param stewFlights
+     * @param allFlights
+     * @return 
+     */
     private List<FlightTO> getRemainingFights(List<FlightTO> stewFlights, List<FlightTO> allFlights) {
         List<FlightTO> out = new LinkedList<>();
         for(FlightTO f : allFlights){
