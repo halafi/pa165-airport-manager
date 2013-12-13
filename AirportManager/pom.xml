@@ -10,6 +10,6 @@
         <module>./AirportManager-backend</module>
         <module>./AirportManager-web</module>
         <module>./AirportManager-api</module>
-    <module>AirportManager-rest-jersey-client</module>
+        <module>./AirportManager-rest-client</module>
   </modules>
 </project>
