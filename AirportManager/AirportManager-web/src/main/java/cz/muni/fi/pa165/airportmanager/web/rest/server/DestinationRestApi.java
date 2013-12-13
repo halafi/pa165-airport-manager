@@ -1,6 +1,7 @@
 
 package cz.muni.fi.pa165.airportmanager.web.rest.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.pa165.airportmanager.services.DestinationService;
@@ -123,6 +124,8 @@ public class DestinationRestApi {
                     .readValue(destination, new TypeReference<DestinationTO>() {});
             destService.createDestination(des);
             return Response.status(Status.CREATED).entity(des.getId().toString()).build();
+        } catch (JsonProcessingException ex){
+            throw new WebApplicationException(ex, Status.BAD_REQUEST);
         } catch (DataAccessException ex){
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Throwable ex){
@@ -140,6 +143,8 @@ public class DestinationRestApi {
             des.setId(id);
             destService.updateDestination(des);
             return Response.status(Status.OK).build();
+        } catch (JsonProcessingException ex){
+            throw new WebApplicationException(ex, Status.BAD_REQUEST);
         } catch (DataAccessException ex){
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Throwable ex){
