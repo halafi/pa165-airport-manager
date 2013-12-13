@@ -2,7 +2,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.services;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirportDaoException;
 import cz.muni.fi.pa165.airportmanager.backend.services.impl.AirplaneServiceImpl;
 import cz.muni.fi.pa165.airportmanager.backend.daos.AirplaneDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.EntityDTOTransformer;
@@ -51,7 +51,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
     private FlightTO flight2 = new FlightTO();
     
     @Before
-    public void setup() throws AirplaneDaoException{
+    public void setup() throws AirportDaoException{
         MockitoAnnotations.initMocks(this);
         airplaneService.setAirplaneDao(airplaneDAO);
         
@@ -72,7 +72,7 @@ public class AirplaneServiceImplTest extends AbstractTest{
         mockReactions();
     }
     
-    private void mockReactions() throws AirplaneDaoException{
+    private void mockReactions() throws AirportDaoException{
         //create
         doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).createAirplane(null);
         doThrow(InvalidDataAccessResourceUsageException.class).when(airplaneDAO).createAirplane(

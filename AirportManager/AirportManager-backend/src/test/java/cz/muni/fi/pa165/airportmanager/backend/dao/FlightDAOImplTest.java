@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirportDaoException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -70,7 +70,7 @@ public class FlightDAOImplTest extends AbstractTest {
 
     //createFlight method
     @Test
-    public void createFlightWithNull() throws AirplaneDaoException {
+    public void createFlightWithNull() throws AirportDaoException {
         try {
             flightDao.createFlight(null);
             fail("No exception thrown");
@@ -183,7 +183,7 @@ public class FlightDAOImplTest extends AbstractTest {
 
     //removeFlight method
     @Test
-    public void removeFlightWithNull() throws AirplaneDaoException {
+    public void removeFlightWithNull() throws AirportDaoException {
         try {
             flightDao.removeFlight(null);
             fail("No exception thrown");
@@ -195,7 +195,7 @@ public class FlightDAOImplTest extends AbstractTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void removeFlightWithNullId() throws AirplaneDaoException {
+    public void removeFlightWithNullId() throws AirportDaoException {
         Flight flightNullId = createFlight(null, null, null, null, null, null);
         flightNullId.setId(null);
         flightDao.removeFlight(flightNullId);
@@ -213,7 +213,7 @@ public class FlightDAOImplTest extends AbstractTest {
 
         try {
             flightDao.removeFlight(flight);
-        } catch (AirplaneDaoException ex) {
+        } catch (AirportDaoException ex) {
             fail("Remove flight - JPA Exception" + ex.getMessage());
         } catch (IllegalArgumentException ex) {
             fail("Remove flight - IllegalArgumentException" + ex.getMessage());
@@ -247,7 +247,7 @@ public class FlightDAOImplTest extends AbstractTest {
         try {
             flightDao.removeFlight(flight);
             fail("Successfully removed flight, that is not in DB");
-        } catch (AirplaneDaoException ex) {
+        } catch (AirportDaoException ex) {
             //ok
         } catch (Exception ex) {
             fail("Bad Exception");
@@ -256,7 +256,7 @@ public class FlightDAOImplTest extends AbstractTest {
 
     //updateFlight method
     @Test
-    public void updateFlightWithNull() throws AirplaneDaoException {
+    public void updateFlightWithNull() throws AirportDaoException {
         try {
             flightDao.updateFlight(null);
             fail("No exception thrown");
@@ -268,7 +268,7 @@ public class FlightDAOImplTest extends AbstractTest {
     }
 
     @Test
-    public void updateFlightWithNullId() throws AirplaneDaoException {
+    public void updateFlightWithNullId() throws AirportDaoException {
         Flight flightNullId = createFlight(null, null, null, null, null, null);
         flightNullId.setId(null);
         try {
@@ -386,7 +386,7 @@ public class FlightDAOImplTest extends AbstractTest {
         try {
             flightDao.updateFlight(flight);
             fail("Successfully updated flight, that is not in DB");
-        } catch (AirplaneDaoException ex) {
+        } catch (AirportDaoException ex) {
             //ok
         } catch (Exception ex) {
             fail("Bad Exception");
@@ -433,7 +433,7 @@ public class FlightDAOImplTest extends AbstractTest {
 
         try {
             flightDao.updateFlight(flight);
-        } catch (AirplaneDaoException ex) {
+        } catch (AirportDaoException ex) {
             fail("Update flight - JPA Exception" + ex.getMessage());
         } catch (IllegalArgumentException ex) {
             fail("Update flight - IllegalArgumentException" + ex.getMessage());
@@ -449,7 +449,7 @@ public class FlightDAOImplTest extends AbstractTest {
     //getFlight method
 
     @Test
-    public void getFlightWithNull() throws AirplaneDaoException {
+    public void getFlightWithNull() throws AirportDaoException {
         try {
             flightDao.getFlight(null);
             fail("No exception thrown");
@@ -461,7 +461,7 @@ public class FlightDAOImplTest extends AbstractTest {
     }
 
     @Test
-    public void getFlightTest() throws AirplaneDaoException {
+    public void getFlightTest() throws AirportDaoException {
 
         Steward steward = createSteward("ste", "ward");
         stewards.add(steward);
@@ -481,7 +481,7 @@ public class FlightDAOImplTest extends AbstractTest {
 
     //getAllFlights method
     @Test
-    public void getAllFlightsTest() throws AirplaneDaoException {
+    public void getAllFlightsTest() throws AirportDaoException {
         Flight flight1 = createFlight(plane1, dest1, dest2, stewards, timeEarlier, timeLater);
         Flight flight2 = createFlight(plane2, dest2, dest1, stewards, timeEarlier, timeLater);
 

@@ -58,7 +58,7 @@ public class FlightDAOImpl implements FlightDAO {
             throw new IllegalArgumentException("Invalid Departure/Arrival time, wrong order.");
         } else {
             if(em.find(Flight.class, flight.getId()) == null) {
-                throw new AirplaneDaoException("Flight in database is null.");
+                throw new AirportDaoException("Flight in database is null.");
             }
             em.merge(flight);
         }
@@ -73,7 +73,7 @@ public class FlightDAOImpl implements FlightDAO {
         } else {
             Flight flightToBeDeleted = em.find(Flight.class, flight.getId());
             if (flightToBeDeleted == null) {
-                throw new AirplaneDaoException("Flight in database is null.");
+                throw new AirportDaoException("Flight in database is null.");
             }
             em.remove(flightToBeDeleted);
         }
@@ -86,7 +86,7 @@ public class FlightDAOImpl implements FlightDAO {
         }
         Flight toReturn = em.find(Flight.class, id);
         if(toReturn == null) {
-            throw new AirplaneDaoException("Flight is not in database.");
+            throw new AirportDaoException("Flight is not in database.");
         }
         return toReturn;
     }

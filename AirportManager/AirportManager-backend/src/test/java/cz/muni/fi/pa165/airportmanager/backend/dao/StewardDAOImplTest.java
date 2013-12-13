@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.airportmanager.backend.dao;
 
 import cz.muni.fi.pa165.airportmanager.backend.AbstractTest;
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirportDaoException;
 import cz.muni.fi.pa165.airportmanager.backend.daos.StewardDAO;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Airplane;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Destination;
@@ -54,7 +54,7 @@ public class StewardDAOImplTest extends AbstractTest {
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException
      */
     @Test
-    public void testGetSteward() throws AirplaneDaoException{
+    public void testGetSteward() throws AirportDaoException{
         Steward steward1 = newSteward("Elaine","Dickinson");
         Steward steward2 = newSteward("Joshua","Bloch");
         stewDAO.createSteward(steward1);
@@ -71,7 +71,7 @@ public class StewardDAOImplTest extends AbstractTest {
     public void testGetStewardWithNullId() {
         try {
             stewDAO.getSteward(null);
-        } catch (AirplaneDaoException ex) {
+        } catch (AirportDaoException ex) {
             fail("IllegalArgumentException not thrown.");
         } catch (IllegalArgumentException ex) {
             
@@ -83,7 +83,7 @@ public class StewardDAOImplTest extends AbstractTest {
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException
      */
     @Test
-    public void testGetAllStewards() throws AirplaneDaoException {
+    public void testGetAllStewards() throws AirportDaoException {
         assertTrue(stewDAO.getAllStewards().isEmpty());
         
         Steward steward1 = newSteward("Elaine","Dickinson");
@@ -106,7 +106,7 @@ public class StewardDAOImplTest extends AbstractTest {
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException
      */
     @Test
-    public void testGetAllStewardsFlights() throws AirplaneDaoException {
+    public void testGetAllStewardsFlights() throws AirportDaoException {
         Airplane plane1 = newAirplane(700,"Jet3000","Passenger transport");
         Destination dest1 = newDestination("CZB","Czech Republic","Brno");
         Destination dest2 = newDestination("USN","United States","New York");
@@ -143,7 +143,7 @@ public class StewardDAOImplTest extends AbstractTest {
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException
      */
     @Test
-    public void testCreateSteward() throws AirplaneDaoException {
+    public void testCreateSteward() throws AirportDaoException {
         Steward steward = newSteward("Elaine","Dickinson");
         stewDAO.createSteward(steward);
         
@@ -166,7 +166,7 @@ public class StewardDAOImplTest extends AbstractTest {
         Steward steward = null;
         try {
             stewDAO.createSteward(steward);
-        } catch (AirplaneDaoException ex) {
+        } catch (AirportDaoException ex) {
             fail("IllegalArgumentException not thrown.");
         } catch (IllegalArgumentException ex) {
             
@@ -182,7 +182,7 @@ public class StewardDAOImplTest extends AbstractTest {
         steward.setFirstName("Elaine");
         try {
             stewDAO.createSteward(steward);
-        } catch (AirplaneDaoException ex) {
+        } catch (AirportDaoException ex) {
             fail("IllegalArgumentException not thrown.");
         } catch (IllegalArgumentException ex) {
             
@@ -198,7 +198,7 @@ public class StewardDAOImplTest extends AbstractTest {
         steward.setLastName("Dickinson");
         try {
             stewDAO.createSteward(steward);
-        } catch (AirplaneDaoException ex) {
+        } catch (AirportDaoException ex) {
             fail("IllegalArgumentException not thrown.");
         } catch (IllegalArgumentException ex) {
             
@@ -211,7 +211,7 @@ public class StewardDAOImplTest extends AbstractTest {
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException
      */
     @Test
-    public void testUpdateSteward() throws AirplaneDaoException {
+    public void testUpdateSteward() throws AirportDaoException {
         Steward steward = new Steward();
         steward.setFirstName("Elaine");
         steward.setLastName("Dickinson");
@@ -232,7 +232,7 @@ public class StewardDAOImplTest extends AbstractTest {
      * @throws cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException
      */
     @Test
-    public void testRemoveSteward() throws AirplaneDaoException{
+    public void testRemoveSteward() throws AirportDaoException{
         Steward steward1 = newSteward("Elaine","Dickinson");
         Steward steward2 = newSteward("Joshua","Bloch");
         stewDAO.createSteward(steward1);
@@ -246,7 +246,7 @@ public class StewardDAOImplTest extends AbstractTest {
         
         try {
             Steward removedSteward = stewDAO.getSteward(steward1.getId());
-        } catch (AirplaneDaoException ex) {
+        } catch (AirportDaoException ex) {
             return;
         }
         fail();

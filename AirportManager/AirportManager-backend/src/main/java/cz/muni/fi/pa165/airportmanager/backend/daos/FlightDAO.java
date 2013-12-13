@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.airportmanager.backend.daos;
 
-import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirplaneDaoException;
+import cz.muni.fi.pa165.airportmanager.backend.daos.impl.AirportDaoException;
 import cz.muni.fi.pa165.airportmanager.backend.entities.Flight;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface FlightDAO {
      * @throws IllegalArgumentException when some atributes have illegal states
      * @throws AirplaneDaoException when an error occurs by creating
      */
-    public void createFlight(Flight flight) throws AirplaneDaoException, IllegalArgumentException;
+    public void createFlight(Flight flight) throws AirportDaoException, IllegalArgumentException;
     
     /**
      * Updates {@link Flight} {@code flight} in DB.
@@ -27,7 +27,7 @@ public interface FlightDAO {
      * @throws AirplaneDaoException when {@code flight} does not exist or error occurs by updating
      * @throws IllegalArgumentException when {@code flight} has some illegal atributes
      */
-    public void updateFlight(Flight flight) throws AirplaneDaoException, IllegalArgumentException;
+    public void updateFlight(Flight flight) throws AirportDaoException, IllegalArgumentException;
     
     /**
      * Removes {@link Flight} {@code flight} from DB
@@ -36,7 +36,7 @@ public interface FlightDAO {
      * @throws AirplaneDaoException when {@code flight} does not exist or some error occurs by removing
      * @throws IllegalArgumentException when {@code flight.getId() == null}
      */
-    public void removeFlight(Flight flight) throws AirplaneDaoException, IllegalArgumentException;
+    public void removeFlight(Flight flight) throws AirportDaoException, IllegalArgumentException;
     
     /**
      * Finds and return {@link Flight} {@code flight} in DB acording to {@code id}
@@ -47,7 +47,7 @@ public interface FlightDAO {
      *      by findig
      * @throws IllegalArgumentException when {@code id == null}
      */
-    public Flight getFlight(Long id) throws AirplaneDaoException, IllegalArgumentException;
+    public Flight getFlight(Long id) throws AirportDaoException, IllegalArgumentException;
     
     /**
      * Finds all flights in DB
@@ -55,5 +55,5 @@ public interface FlightDAO {
      * @return {@link List} of {@link Flight}{@code s} in DB
      * @throws AirplaneDaoException when some error occurs by finding
      */
-    public List<Flight> getAllFlight() throws AirplaneDaoException;
+    public List<Flight> getAllFlight() throws AirportDaoException;
 }
