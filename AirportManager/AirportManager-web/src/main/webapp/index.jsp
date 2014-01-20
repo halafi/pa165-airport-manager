@@ -5,6 +5,8 @@
 <s:layout-render name="/layout.jsp" titlekey="index.title">
     <s:layout-component name="body">
 
+
+        
         <div class="text-content">
             <h1><f:message key="welcome"/></h1>
         </div>

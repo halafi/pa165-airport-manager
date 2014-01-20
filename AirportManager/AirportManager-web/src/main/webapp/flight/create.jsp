@@ -9,7 +9,6 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <s:layout-render name="/layout.jsp" titlekey="index.title">
     <s:layout-component name="body">
-        
         <div class="text-content">
             <fieldset>
                 <legend><f:message key="create"/></legend>

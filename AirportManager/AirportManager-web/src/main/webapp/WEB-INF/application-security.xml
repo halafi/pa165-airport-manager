@@ -6,15 +6,20 @@
           http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
            
- <http auto-config="true">
-    <intercept-url pattern="/stewards/*" access="ROLE_USER" />
-    <intercept-url pattern="/flights/*" access="ROLE_USER" />
-    <intercept-url pattern="/destinations/*" access="ROLE_USER" />
-    <intercept-url pattern="/airplanes/*" access="ROLE_USER" />
-    <intercept-url pattern="/steward/*" access="ROLE_ADMIN" />
-    <intercept-url pattern="/flight/*" access="ROLE_ADMIN" />
-    <intercept-url pattern="/destination/*" access="ROLE_ADMIN" />
-    <intercept-url pattern="/airplane/*" access="ROLE_ADMIN" />
+ <http auto-config="true" use-expressions="true">
+    <intercept-url pattern="/*/list" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+    <intercept-url pattern="/*/listflight" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+    <intercept-url pattern="/*/edit/*" access="hasRole('ROLE_ADMIN')" />
+    <intercept-url pattern="/*/create/*" access="hasRole('ROLE_ADMIN')" />
+    <intercept-url pattern="/*/editflight/*" access="hasRole('ROLE_ADMIN')" />
+    <intercept-url pattern="/*/editsteward/*" access="hasRole('ROLE_ADMIN')" />
+<!--    <intercept-url pattern="/steward/*" access="hasRole('ROLE_ADMIN')" />
+    <intercept-url pattern="/flight/*" access="hasRole('ROLE_ADMIN')" />
+    <intercept-url pattern="/destination/*" access="hasRole('ROLE_ADMIN')" />
+    <intercept-url pattern="/airplane/*" access="hasRole('ROLE_ADMIN')" />-->
+    <form-login login-page='/login.jsp' default-target-url="/index.jsp" />
+    <intercept-url pattern="/login.jsp*" access="permitAll"/>
+
  </http>      
  
        
@@ -22,7 +27,7 @@
       <authentication-provider>
         <user-service>
           <user name="user" password="user" authorities="ROLE_USER" />
-          <user name="admin" password="admin" authorities="ROLE_ADMIN, ROLE_USER" />
+          <user name="admin" password="admin" authorities="ROLE_ADMIN" />
         </user-service>
       </authentication-provider>
     </authentication-manager>   

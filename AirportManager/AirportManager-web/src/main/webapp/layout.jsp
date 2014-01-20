@@ -2,6 +2,8 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <s:layout-definition>
     <!DOCTYPE html>
     <html lang="${pageContext.request.locale}">
@@ -21,51 +23,9 @@
                         logged in as Admin
                     </div>
                 </div>
-                <!--left navigation panel-->
-                <div id="main">
-                    <div id="navigation">
-                        <ul id="menu">
-                            <li class="navlink"><f:message key="airplane"/>
-                            <ul class="submenu">
-                                <s:link href="/airplane/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
-                                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean"><li class="navlink"><f:message key="list"/></li></s:link>
-                                </ul>
-                            </li>
-                            <li class="navlink"><f:message key="destination"/>
-                            <ul class="submenu">
-                                <s:link href="/destination/create.jsp"><li class="navlink"><f:message key="create"/></li></s:link>
-                                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean"><li class="navlink"><f:message key="list"/></li></s:link>
-                                </ul>
-                            </li>
-                            <li class="navlink"><f:message key="flight"/>
-                            <ul class="submenu">
-                                <li class="navlink"><s:link href="/flight/create.jsp"><f:message key="create"/></s:link></li>
-                                <li class="navlink"><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean"><f:message key="list"/></s:link></li>             
-                                </ul>
-                            </li>
-                            <li class="navlink"><f:message key="steward"/>
-                            <ul class="submenu">
-                                <s:link href="/steward/edit.jsp">
-                                    <li class="navlink">
-                                        <f:message key="create"/>
-                                        <s:param name="createnew" value="true"/>
-                                    </li>
-                                </s:link>
-                                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
-                                    <li class="navlink">
-                                        <f:message key="list"/>
-                                    </li>
-                                </s:link>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div id="wrapper">
-                    <s:messages/>
-                    <s:errors/>
-                    <s:layout-component name="body"/>
-                </div>
-            </div>
+        
+            <%@include file="adminmenu.jsp"%>
+        
             <div id="footer">
                 <f:message key="page.authors"/>: Bc. Juraj Duráni (359185), Bc. Matúš Makový (374426),
                 Bc. Samuel Peťovský (374591), Filip Halas (374137); <f:message key="page.fimu"/>;

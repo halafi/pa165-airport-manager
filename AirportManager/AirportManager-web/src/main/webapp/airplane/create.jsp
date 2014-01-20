@@ -6,7 +6,6 @@
     <s:layout-component name="body">
         
         <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" var="actionBean"/>
-        
         <div class="text-content">
             <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">
                 <s:hidden name="airplane.id"/>
