@@ -16,10 +16,10 @@
                 <div id="logo">
                     <s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" height="70" width="600"/></s:link>
                     </div>
-                    <div id="logout">
+<!--                    <div id="logout">
                         <a href="#">logout</a><br/>
                         logged in as Admin
-                    </div>
+                    </div>-->
                 </div>
                 <!--left navigation panel-->
                 <div id="main">
