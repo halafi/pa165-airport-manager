@@ -31,6 +31,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/spring-context.xml
                     /WEB-INF/application-security.xml
+                    /WEB-INF/user-service.xml
         </param-value>
     </context-param>
     <!-- JSTL -->
