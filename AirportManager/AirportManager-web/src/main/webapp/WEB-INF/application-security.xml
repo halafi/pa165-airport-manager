@@ -6,28 +6,29 @@
           http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
            
- <http auto-config="true" use-expressions="true">
-    <intercept-url pattern="/*/" access="hasRole('ROLE_USER')" />
-    <intercept-url pattern="/destinations" access="hasRole('ROLE_USER')" />
-    <intercept-url pattern="/airplanes" access="hasRole('ROLE_USER')" />
-    <intercept-url pattern="/stewards" access="hasRole('ROLE_USER')" />
-    <intercept-url pattern="/flights" access="hasRole('ROLE_USER')" />
-    <intercept-url pattern="/*/list*" access="hasRole('ROLE_USER')" />
-    <intercept-url pattern="/*/listflight*" access="hasRole('ROLE_USER')" />
-    <intercept-url pattern="/*/edit*" access="hasRole('ROLE_ADMIN')" />
-    <intercept-url pattern="/*/create*" access="hasRole('ROLE_ADMIN')" />
-    <intercept-url pattern="/*/editflight*" access="hasRole('ROLE_ADMIN')" />
-    <intercept-url pattern="/*/editsteward*" access="hasRole('ROLE_ADMIN')" />
-    
-    <intercept-url pattern="/login.jsp*" access="permitAll"/>
-    <form-login login-page='/login.jsp' default-target-url="/index.jsp" />
-    <logout logout-success-url="/" delete-cookies="JSESSIONID"/>
- </http>      
+    <http auto-config="true" use-expressions="true">
+        
+        <intercept-url pattern="/admin*" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/user*" access="hasRole('ROLE_USER')" /> 
+        
+        <!--<intercept-url pattern="/*/" access="hasRole('ROLE_USER')" />-->
+        <intercept-url pattern="/destinations" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/airplanes" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/stewards" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/flights" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/*/list*" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/*/listflight*" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/*/edit*" access="hasRole('ROLE_ADMIN')" />
+
+       <intercept-url pattern="/login.jsp*" access="permitAll"/>
+       <form-login login-page='/login.jsp' default-target-url="/index.jsp" />
+       <logout logout-success-url="/" delete-cookies="JSESSIONID"/>
+    </http>      
     
     <beans:import resource="user-service.xml"/>
     
     <authentication-manager erase-credentials="false">
-      <authentication-provider user-service-ref="userDetailsService"/>
+        <authentication-provider user-service-ref="userDetailsService"/>
     </authentication-manager>
     
 </beans:beans>

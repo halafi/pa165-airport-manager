@@ -7,9 +7,13 @@
             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <!-- Spring -->
     <filter-mapping>
-        <filter-name>EncFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <filter>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>StripesFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
@@ -89,16 +93,5 @@
         <servlet-name>jersey-servlet</servlet-name>
         <url-pattern>/rest-jersey-server/*</url-pattern>
     </servlet-mapping>
-    
-    
-    <!-- filter declaration for Spring Security -->
-    <filter>
-      <filter-name>springSecurityFilterChain</filter-name>
-      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-     
-    <filter-mapping>
-      <filter-name>springSecurityFilterChain</filter-name>
-      <url-pattern>/*</url-pattern>
-    </filter-mapping>
+
 </web-app>
