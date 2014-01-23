@@ -153,6 +153,9 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             destination = destinationService.getDestination(Long.parseLong(ids));
             destinations = destinationService.getAllDestinations();
             flights = destinationService.getAllOutcomingFlights(destination);
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.list.outcoming",
+                        escapeHTML(destination.getId().toString())));
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("destination.error.service", ex);
             getContext().getValidationErrors().addGlobalError(err);
@@ -160,7 +163,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             LocalizableError err = new LocalizableError("destination.error.unknown", ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.list.outcoming", escapeHTML(destination.getId().toString())));
         return new ForwardResolution("/destination/listOutcoming.jsp");
     }
     
@@ -176,6 +178,9 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             destination = destinationService.getDestination(Long.parseLong(ids));
             destinations = destinationService.getAllDestinations();
             flights = destinationService.getAllIncomingFlights(destination);
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.list.incoming",
+                        escapeHTML(destination.getId().toString())));
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("destination.error.service", ex);
             getContext().getValidationErrors().addGlobalError(err);
@@ -183,7 +188,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             LocalizableError err = new LocalizableError("destination.error.unknown", ex);
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.list.incoming", escapeHTML(destination.getId().toString())));
         return new ForwardResolution("/destination/listIncoming.jsp");
     }
     
@@ -197,6 +201,11 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         log.debug("add() destination={}", destination);
         try {
             destinationService.createDestination(destination);
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.created",
+                        escapeHTML(destination.getCountry()),
+                        escapeHTML(destination.getCity()),
+                        escapeHTML(destination.getCode())));
         } catch(DataAccessException ex) {
             LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -204,7 +213,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
@@ -218,6 +226,11 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         log.debug("save() destination={}", destination);
         try {
             destinationService.updateDestination(destination);
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.updated",
+                        escapeHTML(destination.getCountry()),
+                        escapeHTML(destination.getCity()),
+                        escapeHTML(destination.getCode())));
         } catch(DataAccessException ex) {
             LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -225,7 +238,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
@@ -239,6 +251,11 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
         log.debug("delete({})", destination.getId());
         try {
             destinationService.removeDestination(destination);
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.deleted",
+                        escapeHTML(destination.getCountry()),
+                        escapeHTML(destination.getCity()),
+                        escapeHTML(destination.getCode())));
         } catch(DataAccessException ex) {
             LocalizableError err = new LocalizableError("destination.error.service", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -246,7 +263,6 @@ public class DestinationsActionBean extends BaseActionBean implements Validation
             LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     

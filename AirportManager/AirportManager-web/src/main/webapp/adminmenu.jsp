@@ -14,7 +14,7 @@
             <ul id="menu">
                 <li class="navlink"><f:message key="airplane"/>
                     <ul class="submenu">
-                        <sec:authorize ifAnyGranted="hasRole('ROLE_ADMIN')">
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <s:link href="/airplane/create.jsp">
                                 <li class="navlink"><f:message key="create"/></li>
                             </s:link>

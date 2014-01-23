@@ -152,19 +152,22 @@ public class StewardsActionBean extends BaseActionBean{
         try{
             System.out.println("created steward: " + steward);
             stewService.createSteward(steward);
+            System.out.println("after created steward: " + steward);
             getContext().getMessages().add(new LocalizableMessage("steward.created", 
                     escapeHTML(steward.getFirstName()),
                     escapeHTML(steward.getLastName())));
+            System.out.println("after after created steward: " + steward);
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("steward.error.service", 
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
+            ex.printStackTrace();
             LocalizableError err = new LocalizableError("steward.error.uknown", 
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        return new RedirectResolution(this.getClass(), "list");
+        return new RedirectResolution(this.getClass(), "list").flash(this);
     }
     
     /**
