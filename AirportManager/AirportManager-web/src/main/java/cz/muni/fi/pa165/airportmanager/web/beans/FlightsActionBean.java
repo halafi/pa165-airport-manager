@@ -104,7 +104,7 @@ public class FlightsActionBean extends BaseActionBean {
     }
 
     public List<StewardTO> getStewList() {
-        stewList = stewService.findAllStewards();
+        stewList = stewService.getAllStewards();
         return stewList;
     }
 

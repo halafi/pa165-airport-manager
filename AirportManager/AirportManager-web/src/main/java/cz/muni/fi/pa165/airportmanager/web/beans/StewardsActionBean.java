@@ -86,7 +86,7 @@ public class StewardsActionBean extends BaseActionBean{
             return;
         }
         try{
-            steward = stewService.findSteward(Long.parseLong(id));
+            steward = stewService.getSteward(Long.parseLong(id));
             flights = stewService.getAllStewardsFlights(steward);
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("steward.error.service", 
@@ -130,7 +130,7 @@ public class StewardsActionBean extends BaseActionBean{
     @HandlesEvent("list")
     public Resolution showStewardsList(){
         try{
-            stewards = stewService.findAllStewards();
+            stewards = stewService.getAllStewards();
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("steward.error.service", 
                     escapeHTML(ex.getMessage()));

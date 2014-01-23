@@ -75,13 +75,13 @@ public class StewardServiceImpl implements StewardService{
     }
 
     @Override
-    public StewardTO findSteward(Long id) throws DataAccessException {
+    public StewardTO getSteward(Long id) throws DataAccessException {
         Steward s = stewardDao.getSteward(id);
         return EntityDTOTransformer.stewardConvert(s);
     }
 
     @Override
-    public List<StewardTO> findAllStewards() throws DataAccessException {
+    public List<StewardTO> getAllStewards() throws DataAccessException {
         List<Steward> list = stewardDao.getAllStewards();
         List<StewardTO> out = new ArrayList<>(list.size());
         for(Steward s : list){

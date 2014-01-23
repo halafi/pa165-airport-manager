@@ -8,6 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <s:layout-render name="/layout.jsp" titlekey="steward.title" >
     <s:layout-component name="body" >
@@ -35,12 +36,14 @@
                                 <f:message key="steward.flights"/>
                             </s:link>
                         </th>
+                        <sec:authorize url="/admin">
                         <th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
                                     event="editsteward">
                                     <s:param name="steward.id" value="${steward.id}"/>
                                     <img class="icon" src="${pageContext.request.contextPath}/images/edit.png"/>
                                 
-                            </s:link></th> 
+                            </s:link>
+                        </th> 
                         <th><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean"
                                     event="deletesteward">
                                     <s:param name="steward.id" value="${steward.id}"/>
@@ -48,6 +51,7 @@
                                 
                             </s:link>
                         </th>
+                        </sec:authorize>
                     </tr>
                 </c:forEach>
             </table>

@@ -25,6 +25,7 @@ public class AirportManagerUserService implements UserDetailsService{
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private static final UserDetails DEFAULT_USER = getUserInstance("user", "user");
     private static final UserDetails DEFAULT_ADMIN = getAdmin();
+    private static final UserDetails DEFAULT_REST = getRESTClient();
     
     private File usersFile = new File(
             new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath())
@@ -48,15 +49,25 @@ public class AirportManagerUserService implements UserDetailsService{
         if(!validUsername(string)){
             throw new UsernameNotFoundException("Unsupported character: " + string);
         }
-        if(string.equals("admin")){
+        if(string.equalsIgnoreCase("admin")){
             return DEFAULT_ADMIN;
         }
-        if(string.equals("user")){
+        if(string.equalsIgnoreCase("user")){
             return DEFAULT_USER;
+        }
+        if(string.equalsIgnoreCase("rest")){
+            return DEFAULT_REST;
         }
         return getUser(string);
     }
 
+    /**
+     * Creates new user with given {@code username} and {@code password}.
+     * @param username
+     * @param password
+     * @throws CannotCreateUserException If {@code username} is not alphanumeric
+     *      or username already exists.
+     */
     public void addUser(String username, String password) throws CannotCreateUserException{
         if(!validUsername(username)){
             throw new InvalidUsernameException("Unsupported character: " + username);
@@ -84,7 +95,7 @@ public class AirportManagerUserService implements UserDetailsService{
             while(line != null){
                 split = splitLine(line);
                 if(split.length >= 2){
-                    if(split[0].equals(username)){
+                    if(split[0].equalsIgnoreCase(username)){
                         return getUserInstance(split[0], split[1]);
                     }
                 }
@@ -101,6 +112,13 @@ public class AirportManagerUserService implements UserDetailsService{
         authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
         authorities.add(new SimpleGrantedAuthority(ROLE_USER));
         return new User("admin", "admin", authorities);
+    }
+    
+    private static UserDetails getRESTClient() {
+        Collection<GrantedAuthority> authorities = new ArrayList<>(2);
+        authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+        authorities.add(new SimpleGrantedAuthority(ROLE_USER));
+        return new User("rest", "rest", authorities);
     }
 
     private static UserDetails getUserInstance(String name, String password) {

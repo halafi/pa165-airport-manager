@@ -27,7 +27,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author Samo
  */
-@Path("/airplane")
+@Path("/rest-jersey-server/airplane")
 public class AirplaneRestApi {
 
     private static final ApplicationContext appConfig = 

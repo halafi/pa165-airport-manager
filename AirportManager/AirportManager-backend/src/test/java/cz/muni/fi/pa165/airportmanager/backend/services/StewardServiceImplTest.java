@@ -68,7 +68,7 @@ public class StewardServiceImplTest extends AbstractTest {
         service.createSteward(expected);
         verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(expected));
         when(stewDAO.getSteward(-1L)).thenReturn(EntityDTOTransformer.stewardTOConvert(expected));
-        StewardTO actual = service.findSteward(-1L);
+        StewardTO actual = service.getSteward(-1L);
         assertDeepEquals(actual, expected);
     }
     
@@ -91,7 +91,7 @@ public class StewardServiceImplTest extends AbstractTest {
         stewTo.setFirstName("Marie");
         service.updateSteward(stewTo);
         when(stewDAO.getSteward(-1L)).thenReturn(EntityDTOTransformer.stewardTOConvert(stewTo));
-        StewardTO actual = service.findSteward(-1L);
+        StewardTO actual = service.getSteward(-1L);
         verify(stewDAO).updateSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
         assertDeepEquals(stewTo, actual);
     }
@@ -116,7 +116,7 @@ public class StewardServiceImplTest extends AbstractTest {
         service.removeSteward(stewTo);
         verify(stewDAO).removeSteward(EntityDTOTransformer.stewardTOConvert(stewTo));
         when(stewDAO.getSteward(-1L)).thenThrow(DataRetrievalFailureException .class);
-        service.findSteward(-1L);
+        service.getSteward(-1L);
     }
     
     /**
@@ -124,7 +124,7 @@ public class StewardServiceImplTest extends AbstractTest {
      */
     @Test (expected=DataAccessException.class)
     public void testFindNull(){
-        service.findSteward(null);
+        service.getSteward(null);
     }
     
     /**!!!
@@ -138,7 +138,7 @@ public class StewardServiceImplTest extends AbstractTest {
             service.createSteward(expected);
             verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(expected));
             when(stewDAO.getSteward(-1L)).thenReturn(EntityDTOTransformer.stewardTOConvert(expected));
-            StewardTO actual = service.findSteward(-1L);
+            StewardTO actual = service.getSteward(-1L);
             verify(stewDAO).getSteward(-1L);
             assertDeepEquals(expected, actual);
         } catch (DataAccessException ex) {
@@ -155,19 +155,19 @@ public class StewardServiceImplTest extends AbstractTest {
         StewardTO stew2 = newStewardTO("Samo","Teammate");
         List<Steward> list = new ArrayList();
         when(stewDAO.getAllStewards()).thenReturn(list);
-        assertEquals(0, service.findAllStewards().size());
+        assertEquals(0, service.getAllStewards().size());
         verify(stewDAO).getAllStewards();
         service.createSteward(stew);
         verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(stew));
         list.add(EntityDTOTransformer.stewardTOConvert(stew));
         when(stewDAO.getAllStewards()).thenReturn(list);
-        assertEquals(1, service.findAllStewards().size());
+        assertEquals(1, service.getAllStewards().size());
         service.createSteward(stew2);
         verify(stewDAO).createSteward(EntityDTOTransformer.stewardTOConvert(stew2));
         list.add(EntityDTOTransformer.stewardTOConvert(stew2));
         when(stewDAO.getAllStewards()).thenReturn(list);
-        assertEquals(2, service.findAllStewards().size());
-        assertDeepEquals(EntityDTOTransformer.stewardListConvert(list), service.findAllStewards());
+        assertEquals(2, service.getAllStewards().size());
+        assertDeepEquals(EntityDTOTransformer.stewardListConvert(list), service.getAllStewards());
     }
     
     /**

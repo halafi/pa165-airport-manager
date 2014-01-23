@@ -3,6 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean" 
                  var="actionBean"/>
@@ -17,6 +18,7 @@
             <th><f:message key="flight.origin"/></th>
             <th><f:message key="flight.target"/></th>
             <th><f:message key="flight.airplane"/></th>
+            <sec:authorize url="/admin">
             <th>
                 <c:choose>
                     <c:when test="${add == true}">
@@ -27,6 +29,7 @@
                     </c:otherwise> 
                 </c:choose>
             </th>
+            </sec:authorize>
         </tr>
         <c:forEach items="${actionBean.flights}" var="flight">
             <tr>
@@ -36,6 +39,7 @@
                 <td><c:out value="${flight.origin.city}"/></td>
                 <td><c:out value="${flight.target.city}"/></td>
                 <td><c:out value="${flight.airplaneTO.name}"/></td>
+                <sec:authorize url="/admin">
                 <td>
                     <c:choose>
                         <c:when test="${add != true}">
@@ -61,17 +65,20 @@
                         </c:otherwise> 
                     </c:choose>
                 </td>
+                </sec:authorize>
             </tr>
         </c:forEach>
     </table>
     <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
-        <c:if test="${add != true}">
-            <s:submit name="addflight">
-                <s:param name="createnew" value="${pageContext.request.getParameter('createnew')}"/>
-                <s:param name="steward.id" value="${pageContext.request.getParameter('steward.id')}"/>
-                <f:message key="steward.flights.add"/>
-            </s:submit>
-        </c:if>
+        <sec:authorize url="/admin">
+            <c:if test="${add != true}">
+                <s:submit name="addflight">
+                    <s:param name="createnew" value="${pageContext.request.getParameter('createnew')}"/>
+                    <s:param name="steward.id" value="${pageContext.request.getParameter('steward.id')}"/>
+                    <f:message key="steward.flights.add"/>
+                </s:submit>
+            </c:if>
+        </sec:authorize>
         <s:submit name="cancelsteward">Ok</s:submit>
     </s:form>
 </div>

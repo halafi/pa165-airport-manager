@@ -34,7 +34,4 @@
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
         <constructor-arg ref="commons"/>       
     </bean> 
-
-    
-
 </beans>

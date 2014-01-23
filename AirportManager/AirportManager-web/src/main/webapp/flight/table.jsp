@@ -9,6 +9,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" 
                  var="actionBean"/>
@@ -22,7 +23,9 @@
         <th><f:message key="flight.target"/></th>
         <th><f:message key="flight.airplane"/></th>
         <th><f:message key="flight.stewards"/></th>
-        <th colspan="2"><f:message key="operations"/></th>
+        <sec:authorize url="/admin">
+            <th colspan="2"><f:message key="operations"/></th>
+        </sec:authorize>
     </tr>
     
     <c:forEach items="${actionBean.flights}" var="flight">
@@ -51,21 +54,22 @@
                     </c:choose>   
                 </s:form>
             </td>
-            
-            <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" 
-                        event="editflight">
-                    <s:param name="flight.id" value="${flight.id}"/>
-                    <img src="${pageContext.request.contextPath}/images/edit.png" class="icon"/>
-                </s:link>
-            </td>
-            <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" 
-                        event="deleteflight">
-                    <s:param name="flight.id" value="${flight.id}"/>
-                    <img src="${pageContext.request.contextPath}/images/delete.png" class="icon"/>
-                </s:link>
-            </td>
+            <sec:authorize url="/admin">
+                <td>
+                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" 
+                            event="editflight">
+                        <s:param name="flight.id" value="${flight.id}"/>
+                        <img src="${pageContext.request.contextPath}/images/edit.png" class="icon"/>
+                    </s:link>
+                </td>
+                <td>
+                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean" 
+                            event="deleteflight">
+                        <s:param name="flight.id" value="${flight.id}"/>
+                        <img src="${pageContext.request.contextPath}/images/delete.png" class="icon"/>
+                    </s:link>
+                </td>
+            </sec:authorize>
         </tr>
     </c:forEach>
 </table>

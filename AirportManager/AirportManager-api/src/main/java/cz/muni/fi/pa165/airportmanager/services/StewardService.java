@@ -38,14 +38,14 @@ public interface StewardService {
      * @param id ID of record.
      * @return {@link StewardTO} with ID {@code id}.
      */
-    StewardTO findSteward(Long id);
+    StewardTO getSteward(Long id);
     
     /**
      * Finds and returns all {@link StewardTO} records.
      * 
      * @return All {@link StewardTO} records or empty list.
      */
-    List<StewardTO> findAllStewards();
+    List<StewardTO> getAllStewards();
     
     /**
      * Finds and returns all stewards flights.

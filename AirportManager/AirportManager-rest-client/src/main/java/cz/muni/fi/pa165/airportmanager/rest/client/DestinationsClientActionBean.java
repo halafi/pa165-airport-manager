@@ -159,6 +159,11 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         log.debug("add() destination={}", destination);
         try {
             restTemplate.postForObject(getUrl() + "/", destination, DestinationTO.class);
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.created",
+                        escapeHTML(destination.getCountry()),
+                        escapeHTML(destination.getCity()),
+                        escapeHTML(destination.getCode())));
         } catch (RestClientException ex) {
             LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -166,7 +171,6 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
             LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.created",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
@@ -180,6 +184,11 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         log.debug("save() destination={}", destination);
         try {
             restTemplate.put(getUrl() + "/{id}", destination, destination.getId());
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.updated",
+                        escapeHTML(destination.getCountry()),
+                        escapeHTML(destination.getCity()),
+                        escapeHTML(destination.getCode())));
         } catch (RestClientException ex) {
             LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -187,7 +196,6 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
             LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.updated",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
@@ -201,6 +209,11 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
         log.debug("delete({})", destination.getId());
         try {
             restTemplate.delete(getUrl() + "/{id}", destination.getId());
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.deleted",
+                        escapeHTML(destination.getCountry()),
+                        escapeHTML(destination.getCity()),
+                        escapeHTML(destination.getCode())));
         } catch (RestClientException ex) {
             LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -208,7 +221,6 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
             LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.deleted",escapeHTML(destination.getCountry()),escapeHTML(destination.getCity()),escapeHTML(destination.getCode())));
         return new RedirectResolution(this.getClass(), "list");
     }
     
@@ -226,6 +238,9 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
             destination = restTemplate.getForObject(getUrl() + "/{id}", DestinationTO.class, Long.parseLong(ids));
             FlightTO[] fligs = restTemplate.getForObject(getUrl() + "/{id}/outcoming", FlightTO[].class, Long.parseLong(ids));
             flights = Arrays.asList(fligs); 
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.list.outcoming", 
+                        escapeHTML(destination.getId().toString())));
         } catch (RestClientException ex) {
             LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -233,7 +248,6 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
             LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.list.outcoming", escapeHTML(destination.getId().toString())));
         return new ForwardResolution("/destination/listOutcoming.jsp");
     }
     
@@ -251,6 +265,9 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
             destination = restTemplate.getForObject(getUrl() + "/{id}", DestinationTO.class, Long.parseLong(ids));
             FlightTO[] fligs = restTemplate.getForObject(getUrl() + "/{id}/incoming", FlightTO[].class, Long.parseLong(ids));
             flights = Arrays.asList(fligs); 
+            getContext().getMessages().add(
+                    new LocalizableMessage("destination.list.incoming",
+                        escapeHTML(destination.getId().toString())));
         } catch (RestClientException ex) {
             LocalizableError err = new LocalizableError("destination.error.rest", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -258,7 +275,6 @@ public class DestinationsClientActionBean extends BaseActionBean implements Vali
             LocalizableError err = new LocalizableError("destination.error.unknown", escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         }
-        getContext().getMessages().add(new LocalizableMessage("destination.list.incoming", escapeHTML(destination.getId().toString())));
         return new ForwardResolution("/destination/listIncoming.jsp");
     }
     

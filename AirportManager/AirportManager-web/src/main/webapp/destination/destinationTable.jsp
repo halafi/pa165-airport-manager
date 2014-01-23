@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <table class="basic">
     <tr>
@@ -29,18 +30,20 @@
                     <f:message key="destination.outcoming"/>
                 </s:link>
             </td>
-            <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="edit">
-                    <s:param name="destination.id" value="${destination.id}"/>
-                    <img class="icon" src="${pageContext.request.contextPath}/images/edit.png"/>
-                </s:link>
-            </td>
-            <td>
-                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="delete">
-                    <s:param name="destination.id" value="${destination.id}"/>
-                    <img class="icon" src="${pageContext.request.contextPath}/images/delete.png"/>
-                </s:link>
-            </td>
+            <sec:authorize url="/admin">
+                <td>
+                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="edit">
+                        <s:param name="destination.id" value="${destination.id}"/>
+                        <img class="icon" src="${pageContext.request.contextPath}/images/edit.png"/>
+                    </s:link>
+                </td>
+                <td>
+                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean" event="delete">
+                        <s:param name="destination.id" value="${destination.id}"/>
+                        <img class="icon" src="${pageContext.request.contextPath}/images/delete.png"/>
+                    </s:link>
+                </td>
+            </sec:authorize>
         </tr>
     </c:forEach>
 </table>
