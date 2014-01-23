@@ -19,8 +19,12 @@
                     <s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" height="70" width="600"/></s:link>
                     </div>
                     <div id="logout">
-                        <a href="<c:url value="/j_spring_security_logout" />">logout</a><br/>
-                        logged in as Admin
+                    <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+                        <a href="<c:url value="/j_spring_security_logout" />">logout</a>
+                    </sec:authorize>
+                    <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+                        <a href="${pageContext.request.contextPath}/login.jsp">login</a>
+                    </sec:authorize>
                     </div>
                 </div>
         

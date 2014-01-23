@@ -133,11 +133,11 @@ public class StewardsActionBean extends BaseActionBean{
             stewards = stewService.findAllStewards();
         } catch (DataAccessException ex){
             LocalizableError err = new LocalizableError("steward.error.service", 
-                    escapeHTML(ex.toString()));
+                    escapeHTML(ex.getMessage()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
             LocalizableError err = new LocalizableError("steward.error.uknown", 
-                    escapeHTML(ex.toString()));
+                    escapeHTML(ex.getMessage()));
             getContext().getValidationErrors().addGlobalError(err);
         }
         return new ForwardResolution("/steward/list.jsp");

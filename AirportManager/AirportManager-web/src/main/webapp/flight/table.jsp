@@ -37,7 +37,7 @@
                 <s:form beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">
                     <c:choose>
                         <c:when test="${fn:length(flight.stewList) gt 0}">
-                            <s:select id="stews" name="flight.stewards">
+                            <s:select id="stews" name="flight.stewList">
                                 <c:forEach items="${flight.stewList}" var="steward">
                                     <s:option value="steward">
                                         ${steward.firstName} ${steward.lastName}
