@@ -28,7 +28,7 @@ import org.springframework.dao.DataAccessException;
  *
  * @author Juraj Duráni
  */
-@Path("/rest-jersey-server/destination")
+@Path("/destination")
 public class DestinationRestApi {
 
     private static final ApplicationContext APP_CONFIG =
