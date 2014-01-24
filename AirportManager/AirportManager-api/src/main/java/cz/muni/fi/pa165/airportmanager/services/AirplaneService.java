@@ -14,7 +14,6 @@ public interface AirplaneService {
      * Creates airplane
      * 
      * @param airplane airplane to be created
-     * @throws DataAccessException in case of exception in lower layer
      */
     public void createAirplane(AirplaneTO airplane);
 
@@ -22,7 +21,6 @@ public interface AirplaneService {
      * Updates airplane 
      * 
      * @param airplane airplane to be updated
-     * @throws DataAccessException in case of exception in lower layer
      */
     public void updateAirplane(AirplaneTO airplane);
     
@@ -30,7 +28,6 @@ public interface AirplaneService {
      * Removes airplane
      * 
      * @param airplane airplane to be removed
-     * @throws DataAccessException in case of exception in lower layer
      */
     public void removeAirplane(AirplaneTO airplane);
 
@@ -39,7 +36,6 @@ public interface AirplaneService {
      * 
      * @param id id of desired airplane
      * @return airplane from DB
-     * @throws DataAccessException in case of exception in lower layer
      */
     public AirplaneTO getAirplane(Long id);
 
@@ -47,7 +43,6 @@ public interface AirplaneService {
      * Returns all airplanes from DB
      * 
      * @return all airplanes from DB
-     * @throws DataAccessException in case of exception in lower layer
      */
     public List<AirplaneTO> getAllAirplanes();
 
@@ -56,7 +51,6 @@ public interface AirplaneService {
      * 
      * @param airplane airplane, whose flights we are looking for
      * @return List of flights
-     * @throws DataAccessException in case of exception in lower layer
      */
     public List<FlightTO> getAllAirplanesFlights(AirplaneTO airplane);
 }

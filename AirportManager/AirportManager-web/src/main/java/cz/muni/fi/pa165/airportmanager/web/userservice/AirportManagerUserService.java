@@ -29,9 +29,12 @@ public class AirportManagerUserService implements UserDetailsService{
     
     private File usersFile = new File(
             new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath())
-                .getParentFile().getAbsolutePath() + System.getProperty("file.separator") +"users.us");
+                .getParentFile().getAbsolutePath() + System.getProperty("file.separator") +"users.us");; 
 
-    public AirportManagerUserService() {
+    public AirportManagerUserService() throws IOException {
+        if(!usersFile.canWrite()) {
+            usersFile = new File("users.us");
+        }
         if(!usersFile.exists()){
             try{
                 usersFile.createNewFile();
