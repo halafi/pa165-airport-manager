@@ -55,9 +55,6 @@ public class AirportManagerUserService implements UserDetailsService{
         if(string.equalsIgnoreCase("user")){
             return DEFAULT_USER;
         }
-        if(string.equalsIgnoreCase("rest")){
-            return DEFAULT_REST;
-        }
         return getUser(string);
     }
 

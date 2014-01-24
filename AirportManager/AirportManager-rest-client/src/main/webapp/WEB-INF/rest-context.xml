@@ -14,24 +14,7 @@
        http://www.springframework.org/schema/aop 
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
     
-    <bean id="client" class="org.apache.commons.httpclient.HttpClient">
-        <property name="state" ref="httpState"/>
-    </bean>
     
-    <bean id="credentials" class="org.apache.commons.httpclient.UsernamePasswordCredentials">
-        <constructor-arg value="rest"/> <!--username-->
-        <constructor-arg value="rest"/> <!--password-->
-    </bean>
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
     
-    <bean id="commons" class="org.springframework.http.client.CommonsClientHttpRequestFactory">
-        <constructor-arg ref="client"/>
-    </bean>
-    
-    <bean id="httpState" class="cz.muni.fi.pa165.airportmanager.rest.client.CustomHttpState">
-        <property name="credentials" ref="credentials"/>
-    </bean>
-    
-    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
-        <constructor-arg ref="commons"/>       
-    </bean> 
 </beans>

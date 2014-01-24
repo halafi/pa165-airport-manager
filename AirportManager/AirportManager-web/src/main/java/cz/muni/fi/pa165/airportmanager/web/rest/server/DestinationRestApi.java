@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.pa165.airportmanager.services.DestinationService;
 import cz.muni.fi.pa165.airportmanager.transferobjects.DestinationTO;
 import cz.muni.fi.pa165.airportmanager.transferobjects.FlightTO;
+import java.util.Arrays;
 import java.util.List;
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,13 +18,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
 /**
  *
@@ -31,27 +36,48 @@ import org.springframework.dao.DataAccessException;
 @Path("/destination")
 public class DestinationRestApi {
 
-    private static final ApplicationContext APP_CONFIG =
-            new ClassPathXmlApplicationContext("applicationContext.xml");
-    @Autowired
+    private static final XmlWebApplicationContext APP_CONF =
+            new XmlWebApplicationContext();
+    @Context
+    private ServletContext context;
+    
     private DestinationService destService;
     private ObjectMapper mapper = new ObjectMapper();
+    static Authentication authentication = 
+            new UsernamePasswordAuthenticationToken("rest", "rest", 
+                Arrays.asList(new SimpleGrantedAuthority[] 
+                    {new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_USER")}));
 
     public DestinationRestApi() {
-        destService = APP_CONFIG.getBean(DestinationService.class);
-        System.out.println(destService);
+        APP_CONF.setNamespace("spring-context");
+    }
+    
+    private void initBeforeRequest() {
+        APP_CONF.setServletContext(context);
+        APP_CONF.refresh();
+        destService = APP_CONF.getBean(DestinationService.class);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+    
+    private void destroyAfterRequest(){
+        SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllDestinations() {
         try {
+            initBeforeRequest();
+            List<DestinationTO> ll = destService.getAllDestinations();
             return mapper.writerWithType(new TypeReference<List<DestinationTO>>() {})
-                    .writeValueAsString(destService.getAllDestinations());
+                    .writeValueAsString(ll);
         } catch (DataAccessException ex) {
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Exception ex) {
             throw new WebApplicationException(ex, Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            destroyAfterRequest();
         }
     }
 
@@ -60,12 +86,15 @@ public class DestinationRestApi {
     @Produces(MediaType.APPLICATION_JSON)
     public String getDestination(@PathParam("id") Long id) {
         try {
+            initBeforeRequest();
             return mapper.writerWithType(new TypeReference<DestinationTO>() {})
                     .writeValueAsString(destService.getDestination(id));
         } catch (DataAccessException ex) {
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Throwable ex) {
             throw new WebApplicationException(ex, Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            destroyAfterRequest();
         }
     }
 
@@ -74,6 +103,7 @@ public class DestinationRestApi {
     @Produces(MediaType.APPLICATION_JSON)
     public String getIncomingFlights(@PathParam("id") Long id) {
         try {
+            initBeforeRequest();
             DestinationTO des = destService.getDestination(id);
             return mapper.writerWithType(new TypeReference<List<FlightTO>>() {})
                     .writeValueAsString(destService.getAllIncomingFlights(des));
@@ -81,6 +111,8 @@ public class DestinationRestApi {
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Throwable ex) {
             throw new WebApplicationException(ex, Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            destroyAfterRequest();
         }
     }
 
@@ -89,6 +121,7 @@ public class DestinationRestApi {
     @Produces(MediaType.APPLICATION_JSON)
     public String getOutcomintFlights(@PathParam("id") Long id) {
         try {
+            initBeforeRequest();
             DestinationTO des = destService.getDestination(id);
             return mapper.writerWithType(new TypeReference<List<FlightTO>>() {})
                     .writeValueAsString(destService.getAllOutcomingFlights(des));
@@ -96,6 +129,8 @@ public class DestinationRestApi {
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Throwable ex) {
             throw new WebApplicationException(ex, Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            destroyAfterRequest();
         }
     }
 
@@ -103,6 +138,7 @@ public class DestinationRestApi {
     @Path("/{id}")
     public Response deleteDestination(@PathParam("id") Long id) {
         try {
+            initBeforeRequest();
             DestinationTO des = destService.getDestination(id);
             destService.removeDestination(des);
             return Response.status(Status.NO_CONTENT).build();
@@ -110,6 +146,8 @@ public class DestinationRestApi {
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Throwable ex) {
             throw new WebApplicationException(ex, Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            destroyAfterRequest();
         }
     }
 
@@ -117,6 +155,7 @@ public class DestinationRestApi {
     @Consumes(MediaType.APPLICATION_JSON)
     public String createDestination(String destination) {
         try {
+            initBeforeRequest();
             DestinationTO des = mapper
                     .readValue(destination, new TypeReference<DestinationTO>() {});
             destService.createDestination(des);
@@ -128,6 +167,8 @@ public class DestinationRestApi {
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Throwable ex) {
             throw new WebApplicationException(ex, Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            destroyAfterRequest();
         }
     }
 
@@ -136,6 +177,7 @@ public class DestinationRestApi {
     @Path("/{id}")
     public Response updateDestination(String destination, @PathParam("id") Long id) {
         try {
+            initBeforeRequest();
             DestinationTO des = mapper
                     .readValue(destination, new TypeReference<DestinationTO>() {});
             des.setId(id);
@@ -147,6 +189,8 @@ public class DestinationRestApi {
             throw new WebApplicationException(ex, Status.SERVICE_UNAVAILABLE);
         } catch (Throwable ex) {
             throw new WebApplicationException(ex, Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            destroyAfterRequest();
         }
     }
 }
