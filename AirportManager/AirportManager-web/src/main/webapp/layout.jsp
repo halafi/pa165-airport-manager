@@ -13,21 +13,28 @@
             <meta equiv="Content-Type" content="text/html; charset=UTF-8">
             <s:layout-component name="header"/>
         </head>
-        
-        <body>
+
+        <sec:authorize url="/admin">
+            <body class="admin">
+            </sec:authorize>
+            <sec:authorize url="/user">
+            <body>
+            </sec:authorize>
+
             <div id="header">
-                <div id="logo">
-                    <s:link href="/index.jsp">
-                        <img src="${pageContext.request.contextPath}/images/logo.png" height="70" width="600"/>
-                    </s:link>
-                </div>
+
+                <s:link href="/index.jsp">
+                    <div id="logo">
+                    </div>
+                </s:link>
+
                 <div id="logout">
                     <sec:authorize url="/all">
                         <a href="<c:url value="/j_spring_security_logout" />">
                             <f:message key="logout"/>
                         </a>
                         <br/>
-                        <f:message key="username"/>: <%= request.getUserPrincipal().getName() %>
+                        <f:message key="username"/>: <%= request.getUserPrincipal().getName()%>
                     </sec:authorize>
                     <sec:authorize url="/admin">
                         <br/>
@@ -42,7 +49,7 @@
                     </sec:authorize>
                 </div>
             </div>
-        
+
             <div id="main">
                 <div id="navigation">
                     <sec:authorize url="/user">
@@ -52,23 +59,23 @@
                                     <sec:authorize url="/admin">
                                         <s:link href="/airplane/create.jsp">
                                             <li class="navlink"><f:message key="create"/></li>
-                                        </s:link>
-                                    </sec:authorize>
-                                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">
+                                            </s:link>
+                                        </sec:authorize>
+                                        <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean">
                                         <li class="navlink"><f:message key="list"/></li>
-                                    </s:link>
+                                        </s:link>
                                 </ul>
                             </li>
                             <li class="navlink"><f:message key="destination"/>
                                 <ul class="submenu">
-                                <sec:authorize url="/admin">
-                                    <s:link href="/destination/create.jsp">
-                                        <li class="navlink"><f:message key="create"/></li>
-                                    </s:link>
-                                </sec:authorize>
-                                <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">
-                                    <li class="navlink"><f:message key="list"/></li>
-                                </s:link>
+                                    <sec:authorize url="/admin">
+                                        <s:link href="/destination/create.jsp">
+                                            <li class="navlink"><f:message key="create"/></li>
+                                            </s:link>
+                                        </sec:authorize>
+                                        <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.DestinationsActionBean">
+                                        <li class="navlink"><f:message key="list"/></li>
+                                        </s:link>
                                 </ul>
                             </li>
                             <li class="navlink"><f:message key="flight"/>
@@ -76,11 +83,11 @@
                                     <sec:authorize url="/admin">
                                         <s:link href="/flight/create.jsp">
                                             <li class="navlink"><f:message key="create"/></li>
-                                        </s:link>
-                                    </sec:authorize>
-                                    <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">
+                                            </s:link>
+                                        </sec:authorize>
+                                        <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.FlightsActionBean">
                                         <li class="navlink"><f:message key="list"/></li>
-                                    </s:link>
+                                        </s:link>
                                 </ul>
                             </li>
                             <li class="navlink"><f:message key="steward"/>
@@ -94,7 +101,7 @@
                                     </sec:authorize>
                                     <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.StewardsActionBean">
                                         <li class="navlink"><f:message key="list"/></li>
-                                    </s:link>
+                                        </s:link>
                                 </ul>
                             </li>
                         </ul>
@@ -104,8 +111,8 @@
                     <s:messages/>
                     <s:errors/>
                     <s:layout-component name="body"/>
-                 </div>
-             </div>
+                </div>
+            </div>
 
             <div id="footer">
                 <f:message key="page.authors"/>: Bc. Juraj Duráni (359185), Bc. Matúš Makový (374426),

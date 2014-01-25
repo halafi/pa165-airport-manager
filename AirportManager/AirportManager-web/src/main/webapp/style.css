@@ -39,6 +39,12 @@ p {
 #logo {
     float:left;
     padding: 1em;
+    background-image: url("./images/logo.png");
+    background-repeat: no-repeat;
+    width:762px;
+    height:90px;
+    margin-top: 5px;
+    margin-left: 5px;
 }
 
 #logout {
@@ -131,7 +137,7 @@ h1 {
     margin: 0;
     position: absolute;
     width:100px;
-    top: 160px;
+    top: 182px;
     background:white;
     border: 1px solid black;
 }
@@ -211,4 +217,16 @@ table.basic tr:nth-child(even) {
 table.basic th, table.basic td {  
     border: solid 1px black;
     padding: 3px;
+}
+
+body.admin #menu > li:hover{
+    background-color:red;    
+}
+
+body.admin .submenu li:hover {
+    background-color: red;
+}
+
+body.admin #logo {
+    background-image: url("./images/logo-admin.png");
 }
