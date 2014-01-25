@@ -72,10 +72,10 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
         try {
             airplanes = airplaneService.getAllAirplanes();
         } catch (DataAccessException ex) {
-            err = new LocalizableError("airplane.error" + ex.toString());
+            err = new LocalizableError("airplane.error", ex.toString());
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            err = new LocalizableError("airplane.error" + ex.toString());
+            err = new LocalizableError("airplane.error", ex.toString());
             getContext().getValidationErrors().addGlobalError(err);
         }
 
@@ -87,10 +87,10 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
         try {
             airplanes = airplaneService.getAllAirplanes();
         } catch (DataAccessException ex) {
-            err = new LocalizableError("airplane.error" + ex.toString());
+            err = new LocalizableError("airplane.error", ex.toString());
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            err = new LocalizableError("airplane.error" + ex.toString());
+            err = new LocalizableError("airplane.error", ex.toString());
             getContext().getValidationErrors().addGlobalError(err);
         }
 
@@ -104,10 +104,10 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
             log.debug("delete({})", airplane.getId());
             airplaneService.removeAirplane(airplane);
         } catch (DataAccessException ex) {
-            err = new LocalizableError("airplane.error" + ex.toString());
+            err = new LocalizableError("airplane.error", ex.toString());
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            err = new LocalizableError("airplane.error" + ex.toString());
+            err = new LocalizableError("airplane.error", ex.toString());
             getContext().getValidationErrors().addGlobalError(err);
         }
 
@@ -127,10 +127,10 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
         try {
             airplane = airplaneService.getAirplane(Long.parseLong(ids));
         } catch (DataAccessException ex) {
-            err = new LocalizableError("airplane.error" + ex.toString());
+            err = new LocalizableError("airplane.error", ex.toString());
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            err = new LocalizableError("airplane.error" + ex.toString());
+            err = new LocalizableError("airplane.error", ex.toString());
             getContext().getValidationErrors().addGlobalError(err);
         }
     }
@@ -143,10 +143,10 @@ public class AirplaneActionBean extends BaseActionBean implements ValidationErro
         try {
             airplaneService.createAirplane(airplane);
         } catch (DataAccessException ex) {
-            err = new LocalizableError("airplane.error" + ex.getMessage());
+            err = new LocalizableError("airplane.error", ex.getMessage());
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex) {
-            err = new LocalizableError("airplane.error" + ex.getMessage());
+            err = new LocalizableError("airplane.error", ex.getMessage());
             getContext().getValidationErrors().addGlobalError(err);
         }
 

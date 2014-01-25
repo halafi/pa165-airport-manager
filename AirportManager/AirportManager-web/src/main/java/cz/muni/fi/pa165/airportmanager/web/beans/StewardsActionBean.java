@@ -162,7 +162,6 @@ public class StewardsActionBean extends BaseActionBean{
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
         } catch (Exception ex){
-            ex.printStackTrace();
             LocalizableError err = new LocalizableError("steward.error.uknown", 
                     escapeHTML(ex.toString()));
             getContext().getValidationErrors().addGlobalError(err);
@@ -359,7 +358,7 @@ public class StewardsActionBean extends BaseActionBean{
      * @param allFlights
      * @return 
      */
-    private List<FlightTO> getRemainingFights(List<FlightTO> stewFlights, List<FlightTO> allFlights) {
+    private List<FlightTO> getRemainingFights(List<FlightTO> stewFlights, List<FlightTO> allFlights){
         List<FlightTO> out = new LinkedList<>();
         for(FlightTO f : allFlights){
             if(!stewFlights.contains(f)){

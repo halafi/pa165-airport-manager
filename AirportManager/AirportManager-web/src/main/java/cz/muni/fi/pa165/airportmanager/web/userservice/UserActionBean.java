@@ -92,7 +92,8 @@ public class UserActionBean extends BaseActionBean{
                         new LocalizableError("registration.username.invalid", username));
             } catch (CannotCreateUserException ex){
                 getContext().getValidationErrors().addGlobalError(
-                        new LocalizableError("registration.error"));
+                        new LocalizableError("registration.error", 
+                        ex.getCause() == null ? ex : ex.getCause()));
             }
         }
         return new ForwardResolution(this.getClass());

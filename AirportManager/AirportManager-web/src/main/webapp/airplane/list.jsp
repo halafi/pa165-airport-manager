@@ -27,7 +27,8 @@
                         <td><s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" event="flightsOfPlane">
                                 <s:param name="airplane.id" value="${airplane.id}"/>
                                 <f:message key="listFlights"/>
-                            </s:link></td>
+                            </s:link>
+                        </td>
                         <sec:authorize url="/admin">
                             <td>
                                 <s:link beanclass="cz.muni.fi.pa165.airportmanager.web.beans.AirplaneActionBean" event="edit">

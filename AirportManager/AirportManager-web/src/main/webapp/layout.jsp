@@ -25,16 +25,20 @@
                     <sec:authorize url="/all">
                         <a href="<c:url value="/j_spring_security_logout" />">
                             <f:message key="logout"/>
-                        </a><br/>
+                        </a>
+                        <br/>
                         <f:message key="username"/>: <%= request.getUserPrincipal().getName() %>
+                    </sec:authorize>
+                    <sec:authorize url="/admin">
+                        <br/>
+                        <a href="${pageContext.request.contextPath}/registration.jsp">
+                            <f:message key="registration"/>
+                        </a>
                     </sec:authorize>
                     <sec:authorize access="isAnonymous()">
                         <a href="${pageContext.request.contextPath}/login.jsp">
                             <f:message key="login"/>
                         </a><br/>
-                        <a href="${pageContext.request.contextPath}/registration.jsp">
-                            <f:message key="registration"/>
-                        </a>
                     </sec:authorize>
                 </div>
             </div>

@@ -18,28 +18,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  *
- * @author Chorke
+ * @author Juraj Duráni
  */
 public class AirportManagerUserService implements UserDetailsService{
     private static final String ROLE_USER = "ROLE_USER";
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private static final UserDetails DEFAULT_USER = getUserInstance("user", "user");
     private static final UserDetails DEFAULT_ADMIN = getAdmin();
-    private static final UserDetails DEFAULT_REST = getRESTClient();
     
     private File usersFile = new File(
             new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath())
                 .getParentFile().getAbsolutePath() + System.getProperty("file.separator") +"users.us");; 
 
-    public AirportManagerUserService() throws IOException {
-        if(!usersFile.canWrite()) {
-            usersFile = new File("users.us");
-        }
+    public AirportManagerUserService(){
         if(!usersFile.exists()){
             try{
                 usersFile.createNewFile();
-            } catch (IOException ex){
-                System.out.println(ex);
+            } catch (IOException | SecurityException ex){
+                usersFile = new File("users.us");
+                try{
+                    usersFile.createNewFile();
+                } catch (IOException | SecurityException ioex){}
             }
         }
     }
@@ -62,7 +61,8 @@ public class AirportManagerUserService implements UserDetailsService{
     }
 
     /**
-     * Creates new user with given {@code username} and {@code password}.
+     * Creates new user with given {@code username} and {@code password}. User has
+     * always only ROLE_USER.
      * @param username
      * @param password
      * @throws CannotCreateUserException If {@code username} is not alphanumeric
@@ -114,13 +114,6 @@ public class AirportManagerUserService implements UserDetailsService{
         return new User("admin", "admin", authorities);
     }
     
-    private static UserDetails getRESTClient() {
-        Collection<GrantedAuthority> authorities = new ArrayList<>(2);
-        authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
-        authorities.add(new SimpleGrantedAuthority(ROLE_USER));
-        return new User("rest", "rest", authorities);
-    }
-
     private static UserDetails getUserInstance(String name, String password) {
         Collection<GrantedAuthority> authorities = new ArrayList<>(1);
         authorities.add(new SimpleGrantedAuthority(ROLE_USER));
