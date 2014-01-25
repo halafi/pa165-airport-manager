@@ -13,5 +13,5 @@ in  pa165-airport-manager/AirportManager/AirportManager-rest-client run <code>mv
 project usage
 ---------------------
 * Application will be available at <a href="http://localhost:8080/pa165/airport-manager-web">http://localhost:8080/pa165/airport-manager-web</a>
-* REST client will be available at <a href="http://localhost:8080/pa165/airport-manager-rest-client">http://localhost:8888/pa165/airport-manager-rest</a>
+* REST client will be available at <a href="http://localhost:8888/pa165/airport-manager-rest/">http://localhost:8888/pa165/airport-manager-rest</a>
 
